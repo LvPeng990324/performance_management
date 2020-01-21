@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ch">
+  <head> 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="{% static 'performance/dark/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="{% static 'performance/dark/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Custom Font Icons CSS-->
+    <link rel="stylesheet" href="{% static 'performance/dark/css/font.css' %}">
+    <!-- Google fonts - Muli-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="{% static 'performance/dark/css/style.default.css' %}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{% static 'performance/dark/css/custom.css' %}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'performance/dark/img/favicon.ico' %}">
+  </head>
+  <body>
+    <header class="header">   
+      <nav class="navbar navbar-expand-lg">
+        <div class="search-panel">
+          <div class="search-inner d-flex align-items-center justify-content-center">
+            <div class="close-btn">Close <i class="fa fa-close"></i></div>
+            <form id="searchForm" action="#">
+              <div class="form-group">
+                <input type="search" name="search" placeholder="What are you searching for...">
+                <button type="submit" class="submit">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+          <div class="navbar-header">
+            <!-- Navbar Header--><a href="index.html" class="navbar-brand">
+              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">绩效</strong><strong>管理</strong></div>
+              <div class="brand-text brand-sm"><strong class="text-primary">绩效</strong><strong>管理</strong></div></a>
+            <!-- Sidebar Toggle Btn-->
+            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+          </div>
+          <div class="right-menu list-inline no-margin-bottom">
+            <!-- Log out               -->
+            <div class="list-inline-item logout">
+              <a id="logout" href="login.html" class="nav-link"> <span class="d-none d-sm-inline">登出 </span><i class="icon-logout"></i></a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="d-flex align-items-stretch">
+      <!-- Sidebar Navigation-->
+      <nav id="sidebar">
+        <!-- Sidebar Header-->
+        <div class="sidebar-header d-flex align-items-center">
+          <div class="avatar"><img src="img/avatar-6.jpg" alt="..." class="img-fluid rounded-circle"></div>
+          <div class="title">
+            <h1 class="h5">登陆者姓名</h1>
+            <p>登陆者身份</p>
+          </div>
+        </div>
+        <!-- Sidebar Navidation Menus--><span class="heading">功能菜单</span>
+        <ul class="list-unstyled">
+          <li><a href="index.html"> <i class="icon-home"></i>主页 </a></li>
+          <li><a href="#exampledropdownDropdown" aria-expanded="true" data-toggle="collapse"> <i class="icon-windows"></i>表格</a>
+            <ul id="exampledropdownDropdown" class="collapse show list-unstyled ">
+              <li class="active"><a href="#">月度营业数据</a></li>
+              <li><a href="季度营业数据.html">季度营业数据</a></li>
+              <li><a href="内控指标汇总表.html">内控指标汇总</a></li>
+              <li><a href="管理层月度绩效考核结果.html">管理层月度绩效考核结果</a></li>
+              <li><a href="季度绩效考核结果.html">季度绩效考核结果</a></li>
+            </ul>
+          </li>
+          <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>统计图表 </a></li>
+          <li><a href="login.html"> <i class="icon-logout"></i>退出登录 </a></li>
+        </ul><span class="heading">权限管理</span>
+        <ul class="list-unstyled">
+          <li> <a href="#"> <i class="icon-settings"></i>角色管理 </a></li>
+          <li> <a href="#"> <i class="icon-writing-whiteboard"></i>人员管理 </a></li>
+          <li> <a href="#"> <i class="icon-chart"></i>授权管理 </a></li>
+        </ul>
+      </nav>
+      <!-- Sidebar Navigation end-->
+      <div class="page-content">
+        <!-- Page Header-->
+        <div class="page-header no-margin-bottom">
+          <div class="container-fluid">
+            <h2 class="h5 no-margin-bottom">表格</h2>
+          </div>
+        </div>
+        <!-- Breadcrumb-->
+        <div class="container-fluid">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">主页</a></li>
+            <li class="breadcrumb-item">表格</li>
+            <li class="breadcrumb-item">月度营业数据</li>
+          </ul>
+        </div>
+        <section class="no-padding-top">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="block margin-bottom-sm">
+                  <div class="title"><strong>月度营业数据</strong></div>
+                  <div class="table-responsive"> 
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>营业额</th>
+                          <th>营业费用</th>
+                          <th>回款额</th>
+                          <th>库存量</th>
+                          <th>利润额</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">一月份</th>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">二月份</th>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">三月份</th>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                          <td>xxx</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- JavaScript files-->
+    <script src="{% static 'performance/dark/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'performance/dark/vendor/popper.js/umd/popper.min.js' %}"> </script>
+    <script src="{% static 'performance/dark/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'performance/dark/vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
+    <script src="{% static 'performance/dark/vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'performance/dark/vendor/jquery-validation/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'performance/dark/js/front.js' %}"></script>
+  </body>
+</html>
