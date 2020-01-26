@@ -90,3 +90,19 @@ class QuarterlyPerformance(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+# 常量数据
+class ConstantData(models.Model):
+    month_plan_order_number = models.IntegerField(verbose_name='当月约定订单数')
+    target_cost = models.FloatField(verbose_name='目标成本')
+    field_management_compliance_target_number = models.IntegerField(verbose_name='现场管理标准目标数')
+    annual_target_turnover = models.FloatField(verbose_name='年度目标营业额')
+    annual_target_award = models.FloatField(verbose_name='年度目标奖金额')
+
+    class Meta:
+        verbose_name_plural = '常量数据'
+        verbose_name = '常量数据'
+
+    def __str__(self):
+        return str(self.id)
