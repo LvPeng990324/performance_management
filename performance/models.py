@@ -14,8 +14,8 @@ class MonthlySalesData(models.Model):
         verbose_name_plural = '月度营业数据'
         verbose_name = '月度营业数据'
 
-    # def __str__(self):
-    #     return self.id
+    def __str__(self):
+        return str(self.id)
 
 
 # 季度营业数据
@@ -31,8 +31,8 @@ class QuarterlySalesData(models.Model):
         verbose_name_plural = '季度营业数据'
         verbose_name = '季度营业数据'
 
-    # def __str__(self):
-    #     return self.id
+    def __str__(self):
+        return str(self.id)
 
 
 # 内控指标汇总
