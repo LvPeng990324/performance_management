@@ -1,7 +1,8 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
+from datetime import datetime
 
 
 def index(request):
@@ -23,6 +24,34 @@ def show_monthly_sales_data(request):
     }
     # 引导前端页面
     return render(request, 'performance/dark/月度营业数据.html', context=context)
+
+
+# 增加月度营业数据方法
+def add_monthly_sales_data(request):
+    # 从前端获取数据
+    date_month = int(request.POST.get('date_month'))
+    turnover = request.POST.get('turnover')
+    operating_expenses = request.POST.get('operating_expenses')
+    amount_repaid = request.POST.get('amount_repaid')
+    inventory = request.POST.get('inventory')
+    profit = request.POST.get('profit')
+
+    print(type(turnover))
+
+    # 转换日期对象
+    date = datetime(year=1, month=date_month, day=1, hour=1, minute=1, second=1)
+
+    # 写入数据库
+    MonthlySalesData.objects.create(
+        date=date,
+        turnover=turnover,
+        operating_expenses=operating_expenses,
+        amount_repaid=amount_repaid,
+        inventory=inventory,
+        profit=profit,
+    )
+
+    return redirect('show_monthly_sales_data')
 
 
 # 展示季度营业数据方法

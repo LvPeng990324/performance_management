@@ -135,6 +135,80 @@
                     </table>
                   </div>
                 </div>
+              <div class="block margin-bottom-sm">
+                  <div class="title"><strong>增加数据</strong></div>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>营业额</th>
+                          <th>营业费用</th>
+                          <th>回款额</th>
+                          <th>库存量</th>
+                          <th>利润额</th>
+                          <th>添加</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <form action="{% url 'add_monthly_sales_data' %}" method="post">
+                            {% csrf_token %}
+                            <tr>
+                              <th scope="row">
+                                  <select class="form-control" name="date_month" required>
+                                      <option value="1">一月份</option>
+                                      <option value="2">二月份</option>
+                                      <option value="3">三月份</option>
+                                      <option value="4">四月份</option>
+                                      <option value="5">五月份</option>
+                                      <option value="6">六月份</option>
+                                      <option value="7">七月份</option>
+                                      <option value="8">八月份</option>
+                                      <option value="9">九月份</option>
+                                      <option value="10">十月份</option>
+                                      <option value="11">十一月份</option>
+                                      <option value="12">十二月份</option>
+                                  </select>
+                              </th>
+                              <td>
+                                  <div class="form-group-material">
+                                      <input class="input-material" id="id_turnover" name="turnover" type="number" required>
+                                  <label for="id_turnover" class="label-material">营业额</label>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="form-group-material">
+                                      <input class="input-material" id="id_operating_expenses" name="operating_expenses" type="number" required>
+                                  <label for="id_operating_expenses" class="label-material">营业费用</label>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="form-group-material">
+                                      <input class="input-material" id="id_amount_repaid" name="amount_repaid" type="number" required>
+                                  <label for="id_amount_repaid" class="label-material">回款额</label>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="form-group-material">
+                                      <input class="input-material" id="id_inventory" name="inventory" type="number" required>
+                                  <label for="id_inventory" class="label-material">库存量</label>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="form-group-material">
+                                      <input class="input-material" id="id_profit" name="profit" type="number" required>
+                                  <label for="id_profit" class="label-material">利润额</label>
+                                  </div>
+                              </td>
+                              <td>
+                                  <button class="btn btn-dark" type="submit">添加</button>
+                              </td>
+                            </tr>
+                        </form>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
