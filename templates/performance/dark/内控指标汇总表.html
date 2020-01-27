@@ -70,8 +70,8 @@
             <li><a href="index.html"> <i class="icon-home"></i>主页 </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="true" data-toggle="collapse"> <i class="icon-windows"></i>表格</a>
                 <ul id="exampledropdownDropdown" class="collapse show list-unstyled ">
-                    <li><a href="月度营业数据.html">月度营业数据</a></li>
-                    <li><a href="季度营业数据.html">季度营业数据</a></li>
+                    <li><a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
+                    <li><a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a></li>
                     <li class="active"><a href="#">内控指标汇总</a></li>
                     <li><a href="管理层月度绩效考核结果.html">管理层月度绩效考核结果</a></li>
                     <li><a href="季度绩效考核结果.html">季度绩效考核结果</a></li>
@@ -115,7 +115,7 @@
                                         <th>序号</th>
                                         <th>时间</th>
                                         <th>订单号</th>
-                                        <th>计划日期</th>
+                                        <th>计划交期</th>
                                         <th>实际交期</th>
                                         <th>完成数</th>
                                         <th>未完成数</th>
@@ -127,48 +127,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row">01</th>
-                                        <td> 年 月 日</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">02</th>
-                                        <td> 年 月 日</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">03</th>
-                                        <td> 年 月 日</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                    </tr>
+                                    {% for data in internal_control_indicators %}
+                                        <tr>
+                                            <th scope="row">{{ data.id }}</th>
+                                            <td>{{ data.date|date:"Y年m月d日" }}</td>
+                                            <td>{{ data.order_number }}</td>
+                                            <td>{{ data.plan_to_pay }}</td>
+                                            <td>{{ data.actual_payment }}</td>
+                                            <td>{{ data.finished_number }}</td>
+                                            <td>{{ data.unfinished_number }}</td>
+                                            <td>{{ data.target_well_done_rate }}</td>
+                                            <td>{{ data.actual_well_done_rate }}</td>
+                                            <td>{{ data.month_medical_expenses }}</td>
+                                            <td>{{ data.cost_per_wan }}</td>
+                                            <td>{{ data.field_management_compliance }}</td>
+                                        </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

@@ -70,9 +70,9 @@
             <li><a href="index.html"> <i class="icon-home"></i>主页 </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="true" data-toggle="collapse"> <i class="icon-windows"></i>表格</a>
                 <ul id="exampledropdownDropdown" class="collapse show list-unstyled ">
-                    <li><a href="月度营业数据.html">月度营业数据</a></li>
+                    <li><a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
                     <li class="active"><a href="#">季度营业数据</a></li>
-                    <li><a href="内控指标汇总表.html">内控指标汇总</a></li>
+                    <li><a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a></li>
                     <li><a href="管理层月度绩效考核结果.html">管理层月度绩效考核结果</a></li>
                     <li><a href="季度绩效考核结果.html">季度绩效考核结果</a></li>
                 </ul>
@@ -121,30 +121,16 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row">01月份-03月份</th>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">04月份-06月份</th>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">07月份-09月份</th>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                        <td>xxx</td>
-                                    </tr>
+                                    {% for data in quarterly_sales_data %}
+                                        <tr>
+                                            <th scope="row">{{ data.date }}</th>
+                                            <td>{{ data.turnover }}</td>
+                                            <td>{{ data.operating_expenses }}</td>
+                                            <td>{{ data.amount_repaid }}</td>
+                                            <td>{{ data.inventory }}</td>
+                                            <td>{{ data.profit }}</td>
+                                        </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
