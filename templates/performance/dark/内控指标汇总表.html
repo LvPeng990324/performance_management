@@ -147,6 +147,111 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="block margin-bottom-sm">
+                            <div class="title"><strong>增加数据</strong></div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>时间</th>
+                                        <th>订单号</th>
+                                        <th>计划交期</th>
+                                        <th>实际交期</th>
+                                        <th>完成数</th>
+                                        <th>未完成数</th>
+                                        <th>目标成品率</th>
+                                        <th>实际成品率</th>
+                                        <th>当月医药费</th>
+                                        <th>万元成本</th>
+                                        <th>现场管理符合数</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <form action="{% url 'add_internal_control_indicators' %}" method="post">
+                                            {% csrf_token %}
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_id" name="id" type="number" required>
+                                                        <label for="id_id" class="label-material">序号</label>
+                                                    </div>
+                                                </th>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_date" name="date" required>
+                                                        <label for="id_date" class="label-material">(2019-1-1)</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_order_number" name="order_number" required>
+                                                        <label for="id_order_number" class="label-material">订单号</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_plan_to_pay" name="plan_to_pay" required>
+                                                        <label for="id_plan_to_pay" class="label-material">计划交期</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_actual_payment" name="actual_payment" required>
+                                                        <label for="id_actual_payment" class="label-material">实际交期</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_finished_number" name="finished_number" required>
+                                                        <label for="id_finished_number" class="label-material">完成数</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_unfinished_number" name="unfinished_number" required>
+                                                        <label for="id_unfinished_number" class="label-material">未完成数</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_target_well_done_rate" name="target_well_done_rate" required>
+                                                        <label for="id_target_well_done_rate" class="label-material">目标成品率</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_actual_well_done_rate" name="actual_well_done_rate" required>
+                                                        <label for="id_actual_well_done_rate" class="label-material">实际成品率</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_month_medical_expenses" name="month_medical_expenses" required>
+                                                        <label for="id_month_medical_expenses" class="label-material">当月医药费</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_cost_per_wan" name="cost_per_wan" required>
+                                                        <label for="id_cost_per_wan" class="label-material">万元成本</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group-material">
+                                                        <input class="input-material" id="id_field_management_compliance" name="field_management_compliance" required>
+                                                        <label for="id_field_management_compliance" class="label-material">现场管理符合数</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                  <button class="btn btn-dark" type="submit">添加</button>
+                                              </td>
+                                            </tr>
+                                        </form>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -36,8 +36,6 @@ def add_monthly_sales_data(request):
     inventory = request.POST.get('inventory')
     profit = request.POST.get('profit')
 
-    print(type(turnover))
-
     # 转换日期对象
     date = datetime(year=1, month=date_month, day=1, hour=1, minute=1, second=1)
 
@@ -101,3 +99,43 @@ def show_internal_control_indicators(request):
     }
     # 引导前端页面
     return render(request, 'performance/dark/内控指标汇总表.html', context=context)
+
+
+# 增加内控指标汇总表方法
+def add_internal_control_indicators(request):
+    # 从前端获取数据
+    id = request.POST.get('id')
+    date = request.POST.get('date')
+    order_number = request.POST.get('order_number')
+    plan_to_pay = request.POST.get('plan_to_pay')
+    actual_payment = request.POST.get('actual_payment')
+    finished_number = request.POST.get('finished_number')
+    unfinished_number = request.POST.get('unfinished_number')
+    target_well_done_rate = request.POST.get('target_well_done_rate')
+    actual_well_done_rate = request.POST.get('actual_well_done_rate')
+    month_medical_expenses = request.POST.get('month_medical_expenses')
+    cost_per_wan = request.POST.get('cost_per_wan')
+    field_management_compliance = request.POST.get('field_management_compliance')
+
+    # 转换日期对象
+    date_list = date.split('-')
+    date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
+
+    # 存入数据库
+    InternalControlIndicators.objects.create(
+        id=id,
+        date=date,
+        order_number=order_number,
+        plan_to_pay=plan_to_pay,
+        actual_payment=actual_payment,
+        finished_number=finished_number,
+        unfinished_number=unfinished_number,
+        target_well_done_rate=target_well_done_rate,
+        actual_well_done_rate=actual_well_done_rate,
+        month_medical_expenses=month_medical_expenses,
+        cost_per_wan=cost_per_wan,
+        field_management_compliance=field_management_compliance,
+    )
+
+    # 重定向展示页面
+    return redirect('show_internal_control_indicators')
