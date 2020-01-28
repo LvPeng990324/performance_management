@@ -163,3 +163,15 @@ def add_internal_control_indicators(request):
 
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
+
+
+# 删除内控指标汇总表方法
+def delete_internal_control_indicators(request):
+    # 从前端获取要删除的id
+    delete_id = request.POST.get('delete_id')
+
+    # 从数据库中删除
+    InternalControlIndicators.objects.get(id=delete_id).delete()
+
+    # 重定向展示页面
+    return redirect('show_internal_control_indicators')

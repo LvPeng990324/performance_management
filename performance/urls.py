@@ -20,6 +20,8 @@ urlpatterns = [
     path('show_internal_control_indicators/', views.show_internal_control_indicators, name='show_internal_control_indicators'),
     # 增加内控指标汇总表方法
     path('add_internal_control_indicators', views.add_internal_control_indicators, name='add_internal_control_indicators'),
+    # 删除内控制表汇总表方法
+    path('delete_internal_control_indicators', views.delete_internal_control_indicators, name='delete_internal_control_indicators'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page')
