@@ -112,23 +112,31 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>营业额</th>
-                          <th>营业费用</th>
-                          <th>回款额</th>
-                          <th>库存量</th>
-                          <th>利润额</th>
+                            <th>#</th>
+                            <th>营业额</th>
+                            <th>营业费用</th>
+                            <th>回款额</th>
+                            <th>库存量</th>
+                            <th>利润额</th>
+                            <th>操作</th>
                         </tr>
                       </thead>
                       <tbody>
                         {% for data in monthly_sales_data %}
                             <tr>
-                              <th scope="row">{{ data.date|date:"F份" }}</th>
-                              <td>{{ data.turnover }}</td>
-                              <td>{{ data.operating_expenses }}</td>
-                              <td>{{ data.amount_repaid }}</td>
-                              <td>{{ data.inventory }}</td>
-                              <td>{{ data.profit }}</td>
+                                <th scope="row">{{ data.date|date:"F份" }}</th>
+                                <td>{{ data.turnover }}</td>
+                                <td>{{ data.operating_expenses }}</td>
+                                <td>{{ data.amount_repaid }}</td>
+                                <td>{{ data.inventory }}</td>
+                                <td>{{ data.profit }}</td>
+                                <td>
+                                    <button data-toggle="dropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" aria-expanded="false">操作</button>
+                                    <div class="dropdown-menu">
+                                        <a data-toggle="modal" data-target="#delete_modal" class="dropdown-item" onclick="give_delete_modal('{{ data.id }}')">删除</a>
+                                        <a href="#" class="dropdown-item">修改</a>
+                                  </div>
+                                </td>
                             </tr>
                         {% endfor %}
                       </tbody>
@@ -215,6 +223,34 @@
         </section>
       </div>
     </div>
+
+    <!-- 确认删除模态框 -->
+    <div class="col-lg-4">
+        <!-- Modal-->
+        <div id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+          <div role="document" class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">确定要删除吗？</strong>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">取消</button>
+                  <form action="{% url 'delete_monthly_sales_data' %}" method="post">
+                      {% csrf_token %}
+                      <input hidden id="id_delete_id" name="delete_id" value="">
+                      <button type="submit" class="btn btn-primary">确定</button>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 确认删除模态框结束 -->
+
+    <!-- 修改信息模态框 -->
+    <!-- 修改信息模态框结束 -->
+
     <!-- JavaScript files-->
     <script src="{% static 'performance/dark/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'performance/dark/vendor/popper.js/umd/popper.min.js' %}"> </script>
@@ -223,5 +259,11 @@
     <script src="{% static 'performance/dark/vendor/chart.js/Chart.min.js' %}"></script>
     <script src="{% static 'performance/dark/vendor/jquery-validation/jquery.validate.min.js' %}"></script>
     <script src="{% static 'performance/dark/js/front.js' %}"></script>
+    <!-- 给确认删除模态框传值 -->
+    <script type="text/javascript">
+        function give_delete_modal(delete_id) {
+            $('#id_delete_id').val(delete_id);
+        }
+    </script>
   </body>
 </html>

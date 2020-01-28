@@ -53,6 +53,18 @@ def add_monthly_sales_data(request):
     return redirect('show_monthly_sales_data')
 
 
+# 删除月度营业数据方法
+def delete_monthly_sales_data(request):
+    # 从前端获取要删除的id
+    delete_id = request.POST.get('delete_id')
+
+    # 从数据库中删除
+    MonthlySalesData.objects.get(id=delete_id).delete()
+
+    # 重定向战术页面
+    return redirect('show_monthly_sales_data')
+
+
 # 展示季度营业数据方法
 def show_quarterly_sales_data(request):
     # 从数据库中取出所有数据
