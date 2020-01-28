@@ -61,7 +61,7 @@ def delete_monthly_sales_data(request):
     # 从数据库中删除
     MonthlySalesData.objects.get(id=delete_id).delete()
 
-    # 重定向战术页面
+    # 重定向展示页面
     return redirect('show_monthly_sales_data')
 
 
@@ -96,6 +96,18 @@ def add_quarterly_sales_data(request):
         inventory=inventory,
         profit=profit,
     )
+
+    # 重定向展示页面
+    return redirect('show_quarterly_sales_data')
+
+
+# 删除季度营业数据方法
+def delete_quarterly_sales_data(request):
+    # 从前端获取要删除的id
+    delete_id = request.POST.get('delete_id')
+
+    # 从数据库中删除
+    QuarterlySalesData.objects.get(id=delete_id).delete()
 
     # 重定向展示页面
     return redirect('show_quarterly_sales_data')
