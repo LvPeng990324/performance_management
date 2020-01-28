@@ -51,6 +51,7 @@ def add_monthly_sales_data(request):
         profit=profit,
     )
 
+    # 重定向展示页面
     return redirect('show_monthly_sales_data')
 
 
@@ -64,6 +65,30 @@ def show_quarterly_sales_data(request):
     }
     # 引导前端页面
     return render(request, 'performance/dark/季度营业数据.html', context=context)
+
+
+# 增加季度营业数据方法
+def add_quarterly_sales_data(request):
+    # 从前端获取数据
+    quarterly = int(request.POST.get('quarterly'))
+    turnover = request.POST.get('turnover')
+    operating_expenses = request.POST.get('operating_expenses')
+    amount_repaid = request.POST.get('amount_repaid')
+    inventory = request.POST.get('inventory')
+    profit = request.POST.get('profit')
+
+    # 写入数据库
+    QuarterlySalesData.objects.create(
+        quarterly=quarterly,
+        turnover=turnover,
+        operating_expenses=operating_expenses,
+        amount_repaid=amount_repaid,
+        inventory=inventory,
+        profit=profit,
+    )
+
+    # 重定向展示页面
+    return redirect('show_quarterly_sales_data')
 
 
 # 展示内控指标汇总表方法
