@@ -189,8 +189,8 @@ def add_internal_control_indicators(request):
     id = request.POST.get('id')
     date = request.POST.get('date')
     order_number = request.POST.get('order_number')
-    plan_to_pay = request.POST.get('plan_to_pay')
-    actual_payment = request.POST.get('actual_payment')
+    scheduled_delivery = request.POST.get('scheduled_delivery')
+    actual_delivery = request.POST.get('actual_delivery')
     finished_number = request.POST.get('finished_number')
     unfinished_number = request.POST.get('unfinished_number')
     target_well_done_rate = request.POST.get('target_well_done_rate')
@@ -201,15 +201,19 @@ def add_internal_control_indicators(request):
 
     # 转换日期对象
     date_list = date.split('-')
+    scheduled_delivery_list = scheduled_delivery.split('-')
+    actual_delivery_list = actual_delivery.split('-')
     date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
+    scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]), day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
+    actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]), day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
 
     # 存入数据库
     InternalControlIndicators.objects.create(
         id=id,
         date=date,
         order_number=order_number,
-        plan_to_pay=plan_to_pay,
-        actual_payment=actual_payment,
+        scheduled_delivery=scheduled_delivery,
+        actual_delivery=actual_delivery,
         finished_number=finished_number,
         unfinished_number=unfinished_number,
         target_well_done_rate=target_well_done_rate,

@@ -133,8 +133,8 @@
                                             <th scope="row">{{ data.id }}</th>
                                             <td>{{ data.date|date:"Y年m月d日" }}</td>
                                             <td>{{ data.order_number }}</td>
-                                            <td>{{ data.plan_to_pay }}</td>
-                                            <td>{{ data.actual_payment }}</td>
+                                            <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
+                                            <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
                                             <td>{{ data.finished_number }}</td>
                                             <td>{{ data.unfinished_number }}</td>
                                             <td>{{ data.target_well_done_rate }}</td>
@@ -187,8 +187,8 @@
                                                 </th>
                                                 <td>
                                                     <div class="form-group-material">
-                                                        <input class="input-material" id="id_date" name="date" required>
-                                                        <label for="id_date" class="label-material">(2019-1-1)</label>
+                                                        <input type="date" class="input-material" id="id_date" name="date" required>
+                                                        <label for="id_date" class="label-material"></label>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -199,14 +199,14 @@
                                                 </td>
                                                 <td>
                                                     <div class="form-group-material">
-                                                        <input class="input-material" id="id_plan_to_pay" name="plan_to_pay" required>
-                                                        <label for="id_plan_to_pay" class="label-material">计划交期</label>
+                                                        <input type="date" class="input-material" id="id_scheduled_delivery" name="scheduled_delivery" required>
+                                                        <label for="id_plan_to_pay" class="label-material"></label>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group-material">
-                                                        <input class="input-material" id="id_actual_payment" name="actual_payment" required>
-                                                        <label for="id_actual_payment" class="label-material">实际交期</label>
+                                                        <input type="date" class="input-material" id="id_actual_delivery" name="actual_delivery" required>
+                                                        <label for="id_actual_payment" class="label-material"></label>
                                                     </div>
                                                 </td>
                                                 <td>
