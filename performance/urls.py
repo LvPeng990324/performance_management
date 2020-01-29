@@ -10,6 +10,8 @@ urlpatterns = [
     path('add_monthly_sales_data/', views.add_monthly_sales_data, name='add_monthly_sales_data'),
     # 删除月度营业数据方法
     path('delete_monthly_sales_data', views.delete_monthly_sales_data, name='delete_monthly_sales_data'),
+    # 修改月度营业数据方法
+    path('change_monthly_sales_data', views.change_monthly_sales_data, name='change_monthly_sales_data'),
     # 展示季度营业数据方法
     path('show_quarterly_sales_data/', views.show_quarterly_sales_data, name='show_quarterly_sales_data'),
     # 增加季度营业数据方法

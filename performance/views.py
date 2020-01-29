@@ -65,6 +65,37 @@ def delete_monthly_sales_data(request):
     return redirect('show_monthly_sales_data')
 
 
+# 修改月度营业数据
+def change_monthly_sales_data(request):
+    # 从前端获取要修改的id
+    change_id = request.POST.get('change_id')
+    # 从前端获取修改后的数据
+    # change_date_month = int(request.POST.get('change_date_month'))
+    change_turnover = request.POST.get('change_turnover')
+    change_operating_expenses = request.POST.get('change_operating_expenses')
+    change_amount_repaid = request.POST.get('change_amount_repaid')
+    change_inventory = request.POST.get('change_inventory')
+    change_profit = request.POST.get('change_profit')
+
+    # 转换日期对象
+    # change_date = datetime(year=1, month=change_date_month, day=1, hour=1, minute=1, second=1)
+
+    # 从数据库中取出该数据
+    data = MonthlySalesData.objects.get(id=change_id)
+    # 修改数据
+    # data.date = change_date
+    data.turnover = change_turnover
+    data.operating_expenses = change_operating_expenses
+    data.amount_repaid = change_amount_repaid
+    data.inventory = change_inventory
+    data.profit = change_profit
+    # 保存更改
+    data.save()
+
+    # 重定向展示页面
+    return redirect('show_monthly_sales_data')
+
+
 # 展示季度营业数据方法
 def show_quarterly_sales_data(request):
     # 从数据库中取出所有数据
