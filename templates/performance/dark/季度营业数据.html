@@ -67,7 +67,7 @@
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">功能菜单</span>
         <ul class="list-unstyled">
-            <li><a href="index.html"> <i class="icon-home"></i>主页 </a></li>
+            <li><a href="{% url 'index' %}"> <i class="icon-home"></i>主页 </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="true" data-toggle="collapse"> <i class="icon-windows"></i>表格</a>
                 <ul id="exampledropdownDropdown" class="collapse show list-unstyled ">
                     <li><a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
