@@ -37,7 +37,7 @@ def add_monthly_sales_data(request):
     profit = request.POST.get('profit')
 
     # 转换日期对象
-    date = datetime(year=1, month=date_month, day=1, hour=1, minute=1, second=1)
+    date = datetime(year=2020, month=date_month, day=1, hour=1, minute=1, second=1)
 
     # 写入数据库
     MonthlySalesData.objects.create(
