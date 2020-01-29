@@ -145,8 +145,16 @@
                                             <td>
                                                 <button data-toggle="dropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu">
-                                                    <a data-toggle="modal" data-target="#delete_modal" class="dropdown-item" onclick="give_delete_modal('{{ data.id }}')">删除</a>
-                                                    <a href="#" class="dropdown-item">修改</a>
+                                                    <a data-toggle="modal" data-target="#delete_modal" class="dropdown-item" onclick="give_delete_modal('{{ data.id }}')">
+                                                        删除
+                                                    </a>
+                                                    <a data-toggle="modal" data-target="#change_modal" class="dropdown-item" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
+                                                            '{{ data.order_number }}', '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
+                                                            '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
+                                                            '{{ data.actual_well_done_rate }}', '{{ data.month_medical_expenses }}', '{{ data.cost_per_wan }}',
+                                                            '{{ data.field_management_compliance }}')">
+                                                        修改
+                                                    </a>
                                               </div>
                                             </td>
                                         </tr>
@@ -291,6 +299,99 @@
     </div>
     <!-- 确认删除模态框结束 -->
 
+    <!-- 修改信息模态框 -->
+    <!-- Modal Form-->
+      <div class="col-lg-4">
+        <!-- Modal-->
+        <div id="change_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+          <div role="document" class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">修改数据</strong>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+              </div>
+                <form action="{% url 'change_internal_control_indicators' %}" method="post">
+              <div class="modal-body">
+                <p>下方修改数据</p>
+                {% csrf_token %}
+                  <input hidden id="id_change_id" name="change_id" value="">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">时间</span>
+                    </div>
+                    <input type="date" class="form-control" id="id_change_date" name="change_date" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">订单号</span>
+                    </div>
+                    <input type="text" class="form-control" id="id_change_order_number" name="change_order_number" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">计划交期</span>
+                    </div>
+                    <input type="date" class="form-control" id="id_change_scheduled_delivery" name="change_scheduled_delivery" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">实际交期</span>
+                    </div>
+                    <input type="date" class="form-control" id="id_change_actual_delivery" name="change_actual_delivery" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">完成数</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_finished_number" name="change_finished_number" value="" required>
+                </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">未完成数</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_unfinished_number" name="change_unfinished_number" value="" required>
+                </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">目标成品率</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_target_well_done_rate" name="change_target_well_done_rate" value="" required>
+                </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">实际成品率</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_actual_well_done_rate" name="change_actual_well_done_rate" value="" required>
+                </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">当月医药费</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_month_medical_expenses" name="change_month_medical_expenses" value="" required>
+                </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">万元成本</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_cost_per_wan" name="change_cost_per_wan" value="" required>
+                </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">现场管理符合数</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_field_management_compliance" name="change_field_management_compliance" value="" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">取消</button>
+                <button type="submit" class="btn btn-primary">保存更改</button>
+              </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- 修改信息模态框结束 -->
+
     <!-- JavaScript files-->
     <script src="{% static 'performance/dark/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'performance/dark/vendor/popper.js/umd/popper.min.js' %}"> </script>
@@ -303,6 +404,34 @@
     <script type="text/javascript">
         function give_delete_modal(delete_id) {
             $('#id_delete_id').val(delete_id);
+        }
+    </script>
+    <!-- 给修改数据模态框传值 -->
+    <script type="text/javascript">
+        function give_change_modal(change_id,
+                                   change_date,
+                                   change_order_number,
+                                   change_scheduled_delivery,
+                                   change_actual_delivery,
+                                   change_finished_number,
+                                   change_unfinished_number,
+                                   change_target_well_done_rate,
+                                   change_actual_well_done_rate,
+                                   change_month_medical_expenses,
+                                   change_cost_per_wan,
+                                   change_field_management_compliance) {
+            $('#id_change_id').val(change_id);
+            $('#id_change_date').val(change_date);
+            $('#id_change_order_number').val(change_order_number);
+            $('#id_change_scheduled_delivery').val(change_scheduled_delivery);
+            $('#id_change_actual_delivery').val(change_actual_delivery);
+            $('#id_change_finished_number').val(change_finished_number);
+            $('#id_change_unfinished_number').val(change_unfinished_number);
+            $('#id_change_target_well_done_rate').val(change_target_well_done_rate);
+            $('#id_change_actual_well_done_rate').val(change_actual_well_done_rate);
+            $('#id_change_month_medical_expenses').val(change_month_medical_expenses);
+            $('#id_change_cost_per_wan').val(change_cost_per_wan);
+            $('#id_change_field_management_compliance').val(change_field_management_compliance);
         }
     </script>
 </body>

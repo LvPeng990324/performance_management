@@ -237,3 +237,51 @@ def delete_internal_control_indicators(request):
 
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
+
+
+# 修改内控指标汇总表方法
+def change_internal_control_indicators(request):
+    # 从前端获取要修改的id
+    change_id = request.POST.get('change_id')
+    # 从前端获取修改后的数据
+    change_date = request.POST.get('change_date')
+    change_order_number = request.POST.get('change_order_number')
+    change_scheduled_delivery = request.POST.get('change_scheduled_delivery')
+    change_actual_delivery = request.POST.get('change_actual_delivery')
+    change_finished_number = request.POST.get('change_finished_number')
+    change_unfinished_number = request.POST.get('change_unfinished_number')
+    change_target_well_done_rate = request.POST.get('change_target_well_done_rate')
+    change_actual_well_done_rate = request.POST.get('change_actual_well_done_rate')
+    change_month_medical_expenses = request.POST.get('change_month_medical_expenses')
+    change_cost_per_wan = request.POST.get('change_cost_per_wan')
+    change_field_management_compliance = request.POST.get('change_field_management_compliance')
+
+    # 转换日期对象
+    date_list = change_date.split('-')
+    scheduled_delivery_list = change_scheduled_delivery.split('-')
+    actual_delivery_list = change_actual_delivery.split('-')
+    change_date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
+    change_scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
+                                  day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
+    change_actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
+                               day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
+
+    # 从数据库中取出该数据
+    data = InternalControlIndicators.objects.get(id=change_id)
+    # 修改数据
+    data.date = change_date
+    data.order_number = change_order_number
+    data.scheduled_delivery = change_scheduled_delivery
+    data.actual_delivery = change_actual_delivery
+    data.finished_number = change_finished_number
+    data.unfinished_number = change_unfinished_number
+    data.target_well_done_rate = change_target_well_done_rate
+    data.actual_well_done_rate = change_actual_well_done_rate
+    data.month_medical_expenses = change_month_medical_expenses
+    data.cost_per_wan = change_cost_per_wan
+    data.field_management_compliance = change_field_management_compliance
+    # 保存更改
+    data.save()
+
+    # 重定向展示页面
+    return redirect('show_internal_control_indicators')
