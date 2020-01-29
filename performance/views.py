@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 def index(request):
-    return HttpResponse('hello')
+    return render(request, 'performance/dark/index.html')
 
 
 # 测试页面方法
