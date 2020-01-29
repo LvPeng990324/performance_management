@@ -144,6 +144,33 @@ def delete_quarterly_sales_data(request):
     return redirect('show_quarterly_sales_data')
 
 
+# 修改季度营业数据方法
+def change_quarterly_sales_data(request):
+    # 从前端获取要修改的id
+    change_id = request.POST.get('change_id')
+    # 从前端获取修改后的数据
+    change_turnover = request.POST.get('change_turnover')
+    change_operating_expenses = request.POST.get('change_operating_expenses')
+    change_amount_repaid = request.POST.get('change_amount_repaid')
+    change_inventory = request.POST.get('change_inventory')
+    change_profit = request.POST.get('change_profit')
+
+    # 从数据库中取出该数据
+    data = QuarterlySalesData.objects.get(id=change_id)
+    # 修改数据
+    # data.date = change_date
+    data.turnover = change_turnover
+    data.operating_expenses = change_operating_expenses
+    data.amount_repaid = change_amount_repaid
+    data.inventory = change_inventory
+    data.profit = change_profit
+    # 保存更改
+    data.save()
+
+    # 重定向展示页面
+    return redirect('show_quarterly_sales_data')
+
+
 # 展示内控指标汇总表方法
 def show_internal_control_indicators(request):
     # 从数据库中取出所有数据

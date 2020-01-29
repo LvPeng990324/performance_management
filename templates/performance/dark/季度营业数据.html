@@ -134,7 +134,10 @@
                                                 <button data-toggle="dropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" aria-expanded="false">操作</button>
                                                 <div class="dropdown-menu">
                                                     <a data-toggle="modal" data-target="#delete_modal" class="dropdown-item" onclick="give_delete_modal('{{ data.id }}')">删除</a>
-                                                    <a href="#" class="dropdown-item">修改</a>
+                                                    <a data-toggle="modal" data-target="#change_modal" class="dropdown-item" onclick="give_change_modal('{{ data.id }}',
+                                                            '{{ data.turnover }}', '{{ data.operating_expenses }}', '{{ data.amount_repaid }}', '{{ data.inventory }}', '{{ data.profit }}')">
+                                                        修改
+                                                    </a>
                                               </div>
                                             </td>
                                         </tr>
@@ -239,6 +242,63 @@
     </div>
     <!-- 确认删除模态框结束 -->
 
+    <!-- 修改信息模态框 -->
+    <!-- Modal Form-->
+      <div class="col-lg-4">
+        <!-- Modal-->
+        <div id="change_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+          <div role="document" class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">修改数据</strong>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+              </div>
+                <form action="{% url 'change_quarterly_sales_data' %}" method="post">
+              <div class="modal-body">
+                <p>下方修改数据</p>
+                {% csrf_token %}
+                  <input hidden id="id_change_id" name="change_id" value="">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">营业额</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_turnover" name="change_turnover" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">营业费用</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_operating_expenses" name="change_operating_expenses" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">回款额</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_amount_repaid" name="change_amount_repaid" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">库存量</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_inventory" name="change_inventory" value="" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">利润额</span>
+                    </div>
+                    <input type="number" class="form-control" id="id_change_profit" name="change_profit" value="" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-secondary">取消</button>
+                <button type="submit" class="btn btn-primary">保存更改</button>
+              </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- 修改信息模态框结束 -->
+
     <!-- JavaScript files-->
     <script src="{% static 'performance/dark/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'performance/dark/vendor/popper.js/umd/popper.min.js' %}"> </script>
@@ -251,6 +311,22 @@
     <script type="text/javascript">
         function give_delete_modal(delete_id) {
             $('#id_delete_id').val(delete_id);
+        }
+    </script>
+    <!-- 给修改数据模态框传值 -->
+    <script type="text/javascript">
+        function give_change_modal(change_id,
+                                   change_turnover,
+                                   change_operating_expenses,
+                                   change_amount_repaid,
+                                   change_inventory,
+                                   change_profit) {
+            $('#id_change_id').val(change_id);
+            $('#id_change_turnover').val(change_turnover);
+            $('#id_change_operating_expenses').val(change_operating_expenses);
+            $('#id_change_amount_repaid').val(change_amount_repaid);
+            $('#id_change_inventory').val(change_inventory);
+            $('#id_change_profit').val(change_profit);
         }
     </script>
 </body>

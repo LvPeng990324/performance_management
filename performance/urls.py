@@ -18,6 +18,8 @@ urlpatterns = [
     path('add_quarterly_sales_data/', views.add_quarterly_sales_data, name='add_quarterly_sales_data'),
     # 删除季度营业数据方法
     path('delete_quarterly_sales_data', views.delete_quarterly_sales_data, name='delete_quarterly_sales_data'),
+    # 修改季度营业数据方法
+    path('change_quarterly_sales_data', views.change_quarterly_sales_data, name='change_quarterly_sales_data'),
     # 展示内控指标汇总表方法
     path('show_internal_control_indicators/', views.show_internal_control_indicators, name='show_internal_control_indicators'),
     # 增加内控指标汇总表方法
