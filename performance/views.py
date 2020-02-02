@@ -11,7 +11,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, 'performance/dark/月度营业数据.html')
+    return render(request, '业务数据管理-月度营业数据.html')
 
 
 # 展示月度营业数据方法
@@ -23,13 +23,14 @@ def show_monthly_sales_data(request):
         'monthly_sales_data': monthly_sales_data,
     }
     # 引导前端页面
-    return render(request, 'performance/dark/月度营业数据.html', context=context)
+    return render(request, '业务数据管理-月度营业数据.html', context=context)
 
 
 # 增加月度营业数据方法
 def add_monthly_sales_data(request):
     # 从前端获取数据
-    date_month = int(request.POST.get('date_month'))
+    year = int(request.POST.get('year'))
+    month = int(request.POST.get('month'))
     turnover = request.POST.get('turnover')
     operating_expenses = request.POST.get('operating_expenses')
     amount_repaid = request.POST.get('amount_repaid')
@@ -37,7 +38,7 @@ def add_monthly_sales_data(request):
     profit = request.POST.get('profit')
 
     # 转换日期对象
-    date = datetime(year=2020, month=date_month, day=1, hour=1, minute=1, second=1)
+    date = datetime(year=year, month=month, day=1, hour=1, minute=1, second=1)
 
     # 写入数据库
     MonthlySalesData.objects.create(
@@ -71,6 +72,8 @@ def change_monthly_sales_data(request):
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
     # change_date_month = int(request.POST.get('change_date_month'))
+    change_year = int(request.POST.get('change_year'))
+    change_month = int(request.POST.get('change_month'))
     change_turnover = request.POST.get('change_turnover')
     change_operating_expenses = request.POST.get('change_operating_expenses')
     change_amount_repaid = request.POST.get('change_amount_repaid')
@@ -78,12 +81,12 @@ def change_monthly_sales_data(request):
     change_profit = request.POST.get('change_profit')
 
     # 转换日期对象
-    # change_date = datetime(year=1, month=change_date_month, day=1, hour=1, minute=1, second=1)
+    change_date = datetime(year=change_year, month=change_month, day=1, hour=1, minute=1, second=1)
 
     # 从数据库中取出该数据
     data = MonthlySalesData.objects.get(id=change_id)
     # 修改数据
-    # data.date = change_date
+    data.date = change_date
     data.turnover = change_turnover
     data.operating_expenses = change_operating_expenses
     data.amount_repaid = change_amount_repaid

@@ -21,3 +21,53 @@ from ..models import QuarterlySalesData
 from ..models import InternalControlIndicators
 from ..models import QuarterlyPerformance
 from ..models import ConstantData
+
+
+# 获取A值方法
+def get_A():
+    return ConstantData.objects.first().annual_target_turnover
+
+
+# 获取B值方法
+def get_B():
+    return ConstantData.objects.first().annual_target_award
+
+
+# 获取C值方法
+def get_C():
+    pass
+
+
+# 获取D值方法
+def get_D():
+    pass
+
+
+# 获取E值方法
+def get_E():
+    pass
+
+
+# 获取F值方法
+def get_F():
+    pass
+
+
+# 获取G值方法
+def get_G():
+    pass
+
+
+# 获取H值方法
+def get_H():
+    pass
+
+
+# 获取I值方法
+def get_I():
+    pass
+
+
+# 获取K值方法
+def get_K():
+    pass
