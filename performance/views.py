@@ -114,7 +114,7 @@ def show_quarterly_sales_data(request):
 # 增加季度营业数据方法
 def add_quarterly_sales_data(request):
     # 从前端获取数据
-    quarterly = int(request.POST.get('quarterly'))
+    quarter = int(request.POST.get('quarter'))
     turnover = request.POST.get('turnover')
     operating_expenses = request.POST.get('operating_expenses')
     amount_repaid = request.POST.get('amount_repaid')
@@ -123,7 +123,7 @@ def add_quarterly_sales_data(request):
 
     # 写入数据库
     QuarterlySalesData.objects.create(
-        quarterly=quarterly,
+        quarter=quarter,
         turnover=turnover,
         operating_expenses=operating_expenses,
         amount_repaid=amount_repaid,

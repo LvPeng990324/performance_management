@@ -20,7 +20,7 @@ class MonthlySalesData(models.Model):
 
 # 季度营业数据
 class QuarterlySalesData(models.Model):
-    quarterly = models.IntegerField(verbose_name='季度')
+    quarter = models.IntegerField(verbose_name='季度')
     turnover = models.FloatField(verbose_name='营业额')
     operating_expenses = models.FloatField(verbose_name='营业费用')
     amount_repaid = models.FloatField(verbose_name='回款额')
