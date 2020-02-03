@@ -28,6 +28,8 @@ urlpatterns = [
     path('delete_internal_control_indicators/', views.delete_internal_control_indicators, name='delete_internal_control_indicators'),
     # 修改内控指标汇总方法
     path('change_internal_control_indicators/', views.change_internal_control_indicators, name='change_internal_control_indicators'),
+    # 传递月度营业数据接口方法
+    path('give_monthly_sales_data/', views.give_monthly_sales_data, name='give_monthly_sales_data'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page')

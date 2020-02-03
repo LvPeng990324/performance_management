@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
@@ -288,3 +289,10 @@ def change_internal_control_indicators(request):
 
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
+
+
+# 传递月度营业数据接口方法
+def give_monthly_sales_data(request):
+    # 从数据库中取出所有数据
+    data = MonthlySalesData.objects.values()
+    return JsonResponse(list(data), safe=False)
