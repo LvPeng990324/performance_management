@@ -4,6 +4,7 @@ from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
 from datetime import datetime
+from .utils import UploadTable
 
 
 def index(request):
@@ -296,3 +297,16 @@ def give_monthly_sales_data(request):
     # 从数据库中取出所有数据
     data = MonthlySalesData.objects.values()
     return JsonResponse(list(data), safe=False)
+
+
+# 上传月度营业数据表格方法
+def upload_monthly_performance(request):
+    if request.method == 'GET':
+        return render(request, 'test_upload.html')
+    else:
+        file_data = request.FILES.get('upload_file')
+        result = UploadTable.upload_monthly_performance(file_data)
+        if result == True:
+            return HttpResponse('success')
+        else:
+            return HttpResponse(result)

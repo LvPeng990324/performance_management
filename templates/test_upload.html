@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试上传表格</title>
+</head>
+<body>
+
+<form action="{% url 'upload_monthly_performance' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" placeholder="月度营业数据" name="upload_file">
+    <button>上传</button>
+</form>
+
+</body>
+</html>

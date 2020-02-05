@@ -30,6 +30,8 @@ urlpatterns = [
     path('change_internal_control_indicators/', views.change_internal_control_indicators, name='change_internal_control_indicators'),
     # 传递月度营业数据接口方法
     path('give_monthly_sales_data/', views.give_monthly_sales_data, name='give_monthly_sales_data'),
+    # 上传月度营业数据表格方法
+    path('upload_monthly_performance/', views.upload_monthly_performance, name='upload_monthly_performance'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page')
