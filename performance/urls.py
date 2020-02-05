@@ -32,6 +32,10 @@ urlpatterns = [
     path('give_monthly_sales_data/', views.give_monthly_sales_data, name='give_monthly_sales_data'),
     # 上传月度营业数据表格方法
     path('upload_monthly_performance/', views.upload_monthly_performance, name='upload_monthly_performance'),
+    # 上传季度营业数据表格方法
+    path('upload_quarterly_performance/', views.upload_quarterly_performance, name='upload_quarterly_performance'),
+    # 上传内控制表汇总表格方法
+    path('upload_internal_control_indicators_performance/', views.upload_internal_control_indicators_performance, name='upload_internal_control_indicators_performance'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page')

@@ -8,8 +8,18 @@
 
 <form action="{% url 'upload_monthly_performance' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" placeholder="月度营业数据" name="upload_file">
-    <button>上传</button>
+    <input type="file" name="upload_file">
+    <button>上传月度营业数据</button>
+</form>
+<form action="{% url 'upload_quarterly_performance' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="upload_file">
+    <button>上传季度营业数据</button>
+</form>
+<form action="{% url 'upload_internal_control_indicators_performance' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="upload_file">
+    <button>上传内控指标汇总数据</button>
 </form>
 
 </body>

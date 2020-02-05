@@ -306,7 +306,33 @@ def upload_monthly_performance(request):
     else:
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_monthly_performance(file_data)
-        if result == True:
+        if result == 0:
+            return HttpResponse('success')
+        else:
+            return HttpResponse(result)
+
+
+# 上传季度营业数据表格方法
+def upload_quarterly_performance(request):
+    if request.method == 'GET':
+        return render(request, 'test_upload.html')
+    else:
+        file_data = request.FILES.get('upload_file')
+        result = UploadTable.upload_quarterly_performance(file_data)
+        if result == 0:
+            return HttpResponse('success')
+        else:
+            return HttpResponse(result)
+
+
+# 上传内控制表汇总表格方法
+def upload_internal_control_indicators_performance(request):
+    if request.method == 'GET':
+        return render(request, 'test_upload.html')
+    else:
+        file_data = request.FILES.get('upload_file')
+        result = UploadTable.upload_internal_control_indicators_performance(file_data)
+        if result == 0:
             return HttpResponse('success')
         else:
             return HttpResponse(result)
