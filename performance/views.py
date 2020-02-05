@@ -299,6 +299,20 @@ def give_monthly_sales_data(request):
     return JsonResponse(list(data), safe=False)
 
 
+# 传递季度营业数据接口方法
+def give_quarterly_sales_data(request):
+    # 从数据库中取出所有数据
+    data = QuarterlySalesData.objects.values()
+    return JsonResponse(list(data), safe=False)
+
+
+# 传递内控制表汇总接口方法
+def give_internal_control_indicators(request):
+    # 从数据库中取出所有数据
+    data = InternalControlIndicators.objects.values()
+    return JsonResponse(list(data), safe=False)
+
+
 # 上传月度营业数据表格方法
 def upload_monthly_performance(request):
     if request.method == 'GET':
