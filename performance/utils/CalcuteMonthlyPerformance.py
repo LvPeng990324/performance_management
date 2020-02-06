@@ -26,7 +26,9 @@ import django
 os.environ.setdefault('DJANGO_SETTING_MODULE', 'performance_management.settings')
 django.setup()
 
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from django.db.models import Count, Sum, Avg
 from performance.models import ConstantData
 from performance.models import InternalControlIndicators
 from performance.models import MonthlyPerformance
@@ -81,22 +83,24 @@ def get_d(need_date):
 
 
 # 获取E值方法
-def get_e(need_date):
-    # 数据源暂时不明
+def get_e(need_date, history_time):
     try:
-        history_well_done_rate_reference = 70
-        e = history_well_done_rate_reference
+        start_time = need_date - relativedelta(years=history_time)
+        e = InternalControlIndicators.objects.filter(
+            date__gte=start_time, date__lt=need_date).aggregate(
+            history_avg=Avg('actual_well_done_rate'))['history_avg']
     except:
         e = '异常'
     return e
 
 
 # 获取F值方法
-def get_f(need_date):
-    # 数据源暂时不明
+def get_f(need_date, history_time):
     try:
-        history_medical_expenses_reference = 3333
-        f = history_medical_expenses_reference
+        start_time = need_date - relativedelta(years=history_time)
+        f = InternalControlIndicators.objects.filter(
+            date__gte=start_time, date__lt=need_date).aggregate(
+            history_avg=Avg('month_medical_expenses'))['history_avg']
     except:
         f = '异常'
     return f
@@ -114,11 +118,12 @@ def get_g(need_date):
 
 
 # 获取H值方法
-def get_h(need_date):
-    # 数据源暂时不明
+def get_h(need_date, history_time):
     try:
-        cost_per_wan_avg = 666
-        h = cost_per_wan_avg
+        start_time = need_date - relativedelta(years=history_time)
+        h = InternalControlIndicators.objects.filter(
+            date__gte=start_time, date__lt=need_date).aggregate(
+            history_avg=Avg('cost_per_wan'))['history_avg']
     except:
         h = '异常'
     return h
@@ -157,43 +162,69 @@ def get_l(need_date):
     return l
 
 
-#
-date = '2020-1'  # 查询月份
+# 主函数
+date = '2020-1'  # 查询月份 接收用户输入
+history_year = 3  # 历史年限 接收用户输入
 need_type = '%Y-%m'
 date = datetime.strptime(date, need_type)
 
 A = get_a(date)
-print('A=', A)
 B = get_b(date)
-print('B=', B)
 C = get_c(date)
-print('C=', C)
 D = get_d(date)
-print('D=', D)
-E = get_e(date)
-print('E=', E)
-F = get_f(date)
-print('F=', F)
+E = get_e(date, history_year)
+F = get_f(date, history_year)
 G = get_g(date)
-print('G=', G)
-H = get_h(date)
-print('H=', H)
+H = get_h(date, history_year)
 I = get_i(date)
-print('I=', I)
 K = get_k(date)
-print('K=', K)
 L = get_l(date)
+print('A=', A)
+print('B=', B)
+print('C=', C)
+print('D=', D)
+print('E=', E)
+print('F=', F)
+print('G=', G)
+print('H=', H)
+print('I=', I)
+print('K=', K)
 print('L=', L)
 
-delivery_rate = round(B / A * C * 0.25 * 0.20, 2)
-well_done_rate = round(D / E * C * 0.25 * 0.25, 2)
-medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
-overall_cost = round((1 - I / H) * C * 0.25 * 0.30, 2)
-field_management = round(K / L * C * 0.25 * 0.10, 2)
+try:
+    delivery_rate = round(B / A * C * 0.25 * 0.20, 2)
+    well_done_rate = round(D / E * C * 0.25 * 0.25, 2)
+    medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
+    overall_cost = round((1 - I / H) * C * 0.25 * 0.30, 2)
+    field_management = round(K / L * C * 0.25 * 0.10, 2)
+    print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management)
 
+    new_data = {
+        'date': date,
+        'delivery_rate': delivery_rate,
+        'well_done_rate': well_done_rate,
+        'medical_expenses': medical_expenses,
+        'overall_cost': overall_cost,
+        'field_management': field_management,
+    }
 
-print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management)
+    obj = MonthlyPerformance.objects.filter(date=date)
+    if obj:
+        # 如果该月数据已存在，则更新
+        MonthlyPerformance.objects.filter(date=date).update(**new_data)
+        print("更新成功")
+    else:
+        MonthlyPerformance.objects.create(
+            date=date,
+            delivery_rate=delivery_rate,
+            well_done_rate=well_done_rate,
+            medical_expenses=medical_expenses,
+            overall_cost=overall_cost,
+            field_management=field_management,
+        )
 
+except:
+    print("数据异常，操作失败")
 
 # delivery_rate = B / A * C * 0.25 * 0.20
 # well_done_rate = D / E * C * 0.25 * 0.25
@@ -210,16 +241,3 @@ print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_manag
 # medical_expenses = models.FloatField(verbose_name='医药费')
 # overall_cost = models.FloatField(verbose_name='内控综合成本')
 # field_management = models.FloatField(verbose_name='现场管理')
-
-obj = MonthlyPerformance.objects.filter(date=date)
-if obj:
-    print("该月数据已存在，无法增添")
-else:
-    MonthlyPerformance.objects.create(
-        date=date,
-        delivery_rate=delivery_rate,
-        well_done_rate=well_done_rate,
-        medical_expenses=medical_expenses,
-        overall_cost=overall_cost,
-        field_management=field_management,
-    )
