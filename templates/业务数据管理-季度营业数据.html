@@ -51,7 +51,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger">确定</button>
+                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
                 </div>
             </div>
         </div>
@@ -481,7 +481,7 @@
                                             <tr>
                                                 <td>
                                                     <label class="lyear-checkbox checkbox-primary">
-                                                        <input type="checkbox" name="ids[]" value="{{ forloop.counter }}"><span></span>
+                                                        <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                                     </label>
                                                 </td>
                                                 <th scope="row">{{ data.quarter }}</th>
@@ -565,6 +565,25 @@
         $('#id_change_amount_repaid').val(change_amount_repaid);
         $('#id_change_inventory').val(change_inventory);
         $('#id_change_profit').val(change_profit);
+    }
+</script>
+<!-- 提交选中删除 -->
+<script type="text/javascript">
+    function dels() {
+        var a = document.getElementsByName("ids[]");
+        var case_id = [];
+        for (var i=0;i<a.length;i++){
+            if(a[i].checked){
+                case_id.push(a[i].value)
+            }
+        }
+        console.log(case_id);
+        $.ajax({
+            type: "get",
+            url: "{% url 'delete_quarterly_sales_data' %}",
+            traditional: true,
+            data: {'delete_id': case_id},
+        });
     }
 </script>
 </body>

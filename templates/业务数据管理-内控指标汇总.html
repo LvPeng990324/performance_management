@@ -51,7 +51,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger">确定</button>
+                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
                 </div>
             </div>
         </div>
@@ -517,7 +517,7 @@
                                             <tr>
                                                 <td>
                                                     <label class="lyear-checkbox checkbox-primary">
-                                                        <input type="checkbox" name="ids[]" value="{{ forloop.counter }}"><span></span>
+                                                        <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                                     </label>
                                                 </td>
                                                 <td>{{ data.id }}</td>
@@ -618,6 +618,25 @@
         $('#id_change_month_medical_expenses').val(change_month_medical_expenses);
         $('#id_change_cost_per_wan').val(change_cost_per_wan);
         $('#id_change_field_management_compliance').val(change_field_management_compliance);
+    }
+</script>
+<!-- 提交选中删除 -->
+<script type="text/javascript">
+    function dels() {
+        var a = document.getElementsByName("ids[]");
+        var case_id = [];
+        for (var i=0;i<a.length;i++){
+            if(a[i].checked){
+                case_id.push(a[i].value)
+            }
+        }
+        console.log(case_id);
+        $.ajax({
+            type: "get",
+            url: "{% url 'delete_internal_control_indicators' %}",
+            traditional: true,
+            data: {'delete_id': case_id},
+        });
     }
 </script>
 </body>

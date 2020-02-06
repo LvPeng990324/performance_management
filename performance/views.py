@@ -59,7 +59,10 @@ def add_monthly_sales_data(request):
 # 删除月度营业数据方法
 def delete_monthly_sales_data(request):
     # 从前端获取要删除的id
-    delete_id = request.POST.getlist('delete_id', [])
+    if request.method == 'GET':
+        delete_id = request.GET.getlist('delete_id', [])
+    else:
+        delete_id = request.POST.getlist('delete_id', [])
 
     # 从数据库中删除
     for id in delete_id:
@@ -143,7 +146,10 @@ def add_quarterly_sales_data(request):
 # 删除季度营业数据方法
 def delete_quarterly_sales_data(request):
     # 从前端获取要删除的id
-    delete_id = request.POST.getlist('delete_id', [])
+    if request.method == 'GET':
+        delete_id = request.GET.getlist('delete_id', [])
+    else:
+        delete_id = request.POST.getlist('delete_id', [])
 
     # 从数据库中删除
     for id in delete_id:
@@ -239,7 +245,10 @@ def add_internal_control_indicators(request):
 # 删除内控指标汇总表方法
 def delete_internal_control_indicators(request):
     # 从前端获取要删除的id
-    delete_id = request.POST.getlist('delete_id')
+    if request.method == 'GET':
+        delete_id = request.GET.getlist('delete_id', [])
+    else:
+        delete_id = request.POST.getlist('delete_id', [])
 
     # 从数据库中删除
     for id in delete_id:
