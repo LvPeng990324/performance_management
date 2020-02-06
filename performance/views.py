@@ -63,7 +63,7 @@ def delete_monthly_sales_data(request):
 
     # 从数据库中删除
     for id in delete_id:
-        MonthlySalesData.objects.get(id=delete_id).delete()
+        MonthlySalesData.objects.get(id=id).delete()
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -111,12 +111,13 @@ def show_quarterly_sales_data(request):
         'quarterly_sales_data': quarterly_sales_data,
     }
     # 引导前端页面
-    return render(request, 'performance/dark/季度营业数据.html', context=context)
+    return render(request, '业务数据管理-季度营业数据.html', context=context)
 
 
 # 增加季度营业数据方法
 def add_quarterly_sales_data(request):
     # 从前端获取数据
+    year = int(request.POST.get('year'))
     quarter = int(request.POST.get('quarter'))
     turnover = request.POST.get('turnover')
     operating_expenses = request.POST.get('operating_expenses')
@@ -126,6 +127,7 @@ def add_quarterly_sales_data(request):
 
     # 写入数据库
     QuarterlySalesData.objects.create(
+        year=year,
         quarter=quarter,
         turnover=turnover,
         operating_expenses=operating_expenses,
@@ -145,7 +147,7 @@ def delete_quarterly_sales_data(request):
 
     # 从数据库中删除
     for id in delete_id:
-        QuarterlySalesData.objects.get(id=delete_id).delete()
+        QuarterlySalesData.objects.get(id=id).delete()
 
     # 重定向展示页面
     return redirect('show_quarterly_sales_data')
@@ -156,11 +158,11 @@ def change_quarterly_sales_data(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
-    change_turnover = request.POST.get('change_turnover')
-    change_operating_expenses = request.POST.get('change_operating_expenses')
-    change_amount_repaid = request.POST.get('change_amount_repaid')
-    change_inventory = request.POST.get('change_inventory')
-    change_profit = request.POST.get('change_profit')
+    change_turnover = request.POST.get('turnover')
+    change_operating_expenses = request.POST.get('operating_expenses')
+    change_amount_repaid = request.POST.get('amount_repaid')
+    change_inventory = request.POST.get('inventory')
+    change_profit = request.POST.get('profit')
 
     # 从数据库中取出该数据
     data = QuarterlySalesData.objects.get(id=change_id)
@@ -187,7 +189,7 @@ def show_internal_control_indicators(request):
         'internal_control_indicators': internal_control_indicators,
     }
     # 引导前端页面
-    return render(request, 'performance/dark/内控指标汇总表.html', context=context)
+    return render(request, '业务数据管理-内控指标汇总.html', context=context)
 
 
 # 增加内控指标汇总表方法
@@ -237,11 +239,11 @@ def add_internal_control_indicators(request):
 # 删除内控指标汇总表方法
 def delete_internal_control_indicators(request):
     # 从前端获取要删除的id
-    delete_id = request.POST.getlist('delete_id', [])
+    delete_id = request.POST.getlist('delete_id')
 
     # 从数据库中删除
     for id in delete_id:
-        InternalControlIndicators.objects.get(id=delete_id).delete()
+        InternalControlIndicators.objects.get(id=id).delete()
 
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
@@ -252,17 +254,17 @@ def change_internal_control_indicators(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
-    change_date = request.POST.get('change_date')
-    change_order_number = request.POST.get('change_order_number')
-    change_scheduled_delivery = request.POST.get('change_scheduled_delivery')
-    change_actual_delivery = request.POST.get('change_actual_delivery')
-    change_finished_number = request.POST.get('change_finished_number')
-    change_unfinished_number = request.POST.get('change_unfinished_number')
-    change_target_well_done_rate = request.POST.get('change_target_well_done_rate')
-    change_actual_well_done_rate = request.POST.get('change_actual_well_done_rate')
-    change_month_medical_expenses = request.POST.get('change_month_medical_expenses')
-    change_cost_per_wan = request.POST.get('change_cost_per_wan')
-    change_field_management_compliance = request.POST.get('change_field_management_compliance')
+    change_date = request.POST.get('date')
+    change_order_number = request.POST.get('order_number')
+    change_scheduled_delivery = request.POST.get('scheduled_delivery')
+    change_actual_delivery = request.POST.get('actual_delivery')
+    change_finished_number = request.POST.get('finished_number')
+    change_unfinished_number = request.POST.get('unfinished_number')
+    change_target_well_done_rate = request.POST.get('target_well_done_rate')
+    change_actual_well_done_rate = request.POST.get('actual_well_done_rate')
+    change_month_medical_expenses = request.POST.get('month_medical_expenses')
+    change_cost_per_wan = request.POST.get('cost_per_wan')
+    change_field_management_compliance = request.POST.get('field_management_compliance')
 
     # 转换日期对象
     date_list = change_date.split('-')
