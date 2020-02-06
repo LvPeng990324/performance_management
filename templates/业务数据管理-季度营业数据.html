@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>业务数据管理-季度营业数据</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
@@ -14,36 +14,38 @@
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
 
     <!--导入表格-->
-		<div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-                    <form action="{% url 'upload_quarterly_performance' %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="delModalLabel">导入表格</h4>
-					</div>
-					<div class="modal-body">
-						支持excel和csv文件
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'upload_quarterly_performance' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">导入表格</h4>
+                    </div>
+                    <div class="modal-body">
+                        支持excel和csv文件
                         <div class="form-group">
                             <input class="form-control" type="file" name="upload_file">
                         </div>
-					</div>
-					<div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-danger">导入</button>
-					</div>
-                    </form>
-                </div>
-			</div>
-		</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!--删除按钮(选中)-->
     <div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="delsModalLabel">删除选中数据</h4>
                 </div>
                 <div class="modal-body">
@@ -63,18 +65,19 @@
             <div class="modal-content">
                 <form action="{% url 'delete_quarterly_sales_data' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delModalLabel">删除数据</h4>
-                </div>
-                <div class="modal-body">
-                    确认删除该条数据?
-                </div>
-                <div class="modal-footer">
-                    <input hidden id="id_delete_id" name="delete_id">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-danger">确定</button>
-                </div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">删除数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除该条数据?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_id" name="delete_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">确定</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -86,11 +89,12 @@
             <div class="modal-content">
                 <form action="{% url 'add_quarterly_sales_data' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addLabel">新增数据</h4>
-                </div>
-                <div class="modal-body">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addLabel">新增数据</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
                             <label for="id_year" class="control-label">年份：</label>
                             <input type="number" class="form-control" id="id_year" name="year" required>
@@ -110,7 +114,8 @@
                         </div>
                         <div class="form-group">
                             <label for="id_operating_expenses" class="control-label">营业费用：</label>
-                            <input type="text" class="form-control" id="id_operating_expenses" name="operating_expenses" required>
+                            <input type="text" class="form-control" id="id_operating_expenses" name="operating_expenses"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="id_amount_repaid" class="control-label">回款额：</label>
@@ -124,11 +129,11 @@
                             <label for="id_profit" class="control-label">利润额：</label>
                             <input type="text" class="form-control" id="id_profit" name="profit" required>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">确定</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -140,11 +145,12 @@
             <div class="modal-content">
                 <form action="{% url 'change_quarterly_sales_data' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modifyLabel">修改数据</h4>
-                </div>
-                <div class="modal-body">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modifyLabel">修改数据</h4>
+                    </div>
+                    <div class="modal-body">
                         <input hidden id="id_change_id" name="change_id">
                         <div class="form-group">
                             <label for="id_change_year" class="control-label">年份：</label>
@@ -165,25 +171,28 @@
                         </div>
                         <div class="form-group">
                             <label for="id_change_operating_expenses" class="control-label">营业费用：</label>
-                            <input type="number" class="form-control" id="id_change_operating_expenses" name="operating_expenses" required>
+                            <input type="number" class="form-control" id="id_change_operating_expenses"
+                                   name="operating_expenses" required>
                         </div>
                         <div class="form-group">
                             <label for="id_change_amount_repaid" class="control-label">回款额：</label>
-                            <input type="number" class="form-control" id="id_change_amount_repaid" name="amount_repaid" required>
+                            <input type="number" class="form-control" id="id_change_amount_repaid" name="amount_repaid"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="id_change_inventory" class="control-label">库存量：</label>
-                            <input type="number" class="form-control" id="id_change_inventory" name="inventory" required>
+                            <input type="number" class="form-control" id="id_change_inventory" name="inventory"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="id_change_profit" class="control-label">利润额：</label>
                             <input type="number" class="form-control" id="id_change_profit" name="profit" required>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-warning">确定</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-warning">确定</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -200,55 +209,55 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="images/index-logo.png" title="首页" alt="首页" /></a>
+                <a href="首页.html"><img src="images/index-logo.png" title="首页" alt="首页"/></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
                 <nav class="sidebar-main">
                     <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a> </li>
+                        <li class="nav-item"><a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a></li>
 
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="数据统计-月度营业数据.html">月度营业数据</a> </li>
-                                <li> <a href="数据统计-季度营业数据.html">季度营业数据</a> </li>
-                                <li> <a href="数据统计-内控指标汇总.html">内控指标汇总</a> </li>
-                                <li> <a href="数据统计-管理层月度绩效考核结果.html">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="数据统计-季度绩效考核结果.html">季度绩效考核结果</a> </li>
+                                <li><a href="数据统计-月度营业数据.html">月度营业数据</a></li>
+                                <li><a href="数据统计-季度营业数据.html">季度营业数据</a></li>
+                                <li><a href="数据统计-内控指标汇总.html">内控指标汇总</a></li>
+                                <li><a href="数据统计-管理层月度绩效考核结果.html">管理层月度绩效考核结果</a></li>
+                                <li><a href="数据统计-季度绩效考核结果.html">季度绩效考核结果</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav active open">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据管理</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
-                                <li class="active"> <a href="javascript:void(0)">季度营业数据</a> </li>
-                                <li> <a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a> </li>
+                                <li><a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
+                                <li class="active"><a href="javascript:void(0)">季度营业数据</a></li>
+                                <li><a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-chart-line"></i> 数据展示</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="#!">月度营业数据</a> </li>
-                                <li> <a href="#!">季度营业数据</a> </li>
-                                <li> <a href="#!">内控指标汇总</a> </li>
-                                <li> <a href="#!">月度绩效考核结果</a> </li>
-                                <li> <a href="#!">季度绩效考核结果</a> </li>
+                                <li><a href="#!">月度营业数据</a></li>
+                                <li><a href="#!">季度营业数据</a></li>
+                                <li><a href="#!">内控指标汇总</a></li>
+                                <li><a href="#!">月度绩效考核结果</a></li>
+                                <li><a href="#!">季度绩效考核结果</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 权限管理</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="#!">用户管理</a> </li>
-                                <li> <a href="#!">角色管理</a> </li>
+                                <li><a href="#!">用户管理</a></li>
+                                <li><a href="#!">角色管理</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-xaml"></i> 公式管理</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="#!">查看公式</a> </li>
-                                <li> <a href="#!">修改公式</a> </li>
-                                <li> <a href="#!">修改常量</a> </li>
+                                <li><a href="#!">查看公式</a></li>
+                                <li><a href="#!">修改公式</a></li>
+                                <li><a href="#!">修改常量</a></li>
 
                             </ul>
                         </li>
@@ -256,7 +265,11 @@
                 </nav>
 
                 <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2019. <a target="_blank" href="http://lyear.itshubao.com">IT书包</a> All rights reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+                    <p class="copyright">Copyright &copy; 2019. <a target="_blank"
+                                                                   href="http://lyear.itshubao.com">IT书包</a> All rights
+                        reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank"
+                                                    title="模板之家">模板之家</a> - Collect from <a
+                                href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
                 </div>
             </div>
 
@@ -281,15 +294,17 @@
                     <ul class="topbar-right">
                         <li class="dropdown dropdown-profile">
                             <a href="javascript:void(0)" data-toggle="dropdown">
-                                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/头像.jpg" alt="账号名称" />
+                                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/头像.jpg" alt="账号名称"/>
                                 <span>CQY <span class="caret"></span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li> <a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                                <li> <a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
-                                <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
+                                <li><a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                                <li><a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a>
+                                </li>
+                                <li><a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
                                 <li class="divider"></li>
-                                <li> <a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
+                                <li><a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a>
+                                </li>
                             </ul>
                         </li>
                         <!--切换主题配色-->
@@ -452,9 +467,15 @@
                                     <option value="2025">2025</option>
                                 </select>
                                 <div class="toolbar-btn-action">
-                                    <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
-                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
-                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
+                                    <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal"
+                                            data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
+                                    </button>
+                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                                            data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格
+                                    </button>
+                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                                            data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
+                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -481,7 +502,8 @@
                                             <tr>
                                                 <td>
                                                     <label class="lyear-checkbox checkbox-primary">
-                                                        <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
+                                                        <input type="checkbox" name="ids[]"
+                                                               value="{{ data.id }}"><span></span>
                                                     </label>
                                                 </td>
                                                 <th scope="row">{{ data.quarter }}</th>
@@ -492,10 +514,15 @@
                                                 <td>{{ data.profit }}</td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal(
-                                                            '{{ data.id }}', '{{ data.year }}', '{{ data.quarter }}', '{{ data.turnover }}', '{{ data.operating_expenses }}', '{{ data.amount_repaid }}', '{{ data.inventory }}', '{{ data.profit }}'
-                                                        )"><i class="mdi mdi-pencil"></i></a>
-                                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
+                                                        <a class="btn btn-xs btn-default" href="#!" title="编辑"
+                                                           data-toggle="modal" data-target="#modify"
+                                                           onclick="give_change_modal(
+                                                                   '{{ data.id }}', '{{ data.year }}', '{{ data.quarter }}', '{{ data.turnover }}', '{{ data.operating_expenses }}', '{{ data.amount_repaid }}', '{{ data.inventory }}', '{{ data.profit }}'
+                                                                   )"><i class="mdi mdi-pencil"></i></a>
+                                                        <a class="btn btn-xs btn-default" href="#!" title="删除"
+                                                           data-toggle="modal" data-target="#del"
+                                                           onclick="give_delete_modal('{{ data.id }}')"><i
+                                                                class="mdi mdi-window-close"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -572,8 +599,8 @@
     function dels() {
         var a = document.getElementsByName("ids[]");
         var case_id = [];
-        for (var i=0;i<a.length;i++){
-            if(a[i].checked){
+        for (var i = 0; i < a.length; i++) {
+            if (a[i].checked) {
                 case_id.push(a[i].value)
             }
         }
@@ -583,6 +610,11 @@
             url: "{% url 'delete_quarterly_sales_data' %}",
             traditional: true,
             data: {'delete_id': case_id},
+            success: function (arg) {
+                if (arg=='ok') {
+                    location.reload();
+                }
+            }
         });
     }
 </script>
