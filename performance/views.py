@@ -8,7 +8,7 @@ from .utils import UploadTable
 
 
 def index(request):
-    return render(request, 'performance/dark/index.html')
+    return render(request, '首页.html')
 
 
 # 测试页面方法
