@@ -33,7 +33,7 @@ urlpatterns = [
     # 传递季度营业数据接口方法
     path('give_quarterly_sales_data/', views.give_quarterly_sales_data, name='give_quarterly_sales_data'),
     # 传递内控制表汇总接口方法
-    path('give_internal_control_indicators', views.give_internal_control_indicators, name='give_internal_control_indicators'),
+    path('give_internal_control_indicators/', views.give_internal_control_indicators, name='give_internal_control_indicators'),
     # 上传月度营业数据表格方法
     path('upload_monthly_performance/', views.upload_monthly_performance, name='upload_monthly_performance'),
     # 上传季度营业数据表格方法
