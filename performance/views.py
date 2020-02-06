@@ -154,9 +154,7 @@ def delete_quarterly_sales_data(request):
     # 从数据库中删除
     for id in delete_id:
         QuarterlySalesData.objects.get(id=id).delete()
-
-    # 重定向展示页面
-    return redirect('show_quarterly_sales_data')
+    return HttpResponse("ok")
 
 
 # 修改季度营业数据方法
