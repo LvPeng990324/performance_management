@@ -13,6 +13,31 @@
 		<link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/style.min.css' %}" rel="stylesheet">
 
+        <!--导入表格-->
+		<div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+                    <form action="{% url 'upload_monthly_performance' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="delModalLabel">导入表格</h4>
+					</div>
+					<div class="modal-body">
+						支持excel和csv文件
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="upload_file">
+                        </div>
+					</div>
+					<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">导入</button>
+					</div>
+                    </form>
+                </div>
+			</div>
+		</div>
+
 		<!--删除按钮(选中)-->
 		<div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
 			<div class="modal-dialog" role="document">
@@ -445,7 +470,7 @@
 											</select>
 										<div class="toolbar-btn-action">
 											<button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
-											<button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入Excel</button>
+											<button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
 											<button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
 										</div>
 									</div>

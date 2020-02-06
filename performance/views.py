@@ -326,9 +326,11 @@ def upload_monthly_performance(request):
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_monthly_performance(file_data)
         if result == 0:
-            return HttpResponse('success')
+            # return HttpResponse('success')
+            return redirect('show_monthly_sales_data')
         else:
-            return HttpResponse(result)
+            # return HttpResponse(result)
+            return redirect('show_monthly_sales_data')
 
 
 # 上传季度营业数据表格方法
@@ -339,9 +341,11 @@ def upload_quarterly_performance(request):
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_quarterly_performance(file_data)
         if result == 0:
-            return HttpResponse('success')
+            # return HttpResponse('success')
+            return redirect('show_quarterly_sales_data')
         else:
-            return HttpResponse(result)
+            # return HttpResponse(result)
+            return redirect('show_quarterly_sales_data')
 
 
 # 上传内控制表汇总表格方法
@@ -352,6 +356,8 @@ def upload_internal_control_indicators_performance(request):
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_internal_control_indicators_performance(file_data)
         if result == 0:
-            return HttpResponse('success')
+            # return HttpResponse('success')
+            return redirect('show_internal_control_indicators')
         else:
-            return HttpResponse(result)
+            # return HttpResponse(result)
+            return redirect('show_internal_control_indicators')
