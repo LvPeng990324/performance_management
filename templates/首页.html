@@ -43,9 +43,9 @@
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据管理</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="#!">月度营业数据</a> </li>
-                                <li> <a href="#!">季度营业数据</a> </li>
-                                <li> <a href="#!">内控指标汇总</a> </li>
+                                <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
+                                <li> <a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a> </li>
+                                <li> <a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a> </li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
