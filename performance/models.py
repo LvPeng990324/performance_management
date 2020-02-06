@@ -39,7 +39,7 @@ class QuarterlySalesData(models.Model):
 # 内控指标汇总
 class InternalControlIndicators(models.Model):
     id = models.IntegerField(primary_key=True, verbose_name='序号')
-    date = models.DateTimeField(verbose_name='时间')
+    date = models.DateTimeField(verbose_name='日期')
     order_number = models.CharField(max_length=100, verbose_name='订单号')
     scheduled_delivery = models.DateTimeField(verbose_name='计划交期')
     actual_delivery = models.DateTimeField(verbose_name='实际交期')
@@ -61,7 +61,7 @@ class InternalControlIndicators(models.Model):
 
 # 月度绩效考核结果
 class MonthlyPerformance(models.Model):
-    date = models.DateTimeField(verbose_name='时间')
+    date = models.DateTimeField(verbose_name='日期')
     delivery_rate = models.FloatField(verbose_name='交付率')
     well_done_rate = models.FloatField(verbose_name='成品率')
     medical_expenses = models.FloatField(verbose_name='医药费')
@@ -78,12 +78,13 @@ class MonthlyPerformance(models.Model):
 
 # 季度绩效考核结果
 class QuarterlyPerformance(models.Model):
-    date = models.DateTimeField(verbose_name='时间')
+    year = models.IntegerField(verbose_name='年份')
+    quarter = models.IntegerField(verbose_name='季度')
     turnover = models.FloatField(verbose_name='营业额')
-    operating_rate = models.FloatField(verbose_name='营业费率')
+    operating_rate = models.FloatField(verbose_name='营业费率', null=True)
     repaid_rate = models.FloatField(verbose_name='回款率')
-    inventory_rate = models.FloatField(verbose_name='库存率')
-    profit_rate = models.FloatField(verbose_name='利润率')
+    inventory_rate = models.FloatField(verbose_name='库存率', null=True)
+    profit_rate = models.FloatField(verbose_name='利润率', null=True)
 
     class Meta:
         verbose_name_plural = '季度绩效考核结果'
@@ -95,6 +96,7 @@ class QuarterlyPerformance(models.Model):
 
 # 常量数据
 class ConstantData(models.Model):
+    date = models.DateTimeField(verbose_name='日期')
     month_plan_order_number = models.IntegerField(verbose_name='当月约定订单数')
     target_cost = models.FloatField(verbose_name='目标成本')
     field_management_compliance_target_number = models.IntegerField(verbose_name='现场管理标准目标数')
