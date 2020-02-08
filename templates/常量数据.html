@@ -1,32 +1,63 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>常量数据</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="成本绩效管理系统">
-    <meta name="description" content="成本绩效管理系统。">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
+    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+    <meta name="author" content="yinqi">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+
+    <!--导入表格-->
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'upload_constant_data' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">导入表格</h4>
+                    </div>
+                    <div class="modal-body">
+                        支持excel和csv文件
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="upload_file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">导入</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <!--删除按钮(单条)-->
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delModalLabel">删除数据</h4>
-                </div>
-                <div class="modal-body">
-                    确认删除该条数据?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger">确定</button>
-                </div>
+                <form action="{% url 'delete_constant_data' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">删除数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除该条数据?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_id" name="delete_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">确定</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -35,43 +66,44 @@
     <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <form action="{% url 'add_constant_data' %}" method="post">
+                    {% csrf_token %}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="addLabel">新增数据</h4>
                 </div>
 
                 <div class="modal-body">
-                    <form>
                         <div class="form-group">
-                            <label for="date_n" class="control-label">日期：</label>
-                            <input type="text" class="form-control" id="date_n" placeholder="原本的值">
+                            <label for="id_date" class="control-label">日期：</label>
+                            <input type="date" class="form-control" id="id_date" name="date" required>
                         </div>
                         <div class="form-group">
-                            <label for="month_plan_order_number_n" class="control-label">当月约定订单数：</label>
-                            <input type="text" class="form-control" id="month_plan_order_number_n" placeholder="原本的值">
+                            <label for="id_month_plan_order_number" class="control-label">当月约定订单数：</label>
+                            <input type="number" class="form-control" id="id_month_plan_order_number" name="month_plan_order_number" required>
                         </div>
                         <div class="form-group">
-                            <label for="target_cost_n" class="control-label">目标成本：</label>
-                            <input type="text" class="form-control" id="target_cost_n" placeholder="原本的值">
+                            <label for="id_target_cost" class="control-label">目标成本：</label>
+                            <input type="number" class="form-control" id="id_target_cost" name="target_cost" required>
                         </div>
                         <div class="form-group">
-                            <label for="field_management_compliance_target_number_n" class="control-label">现场管理标准目标数：</label>
-                            <input type="text" class="form-control" id="field_management_compliance_target_number_n" placeholder="原本的值">
+                            <label for="id_field_management_compliance_target_number" class="control-label">现场管理标准目标数：</label>
+                            <input type="number" class="form-control" id="id_field_management_compliance_target_number" name="field_management_compliance_target_number" required>
                         </div>
                         <div class="form-group">
-                            <label for="annual_target_turnover_n" class="control-label">年度目标营业额：</label>
-                            <input type="text" class="form-control" id="annual_target_turnover_n" placeholder="原本的值">
+                            <label for="id_annual_target_turnover" class="control-label">年度目标营业额：</label>
+                            <input type="number" class="form-control" id="id_annual_target_turnover" name="annual_target_turnover" required>
                         </div>
                         <div class="form-group">
-                            <label for="annual_target_award_n" class="control-label">年度目标奖金额：</label>
-                            <input type="text" class="form-control" id="annual_target_award_n" placeholder="原本的值">
+                            <label for="id_annual_target_award" class="control-label">年度目标奖金额：</label>
+                            <input type="number" class="form-control" id="id_annual_target_award" name="annual_target_award">
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">确定</button>
+                    <button type="submit" class="btn btn-primary">确定</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -216,6 +248,22 @@
 
             <div class="container-fluid">
 
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>成功!</strong> {{ message }}。
+                </div>
+                {% elif message.tags == 'error' %}
+                <div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>错误!</strong> {{ message }}。
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
@@ -236,6 +284,8 @@
                                     <option value="2025">2025</option>
                                 </select>
                                 <div class="toolbar-btn-action">
+                                    <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
+                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
                                     <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
                                 </div>
                             </div>
@@ -261,26 +311,30 @@
                                         </thead>
                                         <tbody>
 
-                                        <tr>
-                                            <td>
-                                                <label class="lyear-checkbox checkbox-primary">
-                                                    <input type="checkbox" name="ids[]" value="5"><span></span>
-                                                </label>
-                                            </td>
-                                            <td>1</td>
-                                            <td>2020-1-1</td>
-                                            <td>8000</td>
-                                            <td>9000</td>
-                                            <td>900</td>
-                                            <td>600000</td>
-                                            <td>70000</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                                    <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {% for data in constant_data %}
+                                            <tr>
+                                                <td>
+                                                    <label class="lyear-checkbox checkbox-primary">
+                                                        <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
+                                                    </label>
+                                                </td>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ data.date|date:"Y-m" }}</td>
+                                                <td>{{ data.month_plan_order_number }}</td>
+                                                <td>{{ data.target_cost }}</td>
+                                                <td>{{ data.field_management_compliance_target_number }}</td>
+                                                <td>{{ data.annual_target_turnover }}</td>
+                                                <td>{{ data.annual_target_award }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
+                                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -320,10 +374,16 @@
 
 
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
+<!-- 给确认删除模态框传值 -->
+<script type="text/javascript">
+    function give_delete_modal(delete_id) {
+        $('#id_delete_id').val(delete_id);
+    }
+</script>
 
 <!--图表插件-->
 </body>

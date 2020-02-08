@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
+from .models import ConstantData
 from datetime import datetime
 from .utils import UploadTable
 
@@ -14,7 +15,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '业务数据管理-月度营业数据.html')
+    return render(request, '常量数据.html')
 
 
 # 展示月度营业数据方法
@@ -419,3 +420,89 @@ def upload_internal_control_indicators_performance(request):
             messages.error(request, result)
             # 重定向数据展示页面
             return redirect('show_internal_control_indicators')
+
+
+# 展示常量数据方法
+def show_constant_data(request):
+    # 从数据库中取出所有数据
+    constant_data = ConstantData.objects.all()
+    # 打包数据
+    context = {
+        'constant_data': constant_data,
+    }
+    # 引导前端页面
+    return render(request, '常量数据.html', context=context)
+
+
+# 增加常量数据方法
+def add_constant_data(request):
+    # 从前端获取数据
+    date = request.POST.get('date')
+    month_plan_order_number = request.POST.get('month_plan_order_number')
+    target_cost = request.POST.get('target_cost')
+    field_management_compliance_target_number = request.POST.get('field_management_compliance_target_number')
+    annual_target_turnover = request.POST.get('annual_target_turnover')
+    annual_target_award = request.POST.get('annual_target_award')
+
+    # 转换日期对象
+    date_list = date.split('-')
+    date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=1, hour=1, minute=1, second=1)
+
+    # 写入数据库
+    ConstantData.objects.create(
+        date=date,
+        month_plan_order_number=month_plan_order_number,
+        target_cost=target_cost,
+        field_management_compliance_target_number=field_management_compliance_target_number,
+        annual_target_turnover=annual_target_turnover,
+        annual_target_award=annual_target_award,
+    )
+
+    # 写入成功提示
+    messages.success(request, '数据添加成功')
+
+    # 重定向展示页面
+    return redirect('show_constant_data')
+
+
+# 删除常量数据方法
+def delete_constant_data(request):
+    # get为多选删除，post为单条删除
+    if request.method == 'GET':
+        delete_id = request.GET.getlist('delete_id', [])
+        # 遍历删除
+        for id in delete_id:
+            ConstantData.objects.get(id=id).delete()
+        # 写入删除成功提示
+        messages.success(request, '选中数据删除成功')
+        # 返回成功
+        return HttpResponse('success')
+    else:
+        delete_id = request.POST.get('delete_id')
+        # 从数据库中删除
+        ConstantData.objects.get(id=delete_id).delete()
+        # 写入删除成功提示
+        messages.success(request, '数据删除成功')
+        # 重载页面
+        return redirect('show_constant_data')
+
+
+# 修改常量数据方法
+def change_constant_data(request):
+    pass
+
+
+# 上传常量数据表格方法
+def upload_constant_data(request):
+    file_data = request.FILES.get('upload_file')
+    result = UploadTable.upload_constant_data(file_data)
+    if result == 0:
+        # 写入导入成功提示
+        messages.success(request, '导入成功')
+        # 重定向数据展示页面
+        return redirect('show_constant_data')
+    else:
+        # 写入相应的错误提示
+        messages.error(request, result)
+        # 重定向数据展示页面
+        return redirect('show_constant_data')

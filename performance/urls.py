@@ -40,6 +40,16 @@ urlpatterns = [
     path('upload_quarterly_performance/', views.upload_quarterly_performance, name='upload_quarterly_performance'),
     # 上传内控制表汇总表格方法
     path('upload_internal_control_indicators_performance/', views.upload_internal_control_indicators_performance, name='upload_internal_control_indicators_performance'),
+    # 增加常量数据方法
+    path('add_constant_data/', views.add_constant_data, name='add_constant_data'),
+    # 删除常量数据方法
+    path('delete_constant_data/', views.delete_constant_data, name='delete_constant_data'),
+    # 修改常量数据方法
+    path('change_constant_data/', views.change_constant_data, name='change_constant_data'),
+    # 上传常量数据表格方法
+    path('upload_constant_data/', views.upload_constant_data, name='upload_constant_data'),
+    # 展示常量数据方法
+    path('show_constant_data/', views.show_constant_data, name='show_constant_data'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page')
