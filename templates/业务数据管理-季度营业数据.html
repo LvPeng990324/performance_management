@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>业务数据管理-季度营业数据</title>
+    <title>业务数据录入-季度营业数据</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
     <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
@@ -209,7 +209,7 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="images/index-logo.png" title="首页" alt="首页"/></a>
+                <a href="首页.html"><img src="images/index_logo.png" title="首页" alt="首页"/></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
@@ -218,7 +218,7 @@
                         <li class="nav-item"><a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a></li>
 
                         <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计</a>
+                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                             <ul class="nav nav-subnav">
                                 <li><a href="数据统计-月度营业数据.html">月度营业数据</a></li>
                                 <li><a href="数据统计-季度营业数据.html">季度营业数据</a></li>
@@ -228,7 +228,7 @@
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav active open">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据管理</a>
+                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
                             <ul class="nav nav-subnav">
                                 <li><a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
                                 <li class="active"><a href="javascript:void(0)">季度营业数据</a></li>
@@ -236,40 +236,18 @@
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-chart-line"></i> 数据展示</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="#!">月度营业数据</a></li>
-                                <li><a href="#!">季度营业数据</a></li>
-                                <li><a href="#!">内控指标汇总</a></li>
-                                <li><a href="#!">月度绩效考核结果</a></li>
-                                <li><a href="#!">季度绩效考核结果</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 权限管理</a>
+                            <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
                                 <li><a href="#!">用户管理</a></li>
                                 <li><a href="#!">角色管理</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-xaml"></i> 公式管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="#!">查看公式</a></li>
-                                <li><a href="#!">修改公式</a></li>
-                                <li><a href="#!">修改常量</a></li>
-
-                            </ul>
-                        </li>
+                        
                     </ul>
                 </nav>
 
                 <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2019. <a target="_blank"
-                                                                   href="http://lyear.itshubao.com">IT书包</a> All rights
-                        reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank"
-                                                    title="模板之家">模板之家</a> - Collect from <a
-                                href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+                    <p class="copyright">Copyright &copy; 2020. <a target="_blank" href="https://www.cczu.edu.cn">常州大学</a> All rights reserved. </p>
                 </div>
             </div>
 
@@ -448,20 +426,20 @@
             <div class="container-fluid">
 
                 {% if messages %}
-                    {% for message in messages %}
-                      {% if message.tags == 'success' %}
-                        <div>
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>成功!</strong> {{ message }}。
-                        </div>
-                      {% elif message.tags == 'error' %}
-                          <div>
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>错误!</strong> {{ message }}。
-                          </div>
-                      {% endif %}
-                    {% endfor %}
-                    {% endif %}
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>成功!</strong> {{ message }}。
+                </div>
+                {% elif message.tags == 'error' %}
+                <div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>错误!</strong> {{ message }}。
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -515,33 +493,33 @@
                                         </thead>
                                         <tbody>
                                         {% for data in quarterly_sales_data %}
-                                            <tr>
-                                                <td>
-                                                    <label class="lyear-checkbox checkbox-primary">
-                                                        <input type="checkbox" name="ids[]"
-                                                               value="{{ data.id }}"><span></span>
-                                                    </label>
-                                                </td>
-                                                <th scope="row">{{ data.quarter }}</th>
-                                                <td>{{ data.turnover }}</td>
-                                                <td>{{ data.operating_expenses }}</td>
-                                                <td>{{ data.amount_repaid }}</td>
-                                                <td>{{ data.inventory }}</td>
-                                                <td>{{ data.profit }}</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-xs btn-default" href="#!" title="编辑"
-                                                           data-toggle="modal" data-target="#modify"
-                                                           onclick="give_change_modal(
+                                        <tr>
+                                            <td>
+                                                <label class="lyear-checkbox checkbox-primary">
+                                                    <input type="checkbox" name="ids[]"
+                                                           value="{{ data.id }}"><span></span>
+                                                </label>
+                                            </td>
+                                            <th scope="row">{{ data.quarter }}</th>
+                                            <td>{{ data.turnover }}</td>
+                                            <td>{{ data.operating_expenses }}</td>
+                                            <td>{{ data.amount_repaid }}</td>
+                                            <td>{{ data.inventory }}</td>
+                                            <td>{{ data.profit }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-xs btn-default" href="#!" title="编辑"
+                                                       data-toggle="modal" data-target="#modify"
+                                                       onclick="give_change_modal(
                                                                    '{{ data.id }}', '{{ data.year }}', '{{ data.quarter }}', '{{ data.turnover }}', '{{ data.operating_expenses }}', '{{ data.amount_repaid }}', '{{ data.inventory }}', '{{ data.profit }}'
                                                                    )"><i class="mdi mdi-pencil"></i></a>
-                                                        <a class="btn btn-xs btn-default" href="#!" title="删除"
-                                                           data-toggle="modal" data-target="#del"
-                                                           onclick="give_delete_modal('{{ data.id }}')"><i
-                                                                class="mdi mdi-window-close"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    <a class="btn btn-xs btn-default" href="#!" title="删除"
+                                                       data-toggle="modal" data-target="#del"
+                                                       onclick="give_delete_modal('{{ data.id }}')"><i
+                                                            class="mdi mdi-window-close"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         {% endfor %}
                                         </tbody>
                                     </table>
