@@ -58,18 +58,20 @@ def add_monthly_sales_data(request):
 
 # 删除月度营业数据方法
 def delete_monthly_sales_data(request):
-    # 从前端获取要删除的id
+    # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
+        # 遍历删除
+        for id in delete_id:
+            MonthlySalesData.objects.get(id=id).delete()
+        # 返回成功
+        return HttpResponse('success')
     else:
-        delete_id = request.POST.getlist('delete_id', [])
-
-    # 从数据库中删除
-    for id in delete_id:
-        MonthlySalesData.objects.get(id=id).delete()
-
-    # 重定向展示页面
-    return redirect('show_monthly_sales_data')
+        delete_id = request.POST.get('delete_id')
+        # 从数据库中删除
+        MonthlySalesData.objects.get(id=delete_id).delete()
+        # 重载页面
+        return redirect('show_monthly_sales_data')
 
 
 # 修改月度营业数据
@@ -145,16 +147,20 @@ def add_quarterly_sales_data(request):
 
 # 删除季度营业数据方法
 def delete_quarterly_sales_data(request):
-    # 从前端获取要删除的id
+    # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
+        # 遍历删除
+        for id in delete_id:
+            QuarterlySalesData.objects.get(id=id).delete()
+        # 返回成功
+        return HttpResponse('success')
     else:
-        delete_id = request.POST.getlist('delete_id', [])
-
-    # 从数据库中删除
-    for id in delete_id:
-        QuarterlySalesData.objects.get(id=id).delete()
-    return HttpResponse("ok")
+        delete_id = request.POST.get('delete_id')
+        # 从数据库中删除
+        QuarterlySalesData.objects.get(id=delete_id).delete()
+        # 重载页面
+        return redirect('show_quarterly_sales_data')
 
 
 # 修改季度营业数据方法
@@ -242,18 +248,20 @@ def add_internal_control_indicators(request):
 
 # 删除内控指标汇总表方法
 def delete_internal_control_indicators(request):
-    # 从前端获取要删除的id
+    # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
+        # 遍历删除
+        for id in delete_id:
+            InternalControlIndicators.objects.get(id=id).delete()
+        # 返回成功
+        return HttpResponse('success')
     else:
-        delete_id = request.POST.getlist('delete_id', [])
-
-    # 从数据库中删除
-    for id in delete_id:
-        InternalControlIndicators.objects.get(id=id).delete()
-
-    # 重定向展示页面
-    return redirect('show_internal_control_indicators')
+        delete_id = request.POST.get('delete_id')
+        # 从数据库中删除
+        InternalControlIndicators.objects.get(id=delete_id).delete()
+        # 重载页面
+        return redirect('show_internal_control_indicators')
 
 
 # 修改内控指标汇总表方法

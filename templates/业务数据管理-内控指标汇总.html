@@ -636,6 +636,11 @@
             url: "{% url 'delete_internal_control_indicators' %}",
             traditional: true,
             data: {'delete_id': case_id},
+            success: function (arg) {
+                if (arg==='success') {
+                    location.reload();
+                }
+            }
         });
     }
 </script>

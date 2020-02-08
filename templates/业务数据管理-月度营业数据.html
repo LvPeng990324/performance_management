@@ -595,6 +595,11 @@
                 url: "{% url 'delete_monthly_sales_data' %}",
                 traditional: true,
                 data: {'delete_id': case_id},
+                success: function (arg) {
+                    if (arg==='success') {
+                        location.reload();
+                    }
+                }
             });
         }
     </script>
