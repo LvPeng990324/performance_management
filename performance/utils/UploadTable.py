@@ -5,6 +5,7 @@
 # 一旦出了问题即返回错误信息
 
 import xlrd
+import csv
 from datetime import datetime
 from performance.models import MonthlySalesData
 from performance.models import QuarterlySalesData
@@ -60,6 +61,11 @@ def get_excel_list(file_data):
     return table_list
 
 
+# 返回表格形式csv数据
+def get_csv_list(file_data):
+    pass
+
+
 # 判断文件类型
 def get_file_type(file_data):
     # 返回文件后缀
@@ -75,7 +81,7 @@ def upload_monthly_performance(file_data):
         return upload_monthly_performance_excel(file_data)
     # csv表
     elif file_type == 'csv':
-        pass
+        return upload_monthly_performance_csv(file_data)
     # 不支持的类型返回错误信息
     else:
         return '不支持的文件类型'
@@ -103,7 +109,7 @@ def upload_monthly_performance_excel(file_data):
 
 # 月度营业数据csv表
 def upload_monthly_performance_csv(file_data):
-    pass
+    return '暂不支持csv文件，请先转换为excel'
 
 
 # 上传季度营业数据表
@@ -115,7 +121,7 @@ def upload_quarterly_performance(file_data):
         return upload_quarterly_performance_excel(file_data)
     # csv表
     elif file_type == 'csv':
-        pass
+        upload_quarterly_performance_csv(file_data)
     # 不支持的类型返回错误信息
     else:
         return '不支持的文件类型'
@@ -145,7 +151,7 @@ def upload_quarterly_performance_excel(file_data):
 
 # 季度营业数据csv表
 def upload_quarterly_performance_csv(file_data):
-    pass
+    return '暂不支持csv文件，请先转换为excel'
 
 
 # 上传内控指标汇总表
@@ -157,7 +163,7 @@ def upload_internal_control_indicators_performance(file_data):
         return upload_internal_control_indicators_performance_excel(file_data)
     # csv表
     elif file_type == 'csv':
-        pass
+        upload_internal_control_indicators_performance_csv(file_data)
     # 不支持的类型返回错误信息
     else:
         return '不支持的文件类型'
@@ -191,5 +197,5 @@ def upload_internal_control_indicators_performance_excel(file_data):
 
 # 内控指标汇总csv表
 def upload_internal_control_indicators_performance_csv(file_data):
-    pass
+    return '暂不支持csv文件，请先转换为excel'
 
