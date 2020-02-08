@@ -51,6 +51,15 @@ urlpatterns = [
     # 展示常量数据方法
     path('show_constant_data/', views.show_constant_data, name='show_constant_data'),
 
+    # 展示管理层月度绩效考核结果方法
+    path('show_monthly_result/', views.show_monthly_result, name='show_monthly_result'),
+    # 刷新管理层月度绩效考核结果（更新数据库）方法
+    path('refresh_monthly_result/', views.refresh_monthly_result, name='refresh_monthly_result'),
+    # 展示管理层季度绩效考核结果方法
+    path('show_quarterly_result/', views.show_quarterly_result, name='show_quarterly_result'),
+    # 刷新管理层季度绩效考核结果（更新数据库）方法
+    path('refresh_quarterly_result/', views.refresh_quarterly_result, name='refresh_quarterly_result'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page')
 ]

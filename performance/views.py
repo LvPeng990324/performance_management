@@ -5,8 +5,12 @@ from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
 from .models import ConstantData
+from .models import MonthlyPerformance
+from .models import QuarterlyPerformance
 from datetime import datetime
 from .utils import UploadTable
+from .utils import CalcuteMonthlyPerformance
+from .utils import CalculateQuarterlyPerformance
 
 
 def index(request):
@@ -245,8 +249,10 @@ def add_internal_control_indicators(request):
     scheduled_delivery_list = scheduled_delivery.split('-')
     actual_delivery_list = actual_delivery.split('-')
     date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
-    scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]), day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
-    actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]), day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
+    scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
+                                  day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
+    actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
+                               day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
 
     # 存入数据库
     InternalControlIndicators.objects.create(
@@ -314,11 +320,12 @@ def change_internal_control_indicators(request):
     date_list = change_date.split('-')
     scheduled_delivery_list = change_scheduled_delivery.split('-')
     actual_delivery_list = change_actual_delivery.split('-')
-    change_date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
+    change_date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1,
+                           second=1)
     change_scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
-                                  day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
+                                         day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
     change_actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
-                               day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
+                                      day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
 
     # 从数据库中取出该数据
     data = InternalControlIndicators.objects.get(id=change_id)
@@ -506,3 +513,37 @@ def upload_constant_data(request):
         messages.error(request, result)
         # 重定向数据展示页面
         return redirect('show_constant_data')
+
+
+# 展示管理层月度绩效考核结果方法
+def show_monthly_result(request):
+    # 从数据库中取出所有数据
+    monthly_result = MonthlyPerformance.objects.all()
+    # 打包数据
+    context = {
+        'monthly_result': monthly_result,
+    }
+    # 引导前端页面
+    return render(request, '数据统计-管理层月度绩效考核结果.html', context=context)
+
+
+def refresh_monthly_result(request):
+    CalcuteMonthlyPerformance.monthly_get_and_refresh()
+    return redirect('show_monthly_result')
+
+
+# 展示管理层季度绩效考核结果方法
+def show_quarterly_result(request):
+    # 从数据库中取出所有数据
+    quarterly_result = QuarterlyPerformance.objects.all()
+    # 打包数据
+    context = {
+        'quarterly_result': quarterly_result,
+    }
+    # 引导前端页面
+    return render(request, '数据统计-季度绩效考核结果.html', context=context)
+
+
+def refresh_quarterly_result(request):
+    CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+    return redirect('show_quarterly_result')

@@ -152,66 +152,61 @@ def get_k(need_year):
     return k
 
 
-# 主函数
-year = '2019'  # 查询的年份 接收用户输入
-quarter = '4'  # 查询的季度 接收用户输入
-# date = datetime.strptime(date, need_type)
+def quarterly_get_and_refresh():
+    # 更新2017-2019的数据
+    for year in range(2017, 2021):
+        for quarter in range(1, 5):
+            A = get_a(year)
+            B = get_b(year)
+            C = get_c(year, quarter)
+            D = get_d(year, quarter)
+            E = get_e(year)
+            F = get_f(year, quarter)
+            G = get_g(year, quarter)
+            H = get_h(year)
+            I = get_i(year, quarter)
+            K = get_k(year)
+            # print('A=', A)
+            # print('B=', B)
+            # print('C=', C)
+            # print('D=', D)
+            # print('E=', E)
+            # print('F=', F)
+            # print('G=', G)
+            # print('H=', H)
+            # print('I=', I)
+            # print('K=', K)
 
-A = get_a(year)
-B = get_b(year)
-C = get_c(year, quarter)
-D = get_d(year, quarter)
-E = get_e(year)
-F = get_f(year, quarter)
-G = get_g(year, quarter)
-H = get_h(year)
-I = get_i(year, quarter)
-K = get_k(year)
-print('A=', A)
-print('B=', B)
-print('C=', C)
-print('D=', D)
-print('E=', E)
-print('F=', F)
-print('G=', G)
-print('H=', H)
-print('I=', I)
-print('K=', K)
+            try:
+                turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额
+                operating_rate = round(C * (B / A) * 0.3 / (1 - E) * (1 - D), 2)  # 营业费率
+                repaid_rate = round(C * (B / A) * 0.2 * F, 2)  # 回款率
+                inventory_rate = round(C * (B / A) * 0.1 / (1 - H) * (1 - G), 2)  # 库存率
+                profit_rate = round(C * (B / A) * 0.2 / K * I, 2)  # 利润率
+                # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
 
-try:
-    turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额
-    try:
-        operating_rate = round(C * (B / A) * 0.3 / (1 - E) * (1 - D), 2)  # 营业费率
-    except:
-        operating_rate = None
-    repaid_rate = round(C * (B / A) * 0.2 * F, 2)  # 回款率
-    try:
-        inventory_rate = round(C * (B / A) * 0.1 / (1 - H) * (1 - G), 2)  # 库存率
-    except:
-        inventory_rate = None
-    try:
-        profit_rate = round(C * (B / A) * 0.2 / K * I, 2)  # 利润率
-    except:
-        profit_rate = None
-    print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
+                new_data = {
+                    'year': year,
+                    'quarter': quarter,
+                    'turnover': turnover,
+                    'operating_rate': operating_rate,
+                    'repaid_rate': repaid_rate,
+                    'inventory_rate': inventory_rate,
+                    'profit_rate': profit_rate,
+                }
 
-    new_data = {
-        'year': year,
-        'quarter': quarter,
-        'turnover': turnover,
-        'operating_rate': operating_rate,
-        'repaid_rate': repaid_rate,
-        'inventory_rate': inventory_rate,
-        'profit_rate': profit_rate,
-    }
+                obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
+                if obj:
+                    # 如果该月数据已存在，则更新
+                    QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
+                    print("%s年%s季度 更新成功" % (year, quarter))
+                else:
+                    QuarterlyPerformance.objects.create(**new_data)
+                    print("%s年%s季度 成功存入" % (year, quarter))
 
-    obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
-    if obj:
-        # 如果该月数据已存在，则更新
-        QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
-        print("更新成功")
-    else:
-        QuarterlyPerformance.objects.create(**new_data)
+            except:
+                print("%s年%s季度 数据异常，操作失败" % (year, quarter))
 
-except:
-    print("数据异常，操作失败")
+
+if __name__ == '__main__':
+    quarterly_get_and_refresh()

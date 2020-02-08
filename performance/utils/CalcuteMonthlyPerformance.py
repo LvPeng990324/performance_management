@@ -162,70 +162,71 @@ def get_l(need_date):
     return l
 
 
-# 主函数
-date = '2020-1'  # 查询月份 接收用户输入
-history_year = 3  # 历史年限 接收用户输入
-need_type = '%Y-%m'
-date = datetime.strptime(date, need_type)
+def monthly_get_and_refresh():
+    # 更新2017-2019的数据
+    for year in range(2017, 2021):
+        for month in range(1, 13):
+            date = '%s-%s' % (year, month)
+            # date = '2020-1'  # 查询月份 接收用户输入
+            history_year = 3  # 历史年限
+            need_type = '%Y-%m'
+            date = datetime.strptime(date, need_type)
 
-A = get_a(date)
-B = get_b(date)
-C = get_c(date)
-D = get_d(date)
-E = get_e(date, history_year)
-F = get_f(date, history_year)
-G = get_g(date)
-H = get_h(date, history_year)
-I = get_i(date)
-K = get_k(date)
-L = get_l(date)
-print('A=', A)
-print('B=', B)
-print('C=', C)
-print('D=', D)
-print('E=', E)
-print('F=', F)
-print('G=', G)
-print('H=', H)
-print('I=', I)
-print('K=', K)
-print('L=', L)
+            A = get_a(date)
+            B = get_b(date)
+            C = get_c(date)
+            D = get_d(date)
+            E = get_e(date, history_year)
+            F = get_f(date, history_year)
+            G = get_g(date)
+            H = get_h(date, history_year)
+            I = get_i(date)
+            K = get_k(date)
+            L = get_l(date)
+            # print('A=', A)
+            # print('B=', B)
+            # print('C=', C)
+            # print('D=', D)
+            # print('E=', E)
+            # print('F=', F)
+            # print('G=', G)
+            # print('H=', H)
+            # print('I=', I)
+            # print('K=', K)
+            # print('L=', L)
 
-try:
-    delivery_rate = round(B / A * C * 0.25 * 0.20, 2)
-    well_done_rate = round(D / E * C * 0.25 * 0.25, 2)
-    medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
-    overall_cost = round((1 - I / H) * C * 0.25 * 0.30, 2)
-    field_management = round(K / L * C * 0.25 * 0.10, 2)
-    print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management)
+            try:
+                delivery_rate = round(B / A * C * 0.25 * 0.20, 2)
+                well_done_rate = round(D / E * C * 0.25 * 0.25, 2)
+                medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
+                overall_cost = round((1 - I / H) * C * 0.25 * 0.30, 2)
+                field_management = round(K / L * C * 0.25 * 0.10, 2)
+                # print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management)
 
-    new_data = {
-        'date': date,
-        'delivery_rate': delivery_rate,
-        'well_done_rate': well_done_rate,
-        'medical_expenses': medical_expenses,
-        'overall_cost': overall_cost,
-        'field_management': field_management,
-    }
+                new_data = {
+                    'date': date,
+                    'delivery_rate': delivery_rate,
+                    'well_done_rate': well_done_rate,
+                    'medical_expenses': medical_expenses,
+                    'overall_cost': overall_cost,
+                    'field_management': field_management,
+                }
 
-    obj = MonthlyPerformance.objects.filter(date=date)
-    if obj:
-        # 如果该月数据已存在，则更新
-        MonthlyPerformance.objects.filter(date=date).update(**new_data)
-        print("更新成功")
-    else:
-        MonthlyPerformance.objects.create(
-            date=date,
-            delivery_rate=delivery_rate,
-            well_done_rate=well_done_rate,
-            medical_expenses=medical_expenses,
-            overall_cost=overall_cost,
-            field_management=field_management,
-        )
+                obj = MonthlyPerformance.objects.filter(date=date)
+                if obj:
+                    # 如果该月数据已存在，则更新
+                    MonthlyPerformance.objects.filter(date=date).update(**new_data)
+                    print("%s年%s月 更新成功" % (year, month))
+                else:
+                    MonthlyPerformance.objects.create(**new_data)
+                    print("%s年%s月 成功存入" % (year, month))
 
-except:
-    print("数据异常，操作失败")
+            except:
+                print("%s年%s月 数据异常，操作失败" % (year, month))
 
+
+if __name__ == '__main__':
+    monthly_get_and_refresh()
 # delivery_rate = B / A * C * 0.25 * 0.20
 # well_done_rate = D / E * C * 0.25 * 0.25
 # medical_expenses = (1 - G / F) * C * 0.25 * 0.15
