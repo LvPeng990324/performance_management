@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>业务数据管理-内控指标汇总</title>
+    <title>业务数据录入-内控指标汇总</title>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
     <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
@@ -14,29 +14,29 @@
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
 
     <!--导入表格-->
-		<div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-                    <form action="{% url 'upload_internal_control_indicators_performance' %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="delModalLabel">导入表格</h4>
-					</div>
-					<div class="modal-body">
-						支持excel和csv文件
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'upload_internal_control_indicators_performance' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">导入表格</h4>
+                    </div>
+                    <div class="modal-body">
+                        支持excel和csv文件
                         <div class="form-group">
                             <input class="form-control" type="file" name="upload_file">
                         </div>
-					</div>
-					<div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-danger">导入</button>
-					</div>
-                    </form>
-                </div>
-			</div>
-		</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!--删除按钮(选中)-->
     <div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
@@ -63,18 +63,18 @@
             <div class="modal-content">
                 <form action="{% url 'delete_internal_control_indicators' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delModalLabel">删除数据</h4>
-                </div>
-                <div class="modal-body">
-                    确认删除该条数据?
-                </div>
-                <div class="modal-footer">
-                    <input hidden id="id_delete_id" name="delete_id">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-danger">确定</button>
-                </div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">删除数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除该条数据?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_id" name="delete_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">确定</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -86,11 +86,11 @@
             <div class="modal-content">
                 <form action="{% url 'add_internal_control_indicators' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addLabel">新增数据</h4>
-                </div>
-                <div class="modal-body">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addLabel">新增数据</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
                             <label for="id_id" class="control-label">序号：</label>
                             <input type="number" class="form-control" id="id_id" name="id" required>
@@ -139,11 +139,11 @@
                             <label for="id_field_management_compliance" class="control-label">现场管理符合数目：</label>
                             <input type="number" class="form-control" id="id_field_management_compliance" name="field_management_compliance" required>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">确定</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -155,64 +155,64 @@
             <div class="modal-content">
                 <form action="{% url 'change_internal_control_indicators' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modifyLabel">修改数据</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="id_change_id" class="control-label">序号：</label>
-                        <input type="text" readonly class="form-control" id="id_change_id" name="change_id" required>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modifyLabel">修改数据</h4>
                     </div>
-                    <div class="form-group">
-                        <label for="id_change_date" class="control-label">时间：</label>
-                        <input type="date" class="form-control" id="id_change_date" name="date" required>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="id_change_id" class="control-label">序号：</label>
+                            <input type="text" readonly class="form-control" id="id_change_id" name="change_id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_date" class="control-label">时间：</label>
+                            <input type="date" class="form-control" id="id_change_date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_order_number" class="control-label">订单号：</label>
+                            <input type="text" class="form-control" id="id_change_order_number" name="order_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_scheduled_delivery" class="control-label">计划交期：</label>
+                            <input type="date" class="form-control" id="id_change_scheduled_delivery" name="scheduled_delivery" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_actual_delivery" class="control-label">实际交期：</label>
+                            <input type="date" class="form-control" id="id_change_actual_delivery" name="actual_delivery" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_finished_number" class="control-label">完成数：</label>
+                            <input type="number" class="form-control" id="id_change_finished_number" name="finished_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_unfinished_number" class="control-label">未完成数：</label>
+                            <input type="number" class="form-control" id="id_change_unfinished_number" name="unfinished_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_target_well_done_rate" class="control-label">目标成功率：</label>
+                            <input type="number" class="form-control" id="id_change_target_well_done_rate" name="target_well_done_rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_actual_well_done_rate" class="control-label">实际成功率：</label>
+                            <input type="number" class="form-control" id="id_change_actual_well_done_rate" name="actual_well_done_rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_month_medical_expenses" class="control-label">当月医药费：</label>
+                            <input type="number" class="form-control" id="id_change_month_medical_expenses" name="month_medical_expenses" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_cost_per_wan" class="control-label">万元成本：</label>
+                            <input type="number" class="form-control" id="id_change_cost_per_wan" name="cost_per_wan" required>
+                        </div>
+                        <div class="form-group_n">
+                            <label for="id_change_field_management_compliance" class="control-label">现场管理符合数目：</label>
+                            <input type="number" class="form-control" id="id_change_field_management_compliance" name="field_management_compliance" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="id_change_order_number" class="control-label">订单号：</label>
-                        <input type="text" class="form-control" id="id_change_order_number" name="order_number" required>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-warning">确定</button>
                     </div>
-                    <div class="form-group">
-                        <label for="id_change_scheduled_delivery" class="control-label">计划交期：</label>
-                        <input type="date" class="form-control" id="id_change_scheduled_delivery" name="scheduled_delivery" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_actual_delivery" class="control-label">实际交期：</label>
-                        <input type="date" class="form-control" id="id_change_actual_delivery" name="actual_delivery" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_finished_number" class="control-label">完成数：</label>
-                        <input type="number" class="form-control" id="id_change_finished_number" name="finished_number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_unfinished_number" class="control-label">未完成数：</label>
-                        <input type="number" class="form-control" id="id_change_unfinished_number" name="unfinished_number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_target_well_done_rate" class="control-label">目标成功率：</label>
-                        <input type="number" class="form-control" id="id_change_target_well_done_rate" name="target_well_done_rate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_actual_well_done_rate" class="control-label">实际成功率：</label>
-                        <input type="number" class="form-control" id="id_change_actual_well_done_rate" name="actual_well_done_rate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_month_medical_expenses" class="control-label">当月医药费：</label>
-                        <input type="number" class="form-control" id="id_change_month_medical_expenses" name="month_medical_expenses" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_change_cost_per_wan" class="control-label">万元成本：</label>
-                        <input type="number" class="form-control" id="id_change_cost_per_wan" name="cost_per_wan" required>
-                    </div>
-                    <div class="form-group_n">
-                        <label for="id_change_field_management_compliance" class="control-label">现场管理符合数目：</label>
-                        <input type="number" class="form-control" id="id_change_field_management_compliance" name="field_management_compliance" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-warning">确定</button>
-                </div>
                 </form>
             </div>
         </div>
@@ -229,7 +229,7 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="images/index-logo.png" title="首页" alt="首页" /></a>
+                <a href="首页.html"><img src="images/index_logo.png" title="首页" alt="首页" /></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
@@ -238,7 +238,7 @@
                         <li class="nav-item"> <a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a> </li>
 
                         <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计</a>
+                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                             <ul class="nav nav-subnav">
                                 <li> <a href="数据统计-月度营业数据.html">月度营业数据</a> </li>
                                 <li> <a href="数据统计-季度营业数据.html">季度营业数据</a> </li>
@@ -248,7 +248,7 @@
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav active open">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据管理</a>
+                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
                             <ul class="nav nav-subnav">
                                 <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
                                 <li> <a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a> </li>
@@ -256,36 +256,17 @@
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-chart-line"></i> 数据展示</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="数据统计-月度营业数据.html">月度营业数据</a> </li>
-                                <li> <a href="#!">季度营业数据</a> </li>
-                                <li> <a href="#!">内控指标汇总</a> </li>
-                                <li> <a href="#!">月度绩效考核结果</a> </li>
-                                <li> <a href="#!">季度绩效考核结果</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 权限管理</a>
+                            <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
                                 <li> <a href="#!">用户管理</a> </li>
                                 <li> <a href="#!">角色管理</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-xaml"></i> 公式管理</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="#!">查看公式</a> </li>
-                                <li> <a href="#!">修改公式</a> </li>
-                                <li> <a href="#!">修改常量</a> </li>
-
                             </ul>
                         </li>
                     </ul>
                 </nav>
 
                 <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2019. <a target="_blank" href="http://lyear.itshubao.com">IT书包</a> All rights reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+                    <p class="copyright">Copyright &copy; 2020. <a target="_blank" href="https://www.cczu.edu.cn">常州大学</a> All rights reserved. </p>
                 </div>
             </div>
 
@@ -462,20 +443,20 @@
             <div class="container-fluid">
 
                 {% if messages %}
-                    {% for message in messages %}
-                      {% if message.tags == 'success' %}
-                        <div>
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>成功!</strong> {{ message }}。
-                        </div>
-                      {% elif message.tags == 'error' %}
-                          <div>
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>错误!</strong> {{ message }}。
-                          </div>
-                      {% endif %}
-                    {% endfor %}
-                    {% endif %}
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>成功!</strong> {{ message }}。
+                </div>
+                {% elif message.tags == 'error' %}
+                <div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>错误!</strong> {{ message }}。
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -530,35 +511,35 @@
                                         </thead>
                                         <tbody>
                                         {% for data in internal_control_indicators %}
-                                            <tr>
-                                                <td>
-                                                    <label class="lyear-checkbox checkbox-primary">
-                                                        <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
-                                                    </label>
-                                                </td>
-                                                <td>{{ data.id }}</td>
-                                                <td>{{ data.date|date:"Y年m月d日" }}</td>
-                                                <td>{{ data.order_number }}</td>
-                                                <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                                <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                                <td>{{ data.finished_number }}</td>
-                                                <td>{{ data.unfinished_number }}</td>
-                                                <td>{{ data.target_well_done_rate }}</td>
-                                                <td>{{ data.actual_well_done_rate }}</td>
-                                                <td>{{ data.month_medical_expenses }}</td>
-                                                <td>{{ data.cost_per_wan }}</td>
-                                                <td>{{ data.field_management_compliance }}</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
-                                                            '{{ data.order_number }}', '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
-                                                            '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
-                                                            '{{ data.actual_well_done_rate }}', '{{ data.month_medical_expenses }}', '{{ data.cost_per_wan }}',
-                                                            '{{ data.field_management_compliance }}')"><i class="mdi mdi-pencil"></i></a>
-                                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="lyear-checkbox checkbox-primary">
+                                                    <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
+                                                </label>
+                                            </td>
+                                            <td>{{ data.id }}</td>
+                                            <td>{{ data.date|date:"Y年m月d日" }}</td>
+                                            <td>{{ data.order_number }}</td>
+                                            <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
+                                            <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
+                                            <td>{{ data.finished_number }}</td>
+                                            <td>{{ data.unfinished_number }}</td>
+                                            <td>{{ data.target_well_done_rate }}</td>
+                                            <td>{{ data.actual_well_done_rate }}</td>
+                                            <td>{{ data.month_medical_expenses }}</td>
+                                            <td>{{ data.cost_per_wan }}</td>
+                                            <td>{{ data.field_management_compliance }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
+                                                    '{{ data.order_number }}', '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
+                                                    '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
+                                                    '{{ data.actual_well_done_rate }}', '{{ data.month_medical_expenses }}', '{{ data.cost_per_wan }}',
+                                                    '{{ data.field_management_compliance }}')"><i class="mdi mdi-pencil"></i></a>
+                                                    <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         {% endfor %}
 
                                         </tbody>
