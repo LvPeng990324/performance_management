@@ -84,14 +84,15 @@ WSGI_APPLICATION = 'performance_management.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'performance_management',  # 数据库名字(需要先创建)
-        'USER': 'lvpeng',  # 登录用户名
-        'PASSWORD': 'lp990324',  # 密码
-        'HOST': '',  # 数据库IP地址,留空默认为localhost
-        'PORT': '5432',  # 端口
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '3306',
+        }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -122,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

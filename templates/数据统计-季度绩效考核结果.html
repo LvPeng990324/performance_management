@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>数据统计查看-季度绩效考核结果</title>
     <link rel="icon" href="favicon.ico" type="image/ico">
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
     <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
     <meta name="author" content="yinqi">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -20,44 +21,46 @@
         <aside class="lyear-layout-sidebar">
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="images/index_logo.png" title="首页" alt="首页" /></a>
+                <a href="首页.html"><img src="images/index_logo.png" title="首页" alt="首页"/></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
                 <nav class="sidebar-main">
                     <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="首页.html"><i class="mdi mdi-home"></i> 首页</a> </li>
+                        <li class="nav-item"><a href="首页.html"><i class="mdi mdi-home"></i> 首页</a></li>
 
                         <li class="nav-item nav-item-has-subnav active open">
                             <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="数据统计-月度营业数据.html">月度营业数据</a> </li>
-                                <li> <a href="数据统计-季度营业数据.html">季度营业数据</a> </li>
-                                <li> <a href="数据统计-内控指标汇总.html">内控指标汇总</a> </li>
-                                <li> <a href="数据统计-管理层月度绩效考核结果.html">管理层月度绩效考核结果</a> </li>
-                                <li class="active"> <a href="#!">季度绩效考核结果</a> </li>
+                                <li><a href="数据统计-月度营业数据.html">月度营业数据</a></li>
+                                <li><a href="数据统计-季度营业数据.html">季度营业数据</a></li>
+                                <li><a href="数据统计-内控指标汇总.html">内控指标汇总</a></li>
+                                <li><a href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a></li>
+                                <li class="active"><a href="#!">季度绩效考核结果</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="业务数据管理-月度营业数据1.html">月度营业数据</a> </li>
-                                <li> <a href="业务数据管理-季度营业数据.html">季度营业数据</a> </li>
-                                <li> <a href="业务数据管理-内控指标汇总.html">内控指标汇总</a> </li>
+                                <li><a href="业务数据管理-月度营业数据1.html">月度营业数据</a></li>
+                                <li><a href="业务数据管理-季度营业数据.html">季度营业数据</a></li>
+                                <li><a href="业务数据管理-内控指标汇总.html">内控指标汇总</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="#!">用户管理</a> </li>
-                                <li> <a href="#!">角色管理</a> </li>
+                                <li><a href="#!">用户管理</a></li>
+                                <li><a href="#!">角色管理</a></li>
                             </ul>
                         </li>
                     </ul>
                 </nav>
 
                 <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2020. <a target="_blank" href="https://www.cczu.edu.cn">常州大学</a> All rights reserved. </p>
+                    <p class="copyright">Copyright &copy; 2020. <a target="_blank"
+                                                                   href="https://www.cczu.edu.cn">常州大学</a> All rights
+                        reserved. </p>
                 </div>
             </div>
 
@@ -82,15 +85,17 @@
                     <ul class="topbar-right">
                         <li class="dropdown dropdown-profile">
                             <a href="javascript:void(0)" data-toggle="dropdown">
-                                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/头像.jpg" alt="账号名称" />
+                                <img class="img-avatar img-avatar-48 m-r-10" src="images/users/头像.jpg" alt="账号名称"/>
                                 <span>CQY <span class="caret"></span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li> <a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                                <li> <a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
-                                <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
+                                <li><a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                                <li><a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a>
+                                </li>
+                                <li><a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
                                 <li class="divider"></li>
-                                <li> <a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
+                                <li><a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a>
+                                </li>
                             </ul>
                         </li>
                         <!--切换主题配色-->
@@ -238,6 +243,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4><b>季度绩效考核结果（业务）</b></h4>
+                                <a href="{% url 'refresh_quarterly_result' %}">刷新数据</a>
                                 <label for="year" class="control-label">年份：</label>
                                 <select name="type" class="form-control" id="year">
                                     <option value="2015">2015</option>
@@ -253,7 +259,9 @@
                                     <option value="2025">2025</option>
                                 </select>
                                 <div class="toolbar-btn-action">
-                                    <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel</button>
+                                    <button type="button" class="btn btn-success pull-right" data-toggle="modal"
+                                            data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
+                                    </button>
                                 </div>
                             </div>
 
@@ -262,7 +270,8 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
-                                            <th>时间</th>
+                                            <th>年份</th>
+                                            <th>季度</th>
                                             <th>营业额</th>
                                             <th>营业费率</th>
                                             <th>回款率</th>
@@ -271,38 +280,17 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">1月份-3月份</th>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                            <td>24%</td>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4月份-7月份</th>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                            <td>24%</td>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">7月份-9月份</th>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                            <td>24%</td>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">9月份-12月份</th>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                            <td>24%</td>
-                                            <td>45%</td>
-                                            <td>34%</td>
-                                        </tr>
+                                        {% for data in quarterly_result %}
+                                            <tr>
+                                                <th scope="row">{{ data.year }}</th>
+                                                <td>{{ data.quarter }}</td>
+                                                <td>{{ data.turnover }}</td>
+                                                <td>{{ data.operating_rate }}</td>
+                                                <td>{{ data.repaid_rate }}</td>
+                                                <td>{{ data.inventory_rate }}</td>
+                                                <td>{{ data.profit_rate }}</td>
+                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

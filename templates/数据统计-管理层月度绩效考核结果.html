@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -8,9 +9,9 @@
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
     <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
     <meta name="author" content="yinqi">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -35,7 +36,7 @@
                                 <li> <a href="数据统计-季度营业数据.html">季度营业数据</a> </li>
                                 <li> <a href="数据统计-内控指标汇总.html">内控指标汇总</a> </li>
                                 <li class="active"> <a href="#!">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="数据统计-季度绩效考核结果.html">季度绩效考核结果</a> </li>
+                                <li> <a href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a> </li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
@@ -239,6 +240,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4><b>管理层月度绩效考核结果（内控）</b></h4>
+                                <a href="{% url 'refresh_monthly_result' %}">刷新数据</a>
                                 <label for="year" class="control-label">年份：</label>
                                 <select name="type" class="form-control" id="year">
                                     <option value="2015">2015</option>
@@ -263,7 +265,7 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
-                                            <th>月份</th>
+                                            <th>日期</th>
                                             <th>交付率</th>
                                             <th>成品率</th>
                                             <th>医药费</th>
@@ -272,38 +274,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        {% for data in monthly_result %}
                                         <tr>
-                                            <th scope="row">1</th>
-                                            <td>76%</td>
-                                            <td>32%</td>
-                                            <td>45%</td>
-                                            <td>67%</td>
-                                            <td>64%</td>
+                                            <th scope="row">{{ data.date|date:"Y-m" }}</th>
+                                            <td>{{ data.delivery_rate }}</td>
+                                            <td>{{ data.well_done_rate }}</td>
+                                            <td>{{ data.medical_expenses }}</td>
+                                            <td>{{ data.overall_cost }}</td>
+                                            <td>{{ data.field_management }}</td>
                                         </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>76%</td>
-                                            <td>32%</td>
-                                            <td>45%</td>
-                                            <td>67%</td>
-                                            <td>64%</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>76%</td>
-                                            <td>32%</td>
-                                            <td>45%</td>
-                                            <td>67%</td>
-                                            <td>64%</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>76%</td>
-                                            <td>32%</td>
-                                            <td>45%</td>
-                                            <td>67%</td>
-                                            <td>64%</td>
-                                        </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
