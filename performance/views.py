@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
+from django.contrib import messages
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
@@ -52,6 +53,9 @@ def add_monthly_sales_data(request):
         profit=profit,
     )
 
+    # 写入成功提示
+    messages.success(request, '数据添加成功')
+
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
 
@@ -64,12 +68,16 @@ def delete_monthly_sales_data(request):
         # 遍历删除
         for id in delete_id:
             MonthlySalesData.objects.get(id=id).delete()
+        # 写入删除成功提示
+        messages.success(request, '选中数据删除成功')
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
         MonthlySalesData.objects.get(id=delete_id).delete()
+        # 写入删除成功提示
+        messages.success(request, '数据删除成功')
         # 重载页面
         return redirect('show_monthly_sales_data')
 
@@ -102,6 +110,9 @@ def change_monthly_sales_data(request):
     data.profit = change_profit
     # 保存更改
     data.save()
+
+    # 写入数据修改成功
+    messages.success(request, '数据修改成功')
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -141,6 +152,9 @@ def add_quarterly_sales_data(request):
         profit=profit,
     )
 
+    # 写入成功提示
+    messages.success(request, '数据增加成功')
+
     # 重定向展示页面
     return redirect('show_quarterly_sales_data')
 
@@ -153,12 +167,16 @@ def delete_quarterly_sales_data(request):
         # 遍历删除
         for id in delete_id:
             QuarterlySalesData.objects.get(id=id).delete()
+        # 写入删除成功提示
+        messages.success(request, '选中数据删除成功')
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
         QuarterlySalesData.objects.get(id=delete_id).delete()
+        # 写入数据删除成功提示
+        messages.success(request, '数据删除成功')
         # 重载页面
         return redirect('show_quarterly_sales_data')
 
@@ -185,6 +203,9 @@ def change_quarterly_sales_data(request):
     data.profit = change_profit
     # 保存更改
     data.save()
+
+    # 写入修改成功提示
+    messages.success(request, '数据修改成功')
 
     # 重定向展示页面
     return redirect('show_quarterly_sales_data')
@@ -242,6 +263,9 @@ def add_internal_control_indicators(request):
         field_management_compliance=field_management_compliance,
     )
 
+    # 写入数据增加成功提示
+    messages.success(request, '数据增加成功')
+
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
 
@@ -254,12 +278,16 @@ def delete_internal_control_indicators(request):
         # 遍历删除
         for id in delete_id:
             InternalControlIndicators.objects.get(id=id).delete()
+        # 写入数据删除成功提示
+        messages.success(request, '选中数据删除成功')
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
         InternalControlIndicators.objects.get(id=delete_id).delete()
+        # 写入数据删除成功提示
+        messages.success(request, '数据删除成功')
         # 重载页面
         return redirect('show_internal_control_indicators')
 
@@ -308,6 +336,9 @@ def change_internal_control_indicators(request):
     # 保存更改
     data.save()
 
+    # 返回数据修改成功提示
+    messages.success(request, '数据修改成功')
+
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
 
@@ -341,10 +372,14 @@ def upload_monthly_performance(request):
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_monthly_performance(file_data)
         if result == 0:
-            # return HttpResponse('success')
+            # 写入导入成功提示
+            messages.success(request, '导入成功')
+            # 重定向数据展示页面
             return redirect('show_monthly_sales_data')
         else:
-            # return HttpResponse(result)
+            # 写入相应的错误提示
+            messages.error(request, result)
+            # 重定向数据展示页面
             return redirect('show_monthly_sales_data')
 
 
@@ -356,10 +391,14 @@ def upload_quarterly_performance(request):
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_quarterly_performance(file_data)
         if result == 0:
-            # return HttpResponse('success')
+            # 写入导入成功提示
+            messages.success(request, '导入成功')
+            # 重定向数据展示页面
             return redirect('show_quarterly_sales_data')
         else:
-            # return HttpResponse(result)
+            # 写入相应的错误提示
+            messages.error(request, result)
+            # 重定向数据展示页面
             return redirect('show_quarterly_sales_data')
 
 
@@ -371,8 +410,12 @@ def upload_internal_control_indicators_performance(request):
         file_data = request.FILES.get('upload_file')
         result = UploadTable.upload_internal_control_indicators_performance(file_data)
         if result == 0:
-            # return HttpResponse('success')
+            # 写入导入成功提示
+            messages.success(request, '导入成功')
+            # 重定向数据展示页面
             return redirect('show_internal_control_indicators')
         else:
-            # return HttpResponse(result)
+            # 写入相应的错误提示
+            messages.error(request, result)
+            # 重定向数据展示页面
             return redirect('show_internal_control_indicators')
