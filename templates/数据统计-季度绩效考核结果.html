@@ -237,7 +237,21 @@
         <main class="lyear-layout-content">
 
             <div class="container-fluid">
-
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                            <div>
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>成功!</strong> {{ message }}。
+                            </div>
+                        {% elif message.tags == 'error' %}
+                            <div>
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>错误!</strong> {{ message }}。
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
