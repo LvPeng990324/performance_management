@@ -19,7 +19,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '常量数据.html')
+    return render(request, '数据统计-月度营业数据.html')
 
 
 # 展示月度营业数据方法
@@ -547,3 +547,39 @@ def show_quarterly_result(request):
 def refresh_quarterly_result(request):
     CalculateQuarterlyPerformance.quarterly_get_and_refresh()
     return redirect('show_quarterly_result')
+
+
+# 仅展示月度营业数据方法
+def display_monthly_sales_data(request):
+    # 从数据库中取出所有数据
+    monthly_sales_data = MonthlySalesData.objects.all()
+    # 打包数据
+    context = {
+        'monthly_sales_data': monthly_sales_data,
+    }
+    # 引导前端页面
+    return render(request, '数据统计-月度营业数据.html', context=context)
+
+
+# 仅展示季度营业数据方法
+def display_quarterly_sales_data(request):
+    # 从数据库中取出所有数据
+    quarterly_sales_data = QuarterlySalesData.objects.all()
+    # 打包数据
+    context = {
+        'quarterly_sales_data': quarterly_sales_data,
+    }
+    # 引导前端页面
+    return render(request, '数据统计-季度营业数据.html', context=context)
+
+
+# 仅展示内控指标汇总方法
+def display_internal_control_indicators(request):
+    # 从数据库中取出所有数据
+    internal_control_indicators = InternalControlIndicators.objects.all()
+    # 打包数据
+    context = {
+        'internal_control_indicators': internal_control_indicators,
+    }
+    # 引导前端页面
+    return render(request, '数据统计-内控指标汇总.html', context=context)

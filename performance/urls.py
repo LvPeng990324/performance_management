@@ -60,6 +60,13 @@ urlpatterns = [
     # 刷新管理层季度绩效考核结果（更新数据库）方法
     path('refresh_quarterly_result/', views.refresh_quarterly_result, name='refresh_quarterly_result'),
 
+    # 仅展示月度营业数据方法
+    path('display_monthly_sales_data/', views.display_monthly_sales_data, name='display_monthly_sales_data'),
+    # 仅展示季度营业数据方法
+    path('display_quarterly_sales_data/', views.display_quarterly_sales_data, name='display_quarterly_sales_data'),
+    # 仅展示内控指标汇总方法
+    path('display_internal_control_indicators/', views.display_internal_control_indicators, name='display_internal_control_indicators'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page')
 ]

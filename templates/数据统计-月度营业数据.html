@@ -1,16 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>数据统计查看-月度营业数据</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
     <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
     <meta name="author" content="yinqi">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -27,24 +28,24 @@
 
                 <nav class="sidebar-main">
                     <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="首页.html"><i class="mdi mdi-home"></i> 首页</a> </li>
+                        <li class="nav-item"> <a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a> </li>
 
                         <li class="nav-item nav-item-has-subnav active open">
                             <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                             <ul class="nav nav-subnav">
-                                <li class="active"> <a href="#!">月度营业数据</a> </li>
-                                <li> <a href="数据统计-季度营业数据.html">季度营业数据</a> </li>
-                                <li> <a href="数据统计-内控指标汇总.html">内控指标汇总</a> </li>
-                                <li> <a href="数据统计-管理层月度绩效考核结果.html">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="数据统计-季度绩效考核结果.html">季度绩效考核结果</a> </li>
+                                <li class="active"> <a href="javascript:void(0)">月度营业数据</a> </li>
+                                <li> <a href="{% url 'display_quarterly_sales_data' %}">季度营业数据</a> </li>
+                                <li> <a href="{% url 'display_internal_control_indicators' %}">内控指标汇总</a> </li>
+                                <li> <a href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a> </li>
+                                <li> <a href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a> </li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="业务数据管理-月度营业数据.html">月度营业数据</a> </li>
-                                <li> <a href="业务数据管理-季度营业数据.html">季度营业数据</a> </li>
-                                <li> <a href="业务数据管理-内控指标汇总.html">内控指标汇总</a> </li>
+                                <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
+                                <li> <a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a> </li>
+                                <li> <a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a> </li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
@@ -272,46 +273,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>100</td>
-                                            <td>200</td>
-                                            <td>300</td>
-                                            <td>400</td>
-                                            <td>500</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>100</td>
-                                            <td>200</td>
-                                            <td>300</td>
-                                            <td>400</td>
-                                            <td>500</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>100</td>
-                                            <td>200</td>
-                                            <td>300</td>
-                                            <td>400</td>
-                                            <td>500</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>100</td>
-                                            <td>200</td>
-                                            <td>300</td>
-                                            <td>400</td>
-                                            <td>500</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">5</th>
-                                            <td>100</td>
-                                            <td>200</td>
-                                            <td>300</td>
-                                            <td>400</td>
-                                            <td>500</td>
-                                        </tr>
+                                        {% for data in monthly_sales_data %}
+                                            <tr>
+                                                <th scope="row">{{ data.date|date:"m" }}</th>
+                                                <td>{{ data.turnover }}</td>
+                                                <td>{{ data.operating_expenses }}</td>
+                                                <td>{{ data.amount_repaid }}</td>
+                                                <td>{{ data.inventory }}</td>
+                                                <td>{{ data.profit }}</td>
+                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
@@ -349,9 +320,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
 </body>
 </html>
