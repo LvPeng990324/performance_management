@@ -527,8 +527,14 @@ def show_monthly_result(request):
     return render(request, '数据统计-管理层月度绩效考核结果.html', context=context)
 
 
+# 更新月度绩效考核结果的数据
 def refresh_monthly_result(request):
-    CalcuteMonthlyPerformance.monthly_get_and_refresh()
+    # 更新月度绩效考核结果中数据项的值，并更新数据库
+    result = CalcuteMonthlyPerformance.monthly_get_and_refresh()
+    if result == 'success':
+        messages.success(request, '数据刷新成功')
+    else:
+        messages.error(result, '数据刷新失败，请重试')
     return redirect('show_monthly_result')
 
 
@@ -544,8 +550,14 @@ def show_quarterly_result(request):
     return render(request, '数据统计-季度绩效考核结果.html', context=context)
 
 
+# 更新季度绩效考核结果的数据
 def refresh_quarterly_result(request):
-    CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+    # 更新季度绩效考核结果中数据项的值，并更新数据库
+    result = CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+    if result == 'success':
+        messages.success(request, '数据刷新成功')
+    else:
+        messages.error(result, '数据刷新失败，请重试')
     return redirect('show_quarterly_result')
 
 
