@@ -62,7 +62,8 @@ class InternalControlIndicators(models.Model):
 
 # 月度绩效考核结果
 class MonthlyPerformance(models.Model):
-    date = models.DateTimeField(verbose_name='日期')
+    year = models.IntegerField(verbose_name='年份')
+    month = models.IntegerField(verbose_name='月份')
     delivery_rate = models.FloatField(verbose_name='交付率')
     well_done_rate = models.FloatField(verbose_name='成品率')
     medical_expenses = models.FloatField(verbose_name='医药费')
