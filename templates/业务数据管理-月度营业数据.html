@@ -497,7 +497,7 @@
                                                     <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                                 </label>
                                             </td>
-                                            <th scope="row">{{ data.date|date:"m" }}</th>
+                                            <th scope="row">{{ data.month }}</th>
                                             <td>{{ data.turnover }}</td>
                                             <td>{{ data.operating_expenses }}</td>
                                             <td>{{ data.amount_repaid }}</td>
@@ -505,7 +505,7 @@
                                             <td>{{ data.profit }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y" }}',
+                                                    <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.year }}',
                                                     '{{ data.turnover }}', '{{ data.operating_expenses }}', '{{ data.amount_repaid }}', '{{ data.inventory }}', '{{ data.profit }}')"><i class="mdi mdi-pencil"></i></a>
                                                     <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
                                                 </div>

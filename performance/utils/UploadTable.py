@@ -96,12 +96,13 @@ def upload_monthly_performance_excel(file_data):
     try:
         for temp_data in table_list:
             MonthlySalesData.objects.create(
-                date=temp_data[0],
-                turnover=temp_data[1],
-                operating_expenses=temp_data[2],
-                amount_repaid=temp_data[3],
-                inventory=temp_data[4],
-                profit=temp_data[5],
+                year=temp_data[0],
+                month=temp_data[1],
+                turnover=temp_data[2],
+                operating_expenses=temp_data[3],
+                amount_repaid=temp_data[4],
+                inventory=temp_data[5],
+                profit=temp_data[6],
             )
     except:
         return '写入数据库失败'

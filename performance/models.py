@@ -3,7 +3,8 @@ from django.db import models
 
 # 月度营业数据
 class MonthlySalesData(models.Model):
-    date = models.DateTimeField(verbose_name='日期')
+    year = models.IntegerField(verbose_name='年份')
+    month = models.IntegerField(verbose_name='月份')
     turnover = models.FloatField(verbose_name='营业额')
     operating_expenses = models.FloatField(verbose_name='营业费用')
     amount_repaid = models.FloatField(verbose_name='回款额')
