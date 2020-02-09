@@ -206,6 +206,7 @@ def quarterly_get_and_refresh():
 
             except:
                 print("%s年%s季度 数据异常，操作失败" % (year, quarter))
+    return 'success'
 
 
 if __name__ == '__main__':
