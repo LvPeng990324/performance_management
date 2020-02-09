@@ -19,7 +19,7 @@
 
 # 给定，录入：用户(具有公式编辑权限)提供的常量
 # 表里取，数据模拟：数据取自本表，只不过历史数据需要先模拟
-# from performance import models
+
 import os
 import django
 
@@ -35,10 +35,10 @@ from performance.models import MonthlyPerformance
 
 
 # 获取A值方法
-def get_a(need_date):
+def get_a(need_year, need_month):
     try:
         a = ConstantData.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().month_plan_order_number
     except:
         a = '异常'
@@ -46,10 +46,10 @@ def get_a(need_date):
 
 
 # 获取B值方法
-def get_b(need_date):
+def get_b(need_year, need_month):
     try:
         b = InternalControlIndicators.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().finished_number
     except:
         b = '异常'
@@ -57,13 +57,13 @@ def get_b(need_date):
 
 
 # 获取C值方法
-def get_c(need_date):
+def get_c(need_year, need_month):
     try:
         target_cost = ConstantData.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().target_cost
         cost_per_wan = InternalControlIndicators.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().cost_per_wan
         c = target_cost - cost_per_wan
     except:
@@ -72,10 +72,10 @@ def get_c(need_date):
 
 
 # 获取D值方法
-def get_d(need_date):
+def get_d(need_year, need_month):
     try:
         d = InternalControlIndicators.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().actual_well_done_rate
     except:
         d = '异常'
@@ -83,34 +83,54 @@ def get_d(need_date):
 
 
 # 获取E值方法
-def get_e(need_date, history_time):
+def get_e(need_year, need_month, history_time):
     try:
-        start_time = need_date - relativedelta(years=history_time)
-        e = InternalControlIndicators.objects.filter(
-            date__gte=start_time, date__lt=need_date).aggregate(
-            history_avg=Avg('actual_well_done_rate'))['history_avg']
+        start_year = need_year - history_time
+        start_month = need_month
+        # 例：现need_year为2019，need_month为6，则需获取2016.6-2019.5的数据
+        # 1.获取2016年6月及以上月份的数据
+        e1 = InternalControlIndicators.objects.filter(
+            date__year=start_year, date__month__gte=start_month)
+        # 2.获取2017、2018年的数据
+        e2 = InternalControlIndicators.objects.filter(
+            date__year__gt=start_year, date__year__lt=need_year)
+        # 3.获取2019年5月及以下月份的数据
+        e3 = InternalControlIndicators.objects.filter(
+            date__year=need_year, date__month__lt=start_month)
+        e = e1 | e2 | e3
+        e = e.aggregate(history_avg=Avg('actual_well_done_rate'))['history_avg']
     except:
         e = '异常'
     return e
 
 
 # 获取F值方法
-def get_f(need_date, history_time):
+def get_f(need_year, need_month, history_time):
     try:
-        start_time = need_date - relativedelta(years=history_time)
-        f = InternalControlIndicators.objects.filter(
-            date__gte=start_time, date__lt=need_date).aggregate(
-            history_avg=Avg('month_medical_expenses'))['history_avg']
+        start_year = need_year - history_time
+        start_month = need_month
+        # 例：现need_year为2019，need_month为6，则需获取2016.6-2019.5的数据
+        # 1.获取2016年6月及以上月份的数据
+        f1 = InternalControlIndicators.objects.filter(
+            date__year=start_year, date__month__gte=start_month)
+        # 2.获取2017、2018年的数据
+        f2 = InternalControlIndicators.objects.filter(
+            date__year__gt=start_year, date__year__lt=need_year)
+        # 3.获取2019年5月及以下月份的数据
+        f3 = InternalControlIndicators.objects.filter(
+            date__year=need_year, date__month__lt=start_month)
+        f = f1 | f2 | f3
+        f = f.aggregate(history_avg=Avg('month_medical_expenses'))['history_avg']
     except:
         f = '异常'
     return f
 
 
 # 获取G值方法
-def get_g(need_date):
+def get_g(need_year, need_month):
     try:
         g = InternalControlIndicators.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().month_medical_expenses
     except:
         g = '异常'
@@ -118,22 +138,34 @@ def get_g(need_date):
 
 
 # 获取H值方法
-def get_h(need_date, history_time):
+def get_h(need_year, need_month, history_time):
     try:
-        start_time = need_date - relativedelta(years=history_time)
-        h = InternalControlIndicators.objects.filter(
-            date__gte=start_time, date__lt=need_date).aggregate(
-            history_avg=Avg('cost_per_wan'))['history_avg']
+        start_year = need_year - history_time
+        start_month = need_month
+        # 例：现need_year为2019，need_month为6，则需获取2016.6-2019.5的数据
+        # start_year=2016
+        # start_month=6
+        # 1.获取2016年6月及以上月份的数据
+        h1 = InternalControlIndicators.objects.filter(
+            date__year=start_year, date__month__gte=start_month)
+        # 2.获取2017、2018年的数据
+        h2 = InternalControlIndicators.objects.filter(
+            date__year__gt=start_year, date__year__lt=need_year)
+        # 3.获取2019年5月及以下月份的数据
+        h3 = InternalControlIndicators.objects.filter(
+            date__year=need_year, date__month__lt=start_month)
+        h = h1 | h2 | h3
+        h = h.aggregate(history_avg=Avg('cost_per_wan'))['history_avg']
     except:
         h = '异常'
     return h
 
 
 # 获取I值方法
-def get_i(need_date):
+def get_i(need_year, need_month):
     try:
         i = InternalControlIndicators.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().cost_per_wan
     except:
         i = '异常'
@@ -141,10 +173,10 @@ def get_i(need_date):
 
 
 # 获取K值方法
-def get_k(need_date):
+def get_k(need_year, need_month):
     try:
         k = InternalControlIndicators.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().cost_per_wan
     except:
         k = '异常'
@@ -152,10 +184,10 @@ def get_k(need_date):
 
 
 # 获取L值方法
-def get_l(need_date):
+def get_l(need_year, need_month):
     try:
         l = ConstantData.objects.filter(
-            date__year=need_date.year, date__month=need_date.month
+            date__year=need_year, date__month=need_month
         ).first().field_management_compliance_target_number
     except:
         l = '异常'
@@ -166,23 +198,21 @@ def monthly_get_and_refresh():
     # 更新2017-2019的数据
     for year in range(2017, 2021):
         for month in range(1, 13):
-            date = '%s-%s' % (year, month)
-            # date = '2020-1'  # 查询月份 接收用户输入
+            # year = '2020'  # 查询月份 接收用户输入
+            # month = '1'  # 查询月份 接收用户输入
             history_year = 3  # 历史年限
-            need_type = '%Y-%m'
-            date = datetime.strptime(date, need_type)
 
-            A = get_a(date)
-            B = get_b(date)
-            C = get_c(date)
-            D = get_d(date)
-            E = get_e(date, history_year)
-            F = get_f(date, history_year)
-            G = get_g(date)
-            H = get_h(date, history_year)
-            I = get_i(date)
-            K = get_k(date)
-            L = get_l(date)
+            A = get_a(year, month)
+            B = get_b(year, month)
+            C = get_c(year, month)
+            D = get_d(year, month)
+            E = get_e(year, month, history_year)
+            F = get_f(year, month, history_year)
+            G = get_g(year, month)
+            H = get_h(year, month, history_year)
+            I = get_i(year, month)
+            K = get_k(year, month)
+            L = get_l(year, month)
             # print('A=', A)
             # print('B=', B)
             # print('C=', C)
@@ -204,7 +234,8 @@ def monthly_get_and_refresh():
                 # print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management)
 
                 new_data = {
-                    'date': date,
+                    'year': year,
+                    'month': month,
                     'delivery_rate': delivery_rate,
                     'well_done_rate': well_done_rate,
                     'medical_expenses': medical_expenses,
@@ -212,10 +243,10 @@ def monthly_get_and_refresh():
                     'field_management': field_management,
                 }
 
-                obj = MonthlyPerformance.objects.filter(date=date)
+                obj = MonthlyPerformance.objects.filter(year=year, month=month)
                 if obj:
                     # 如果该月数据已存在，则更新
-                    MonthlyPerformance.objects.filter(date=date).update(**new_data)
+                    MonthlyPerformance.objects.filter(year=year, month=month).update(**new_data)
                     print("%s年%s月 更新成功" % (year, month))
                 else:
                     MonthlyPerformance.objects.create(**new_data)

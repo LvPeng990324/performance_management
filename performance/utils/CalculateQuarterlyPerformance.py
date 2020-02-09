@@ -69,11 +69,21 @@ def get_d(need_year, need_quarter):
 
 
 # 获取E值方法
-def get_e(need_year):
+def get_e(need_year, need_quarter, history_time):
     try:
-        start_time = str(int(need_year) - 3)
-        data_list = QuarterlySalesData.objects.filter(
-            year__gte=start_time, year__lt=need_year)
+        start_year = need_year - history_time
+        start_quarter = need_quarter
+        # 例：现need_year为2019，need_quarter为2，则需获取2016.2季度.-2019.1季度的数据
+        # 1.获取2016年6月及以上月份的数据
+        data1 = QuarterlySalesData.objects.filter(
+            year=start_year, quarter__gte=start_quarter)
+        # 2.获取2017、2018年的数据
+        data2 = QuarterlySalesData.objects.filter(
+            year__gt=start_year, year__lt=need_year)
+        # 3.获取2019年5月及以下月份的数据
+        data3 = QuarterlySalesData.objects.filter(
+            year=need_year, quarter__lt=start_quarter)
+        data_list = data1 | data2 | data3
         all_operating_rate = 0
         for data in data_list:
             all_operating_rate += data.operating_expenses / data.turnover
@@ -110,11 +120,21 @@ def get_g(need_year, need_quarter):
 
 
 # 获取H值方法
-def get_h(need_year):
+def get_h(need_year, need_quarter, history_time):
     try:
-        start_time = str(int(need_year) - 3)
-        data_list = QuarterlySalesData.objects.filter(
-            year__gte=start_time, year__lt=need_year)
+        start_year = need_year - history_time
+        start_quarter = need_quarter
+        # 例：现need_year为2019，need_quarter为2，则需获取2016.2季度.-2019.1季度的数据
+        # 1.获取2016年6月及以上月份的数据
+        data1 = QuarterlySalesData.objects.filter(
+            year=start_year, quarter__gte=start_quarter)
+        # 2.获取2017、2018年的数据
+        data2 = QuarterlySalesData.objects.filter(
+            year__gt=start_year, year__lt=need_year)
+        # 3.获取2019年5月及以下月份的数据
+        data3 = QuarterlySalesData.objects.filter(
+            year=need_year, quarter__lt=start_quarter)
+        data_list = data1 | data2 | data3
         all_inventory_rate = 0
         for data in data_list:
             all_inventory_rate += data.inventory / data.turnover
@@ -138,11 +158,21 @@ def get_i(need_year, need_quarter):
 
 
 # 获取K值方法
-def get_k(need_year):
+def get_k(need_year, need_quarter, history_time):
     try:
-        start_time = str(int(need_year) - 3)
-        data_list = QuarterlySalesData.objects.filter(
-            year__gte=start_time, year__lt=need_year)
+        start_year = need_year - history_time
+        start_quarter = need_quarter
+        # 例：现need_year为2019，need_quarter为2，则需获取2016.2季度.-2019.1季度的数据
+        # 1.获取2016年6月及以上月份的数据
+        data1 = QuarterlySalesData.objects.filter(
+            year=start_year, quarter__gte=start_quarter)
+        # 2.获取2017、2018年的数据
+        data2 = QuarterlySalesData.objects.filter(
+            year__gt=start_year, year__lt=need_year)
+        # 3.获取2019年5月及以下月份的数据
+        data3 = QuarterlySalesData.objects.filter(
+            year=need_year, quarter__lt=start_quarter)
+        data_list = data1 | data2 | data3
         all_profit_rate = 0
         for data in data_list:
             all_profit_rate += data.profit / data.turnover
@@ -156,16 +186,17 @@ def quarterly_get_and_refresh():
     # 更新2017-2019的数据
     for year in range(2017, 2021):
         for quarter in range(1, 5):
+            history_year = 3  # 历史年限
             A = get_a(year)
             B = get_b(year)
             C = get_c(year, quarter)
             D = get_d(year, quarter)
-            E = get_e(year)
+            E = get_e(year, quarter, history_year)
             F = get_f(year, quarter)
             G = get_g(year, quarter)
-            H = get_h(year)
+            H = get_h(year, quarter, history_year)
             I = get_i(year, quarter)
-            K = get_k(year)
+            K = get_k(year, quarter, history_year)
             # print('A=', A)
             # print('B=', B)
             # print('C=', C)
