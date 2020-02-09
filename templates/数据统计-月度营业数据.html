@@ -288,6 +288,7 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
+                                            <th>年份</th>
                                             <th>月份</th>
                                             <th>营业额</th>
                                             <th>营业费用</th>
@@ -299,7 +300,8 @@
                                         <tbody>
                                         {% for data in monthly_sales_data %}
                                             <tr>
-                                                <th scope="row">{{ data.date|date:"m" }}</th>
+                                                <th scope="row">{{ data.year }}</th>
+                                                <th scope="row">{{ data.month }}</th>
                                                 <td>{{ data.turnover }}</td>
                                                 <td>{{ data.operating_expenses }}</td>
                                                 <td>{{ data.amount_repaid }}</td>

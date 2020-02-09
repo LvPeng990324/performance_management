@@ -303,7 +303,8 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                         <tr>
-                                            <th>日期</th>
+                                            <th>年份</th>
+                                            <th>月份</th>
                                             <th>交付率</th>
                                             <th>成品率</th>
                                             <th>医药费</th>
@@ -314,7 +315,8 @@
                                         <tbody>
                                         {% for data in monthly_result %}
                                         <tr>
-                                            <th scope="row">{{ data.date|date:"Y-m" }}</th>
+                                            <th scope="row">{{ data.year }}</th>
+                                            <td>{{ data.month }}</td>
                                             <td>{{ data.delivery_rate }}</td>
                                             <td>{{ data.well_done_rate }}</td>
                                             <td>{{ data.medical_expenses }}</td>

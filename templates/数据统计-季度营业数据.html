@@ -298,6 +298,7 @@
                                         <tbody>
                                         {% for data in quarterly_sales_data %}
                                             <tr>
+                                                <th scope="row">{{ data.year }}</th>
                                                 <th scope="row">{{ data.quarter }}</th>
                                                 <td>{{ data.turnover }}</td>
                                                 <td>{{ data.operating_expenses }}</td>
