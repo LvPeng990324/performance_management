@@ -12,6 +12,29 @@
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+
+    <!--导出excel-->
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'export_monthly_sales_data' %}" method="post">
+                    {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
+                </div>
+                <div class="modal-body">
+                    如遇编码问题，请使用微软office。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-danger">下载</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </head>
 
 <body>
@@ -335,9 +358,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
 </body>
 </html>

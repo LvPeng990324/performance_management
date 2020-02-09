@@ -9,6 +9,7 @@ from .models import MonthlyPerformance
 from .models import QuarterlyPerformance
 from datetime import datetime
 from .utils import UploadTable
+from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
 
@@ -597,3 +598,28 @@ def display_internal_control_indicators(request):
     }
     # 引导前端页面
     return render(request, '数据统计-内控指标汇总.html', context=context)
+
+
+# 导出月度营业数据excel
+def export_monthly_sales_data(request):
+    return ExportTable.export_monthly_sales_data()
+
+
+# 导出季度营业数据excel
+def export_quarterly_sales_data(request):
+    return ExportTable.export_quarterly_sales_data()
+
+
+# 导出内控指标汇总excel
+def export_internal_control_indicators(request):
+    return ExportTable.export_internal_control_indicators()
+
+
+# 导出月度绩效考核结果
+def export_monthly_performance(request):
+    return ExportTable.export_monthly_performance()
+
+
+# 导出季度绩效考核结果
+def export_quarterly_performance(request):
+    return ExportTable.export_quarterly_performance()

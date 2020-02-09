@@ -67,6 +67,17 @@ urlpatterns = [
     # 仅展示内控指标汇总方法
     path('display_internal_control_indicators/', views.display_internal_control_indicators, name='display_internal_control_indicators'),
 
+    # 导出月度营业数据excel
+    path('export_monthly_sales_data/', views.export_monthly_sales_data, name='export_monthly_sales_data'),
+    # 导出季度营业数据excel
+    path('export_quarterly_sales_data/', views.export_quarterly_sales_data, name='export_quarterly_sales_data'),
+    # 导出内控指标汇总excel
+    path('export_internal_control_indicators/', views.export_internal_control_indicators, name='export_internal_control_indicators'),
+    # 导出月度绩效考核结果
+    path('export_monthly_performance/', views.export_monthly_performance, name='export_monthly_performance'),
+    # 导出季度绩效考核结果
+    path('export_quarterly_performance/', views.export_quarterly_performance, name='export_quarterly_performance'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page')
 ]
