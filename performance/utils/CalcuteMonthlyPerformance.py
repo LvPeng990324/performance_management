@@ -223,6 +223,7 @@ def monthly_get_and_refresh():
 
             except:
                 print("%s年%s月 数据异常，操作失败" % (year, month))
+    return 'success'
 
 
 if __name__ == '__main__':
