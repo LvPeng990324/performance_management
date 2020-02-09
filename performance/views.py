@@ -377,59 +377,50 @@ def give_internal_control_indicators(request):
 
 # 上传月度营业数据表格方法
 def upload_monthly_performance(request):
-    if request.method == 'GET':
-        return render(request, 'test_upload.html')
+    file_data = request.FILES.get('upload_file')
+    result = UploadTable.upload_monthly_performance(file_data)
+    if result == 0:
+        # 写入导入成功提示
+        messages.success(request, '导入成功')
+        # 重定向数据展示页面
+        return redirect('show_monthly_sales_data')
     else:
-        file_data = request.FILES.get('upload_file')
-        result = UploadTable.upload_monthly_performance(file_data)
-        if result == 0:
-            # 写入导入成功提示
-            messages.success(request, '导入成功')
-            # 重定向数据展示页面
-            return redirect('show_monthly_sales_data')
-        else:
-            # 写入相应的错误提示
-            messages.error(request, result)
-            # 重定向数据展示页面
-            return redirect('show_monthly_sales_data')
+        # 写入相应的错误提示
+        messages.error(request, result)
+        # 重定向数据展示页面
+        return redirect('show_monthly_sales_data')
 
 
 # 上传季度营业数据表格方法
 def upload_quarterly_performance(request):
-    if request.method == 'GET':
-        return render(request, 'test_upload.html')
+    file_data = request.FILES.get('upload_file')
+    result = UploadTable.upload_quarterly_performance(file_data)
+    if result == 0:
+        # 写入导入成功提示
+        messages.success(request, '导入成功')
+        # 重定向数据展示页面
+        return redirect('show_quarterly_sales_data')
     else:
-        file_data = request.FILES.get('upload_file')
-        result = UploadTable.upload_quarterly_performance(file_data)
-        if result == 0:
-            # 写入导入成功提示
-            messages.success(request, '导入成功')
-            # 重定向数据展示页面
-            return redirect('show_quarterly_sales_data')
-        else:
-            # 写入相应的错误提示
-            messages.error(request, result)
-            # 重定向数据展示页面
-            return redirect('show_quarterly_sales_data')
+        # 写入相应的错误提示
+        messages.error(request, result)
+        # 重定向数据展示页面
+        return redirect('show_quarterly_sales_data')
 
 
 # 上传内控制表汇总表格方法
 def upload_internal_control_indicators_performance(request):
-    if request.method == 'GET':
-        return render(request, 'test_upload.html')
+    file_data = request.FILES.get('upload_file')
+    result = UploadTable.upload_internal_control_indicators_performance(file_data)
+    if result == 0:
+        # 写入导入成功提示
+        messages.success(request, '导入成功')
+        # 重定向数据展示页面
+        return redirect('show_internal_control_indicators')
     else:
-        file_data = request.FILES.get('upload_file')
-        result = UploadTable.upload_internal_control_indicators_performance(file_data)
-        if result == 0:
-            # 写入导入成功提示
-            messages.success(request, '导入成功')
-            # 重定向数据展示页面
-            return redirect('show_internal_control_indicators')
-        else:
-            # 写入相应的错误提示
-            messages.error(request, result)
-            # 重定向数据展示页面
-            return redirect('show_internal_control_indicators')
+        # 写入相应的错误提示
+        messages.error(request, result)
+        # 重定向数据展示页面
+        return redirect('show_internal_control_indicators')
 
 
 # 展示常量数据方法
