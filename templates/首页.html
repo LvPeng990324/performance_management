@@ -33,9 +33,9 @@
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="数据统计-月度营业数据.html">月度营业数据</a> </li>
-                                <li> <a href="#!">季度营业数据</a> </li>
-                                <li> <a href="#!">内控指标汇总</a> </li>
+                                <li> <a href="{% url 'display_monthly_sales_data' %}">月度营业数据</a> </li>
+                                <li> <a href="{% url 'display_quarterly_sales_data' %}">季度营业数据</a> </li>
+                                <li> <a href="{% url 'display_internal_control_indicators' %}">内控指标汇总</a> </li>
                                 <li> <a href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a> </li>
                                 <li> <a href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a> </li>
                             </ul>

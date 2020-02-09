@@ -50,7 +50,7 @@
 
                 <nav class="sidebar-main">
                     <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="首页.html"><i class="mdi mdi-home"></i> 首页</a> </li>
+                        <li class="nav-item"> <a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a> </li>
 
                         <li class="nav-item nav-item-has-subnav active open">
                             <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
@@ -68,6 +68,7 @@
                                 <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
                                 <li> <a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a> </li>
                                 <li> <a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a> </li>
+                                <li> <a href="{% url 'show_constant_data' %}">常量数据</a> </li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
