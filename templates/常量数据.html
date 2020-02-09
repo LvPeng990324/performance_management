@@ -38,6 +38,24 @@
         </div>
     </div>
 
+    <!--删除按钮(选中)-->
+    <div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">删除选中数据</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除选中数据?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--删除按钮(单条)-->
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
@@ -382,6 +400,30 @@
 <script type="text/javascript">
     function give_delete_modal(delete_id) {
         $('#id_delete_id').val(delete_id);
+    }
+</script>
+<!-- 提交选中删除 -->
+<script type="text/javascript">
+    function dels() {
+        var a = document.getElementsByName("ids[]");
+        var case_id = [];
+        for (var i=0;i<a.length;i++){
+            if(a[i].checked){
+                case_id.push(a[i].value)
+            }
+        }
+        console.log(case_id);
+        $.ajax({
+            type: "get",
+            url: "{% url 'delete_constant_data' %}",
+            traditional: true,
+            data: {'delete_id': case_id},
+            success: function (arg) {
+                if (arg==='success') {
+                    location.reload();
+                }
+            }
+        });
     }
 </script>
 
