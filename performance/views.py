@@ -1,13 +1,14 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.contrib import messages
+from datetime import datetime
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
 from .models import ConstantData
 from .models import MonthlyPerformance
 from .models import QuarterlyPerformance
-from datetime import datetime
+from .models import User
 from .utils import UploadTable
 from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
@@ -614,3 +615,35 @@ def export_monthly_performance(request):
 # 导出季度绩效考核结果
 def export_quarterly_performance(request):
     return ExportTable.export_quarterly_performance()
+
+
+# 测试用户登录验证
+def test_authenticate(job_number, password):
+    user = User.objects.filter(extension__job_number=job_number).first()
+    if user:
+        is_correct = user.check_password(password)
+        if is_correct:
+            return user
+        else:
+            return None
+    else:
+        return None
+
+
+# 测试使用用户扩展表
+def test_extension(request):
+    user = User.objects.create_user(
+        username='syx',
+        password='111',
+    )
+    # user = User.objects.first()
+    user.extension.job_number = '12345'
+    user.save()
+    job_number = '12345'
+    password = '111'
+    user = test_authenticate(job_number, password)
+    if user:
+        print('welcome!%s' % user.username)
+    else:
+        print('验证失败')
+    return HttpResponse('ok')
