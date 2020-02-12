@@ -79,7 +79,7 @@ urlpatterns = [
     path('export_quarterly_performance/', views.export_quarterly_performance, name='export_quarterly_performance'),
 
     # 测试页面
-    path('test_page/', views.test_page, name='test_page')
+    path('test_page/', views.test_page, name='test_page'),
     # 测试扩展用户表
     path('test_extension/', views.test_extension, name='test_extension'),
     # 测试用户登录验证
