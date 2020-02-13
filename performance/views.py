@@ -235,7 +235,6 @@ def show_internal_control_indicators(request):
 # 增加内控指标汇总表方法
 def add_internal_control_indicators(request):
     # 从前端获取数据
-    id = request.POST.get('id')
     date = request.POST.get('date')
     order_number = request.POST.get('order_number')
     scheduled_delivery = request.POST.get('scheduled_delivery')
@@ -260,7 +259,6 @@ def add_internal_control_indicators(request):
 
     # 存入数据库
     InternalControlIndicators.objects.create(
-        id=id,
         date=date,
         order_number=order_number,
         scheduled_delivery=scheduled_delivery,

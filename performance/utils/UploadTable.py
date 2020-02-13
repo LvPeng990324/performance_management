@@ -179,18 +179,17 @@ def upload_internal_control_indicators_performance_excel(file_data):
     try:
         for temp_data in table_list:
             InternalControlIndicators.objects.create(
-                id=temp_data[0],
-                date=temp_data[1],
-                order_number=temp_data[2],
-                scheduled_delivery=temp_data[3],
-                actual_delivery=temp_data[4],
-                finished_number=temp_data[5],
-                unfinished_number=temp_data[6],
-                target_well_done_rate=temp_data[7],
-                actual_well_done_rate=temp_data[8],
-                month_medical_expenses=temp_data[9],
-                cost_per_wan=temp_data[10],
-                field_management_compliance=temp_data[11],
+                date=temp_data[0],
+                order_number=temp_data[1],
+                scheduled_delivery=temp_data[2],
+                actual_delivery=temp_data[3],
+                finished_number=temp_data[4],
+                unfinished_number=temp_data[5],
+                target_well_done_rate=temp_data[6],
+                actual_well_done_rate=temp_data[7],
+                month_medical_expenses=temp_data[8],
+                cost_per_wan=temp_data[9],
+                field_management_compliance=temp_data[10],
             )
     except:
         return '写入数据库失败'

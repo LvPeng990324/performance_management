@@ -161,10 +161,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="id_change_id" class="control-label">序号：</label>
-                            <input type="text" readonly class="form-control" id="id_change_id" name="change_id" required>
-                        </div>
-                        <div class="form-group">
                             <label for="id_change_date" class="control-label">时间：</label>
                             <input type="date" class="form-control" id="id_change_date" name="date" required>
                         </div>
@@ -377,7 +373,6 @@
                                                     <input type="checkbox" id="check-all"><span></span>
                                                 </label>
                                             </th>
-                                            <th>序号</th>
                                             <th>时间</th>
                                             <th>订单号</th>
                                             <th>计划交期</th>
@@ -401,7 +396,6 @@
                                                     <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                                 </label>
                                             </td>
-                                            <td>{{ data.id }}</td>
                                             <td>{{ data.date|date:"Y年m月d日" }}</td>
                                             <td>{{ data.order_number }}</td>
                                             <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
