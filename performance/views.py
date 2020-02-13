@@ -512,11 +512,28 @@ def upload_constant_data(request):
 
 # 展示管理层月度绩效考核结果方法
 def show_monthly_result(request):
-    # 从数据库中取出所有数据
-    monthly_result = MonthlyPerformance.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = MonthlyPerformance.objects.values('year').distinct().order_by('-year')
+    # 如果是第一次访问，选取最新一年数据进行展示
+    # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
+    # 尝试获取年份
+    select_year = request.GET.get('select_year')
+    # 判断有无选取年份
+    if select_year:
+        # 有筛选年份
+        # 记录当前年份
+        current_year = select_year
+    else:
+        # 没有筛选年份
+        # 记录当前年份
+        current_year = year_list.first()['year']
+    # 选出当前年份的所有数据，按照月份正序排序
+    monthly_result = MonthlyPerformance.objects.filter(year=current_year).order_by('month')
     # 打包数据
     context = {
         'monthly_result': monthly_result,
+        'year_list': year_list,
+        'current_year': int(current_year),  # 为了前端等值判断
     }
     # 引导前端页面
     return render(request, '数据统计-管理层月度绩效考核结果.html', context=context)
@@ -535,11 +552,28 @@ def refresh_monthly_result(request):
 
 # 展示管理层季度绩效考核结果方法
 def show_quarterly_result(request):
-    # 从数据库中取出所有数据
-    quarterly_result = QuarterlyPerformance.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = QuarterlyPerformance.objects.values('year').distinct().order_by('-year')
+    # 如果是第一次访问，选取最新一年数据进行展示
+    # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
+    # 尝试获取年份
+    select_year = request.GET.get('select_year')
+    # 判断有无选取年份
+    if select_year:
+        # 有筛选年份
+        # 记录当前年份
+        current_year = select_year
+    else:
+        # 没有筛选年份
+        # 记录当前年份
+        current_year = year_list.first()['year']
+    # 选出当前年份的所有数据，按照月份正序排序
+    quarterly_result = QuarterlyPerformance.objects.filter(year=current_year).order_by('quarter')
     # 打包数据
     context = {
         'quarterly_result': quarterly_result,
+        'year_list': year_list,
+        'current_year': int(current_year),  # 为了前端等值判断
     }
     # 引导前端页面
     return render(request, '数据统计-季度绩效考核结果.html', context=context)
@@ -558,11 +592,28 @@ def refresh_quarterly_result(request):
 
 # 仅展示月度营业数据方法
 def display_monthly_sales_data(request):
-    # 从数据库中取出所有数据
-    monthly_sales_data = MonthlySalesData.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = MonthlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果是第一次访问，选取最新一年数据进行展示
+    # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
+    # 尝试获取年份
+    select_year = request.GET.get('select_year')
+    # 判断有无选取年份
+    if select_year:
+        # 有筛选年份
+        # 记录当前年份
+        current_year = select_year
+    else:
+        # 没有筛选年份
+        # 记录当前年份
+        current_year = year_list.first()['year']
+    # 选出当前年份的所有数据，按照月份正序排序
+    monthly_sales_data = MonthlySalesData.objects.filter(year=current_year).order_by('month')
     # 打包数据
     context = {
         'monthly_sales_data': monthly_sales_data,
+        'year_list': year_list,
+        'current_year': int(current_year),  # 为了前端等值判断
     }
     # 引导前端页面
     return render(request, '数据统计-月度营业数据.html', context=context)
@@ -570,11 +621,28 @@ def display_monthly_sales_data(request):
 
 # 仅展示季度营业数据方法
 def display_quarterly_sales_data(request):
-    # 从数据库中取出所有数据
-    quarterly_sales_data = QuarterlySalesData.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果是第一次访问，选取最新一年数据进行展示
+    # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
+    # 尝试获取年份
+    select_year = request.GET.get('select_year')
+    # 判断有无选取年份
+    if select_year:
+        # 有筛选年份
+        # 记录当前年份
+        current_year = select_year
+    else:
+        # 没有筛选年份
+        # 记录当前年份
+        current_year = year_list.first()['year']
+    # 选出当前年份的所有数据，按照季度正序排序
+    quarterly_sales_data = QuarterlySalesData.objects.filter(year=current_year).order_by('quarter')
     # 打包数据
     context = {
         'quarterly_sales_data': quarterly_sales_data,
+        'year_list': year_list,
+        'current_year': int(current_year),  # 为了前端等值判断
     }
     # 引导前端页面
     return render(request, '数据统计-季度营业数据.html', context=context)

@@ -162,20 +162,17 @@
                             <div class="card-header">
                                 <h4><b>管理层月度绩效考核结果（内控）</b></h4>
                                 <a href="{% url 'refresh_monthly_result' %}">刷新数据</a>
-                                <label for="year" class="control-label">年份：</label>
-                                <select name="type" class="form-control" id="year">
-                                    <option value="2015">2015</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                </select>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                                        {{ current_year }} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        {% for year in year_list %}
+                                            <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a href="{% url 'show_monthly_result' %}?select_year={{ year.year }}">{{ year.year }}</a></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
                                 <div class="toolbar-btn-action">
                                     <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel</button>
                                 </div>
