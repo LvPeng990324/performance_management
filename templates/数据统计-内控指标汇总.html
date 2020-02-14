@@ -91,9 +91,25 @@
                             </table>
                         </div>
                         <div>
-                            <nav aria-label="Page navigation">
+                            <nav>
                                 <ul class="pagination">
-                                    {{ page_info.pager|safe }}
+                                    <li class="disabled">
+                                        <a href="#!">
+                                            <span><i class="mdi mdi-chevron-left"></i></span>
+                                        </a>
+                                    </li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#!">2</a></li>
+                                    <li><a href="#!">3</a></li>
+                                    <li><a href="#!">4</a></li>
+                                    <li><a href="#!">5</a></li>
+                                    <li><a href="#!">...</a></li>
+                                    <li><a href="#!">1000</a></li>
+                                    <li>
+                                        <a href="#!">
+                                            <span><i class="mdi mdi-chevron-right"></i></span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
