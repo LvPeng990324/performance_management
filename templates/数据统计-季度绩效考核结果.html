@@ -1,18 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>数据统计查看-季度绩效考核结果</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
-    <meta name="author" content="yinqi">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+{% extends 'base.html' %}
 
+{% block modal_content %}
     <!--导出excel-->
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
@@ -34,221 +22,111 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-</head>
+{% block show_data_active %}active open{% endblock %}
+{% block show_quarterly_result_active %}active{% endblock %}
 
-<body>
-<div class="lyear-layout-web">
-    <div class="lyear-layout-container">
-        <!--左侧导航-->
-        <aside class="lyear-layout-sidebar">
-            <!-- logo -->
-            <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="images/index_logo.png" title="首页" alt="首页"/></a>
-            </div>
-            <div class="lyear-layout-sidebar-scroll">
-
-                <nav class="sidebar-main">
-                    <ul class="nav nav-drawer">
-                        <li class="nav-item"><a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a></li>
-
-                        <li class="nav-item nav-item-has-subnav active open">
-                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="{% url 'display_monthly_sales_data' %}">月度营业数据</a> </li>
-                                <li> <a href="{% url 'display_quarterly_sales_data' %}">季度营业数据</a> </li>
-                                <li> <a href="{% url 'display_internal_control_indicators' %}">内控指标汇总</a> </li>
-                                <li> <a href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a> </li>
-                                <li class="active"> <a href="javascript:void(0)">季度绩效考核结果</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
-                                <li> <a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a> </li>
-                                <li> <a href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a> </li>
-                                <li> <a href="{% url 'show_constant_data' %}">常量数据</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
-                            <ul class="nav nav-subnav ">
-                                <li> <a href="#!">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="#!">季度绩效考核结果</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="#!">用户管理</a></li>
-                                <li><a href="#!">角色管理</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
-                <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2020. <a target="_blank"
-                                                                   href="https://www.cczu.edu.cn">常州大学</a> All rights
-                        reserved. </p>
-                </div>
-            </div>
-
-        </aside>
-        <!--End 左侧导航-->
-
-        <!--头部信息-->
-        <header class="lyear-layout-header">
-
-            <nav class="navbar navbar-default">
-                <div class="topbar">
-
-                    <div class="topbar-left">
-                        <div class="lyear-aside-toggler">
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                        </div>
-                        <span class="navbar-page-title"> 首页 </span>
+{% block main_content %}
+    <div class="container-fluid">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>成功!</strong> {{ message }}。
                     </div>
-
-                    <ul class="topbar-right">
-                        <li class="dropdown dropdown-profile">
-                            <a href="javascript:void(0)" data-toggle="dropdown">
-                                
-                                <span>CQY <span class="caret"></span></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a></li>
-                                <li><a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a>
-                                </li>
-                                <li><a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
-                                <li class="divider"></li>
-                                <li><a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--切换主题配色-->
-                      
-                        <!--切换主题配色-->
-                    </ul>
-
-                </div>
-            </nav>
-
-        </header>
-        <!--End 头部信息-->
-
-        <!--页面主要内容-->
-        <main class="lyear-layout-content">
-
-            <div class="container-fluid">
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if message.tags == 'success' %}
-                            <div>
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>成功!</strong> {{ message }}。
-                            </div>
-                        {% elif message.tags == 'error' %}
-                            <div>
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>错误!</strong> {{ message }}。
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                {% elif message.tags == 'error' %}
+                    <div>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>错误!</strong> {{ message }}。
+                    </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4><b>季度绩效考核结果（业务）</b></h4>
-                                <a href="{% url 'refresh_quarterly_result' %}">刷新数据</a>
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
-                                        {{ current_year }} <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        {% for year in year_list %}
-                                            <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a></li>
-                                        {% endfor %}
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>季度绩效考核结果（业务）</b></h4>
+                        <a href="{% url 'refresh_quarterly_result' %}">刷新数据</a>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                                {{ current_year }} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for year in year_list %}
+                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a></li>
+                                {% endfor %}
 
-                                    </ul>
-                                </div>
-                                <div class="toolbar-btn-action">
-                                    <button type="button" class="btn btn-success pull-right" data-toggle="modal"
-                                            data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
-                                    </button>
-                                </div>
-                            </div>
+                            </ul>
+                        </div>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-success pull-right" data-toggle="modal"
+                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
+                            </button>
+                        </div>
+                    </div>
 
-                            <div class="card-body">
-                                <div class="table-responsive" style="overflow: scroll">
-                                    <table class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>年份</th>
-                                            <th>季度</th>
-                                            <th>营业额</th>
-                                            <th>营业费率</th>
-                                            <th>回款率</th>
-                                            <th>库存率</th>
-                                            <th>利润率</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for data in quarterly_result %}
-                                            <tr>
-                                                <th scope="row">{{ data.year }}</th>
-                                                <td>{{ data.quarter }}</td>
-                                                <td>{{ data.turnover }}</td>
-                                                <td>{{ data.operating_rate }}</td>
-                                                <td>{{ data.repaid_rate }}</td>
-                                                <td>{{ data.inventory_rate }}</td>
-                                                <td>{{ data.profit_rate }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="disabled">
-                                                <a href="#!">
-                                                    <span><i class="mdi mdi-chevron-left"></i></span>
-                                                </a>
-                                            </li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#!">2</a></li>
-                                            <li><a href="#!">3</a></li>
-                                            <li><a href="#!">4</a></li>
-                                            <li><a href="#!">5</a></li>
-                                            <li><a href="#!">...</a></li>
-                                            <li><a href="#!">1000</a></li>
-                                            <li>
-                                                <a href="#!">
-                                                    <span><i class="mdi mdi-chevron-right"></i></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-responsive" style="overflow: scroll">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>年份</th>
+                                    <th>季度</th>
+                                    <th>营业额</th>
+                                    <th>营业费率</th>
+                                    <th>回款率</th>
+                                    <th>库存率</th>
+                                    <th>利润率</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for data in quarterly_result %}
+                                    <tr>
+                                        <th scope="row">{{ data.year }}</th>
+                                        <td>{{ data.quarter }}</td>
+                                        <td>{{ data.turnover }}</td>
+                                        <td>{{ data.operating_rate }}</td>
+                                        <td>{{ data.repaid_rate }}</td>
+                                        <td>{{ data.inventory_rate }}</td>
+                                        <td>{{ data.profit_rate }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="disabled">
+                                        <a href="#!">
+                                            <span><i class="mdi mdi-chevron-left"></i></span>
+                                        </a>
+                                    </li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#!">2</a></li>
+                                    <li><a href="#!">3</a></li>
+                                    <li><a href="#!">4</a></li>
+                                    <li><a href="#!">5</a></li>
+                                    <li><a href="#!">...</a></li>
+                                    <li><a href="#!">1000</a></li>
+                                    <li>
+                                        <a href="#!">
+                                            <span><i class="mdi mdi-chevron-right"></i></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </main>
-        <!--End 页面主要内容-->
+        </div>
     </div>
-</div>
+{% endblock %}
 
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
-</body>
-</html>
+{% block js_content %}
+
+{% endblock %}

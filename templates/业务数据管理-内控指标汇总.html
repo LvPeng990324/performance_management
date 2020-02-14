@@ -1,18 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>业务数据录入-内控指标汇总</title>
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
-    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
-    <meta name="author" content="yinqi">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+{% extends 'base.html' %}
 
+{% block modal_content %}
     <!--导入表格-->
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
@@ -213,311 +201,201 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block manage_data_active %}active open{% endblock %}
+{% block show_internal_control_indicators_active %}active{% endblock %}
 
-</head>
+{% block main_content %}
+    <div class="container-fluid">
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>成功!</strong> {{ message }}。
+        </div>
+        {% elif message.tags == 'error' %}
+        <div>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>错误!</strong> {{ message }}。
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
 
-<body>
-<div class="lyear-layout-web">
-    <div class="lyear-layout-container">
-        <!--左侧导航-->
-        <aside class="lyear-layout-sidebar">
-
-            <!-- logo -->
-            <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="images/index_logo.png" title="首页" alt="首页" /></a>
-            </div>
-            <div class="lyear-layout-sidebar-scroll">
-
-                <nav class="sidebar-main">
-                    <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="{% url 'index' %}"><i class="mdi mdi-home"></i> 首页</a> </li>
-
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="{% url 'display_monthly_sales_data' %}">月度营业数据</a> </li>
-                                <li> <a href="{% url 'display_quarterly_sales_data' %}">季度营业数据</a> </li>
-                                <li> <a href="{% url 'display_internal_control_indicators' %}">内控指标汇总</a> </li>
-                                <li> <a href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav active open">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="{% url 'show_monthly_sales_data' %}">月度营业数据</a> </li>
-                                <li> <a href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a> </li>
-                                <li class="active"> <a href="javascript:void(0)">内控指标汇总</a> </li>
-                                <li> <a href="{% url 'show_constant_data' %}">常量数据</a> </li>
-                            </ul>
-                        </li>
-                     
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
-                            <ul class="nav nav-subnav ">
-                                <li> <a href="#!">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="#!">季度绩效考核结果</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="#!">用户管理</a> </li>
-                                <li> <a href="#!">角色管理</a> </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
-                <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2020. <a target="_blank" href="https://www.cczu.edu.cn">常州大学</a> All rights reserved. </p>
-                </div>
-            </div>
-
-        </aside>
-        <!--End 左侧导航-->
-
-        <!--头部信息-->
-        <header class="lyear-layout-header">
-
-            <nav class="navbar navbar-default">
-                <div class="topbar">
-
-                    <div class="topbar-left">
-                        <div class="lyear-aside-toggler">
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>内控指标汇总</b></h4>
+                        <label for="year_s" class="control-label">年份：</label>
+                        <select name="type" class="form-control" id="year_s">
+                            <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
+                            <option value="2018">2018</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
+                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
+                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
                         </div>
-                        <span class="navbar-page-title"> 首页 </span>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <label class="lyear-checkbox checkbox-primary">
+                                            <input type="checkbox" id="check-all"><span></span>
+                                        </label>
+                                    </th>
+                                    <th>时间</th>
+                                    <th>订单号</th>
+                                    <th>计划交期</th>
+                                    <th>实际交期</th>
+                                    <th>完成数</th>
+                                    <th>未完成数</th>
+                                    <th>目标成功率</th>
+                                    <th>实际成功率</th>
+                                    <th>当月医药费</th>
+                                    <th>万元成本</th>
+                                    <th>现场管理符合数目</th>
+                                    <th>操作</th>
 
-                    <ul class="topbar-right">
-                        <li class="dropdown dropdown-profile">
-                            <a href="javascript:void(0)" data-toggle="dropdown">
-                                <span>CQY <span class="caret"></span></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li> <a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                                <li> <a href="lyear_pages_edit_pwd.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
-                                <li> <a href="javascript:void(0)"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
-                                <li class="divider"></li>
-                                <li> <a href="lyear_pages_login.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
-                            </ul>
-                        </li>
-                        <!--切换主题配色-->
-                       
-                        <!--切换主题配色-->
-                    </ul>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for data in internal_control_indicators %}
+                                <tr>
+                                    <td>
+                                        <label class="lyear-checkbox checkbox-primary">
+                                            <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
+                                        </label>
+                                    </td>
+                                    <td>{{ data.date|date:"Y年m月d日" }}</td>
+                                    <td>{{ data.order_number }}</td>
+                                    <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
+                                    <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
+                                    <td>{{ data.finished_number }}</td>
+                                    <td>{{ data.unfinished_number }}</td>
+                                    <td>{{ data.target_well_done_rate }}</td>
+                                    <td>{{ data.actual_well_done_rate }}</td>
+                                    <td>{{ data.month_medical_expenses }}</td>
+                                    <td>{{ data.cost_per_wan }}</td>
+                                    <td>{{ data.field_management_compliance }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
+                                            '{{ data.order_number }}', '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
+                                            '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
+                                            '{{ data.actual_well_done_rate }}', '{{ data.month_medical_expenses }}', '{{ data.cost_per_wan }}',
+                                            '{{ data.field_management_compliance }}')"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
 
-                </div>
-            </nav>
-
-        </header>
-        <!--End 头部信息-->
-
-        <!--页面主要内容-->
-        <main class="lyear-layout-content">
-
-            <div class="container-fluid">
-
-                {% if messages %}
-                {% for message in messages %}
-                {% if message.tags == 'success' %}
-                <div>
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>成功!</strong> {{ message }}。
-                </div>
-                {% elif message.tags == 'error' %}
-                <div>
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>错误!</strong> {{ message }}。
-                </div>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4><b>内控指标汇总</b></h4>
-                                <label for="year_s" class="control-label">年份：</label>
-                                <select name="type" class="form-control" id="year_s">
-                                    <option value="2015">2015</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                </select>
-                                <div class="toolbar-btn-action">
-                                    <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
-                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
-                                    <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                <label class="lyear-checkbox checkbox-primary">
-                                                    <input type="checkbox" id="check-all"><span></span>
-                                                </label>
-                                            </th>
-                                            <th>时间</th>
-                                            <th>订单号</th>
-                                            <th>计划交期</th>
-                                            <th>实际交期</th>
-                                            <th>完成数</th>
-                                            <th>未完成数</th>
-                                            <th>目标成功率</th>
-                                            <th>实际成功率</th>
-                                            <th>当月医药费</th>
-                                            <th>万元成本</th>
-                                            <th>现场管理符合数目</th>
-                                            <th>操作</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for data in internal_control_indicators %}
-                                        <tr>
-                                            <td>
-                                                <label class="lyear-checkbox checkbox-primary">
-                                                    <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
-                                                </label>
-                                            </td>
-                                            <td>{{ data.date|date:"Y年m月d日" }}</td>
-                                            <td>{{ data.order_number }}</td>
-                                            <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                            <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                            <td>{{ data.finished_number }}</td>
-                                            <td>{{ data.unfinished_number }}</td>
-                                            <td>{{ data.target_well_done_rate }}</td>
-                                            <td>{{ data.actual_well_done_rate }}</td>
-                                            <td>{{ data.month_medical_expenses }}</td>
-                                            <td>{{ data.cost_per_wan }}</td>
-                                            <td>{{ data.field_management_compliance }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
-                                                    '{{ data.order_number }}', '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
-                                                    '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
-                                                    '{{ data.actual_well_done_rate }}', '{{ data.month_medical_expenses }}', '{{ data.cost_per_wan }}',
-                                                    '{{ data.field_management_compliance }}')"><i class="mdi mdi-pencil"></i></a>
-                                                    <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="disabled">
-                                                <a href="#!">
-                                                    <span><i class="mdi mdi-chevron-left"></i></span>
-                                                </a>
-                                            </li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#!">2</a></li>
-                                            <li><a href="#!">3</a></li>
-                                            <li><a href="#!">4</a></li>
-                                            <li><a href="#!">5</a></li>
-                                            <li><a href="#!">...</a></li>
-                                            <li><a href="#!">1000</a></li>
-                                            <li>
-                                                <a href="#!">
-                                                    <span><i class="mdi mdi-chevron-right"></i></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="disabled">
+                                        <a href="#!">
+                                            <span><i class="mdi mdi-chevron-left"></i></span>
+                                        </a>
+                                    </li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#!">2</a></li>
+                                    <li><a href="#!">3</a></li>
+                                    <li><a href="#!">4</a></li>
+                                    <li><a href="#!">5</a></li>
+                                    <li><a href="#!">...</a></li>
+                                    <li><a href="#!">1000</a></li>
+                                    <li>
+                                        <a href="#!">
+                                            <span><i class="mdi mdi-chevron-right"></i></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </main>
-        <!--End 页面主要内容-->
+        </div>
     </div>
-</div>
+{% endblock %}
 
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
-<!-- 给确认删除模态框传值 -->
-<script type="text/javascript">
-    function give_delete_modal(delete_id) {
-        $('#id_delete_id').val(delete_id);
-    }
-</script>
-<!-- 给修改数据模态框传值 -->
-<script type="text/javascript">
-    function give_change_modal(change_id,
-                               change_date,
-                               change_order_number,
-                               change_scheduled_delivery,
-                               change_actual_delivery,
-                               change_finished_number,
-                               change_unfinished_number,
-                               change_target_well_done_rate,
-                               change_actual_well_done_rate,
-                               change_month_medical_expenses,
-                               change_cost_per_wan,
-                               change_field_management_compliance) {
-        $('#id_change_id').val(change_id);
-        $('#id_change_date').val(change_date);
-        $('#id_change_order_number').val(change_order_number);
-        $('#id_change_scheduled_delivery').val(change_scheduled_delivery);
-        $('#id_change_actual_delivery').val(change_actual_delivery);
-        $('#id_change_finished_number').val(change_finished_number);
-        $('#id_change_unfinished_number').val(change_unfinished_number);
-        $('#id_change_target_well_done_rate').val(change_target_well_done_rate);
-        $('#id_change_actual_well_done_rate').val(change_actual_well_done_rate);
-        $('#id_change_month_medical_expenses').val(change_month_medical_expenses);
-        $('#id_change_cost_per_wan').val(change_cost_per_wan);
-        $('#id_change_field_management_compliance').val(change_field_management_compliance);
-    }
-</script>
-<!-- 提交选中删除 -->
-<script type="text/javascript">
-    function dels() {
-        var a = document.getElementsByName("ids[]");
-        var case_id = [];
-        for (var i=0;i<a.length;i++){
-            if(a[i].checked){
-                case_id.push(a[i].value)
-            }
+{% block js_content %}
+    <!-- 给确认删除模态框传值 -->
+    <script type="text/javascript">
+        function give_delete_modal(delete_id) {
+            $('#id_delete_id').val(delete_id);
         }
-        console.log(case_id);
-        $.ajax({
-            type: "get",
-            url: "{% url 'delete_internal_control_indicators' %}",
-            traditional: true,
-            data: {'delete_id': case_id},
-            success: function (arg) {
-                if (arg==='success') {
-                    location.reload();
+    </script>
+    <!-- 给修改数据模态框传值 -->
+    <script type="text/javascript">
+        function give_change_modal(change_id,
+                                   change_date,
+                                   change_order_number,
+                                   change_scheduled_delivery,
+                                   change_actual_delivery,
+                                   change_finished_number,
+                                   change_unfinished_number,
+                                   change_target_well_done_rate,
+                                   change_actual_well_done_rate,
+                                   change_month_medical_expenses,
+                                   change_cost_per_wan,
+                                   change_field_management_compliance) {
+            $('#id_change_id').val(change_id);
+            $('#id_change_date').val(change_date);
+            $('#id_change_order_number').val(change_order_number);
+            $('#id_change_scheduled_delivery').val(change_scheduled_delivery);
+            $('#id_change_actual_delivery').val(change_actual_delivery);
+            $('#id_change_finished_number').val(change_finished_number);
+            $('#id_change_unfinished_number').val(change_unfinished_number);
+            $('#id_change_target_well_done_rate').val(change_target_well_done_rate);
+            $('#id_change_actual_well_done_rate').val(change_actual_well_done_rate);
+            $('#id_change_month_medical_expenses').val(change_month_medical_expenses);
+            $('#id_change_cost_per_wan').val(change_cost_per_wan);
+            $('#id_change_field_management_compliance').val(change_field_management_compliance);
+        }
+    </script>
+    <!-- 提交选中删除 -->
+    <script type="text/javascript">
+        function dels() {
+            var a = document.getElementsByName("ids[]");
+            var case_id = [];
+            for (var i=0;i<a.length;i++){
+                if(a[i].checked){
+                    case_id.push(a[i].value)
                 }
             }
-        });
-    }
-</script>
-</body>
-</html>
+            console.log(case_id);
+            $.ajax({
+                type: "get",
+                url: "{% url 'delete_internal_control_indicators' %}",
+                traditional: true,
+                data: {'delete_id': case_id},
+                success: function (arg) {
+                    if (arg==='success') {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}
