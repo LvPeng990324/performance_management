@@ -4,6 +4,11 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
 
+    # 登陆方法
+    path('user_login/', views.user_login, name='user_login'),
+    # 登出方法
+    path('user_logout/', views.user_logout, name='user_logout'),
+
     # 展示月度营业数据方法
     path('show_monthly_sales_data/', views.show_monthly_sales_data, name='show_monthly_sales_data'),
     # 增加月度营业数据方法

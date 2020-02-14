@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
@@ -15,6 +17,7 @@ from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
 
 
+@login_required
 def index(request):
     return render(request, '首页.html')
 
@@ -24,7 +27,38 @@ def test_page(request):
     return render(request, '数据统计-月度营业数据.html')
 
 
+# 登陆方法
+def user_login(request):
+    if request.method == 'GET':
+        return render(request, '登录.html')
+    else:
+        # 从前端获取用户名密码
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # 验证登录信息
+        user = authenticate(username=username, password=password)
+        if user:
+            # 登录成功，记录登录信息，重定向首页
+            login(request, user)
+            return redirect('index')
+        else:
+            # 登录失败，写入用户名密码错误信息并重载页面
+            messages.error(request, '用户名或密码错误')
+            return redirect('user_login')
+
+
+# 登出方法
+@login_required
+def user_logout(request):
+    # 登出用户
+    logout(request)
+    # 重定向登录页面
+    return redirect('user_login')
+
+
 # 展示月度营业数据方法
+@login_required
 def show_monthly_sales_data(request):
     # 从数据库中取出所有数据
     monthly_sales_data = MonthlySalesData.objects.all()
@@ -37,6 +71,7 @@ def show_monthly_sales_data(request):
 
 
 # 增加月度营业数据方法
+@login_required
 def add_monthly_sales_data(request):
     # 从前端获取数据
     year = request.POST.get('year')
@@ -69,6 +104,7 @@ def add_monthly_sales_data(request):
 
 
 # 删除月度营业数据方法
+@login_required
 def delete_monthly_sales_data(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -91,6 +127,7 @@ def delete_monthly_sales_data(request):
 
 
 # 修改月度营业数据
+@login_required
 def change_monthly_sales_data(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -128,6 +165,7 @@ def change_monthly_sales_data(request):
 
 
 # 展示季度营业数据方法
+@login_required
 def show_quarterly_sales_data(request):
     # 从数据库中取出所有数据
     quarterly_sales_data = QuarterlySalesData.objects.all()
@@ -140,6 +178,7 @@ def show_quarterly_sales_data(request):
 
 
 # 增加季度营业数据方法
+@login_required
 def add_quarterly_sales_data(request):
     # 从前端获取数据
     year = int(request.POST.get('year'))
@@ -169,6 +208,7 @@ def add_quarterly_sales_data(request):
 
 
 # 删除季度营业数据方法
+@login_required
 def delete_quarterly_sales_data(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -191,6 +231,7 @@ def delete_quarterly_sales_data(request):
 
 
 # 修改季度营业数据方法
+@login_required
 def change_quarterly_sales_data(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -221,6 +262,7 @@ def change_quarterly_sales_data(request):
 
 
 # 展示内控指标汇总表方法
+@login_required
 def show_internal_control_indicators(request):
     # 从数据库中取出所有数据
     internal_control_indicators = InternalControlIndicators.objects.all()
@@ -233,6 +275,7 @@ def show_internal_control_indicators(request):
 
 
 # 增加内控指标汇总表方法
+@login_required
 def add_internal_control_indicators(request):
     # 从前端获取数据
     date = request.POST.get('date')
@@ -280,6 +323,7 @@ def add_internal_control_indicators(request):
 
 
 # 删除内控指标汇总表方法
+@login_required
 def delete_internal_control_indicators(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -302,6 +346,7 @@ def delete_internal_control_indicators(request):
 
 
 # 修改内控指标汇总表方法
+@login_required
 def change_internal_control_indicators(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -354,6 +399,7 @@ def change_internal_control_indicators(request):
 
 
 # 传递月度营业数据接口方法
+@login_required
 def give_monthly_sales_data(request):
     # 从数据库中取出所有数据
     data = MonthlySalesData.objects.values()
@@ -361,6 +407,7 @@ def give_monthly_sales_data(request):
 
 
 # 传递季度营业数据接口方法
+@login_required
 def give_quarterly_sales_data(request):
     # 从数据库中取出所有数据
     data = QuarterlySalesData.objects.values()
@@ -375,6 +422,7 @@ def give_internal_control_indicators(request):
 
 
 # 上传月度营业数据表格方法
+@login_required
 def upload_monthly_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_monthly_performance(file_data)
@@ -391,6 +439,7 @@ def upload_monthly_performance(request):
 
 
 # 上传季度营业数据表格方法
+@login_required
 def upload_quarterly_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_quarterly_performance(file_data)
@@ -407,6 +456,7 @@ def upload_quarterly_performance(request):
 
 
 # 上传内控制表汇总表格方法
+@login_required
 def upload_internal_control_indicators_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_internal_control_indicators_performance(file_data)
@@ -423,6 +473,7 @@ def upload_internal_control_indicators_performance(request):
 
 
 # 展示常量数据方法
+@login_required
 def show_constant_data(request):
     # 从数据库中取出所有数据
     constant_data = ConstantData.objects.all()
@@ -435,6 +486,7 @@ def show_constant_data(request):
 
 
 # 增加常量数据方法
+@login_required
 def add_constant_data(request):
     # 从前端获取数据
     date = request.POST.get('date')
@@ -466,6 +518,7 @@ def add_constant_data(request):
 
 
 # 删除常量数据方法
+@login_required
 def delete_constant_data(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -488,11 +541,13 @@ def delete_constant_data(request):
 
 
 # 修改常量数据方法
+@login_required
 def change_constant_data(request):
     pass
 
 
 # 上传常量数据表格方法
+@login_required
 def upload_constant_data(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_constant_data(file_data)
@@ -509,6 +564,7 @@ def upload_constant_data(request):
 
 
 # 展示管理层月度绩效考核结果方法
+@login_required
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
     year_list = MonthlyPerformance.objects.values('year').distinct().order_by('-year')
@@ -546,6 +602,7 @@ def show_monthly_result(request):
 
 
 # 更新月度绩效考核结果的数据
+@login_required
 def refresh_monthly_result(request):
     # 更新月度绩效考核结果中数据项的值，并更新数据库
     result = CalcuteMonthlyPerformance.monthly_get_and_refresh()
@@ -557,6 +614,7 @@ def refresh_monthly_result(request):
 
 
 # 展示管理层季度绩效考核结果方法
+@login_required
 def show_quarterly_result(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlyPerformance.objects.values('year').distinct().order_by('-year')
@@ -594,6 +652,7 @@ def show_quarterly_result(request):
 
 
 # 更新季度绩效考核结果的数据
+@login_required
 def refresh_quarterly_result(request):
     # 更新季度绩效考核结果中数据项的值，并更新数据库
     result = CalculateQuarterlyPerformance.quarterly_get_and_refresh()
@@ -605,6 +664,7 @@ def refresh_quarterly_result(request):
 
 
 # 仅展示月度营业数据方法
+@login_required
 def display_monthly_sales_data(request):
     # 打包年份数据，去重并逆序排序
     year_list = MonthlySalesData.objects.values('year').distinct().order_by('-year')
@@ -642,6 +702,7 @@ def display_monthly_sales_data(request):
 
 
 # 仅展示季度营业数据方法
+@login_required
 def display_quarterly_sales_data(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
@@ -679,6 +740,7 @@ def display_quarterly_sales_data(request):
 
 
 # 仅展示内控指标汇总方法
+@login_required
 def display_internal_control_indicators(request):
     # 从数据库中取出所有数据
     internal_control_indicators = InternalControlIndicators.objects.all()
@@ -691,26 +753,31 @@ def display_internal_control_indicators(request):
 
 
 # 导出月度营业数据excel
+@login_required
 def export_monthly_sales_data(request):
     return ExportTable.export_monthly_sales_data()
 
 
 # 导出季度营业数据excel
+@login_required
 def export_quarterly_sales_data(request):
     return ExportTable.export_quarterly_sales_data()
 
 
 # 导出内控指标汇总excel
+@login_required
 def export_internal_control_indicators(request):
     return ExportTable.export_internal_control_indicators()
 
 
 # 导出月度绩效考核结果
+@login_required
 def export_monthly_performance(request):
     return ExportTable.export_monthly_performance()
 
 
 # 导出季度绩效考核结果
+@login_required
 def export_quarterly_performance(request):
     return ExportTable.export_quarterly_performance()
 

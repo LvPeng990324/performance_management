@@ -1,13 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>登录页面 - 利润绩效管理系统</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
     <style>
         .lyear-wrapper {
             position: relative;
@@ -54,7 +55,15 @@
             <div class="login-header text-center">
                 <h3> 利润绩效管理系统</h3>
             </div>
-            <form action="#!" method="post">
+
+            {% if messages %}
+            {% for message in messages %}
+                <p style="color: red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+
+            <form action="{% url 'user_login' %}" method="post">
+                {% csrf_token %}
                 <div class="form-group has-feedback feedback-left">
                     <input type="text" placeholder="请输入您的用户名" class="form-control" name="username" id="username" />
                     <span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
@@ -67,7 +76,7 @@
 
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-block btn-primary" type="button" onclick="location.href='首页demo.html'">立即登录</button>
+                    <button class="btn btn-block btn-primary" type="submit" onclick="location.href='首页demo.html'">立即登录</button>
                 </div>
             </form>
             <hr>
@@ -77,8 +86,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript">;</script>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
 </body>
 </html>

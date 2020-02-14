@@ -142,3 +142,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+# 定义未登录要重定向的登录链接
+LOGIN_URL = '/user_login/'
