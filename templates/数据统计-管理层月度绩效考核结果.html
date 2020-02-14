@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css_content %}
+    <link href="{% static 'css/echarts.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block modal_content %}
     <!--导出excel-->
@@ -68,7 +73,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive" style="overflow: scroll">
+                        <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -96,29 +101,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="disabled">
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-left"></i></span>
-                                        </a>
-                                    </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#!">2</a></li>
-                                    <li><a href="#!">3</a></li>
-                                    <li><a href="#!">4</a></li>
-                                    <li><a href="#!">5</a></li>
-                                    <li><a href="#!">...</a></li>
-                                    <li><a href="#!">1000</a></li>
-                                    <li>
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-right"></i></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        {% if year_list %}
+                            <div id="chart_line" class="chart_line"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -127,5 +112,70 @@
 {% endblock %}
 
 {% block js_content %}
-
+    <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('chart_line'));
+        option = {
+            title: {
+                text: '{{ current_year }}年度各月份绩效考核结果',
+                textStyle: {
+                    fontSize: 22,
+                },
+                left: 'center',
+            },
+            legend: {
+                data: ['交付率', '成品率', '医药费', '内控综合成本', '现场管理'],
+                top: 'bottom',
+            },
+            toolbox: {
+                feature: {
+                    magicType: {show: true, type: ['bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true},
+                },
+                padding:[0, 100]
+            },
+            grid: {
+                left: '6%',
+                right: '6%',
+                bottom: '8%',
+                containLabel: true,
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name: '月份',
+                type: 'category',
+                boundaryGap: false,
+                data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+            },
+            yAxis: {
+                name: '%',
+                type: 'value',
+            },
+            series: [{
+                name: '交付率',
+                data: [{% for data in monthly_result %}{{ data.delivery_rate }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '成品率',
+                data: [{% for data in monthly_result %}{{ data.well_done_rate }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '医药费',
+                data: [{% for data in monthly_result %}{{ data.medical_expenses }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '内控综合成本',
+                data: [{% for data in monthly_result %}{{ data.overall_cost }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '现场管理',
+                data: [{% for data in monthly_result %}{{ data.field_management }}, {% endfor %}],
+                type: 'line'
+            },]
+        };
+        myChart.setOption(option);
+    </script>
 {% endblock %}

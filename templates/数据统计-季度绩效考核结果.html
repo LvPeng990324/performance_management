@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css_content %}
+    <link href="{% static 'css/echarts.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block modal_content %}
     <!--导出excel-->
@@ -7,17 +12,18 @@
             <div class="modal-content">
                 <form action="{% url 'export_monthly_performance' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
-                </div>
-                <div class="modal-body">
-                    如遇编码问题，请使用微软office。
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-danger">下载</button>
-                </div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
+                    </div>
+                    <div class="modal-body">
+                        如遇编码问题，请使用微软office。
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">下载</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -51,12 +57,15 @@
                         <h4><b>季度绩效考核结果（业务）</b></h4>
                         <a href="{% url 'refresh_quarterly_result' %}">刷新数据</a>
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="false" aria-expanded="true">
                                 {{ current_year }} <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 {% for year in year_list %}
-                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a></li>
+                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a
+                                            href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a>
+                                    </li>
                                 {% endfor %}
 
                             </ul>
@@ -69,7 +78,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive" style="overflow: scroll">
+                        <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -97,29 +106,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="disabled">
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-left"></i></span>
-                                        </a>
-                                    </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#!">2</a></li>
-                                    <li><a href="#!">3</a></li>
-                                    <li><a href="#!">4</a></li>
-                                    <li><a href="#!">5</a></li>
-                                    <li><a href="#!">...</a></li>
-                                    <li><a href="#!">1000</a></li>
-                                    <li>
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-right"></i></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        {% if year_list %}
+                            <div id="chart_bar" class="chart_bar"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -128,5 +117,66 @@
 {% endblock %}
 
 {% block js_content %}
-
+    <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('chart_bar'));
+        option = {
+            title: {
+                text: '{{ current_year }}年度各季度绩效考核结果',
+                textStyle: {
+                    fontSize: 22,
+                },
+                left: 'center',
+            },
+            legend: {
+                top: 'bottom',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow',
+                },
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {show: true},
+                },
+                padding: [0, 120]
+            },
+            dataset: {
+                source: [
+                    ['季度', '第一季度', '第二季度', '第三季度', '第四季度'],
+                    ['营业额', {% for data in quarterly_result %}{{ data.turnover }}, {% endfor %},],
+                    ['营业费率', {% for data in quarterly_result %}{{ data.operating_rate }}, {% endfor %},],
+                    ['回款率', {% for data in quarterly_result %}{{ data.repaid_rate }}, {% endfor %},],
+                    ['库存率', {% for data in quarterly_result %}{{ data.inventory_rate }}, {% endfor %},],
+                    ['利润率', {% for data in quarterly_result %}{{ data.profit_rate }}, {% endfor %},],
+                ]
+            },
+            xAxis: [
+                {type: 'category', gridIndex: 1},
+                {type: 'category', gridIndex: 0},
+            ],
+            yAxis: [
+                {gridIndex: 1},
+                {gridIndex: 0},
+            ],
+            grid: [
+                {bottom: '55%'},
+                {top: '55%'}
+            ],
+            series: [
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', seriesLayoutBy: 'row'},
+                {type: 'bar', seriesLayoutBy: 'row'},
+                {type: 'bar', seriesLayoutBy: 'row'},
+                {type: 'bar', seriesLayoutBy: 'row'},
+                {type: 'bar', seriesLayoutBy: 'row'},
+            ]
+        };
+        myChart.setOption(option);
+    </script>
 {% endblock %}

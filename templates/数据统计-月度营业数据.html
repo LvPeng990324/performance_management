@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css_content %}
+    <link href="{% static 'css/echarts.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block modal_content %}
     <!--导出excel-->
@@ -7,17 +12,18 @@
             <div class="modal-content">
                 <form action="{% url 'export_monthly_sales_data' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
-                </div>
-                <div class="modal-body">
-                    如遇编码问题，请使用微软office。
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-danger">下载</button>
-                </div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
+                    </div>
+                    <div class="modal-body">
+                        如遇编码问题，请使用微软office。
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">下载</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -35,18 +41,22 @@
                     <div class="card-header">
                         <h4><b>月度营业数据</b></h4>
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="false" aria-expanded="true">
                                 {{ current_year }} <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 {% for year in year_list %}
-                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a href="{% url 'display_monthly_sales_data' %}?select_year={{ year.year }}">{{ year.year }}</a></li>
+                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a
+                                            href="{% url 'display_monthly_sales_data' %}?select_year={{ year.year }}">{{ year.year }}</a>
+                                    </li>
                                 {% endfor %}
-
                             </ul>
                         </div>
                         <div class="toolbar-btn-action">
-                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel</button>
+                            <button type="button" class="btn btn-success pull-right" data-toggle="modal"
+                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -78,29 +88,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="disabled">
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-left"></i></span>
-                                        </a>
-                                    </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#!">2</a></li>
-                                    <li><a href="#!">3</a></li>
-                                    <li><a href="#!">4</a></li>
-                                    <li><a href="#!">5</a></li>
-                                    <li><a href="#!">...</a></li>
-                                    <li><a href="#!">1000</a></li>
-                                    <li>
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-right"></i></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        {% if year_list %}
+                            <div id="chart_line" class="chart_line"></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -109,5 +99,70 @@
 {% endblock %}
 
 {% block js_content %}
-
+    <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('chart_line'));
+        option = {
+            title: {
+                text: '{{ current_year }}年度各月份营业数据',
+                textStyle: {
+                    fontSize: 22,
+                },
+                left: 'center',
+            },
+            legend: {
+                data: ['营业额', '营业费用', '回款额', '库存量', '利润额'],
+                top: 'bottom',
+            },
+            toolbox: {
+                feature: {
+                    magicType: {show: true, type: ['bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true},
+                },
+                padding:[0, 100]
+            },
+            grid: {
+                left: '6%',
+                right: '6%',
+                bottom: '8%',
+                containLabel: true,
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name: '月份',
+                type: 'category',
+                boundaryGap: false,
+                data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+            },
+            yAxis: {
+                name: '万',
+                type: 'value',
+            },
+            series: [{
+                name: '营业额',
+                data: [{% for data in monthly_sales_data %}{{ data.turnover }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '营业费用',
+                data: [{% for data in monthly_sales_data %}{{ data.operating_expenses }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '回款额',
+                data: [{% for data in monthly_sales_data %}{{ data.amount_repaid }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '库存量',
+                data: [{% for data in monthly_sales_data %}{{ data.inventory }}, {% endfor %}],
+                type: 'line'
+            }, {
+                name: '利润额',
+                data: [{% for data in monthly_sales_data %}{{ data.profit }}, {% endfor %}],
+                type: 'line'
+            },]
+        };
+        myChart.setOption(option);
+    </script>
 {% endblock %}
