@@ -15,7 +15,7 @@ from .utils import UploadTable
 from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
-
+from .utils.Paginator import PageInfo
 
 @login_required
 def index(request):
@@ -742,14 +742,25 @@ def display_quarterly_sales_data(request):
 # 仅展示内控指标汇总方法
 @login_required
 def display_internal_control_indicators(request):
-    # 从数据库中取出所有数据
-    internal_control_indicators = InternalControlIndicators.objects.all()
+    all_count = InternalControlIndicators.objects.all().count()
+    page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators')
+    internal_control_indicators = InternalControlIndicators.objects.all()[
+                                  page_info.start():page_info.end()]
+
     # 打包数据
     context = {
         'internal_control_indicators': internal_control_indicators,
+        'page_info': page_info,
     }
     # 引导前端页面
     return render(request, '数据统计-内控指标汇总.html', context=context)
+    # 从数据库中取出所有数据
+    # internal_control_indicators = InternalControlIndicators.objects.all()
+    # 打包数据
+    # context = {
+    #     'internal_control_indicators': internal_control_indicators,
+    # }
+
 
 
 # 导出月度营业数据excel
@@ -797,18 +808,18 @@ def test_authenticate(job_number, password):
 
 # 测试使用用户扩展表
 def test_extension(request):
-    user = User.objects.create_user(
-        username='syx',
-        password='111',
-    )
+    # user = User.objects.create_user(
+    #     username='syx',
+    #     password='111',
+    # )
     # user = User.objects.first()
-    user.extension.job_number = '12345'
-    user.save()
-    job_number = '12345'
-    password = '111'
-    user = test_authenticate(job_number, password)
-    if user:
-        print('welcome!%s' % user.username)
-    else:
-        print('验证失败')
+    # user.extension.job_number = '12345'
+    # user.save()
+    # job_number = '12345'
+    # password = '111'
+    # user = test_authenticate(job_number, password)
+    # if user:
+    #     print('welcome!%s' % user.username)
+    # else:
+    #     print('验证失败')
     return HttpResponse('ok')
