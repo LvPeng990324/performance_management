@@ -1,6 +1,167 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
+    <!--导入表格-->
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'upload_monthly_performance' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">导入账号表格</h4>
+                    </div>
+                    <div class="modal-body">
+                        支持excel和csv文件
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="upload_file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">导入</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--删除按钮(选中)-->
+    <div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">删除账号</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除选中账号?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除按钮(单条)-->
+    <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'delete_monthly_sales_data' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">删除账号</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除该账号?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_id" name="delete_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--修改按钮-->
+    <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <form action="{% url 'add_monthly_sales_data' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addLabel">修改账号信息</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="year_n" class="control-label">工号：</label>
+                            <input type="text" class="form-control" id="job_number_m" name="job_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year_n" class="control-label">姓名：</label>
+                            <input type="text" class="form-control" id="name_m" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="turnover_n" class="control-label">所在部门：</label>
+                            <input type="text" class="form-control" id="department_m" name="department" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenses_n" class="control-label">邮箱：</label>
+                            <input type="text" class="form-control" id="email_m" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenses_n" class="control-label">电话：</label>
+                            <input type="text" class="form-control" id="telephone_m" name="telephone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="return_n" class="control-label">登录密码：</label>
+                            <input type="text" class="form-control" id="password_m" name="password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--新增按钮-->
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'add_monthly_sales_data' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addLabel">新增账号信息</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="year_n" class="control-label">工号：</label>
+                            <input type="text" class="form-control" id="job_number_n" name="job_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year_n" class="control-label">姓名：</label>
+                            <input type="text" class="form-control" id="name_n" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="turnover_n" class="control-label">所在部门：</label>
+                            <input type="text" class="form-control" id="department_n" name="department" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenses_n" class="control-label">邮箱：</label>
+                            <input type="text" class="form-control" id="email_n" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenses_n" class="control-label">电话：</label>
+                            <input type="text" class="form-control" id="telephone_n" name="telephone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="return_n" class="control-label">登录密码：</label>
+                            <input type="text" class="form-control" id="password_n" name="password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
@@ -21,8 +182,15 @@
                         <button class="btn btn-default" type="button">搜索</button>
                     </span>
                     <div class="toolbar-btn-action">
-                        <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
-                        <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
+                        <button type="button" class="btn btn-danger m-r-5 pull-right"
+                                data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
+                        </button>
+                        <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格
+                            </button>
+                        <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                                data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -42,7 +210,6 @@
                                 <th>邮箱</th>
                                 <th>角色</th>
                                 <th>上次登录时间</th>
-                                <th>是否已启用</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -60,7 +227,6 @@
                                 <th>123@qq.com</th>
                                 <th>超级管理员</th>
                                 <th>2020/2/12 00:00</th>
-                                <th>已启用</th>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
@@ -81,7 +247,6 @@
                                 <th>123@qq.com</th>
                                 <th>超级管理员</th>
                                 <th>2020/2/12 00:00</th>
-                                <th>已启用</th>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
@@ -102,7 +267,6 @@
                                 <th>123@qq.com</th>
                                 <th>超级管理员</th>
                                 <th>2020/2/12 00:00</th>
-                                <th>已启用</th>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
@@ -123,7 +287,6 @@
                                 <th>123@qq.com</th>
                                 <th>超级管理员</th>
                                 <th>2020/2/12 00:00</th>
-                                <th>已启用</th>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
