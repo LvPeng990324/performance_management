@@ -53,7 +53,7 @@
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'delete_monthly_sales_data' %}" method="post">
+                <form action="{% url 'delete_user' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -76,7 +76,7 @@
     <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-               <form action="{% url 'add_monthly_sales_data' %}" method="post">
+               <form action="{% url 'change_user' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -85,29 +85,22 @@
                     </div>
 
                     <div class="modal-body">
+                        <input hidden id="id_change_id" name="change_id">
                         <div class="form-group">
-                            <label for="year_n" class="control-label">工号：</label>
-                            <input type="text" class="form-control" id="job_number_m" name="job_number" required>
+                            <label for="id_job_number" class="control-label">工号：</label>
+                            <input type="text" class="form-control" id="id_change_job_number" name="job_number" required>
                         </div>
                         <div class="form-group">
-                            <label for="year_n" class="control-label">姓名：</label>
-                            <input type="text" class="form-control" id="name_m" name="name" required>
+                            <label for="id_name" class="control-label">姓名：</label>
+                            <input type="text" class="form-control" id="id_change_name" name="name" required>
                         </div>
                         <div class="form-group">
                             <label for="turnover_n" class="control-label">所在部门：</label>
-                            <input type="text" class="form-control" id="department_m" name="department" required>
+                            <input type="text" class="form-control" id="id_change_department" name="department" required>
                         </div>
                         <div class="form-group">
-                            <label for="expenses_n" class="control-label">邮箱：</label>
-                            <input type="text" class="form-control" id="email_m" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="expenses_n" class="control-label">电话：</label>
-                            <input type="text" class="form-control" id="telephone_m" name="telephone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="return_n" class="control-label">登录密码：</label>
-                            <input type="text" class="form-control" id="password_m" name="password" required>
+                            <label for="expenses_n" class="control-label">手机：</label>
+                            <input type="text" class="form-control" id="id_change_telephone" name="telephone" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -122,7 +115,7 @@
     <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'add_monthly_sales_data' %}" method="post">
+                <form action="{% url 'add_user' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -142,10 +135,6 @@
                         <div class="form-group">
                             <label for="turnover_n" class="control-label">所在部门：</label>
                             <input type="text" class="form-control" id="department_n" name="department" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="expenses_n" class="control-label">邮箱：</label>
-                            <input type="text" class="form-control" id="email_n" name="email" required>
                         </div>
                         <div class="form-group">
                             <label for="expenses_n" class="control-label">电话：</label>
@@ -244,8 +233,8 @@
                                     <th>{{ user.last_login }}</th>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ user.id }}')"><i class="mdi mdi-window-close"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -261,3 +250,63 @@
 </div>
 {% endblock %}
 
+{% block js_content %}
+    <!-- 给确认删除模态框传值 -->
+    <script type="text/javascript">
+        function give_delete_modal(delete_id) {
+            $('#id_delete_id').val(delete_id);
+        }
+    </script>
+    <!-- 提交选中删除 -->
+    <script type="text/javascript">
+        function dels() {
+            var a = document.getElementsByName("ids[]");
+            var case_id = [];
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].checked) {
+                    case_id.push(a[i].value)
+                }
+            }
+            console.log(case_id);
+            $.ajax({
+                type: "get",
+                url: "{% url 'delete_user' %}",
+                traditional: true,
+                data: {'delete_id': case_id},
+                success: function (arg) {
+                    if (arg === 'success') {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    </script>
+    <!-- 给修改数据模态框传值 -->
+    <script type="text/javascript">
+        function give_change_modal(change_id,
+                                   change_job_number,
+                                   change_name,
+                                   change_department,
+                                   change_telephone,) {
+            $('#id_change_id').val(change_id);
+            $('#id_change_job_number').val(change_job_number);
+            $('#id_change_name').val(change_name);
+            $('#id_change_department').val(change_department);
+            $('#id_change_telephone').val(change_telephone);
+        }
+    </script>
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

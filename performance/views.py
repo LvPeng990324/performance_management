@@ -70,6 +70,80 @@ def user_management(request):
     return render(request, '账号权限管理-账号管理.html', context=context)
 
 
+# 新增账号方法
+def add_user(request):
+    # 从前端获取填写用户信息
+    job_number = request.POST.get('job_number')
+    name = request.POST.get('name')
+    department = request.POST.get('department')
+    telephone = request.POST.get('telephone')
+    password = request.POST.get('password')
+
+    # 保存用户
+    try:
+        user = User.objects.get_or_create(
+            username=job_number,
+            password=password,
+            last_name=name,
+        )[0]
+        user.extension.job_number = job_number
+        user.extension.department = department
+        user.extension.telephone = telephone
+        user.save()
+        # 写入成功提示
+        messages.success(request, '用户增加成功')
+    except:
+        # 写入失败提示
+        messages.error(request, '用户增加失败')
+    # 重载账号展示页面
+    return redirect('user_management')
+
+
+# 删除账号方法
+def delete_user(request):
+    # GET为多条删除，POST为单条删除
+    if request.method == 'GET':
+        delete_id = request.GET.getlist('delete_id', [])
+        # 遍历删除
+        for id in delete_id:
+            User.objects.get(id=id).delete()
+        # 写入删除成功提示
+        messages.success(request, '选中用户删除成功')
+        # 返回成功
+        return HttpResponse('success')
+    else:
+        # 取得要删除的id
+        delete_id = request.POST.get('delete_id')
+        # 从数据库中删除
+        User.objects.get(id=delete_id).delete()
+        # 写入删除成功提示
+        messages.success(request, '用户删除成功')
+    # 重载账号展示页面
+    return redirect('user_management')
+
+
+# 修改账户方法
+def change_user(request):
+    # 从前端获取要修改的id
+    change_id = request.POST.get('change_id')
+    # 获取修改后的信息
+    job_number = request.POST.get('job_number')
+    name = request.POST.get('name')
+    department = request.POST.get('department')
+    telephone = request.POST.get('telephone')
+    # 取出此账户并更新信息
+    user = User.objects.get(id=change_id)
+    user.extension.job_number = job_number
+    user.last_name = name
+    user.extension.department = department
+    user.extension.telephone = telephone
+    user.save()
+    # 写入成功提示
+    messages.success(request, '用户信息修改成功')
+    # 重载账号展示页面
+    return redirect('user_management')
+
+
 # 展示月度营业数据方法
 @login_required
 def show_monthly_sales_data(request):
