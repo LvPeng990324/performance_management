@@ -53,6 +53,8 @@ urlpatterns = [
     path('upload_quarterly_performance/', views.upload_quarterly_performance, name='upload_quarterly_performance'),
     # 上传内控制表汇总表格方法
     path('upload_internal_control_indicators_performance/', views.upload_internal_control_indicators_performance, name='upload_internal_control_indicators_performance'),
+    # 上传账号信息表方法
+    path('upload_user/', views.upload_user, name='upload_user'),
     # 增加常量数据方法
     path('add_constant_data/', views.add_constant_data, name='add_constant_data'),
     # 删除常量数据方法
