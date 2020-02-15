@@ -1,224 +1,94 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>报表公式修改-管理层月度绩效考核结果</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="成本绩效管理系统">
-    <meta name="description" content="成本绩效管理系统。">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="css/style.min.css" rel="stylesheet">
+{% extends 'base.html' %}
 
-</head>
-
-<body>
-<div class="lyear-layout-web">
-    <div class="lyear-layout-container">
-        <!--左侧导航-->
-        <aside class="lyear-layout-sidebar">
-
-            <!-- logo -->
-            <div id="logo" class="sidebar-header">
-                <a href="首页demo.html"><img src="images/index_logo.png" title="首页" alt="首页" /></a>
-            </div>
-            <div class="lyear-layout-sidebar-scroll">
-
-                <nav class="sidebar-main">
-                    <ul class="nav nav-drawer">
-                        <li class="nav-item"> <a href="首页demo.html"><i class="mdi mdi-home"></i> 首页</a> </li>
-
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="#!">月度营业数据</a> </li>
-                                <li> <a href="#!">季度营业数据</a> </li>
-                                <li> <a href="#!">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="#!">季度绩效考核结果</a> </li>
-                                <li> <a href="#!">内控指标汇总</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
-                            <ul class="nav nav-subnav ">
-                                <li> <a href="#!">月度营业数据</a> </li>
-                                <li> <a href="#!">季度营业数据</a> </li>
-                                <li> <a href="#!">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="#!">季度绩效考核结果</a> </li>
-                                <li> <a href="#!">内控指标汇总</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav active open">
-                            <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
-                            <ul class="nav nav-subnav ">
-                                <li class="active"> <a href="报表公式修改-管理层月度绩效考核结果.html">管理层月度绩效考核结果</a> </li>
-                                <li> <a href="报表公式修改-季度绩效考核结果.html">季度绩效考核结果</a> </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
-                            <ul class="nav nav-subnav">
-                                <li> <a href="#!">用户管理</a> </li>
-                                <li> <a href="#!">角色管理</a> </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </nav>
-
-                <div class="sidebar-footer">
-                    <p class="copyright">Copyright &copy; 2020. <a target="_blank" href="https://www.cczu.edu.cn">常州大学</a> All rights reserved. </p>
-                </div>
-            </div>
-
-        </aside>
-        <!--End 左侧导航-->
-
-        <!--头部信息-->
-        <header class="lyear-layout-header">
-
-            <nav class="navbar navbar-default">
-                <div class="topbar">
-
-                    <div class="topbar-left">
-                        <div class="lyear-aside-toggler">
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                        </div>
-                        <span class="navbar-page-title"> 首页 </span>
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>修改公式</b></h4>
                     </div>
-
-                    <ul class="topbar-right">
-                        <li class="dropdown dropdown-profile">
-                            <a href="javascript:void(0)" data-toggle="dropdown">
-
-                                <span>CQY <span class="caret"></span></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li> <a href="个人信息.html"><i class="mdi mdi-account"></i> 个人信息</a> </li>
-                                <li> <a href="修改密码.html"><i class="mdi mdi-lock-outline"></i> 修改密码</a> </li>
-                                <li class="divider"></li>
-                                <li> <a href="登录.html"><i class="mdi mdi-logout-variant"></i> 退出登录</a> </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                </div>
-            </nav>
-
-        </header>
-        <!--页面主要内容-->
-        <main class="lyear-layout-content">
-
-            <div class="container-fluid">
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4><b>修改公式</b></h4>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                            </tr>
+                            <tr>
+                                <td>A</td>
+                                <td>当月约定订单数（给定，录入）</td>
+                            </tr>
+                            <tr>
+                                <td>B</td>
+                                <td>当月实际交付数（内控指标汇总 完成数）</td>
+                            </tr>
+                            <tr>
+                                <td>C</td>
+                                <td>当月挖掘成本（内控指标汇总 目标成本-万元成本 目标成本 给定 录入）</td>
+                            </tr>
+                            <tr>
+                                <td>D</td>
+                                <td>当月成品率（实际成品率） </td>
+                            </tr>
+                            <tr>
+                                <td>E</td>
+                                <td>历史成品率参考值（表里取，数据模拟）</td>
+                            </tr>
+                            <tr>
+                                <td>F</td>
+                                <td>历史医药费月度参考值（表里取，数据模拟）</td>
+                            </tr>
+                            <tr>
+                                <td>G</td>
+                                <td>当月医药费（内控指标汇总 当月医药费）</td>
+                            </tr>
+                            <tr>
+                                <td>H</td>
+                                <td>万元产值成本均值（表里取，数据模拟）</td>
+                            </tr>
+                            <tr>
+                                <td>I</td>
+                                <td>万元产值成本（内控指标汇总 万元成本）</td>
+                            </tr>
+                            <tr>
+                                <td>K</td>
+                                <td>现场管理对应标准符合数（内控指标汇总 ）</td>
+                            </tr>
+                            <tr>
+                                <td>L</td>
+                                <td>现场管理标准目标数（给定，录入）</td>
+                            </tr>
+                        </table>
+                        <form action="#!" method="post" class="row">
+                            <div class="form-group col-md-12">
+                                <label for="delivery_rate">交付率公式</label>
+                                <input type="text" class="form-control" id="delivery_rate" name="delivery_rate" value="B/A*100%*C*25%*20%" />
                             </div>
-                            <div class="card-body">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>参数</th>
-                                        <th>说明</th>
-                                    </tr>
-                                    <tr>
-                                        <td>A</td>
-                                        <td>当月约定订单数（给定，录入）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>B</td>
-                                        <td>当月实际交付数（内控指标汇总 完成数）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>C</td>
-                                        <td>当月挖掘成本（内控指标汇总 目标成本-万元成本 目标成本 给定 录入）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>D</td>
-                                        <td>当月成品率（实际成品率） </td>
-                                    </tr>
-                                    <tr>
-                                        <td>E</td>
-                                        <td>历史成品率参考值（表里取，数据模拟）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>F</td>
-                                        <td>历史医药费月度参考值（表里取，数据模拟）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>G</td>
-                                        <td>当月医药费（内控指标汇总 当月医药费）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>H</td>
-                                        <td>万元产值成本均值（表里取，数据模拟）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>I</td>
-                                        <td>万元产值成本（内控指标汇总 万元成本）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>K</td>
-                                        <td>现场管理对应标准符合数（内控指标汇总 ）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>L</td>
-                                        <td>现场管理标准目标数（给定，录入）</td>
-                                    </tr>
-                                </table>
-                                <form action="#!" method="post" class="row">
-                                    <div class="form-group col-md-12">
-                                        <label for="delivery_rate">交付率公式</label>
-                                        <input type="text" class="form-control" id="delivery_rate" name="delivery_rate" value="B/A*100%*C*25%*20%" />
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="well_done_rate">成品率公式</label>
-                                        <input type="text" class="form-control" id="well_done_rate" name="well_done_rate" value="D/E*100%*C*25%*20%" />
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="medical_expenses">医药费公式</label>
-                                        <input type="text" class="form-control" id="medical_expenses" name="medical_expenses" value="(1-G/F*100%)*c*25%*15%" />
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="overall_cost">内控综合成本公式</label>
-                                        <input type="text" class="form-control" id="overall_cost" name="overall_cost" value="(1-I/H*100%)*c*25%*30%" />
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label for="field_management">现场管理公式</label>
-                                        <input type="text" class="form-control" id="field_management" name="field_management" value="K/L*100%*C*25%*10%" />
-                                    </div>
-
-                                    <div class="form-group col-md-12">
-                                        <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">保 存</button>
-                                        <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
-                                    </div>
-                                </form>
-
+                            <div class="form-group col-md-12">
+                                <label for="well_done_rate">成品率公式</label>
+                                <input type="text" class="form-control" id="well_done_rate" name="well_done_rate" value="D/E*100%*C*25%*20%" />
                             </div>
-                        </div>
+                            <div class="form-group col-md-12">
+                                <label for="medical_expenses">医药费公式</label>
+                                <input type="text" class="form-control" id="medical_expenses" name="medical_expenses" value="(1-G/F*100%)*c*25%*15%" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="overall_cost">内控综合成本公式</label>
+                                <input type="text" class="form-control" id="overall_cost" name="overall_cost" value="(1-I/H*100%)*c*25%*30%" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="field_management">现场管理公式</label>
+                                <input type="text" class="form-control" id="field_management" name="field_management" value="K/L*100%*C*25%*10%" />
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">保 存</button>
+                                <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
+                            </div>
+                        </form>
                     </div>
-
                 </div>
-
             </div>
-
-        </main>
-        <!--End 页面主要内容-->
+        </div>
     </div>
-</div>
-
-
-
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="js/main.min.js"></script>
-
-<!--图表插件-->
-</body>
-</html>
+{% endblock %}
