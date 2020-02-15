@@ -11,6 +11,7 @@ class UserExtension(models.Model):
     telephone = models.CharField(max_length=100, verbose_name='电话号码')
     department = models.CharField(max_length=100, verbose_name='部门')
 
+
 # 接收到save信号，将扩展表与原表绑定
 @receiver(post_save, sender=User)
 def handler_user_extension(sender, instance, created, **kwargs):
@@ -126,6 +127,30 @@ class ConstantData(models.Model):
     class Meta:
         verbose_name_plural = '常量数据'
         verbose_name = '常量数据'
+
+    def __str__(self):
+        return str(self.id)
+
+
+class MonthlyFormula(models.Model):
+    target_item = models.CharField(max_length=100, verbose_name='指标')
+    formula = models.CharField(max_length=100, verbose_name='公式')
+
+    class Meta:
+        verbose_name_plural = '月度绩效考核公式表'
+        verbose_name = '月度绩效考核公式表'
+
+    def __str__(self):
+        return str(self.id)
+
+
+class QuarterlyFormula(models.Model):
+    target_item = models.CharField(max_length=100, verbose_name='指标')
+    formula = models.CharField(max_length=100, verbose_name='公式')
+
+    class Meta:
+        verbose_name_plural = '季度绩效考核公式表'
+        verbose_name = '季度绩效考核公式表'
 
     def __str__(self):
         return str(self.id)
