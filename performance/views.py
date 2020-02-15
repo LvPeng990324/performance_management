@@ -38,6 +38,7 @@ def user_login(request):
         # 从前端获取用户名密码
         username = request.POST.get('username')
         password = request.POST.get('password')
+
         # 验证登录信息
         user = authenticate(username=username, password=password)
         if user:
@@ -558,6 +559,22 @@ def upload_internal_control_indicators_performance(request):
         messages.error(request, result)
         # 重定向数据展示页面
         return redirect('show_internal_control_indicators')
+
+
+# 上传用户信息表格方法
+def upload_user(request):
+    file_data = request.FILES.get('upload_file')
+    result = UploadTable.upload_user_excel(file_data)
+    if result == 0:
+        # 写入导入成功提示
+        messages.success(request, '导入成功')
+        # 重定向账号展示页面
+        return redirect('user_management')
+    else:
+        # 写入相应的错误提示
+        messages.error(request, result)
+        # 重定向账号展示页面
+        return redirect('user_management')
 
 
 # 展示常量数据方法

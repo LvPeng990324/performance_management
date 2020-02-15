@@ -29,7 +29,7 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="首页.html"><img src="{% static 'images/index-logo.png' %}" title="首页" alt="首页"/></a>
+                <a href="{% url 'index' %}"><img src="{% static 'images/index-logo.png' %}" title="首页" alt="首页"/></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
@@ -66,18 +66,18 @@
                                         href="{% url 'show_constant_data' %}">常量数据</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item nav-item-has-subnav {% block change_formula_active %}{% endblock %}">
+                        <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
                             <ul class="nav nav-subnav ">
-                                <li class="{% block month_formula_active %}{% endblock %}"><a href="{% url 'month_result_formula' %}">管理层月度绩效考核结果</a></li>
-                                <li class="{% block quarter_formula_active %}{% endblock %}"><a href="{% url 'quarter_result_formula' %}">季度绩效考核结果</a></li>
+                                <li class=""><a href="#!">管理层月度绩效考核结果</a></li>
+                                <li class=""><a href="#!">季度绩效考核结果</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav {% block user_permission_management_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
-                                <li class="{% block user_management_active %}{% endblock %}"><a href="{% url 'user_management' %}">用户管理</a></li>
-                                <li class=""><a href="#!">角色管理</a></li>
+                                <li class="{% block user_management_active %}{% endblock %}"><a href="{% url 'user_management' %}">账号管理</a></li>
+                                <li class=""><a href="#!">权限管理</a></li>
                             </ul>
                         </li>
                     </ul>

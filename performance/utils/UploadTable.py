@@ -11,6 +11,7 @@ from performance.models import MonthlySalesData
 from performance.models import QuarterlySalesData
 from performance.models import InternalControlIndicators
 from performance.models import ConstantData
+from performance.models import User
 
 
 # 将excel中日期类型转为datetime对象
@@ -240,3 +241,43 @@ def upload_constant_data_excel(file_data):
 def upload_constant_data_csv(file_data):
     return '暂不支持csv文件，请先转换为excel'
 
+
+# 上传账号信息表
+def upload_user(file_data):
+    # 判断文件类型并分别使用下边不同方法处理
+    file_type = get_file_type(file_data)
+    # excel表
+    if file_type == 'xls' or file_type == 'xlsx':
+        return upload_user_excel(file_data)
+    # csv表
+    elif file_type == 'csv':
+        upload_user_csv(file_data)
+    # 不支持的类型返回错误信息
+    else:
+        return '不支持的文件类型'
+
+
+# 账号信息excel表
+def upload_user_excel(file_data):
+    # 获取列表数据
+    table_list = get_excel_list(file_data)
+    # 将数据写入数据库
+    try:
+        for temp_data in table_list:
+            user = User.objects.get_or_create(
+                username=temp_data[1],
+                password=temp_data[4],
+                last_name=temp_data[2],
+            )[0]
+            user.extension.job_number = temp_data[1]
+            user.extension.department = temp_data[0]
+            user.extension.telephone = temp_data[3]
+            user.save()
+    except:
+        return '写入数据库失败'
+    return 0
+
+
+# 账号信息csv表
+def upload_user_csv(file_data):
+    return '暂不支持csv文件，请先转换为excel'
