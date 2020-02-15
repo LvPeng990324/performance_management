@@ -10,6 +10,8 @@ from .models import InternalControlIndicators
 from .models import ConstantData
 from .models import MonthlyPerformance
 from .models import QuarterlyPerformance
+from .models import MonthlyFormula
+from .models import QuarterlyFormula
 from .models import User
 from .utils import UploadTable
 from .utils import ExportTable
@@ -36,7 +38,6 @@ def user_login(request):
         # 从前端获取用户名密码
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         # 验证登录信息
         user = authenticate(username=username, password=password)
         if user:
@@ -691,13 +692,15 @@ def show_monthly_result(request):
 # 更新月度绩效考核结果的数据
 @login_required
 def refresh_monthly_result(request):
+    # 获取选中年份
+    current_year = request.GET.get('select_year')
     # 更新月度绩效考核结果中数据项的值，并更新数据库
-    result = CalcuteMonthlyPerformance.monthly_get_and_refresh()
+    result = CalcuteMonthlyPerformance.monthly_get_and_refresh(current_year)
     if result == 'success':
         messages.success(request, '数据刷新成功')
     else:
-        messages.error(result, '数据刷新失败，请重试')
-    return redirect('show_monthly_result')
+        messages.error(request, '数据刷新失败，请重试')
+    return redirect('/show_monthly_result?select_year=%s' % current_year)
 
 
 # 展示管理层季度绩效考核结果方法
@@ -741,13 +744,15 @@ def show_quarterly_result(request):
 # 更新季度绩效考核结果的数据
 @login_required
 def refresh_quarterly_result(request):
+    # 获取选中年份
+    current_year = request.GET.get('select_year')
     # 更新季度绩效考核结果中数据项的值，并更新数据库
-    result = CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+    result = CalculateQuarterlyPerformance.quarterly_get_and_refresh(current_year)
     if result == 'success':
         messages.success(request, '数据刷新成功')
     else:
-        messages.error(result, '数据刷新失败，请重试')
-    return redirect('show_quarterly_result')
+        messages.error(request, '数据刷新失败，请重试')
+    return redirect('/show_quarterly_result?select_year=%s' % current_year)
 
 
 # 仅展示月度营业数据方法
@@ -889,3 +894,58 @@ def quarter_result_formula(request):
     return render(request, '报表公式修改-季度绩效考核结果.html')
 
 
+def test_formula(request):
+    # User.objects.create_user(username='syx1',password=123)
+    A = 1000
+    B = 2000
+    C = 3000
+    D = 4000
+    E = 5000
+    F = 6000
+    G = 7000
+    H = 8000
+    I = 9000
+    K = 10000
+    print(10)
+    # 月度测试，包含大写字母、/、*、数字
+    right_delivery_rate = round(B / A * C * 0.25 * 0.20, 2)
+    print(right_delivery_rate)
+    right_well_done_rate = round(D / E * C * 0.25 * 0.25, 2)
+    print(right_well_done_rate)
+    right_medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
+    print(right_medical_expenses)
+    str_delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
+    str_well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
+    str_medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
+    print(str_delivery_rate)
+    print(str_well_done_rate)
+    print(str_medical_expenses)
+    print(eval(str_delivery_rate))
+    print(eval(str_well_done_rate))
+    print(round(eval(MonthlyFormula.objects.filter(target_item='交付率').first().formula),2))
+    # medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
+    # overall_cost = round((1 - I / H) * C * 0.25 * 0.30, 2)
+    # field_management = round(K / L * C * 0.25 * 0.10, 2)
+
+    # 季度测试 包括大写括号、%、小写括号
+    # turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额
+    # operating_rate = round(C * (B / A) * 0.3 / (1 - E) * (1 - D), 2)  # 营业费率
+    # repaid_rate = round(C * (B / A) * 0.2 * F, 2)  # 回款率
+    # inventory_rate = round(C * (B / A) * 0.1 / (1 - H) * (1 - G), 2)  # 库存率
+    # profit_rate = round(C * (B / A) * 0.2 / K * I, 2)  # 利润率
+    # print('right:')
+    # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
+
+    str_turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
+    str_operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
+    str_repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
+    str_inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
+    str_profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
+    print(str_turnover)
+    print(eval(str_turnover),
+          eval(str_operating_rate),
+          eval(str_repaid_rate),
+          eval(str_inventory_rate),
+          eval(str_profit_rate))
+
+    return HttpResponse('ok')

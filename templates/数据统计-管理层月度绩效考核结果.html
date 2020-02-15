@@ -35,27 +35,12 @@
 
 {% block main_content %}
     <div class="container-fluid">
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <div>
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong>成功!</strong> {{ message }}。
-                    </div>
-                {% elif message.tags == 'error' %}
-                    <div>
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong>错误!</strong> {{ message }}。
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4><b>管理层月度绩效考核结果（内控）</b></h4>
-                        <a href="{% url 'refresh_monthly_result' %}">刷新数据</a>
+                        <a href="{% url 'refresh_monthly_result' %}?select_year={{ current_year }}">刷新数据</a>
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
                                 {{ current_year }} <span class="caret"></span>
@@ -80,8 +65,8 @@
                                     <th>月份</th>
                                     <th>交付率</th>
                                     <th>成品率</th>
-                                    <th>医药费(万元)</th>
-                                    <th>内控综合成本(万元)</th>
+                                    <th>医药费</th>
+                                    <th>内控综合成本</th>
                                     <th>现场管理</th>
                                 </tr>
                                 </thead>
@@ -146,7 +131,7 @@
                 name: '月份',
                 type: 'category',
                 boundaryGap: false,
-                data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+                data: [{% for data in monthly_result %}'{{ data.month }}月',{% endfor %}]
             },
             yAxis: {
                 name: '%',
@@ -176,4 +161,18 @@
         };
         myChart.setOption(option);
     </script>
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

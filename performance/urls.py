@@ -99,6 +99,9 @@ urlpatterns = [
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
 
+    # 公式测试
+    path('test_formula/', views.test_formula, name='test_formula'),
+
 
 
 ]

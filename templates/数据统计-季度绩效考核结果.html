@@ -35,27 +35,12 @@
 
 {% block main_content %}
     <div class="container-fluid">
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <div>
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong>成功!</strong> {{ message }}。
-                    </div>
-                {% elif message.tags == 'error' %}
-                    <div>
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong>错误!</strong> {{ message }}。
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h4><b>季度绩效考核结果（业务）</b></h4>
-                        <a href="{% url 'refresh_quarterly_result' %}">刷新数据</a>
+                        <a href="{% url 'refresh_quarterly_result' %}?select_year={{ current_year }}">刷新数据</a>
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="false" aria-expanded="true">
@@ -143,12 +128,12 @@
             },
             dataset: {
                 source: [
-                    ['季度', '第一季度', '第二季度', '第三季度', '第四季度'],
-                    ['营业额', {% for data in quarterly_result %}{{ data.turnover }}, {% endfor %},],
-                    ['营业费率', {% for data in quarterly_result %}{{ data.operating_rate }}, {% endfor %},],
-                    ['回款率', {% for data in quarterly_result %}{{ data.repaid_rate }}, {% endfor %},],
-                    ['库存率', {% for data in quarterly_result %}{{ data.inventory_rate }}, {% endfor %},],
-                    ['利润率', {% for data in quarterly_result %}{{ data.profit_rate }}, {% endfor %},],
+                    ['季度', {% for data in quarterly_result %}'第{{ data.quarter }}季度', {% endfor %}],
+                    ['营业额', {% for data in quarterly_result %}{{ data.turnover }}, {% endfor %}],
+                    ['营业费率', {% for data in quarterly_result %}{{ data.operating_rate }}, {% endfor %}],
+                    ['回款率', {% for data in quarterly_result %}{{ data.repaid_rate }}, {% endfor %}],
+                    ['库存率', {% for data in quarterly_result %}{{ data.inventory_rate }}, {% endfor %}],
+                    ['利润率', {% for data in quarterly_result %}{{ data.profit_rate }}, {% endfor %}],
                 ]
             },
             xAxis: [
@@ -177,4 +162,18 @@
         };
         myChart.setOption(option);
     </script>
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

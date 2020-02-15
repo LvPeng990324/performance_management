@@ -25,6 +25,7 @@ from django.db.models import Count, Sum, Avg
 from performance.models import ConstantData
 from performance.models import QuarterlySalesData
 from performance.models import QuarterlyPerformance
+from performance.models import QuarterlyFormula
 
 
 # 获取A值方法
@@ -74,15 +75,15 @@ def get_e(need_year, need_quarter, history_time):
         start_year = need_year - history_time
         start_quarter = need_quarter
         # 例：现need_year为2019，need_quarter为2，则需获取2016.2季度.-2019.1季度的数据
-        # 1.获取2016年6月及以上月份的数据
+        # 1.获取2016年2季度以后的数据
         data1 = QuarterlySalesData.objects.filter(
-            year=start_year, quarter__gte=start_quarter)
+            year=start_year, quarter__gt=start_quarter)
         # 2.获取2017、2018年的数据
         data2 = QuarterlySalesData.objects.filter(
             year__gt=start_year, year__lt=need_year)
-        # 3.获取2019年5月及以下月份的数据
+        # 3.获取2019年2季度以及之前的数据
         data3 = QuarterlySalesData.objects.filter(
-            year=need_year, quarter__lt=start_quarter)
+            year=need_year, quarter__lte=start_quarter)
         data_list = data1 | data2 | data3
         all_operating_rate = 0
         for data in data_list:
@@ -125,15 +126,15 @@ def get_h(need_year, need_quarter, history_time):
         start_year = need_year - history_time
         start_quarter = need_quarter
         # 例：现need_year为2019，need_quarter为2，则需获取2016.2季度.-2019.1季度的数据
-        # 1.获取2016年6月及以上月份的数据
+        # 1.获取2016年2季度以后的数据
         data1 = QuarterlySalesData.objects.filter(
-            year=start_year, quarter__gte=start_quarter)
+            year=start_year, quarter__gt=start_quarter)
         # 2.获取2017、2018年的数据
         data2 = QuarterlySalesData.objects.filter(
             year__gt=start_year, year__lt=need_year)
-        # 3.获取2019年5月及以下月份的数据
+        # 3.获取2019年2季度以及之前的数据
         data3 = QuarterlySalesData.objects.filter(
-            year=need_year, quarter__lt=start_quarter)
+            year=need_year, quarter__lte=start_quarter)
         data_list = data1 | data2 | data3
         all_inventory_rate = 0
         for data in data_list:
@@ -163,15 +164,15 @@ def get_k(need_year, need_quarter, history_time):
         start_year = need_year - history_time
         start_quarter = need_quarter
         # 例：现need_year为2019，need_quarter为2，则需获取2016.2季度.-2019.1季度的数据
-        # 1.获取2016年6月及以上月份的数据
+        # 1.获取2016年2季度以后的数据
         data1 = QuarterlySalesData.objects.filter(
-            year=start_year, quarter__gte=start_quarter)
+            year=start_year, quarter__gt=start_quarter)
         # 2.获取2017、2018年的数据
         data2 = QuarterlySalesData.objects.filter(
             year__gt=start_year, year__lt=need_year)
-        # 3.获取2019年5月及以下月份的数据
+        # 3.获取2019年2季度以及之前的数据
         data3 = QuarterlySalesData.objects.filter(
-            year=need_year, quarter__lt=start_quarter)
+            year=need_year, quarter__lte=start_quarter)
         data_list = data1 | data2 | data3
         all_profit_rate = 0
         for data in data_list:
@@ -182,63 +183,80 @@ def get_k(need_year, need_quarter, history_time):
     return k
 
 
-def quarterly_get_and_refresh():
+def quarterly_get_and_refresh(current_year):
     # 更新2017-2019的数据
-    for year in range(2017, 2021):
-        for quarter in range(1, 5):
-            history_year = 3  # 历史年限
-            A = get_a(year)
-            B = get_b(year)
-            C = get_c(year, quarter)
-            D = get_d(year, quarter)
-            E = get_e(year, quarter, history_year)
-            F = get_f(year, quarter)
-            G = get_g(year, quarter)
-            H = get_h(year, quarter, history_year)
-            I = get_i(year, quarter)
-            K = get_k(year, quarter, history_year)
-            # print('A=', A)
-            # print('B=', B)
-            # print('C=', C)
-            # print('D=', D)
-            # print('E=', E)
-            # print('F=', F)
-            # print('G=', G)
-            # print('H=', H)
-            # print('I=', I)
-            # print('K=', K)
+    year = int(current_year)
+    error_time = 0
+    for quarter in range(1, 5):
+        history_year = 3  # 历史年限
+        A = get_a(year)
+        B = get_b(year)
+        C = get_c(year, quarter)
+        D = get_d(year, quarter)
+        E = get_e(year, quarter, history_year)
+        F = get_f(year, quarter)
+        G = get_g(year, quarter)
+        H = get_h(year, quarter, history_year)
+        I = get_i(year, quarter)
+        K = get_k(year, quarter, history_year)
+        # print('A=', A)
+        # print('B=', B)
+        # print('C=', C)
+        # print('D=', D)
+        # print('E=', E)
+        # print('F=', F)
+        # print('G=', G)
+        # print('H=', H)
+        # print('I=', I)
+        # print('K=', K)
 
-            try:
-                turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额
-                operating_rate = round(C * (B / A) * 0.3 / (1 - E) * (1 - D), 2)  # 营业费率
-                repaid_rate = round(C * (B / A) * 0.2 * F, 2)  # 回款率
-                inventory_rate = round(C * (B / A) * 0.1 / (1 - H) * (1 - G), 2)  # 库存率
-                profit_rate = round(C * (B / A) * 0.2 / K * I, 2)  # 利润率
-                # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
+        try:
+            # 公式写死
+            # turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额
+            # operating_rate = round(C * (B / A) * 0.3 / (1 - E) * (1 - D), 2)  # 营业费率
+            # repaid_rate = round(C * (B / A) * 0.2 * F, 2)  # 回款率
+            # inventory_rate = round(C * (B / A) * 0.1 / (1 - H) * (1 - G), 2)  # 库存率
+            # profit_rate = round(C * (B / A) * 0.2 / K * I, 2)  # 利润率
+            # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
 
-                new_data = {
-                    'year': year,
-                    'quarter': quarter,
-                    'turnover': turnover,
-                    'operating_rate': operating_rate,
-                    'repaid_rate': repaid_rate,
-                    'inventory_rate': inventory_rate,
-                    'profit_rate': profit_rate,
-                }
+            # 从数据库中取到公式
+            turnover = round(eval(QuarterlyFormula.objects.filter(
+                target_item='营业额').first().formula), 2)
+            operating_rate = round(eval(QuarterlyFormula.objects.filter(
+                target_item='营业费率').first().formula), 2)
+            repaid_rate = round(eval(QuarterlyFormula.objects.filter(
+                target_item='回款率').first().formula), 2)
+            inventory_rate = round(eval(QuarterlyFormula.objects.filter(
+                target_item='库存率').first().formula), 2)
+            profit_rate = round(eval(QuarterlyFormula.objects.filter(
+                target_item='利润率').first().formula), 2)
+            # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
 
-                obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
-                if obj:
-                    # 如果该月数据已存在，则更新
-                    QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
-                    print("%s年%s季度 更新成功" % (year, quarter))
-                else:
-                    QuarterlyPerformance.objects.create(**new_data)
-                    print("%s年%s季度 成功存入" % (year, quarter))
+            new_data = {
+                'year': year,
+                'quarter': quarter,
+                'turnover': turnover,
+                'operating_rate': operating_rate,
+                'repaid_rate': repaid_rate,
+                'inventory_rate': inventory_rate,
+                'profit_rate': profit_rate,
+            }
 
-            except:
-                print("%s年%s季度 数据异常，操作失败" % (year, quarter))
+            obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
+            if obj:
+                # 如果该月数据已存在，则更新
+                QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
+                print("%s年%s季度 更新成功" % (year, quarter))
+            else:
+                QuarterlyPerformance.objects.create(**new_data)
+                print("%s年%s季度 成功存入" % (year, quarter))
+
+        except:
+            print("%s年%s季度 数据异常，操作失败" % (year, quarter))
+            error_time += 1
+
+    # 如果四个季度都获取失败，则返回错误信息
+    if error_time == 4:
+        return 'error'
+
     return 'success'
-
-
-if __name__ == '__main__':
-    quarterly_get_and_refresh()
