@@ -17,6 +17,7 @@ from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
 from .utils.Paginator import PageInfo
 
+
 @login_required
 def index(request):
     return render(request, '首页.html')
@@ -24,7 +25,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '数据统计-月度营业数据.html')
+    return render(request, '账号权限管理-权限界面.html')
 
 
 # 登陆方法
