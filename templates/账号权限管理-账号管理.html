@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
-{% block main_content %}
+{% block user_permission_management_active %}active open{% endblock %}
+{% block user_management_active %}active{% endblock %}
+
+{% block modal_content %}
     <!--导入表格-->
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
@@ -161,7 +164,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block main_content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
@@ -186,7 +191,7 @@
                                 data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
                         </button>
                         <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格
+                                    data-target="#export"><i class="mdi mdi-file-excel"></i> 导入表格
                             </button>
                         <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
                                 data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
@@ -203,97 +208,48 @@
                                         <input type="checkbox" id="check-all"><span></span>
                                     </label>
                                 </th>
-                                <th>ID</th>
                                 <th>部门</th>
                                 <th>工号</th>
-                                <th>账号名</th>
-                                <th>邮箱</th>
+                                <th>姓名</th>
+                                <th>手机</th>
                                 <th>角色</th>
                                 <th>上次登录时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <label class="lyear-checkbox checkbox-primary">
-                                        <input type="checkbox" name="ids[]" value="2"><span></span>
-                                    </label>
-                                </td>
-                                <th>1</th>
-                                <th>人事部</th>
-                                <th>10202020</th>
-                                <td>CQY</td>
-                                <th>123@qq.com</th>
-                                <th>超级管理员</th>
-                                <th>2020/2/12 00:00</th>
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="lyear-checkbox checkbox-primary">
-                                        <input type="checkbox" name="ids[]" value="2"><span></span>
-                                    </label>
-                                </td>
-                                <th>2</th>
-                                <th>人事部</th>
-                                <th>10202021</th>
-                                <td>AAA</td>
-                                <th>123@qq.com</th>
-                                <th>超级管理员</th>
-                                <th>2020/2/12 00:00</th>
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="lyear-checkbox checkbox-primary">
-                                        <input type="checkbox" name="ids[]" value="2"><span></span>
-                                    </label>
-                                </td>
-                                <th>3</th>
-                                <th>人事部</th>
-                                <th>10202022</th>
-                                <td>BBB</td>
-                                <th>123@qq.com</th>
-                                <th>超级管理员</th>
-                                <th>2020/2/12 00:00</th>
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="lyear-checkbox checkbox-primary">
-                                        <input type="checkbox" name="ids[]" value="2"><span></span>
-                                    </label>
-                                </td>
-                                <th>4</th>
-                                <th>人事部</th>
-                                <th>10202023</th>
-                                <td>CCC</td>
-                                <th>123@qq.com</th>
-                                <th>超级管理员</th>
-                                <th>2020/2/12 00:00</th>
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                        <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
+                            {% for user in users %}
+                                <tr>
+                                    <td>
+                                        <label class="lyear-checkbox checkbox-primary">
+                                            <input type="checkbox" name="ids[]" value="{{ user.id }}"><span></span>
+                                        </label>
+                                    </td>
+                                    <th>{{ user.extension.department }}</th>
+                                    <th>{{ user.extension.job_number }}</th>
+                                    <td>{{ user.last_name }}</td>
+                                    <th>{{ user.extension.telephone }}</th>
+                                    {% if user.is_superuser %}
+                                        <th>超级管理员</th>
+                                    {% elif user.groups.all %}
+                                        <th>
+                                        {% for group in user.groups.all %}
+                                            {{ group }}
+                                            <br>
+                                        {% endfor %}
+                                        </th>
+                                    {% else %}
+                                        <th><p style="color: blue">未分配</p></th>
+                                    {% endif %}
+                                    <th>{{ user.last_login }}</th>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

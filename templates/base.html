@@ -73,10 +73,10 @@
                                 <li class=""><a href="#!">季度绩效考核结果</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item nav-item-has-subnav">
+                        <li class="nav-item nav-item-has-subnav {% block user_permission_management_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
-                                <li class=""><a href="#!">用户管理</a></li>
+                                <li class="{% block user_management_active %}{% endblock %}"><a href="{% url 'user_management' %}">用户管理</a></li>
                                 <li class=""><a href="#!">角色管理</a></li>
                             </ul>
                         </li>

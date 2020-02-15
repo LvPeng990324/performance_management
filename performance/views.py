@@ -58,6 +58,18 @@ def user_logout(request):
     return redirect('user_login')
 
 
+# 展示账号管理页面方法
+def user_management(request):
+    # 获取所有用户信息
+    users = User.objects.all()
+    # 打包信息
+    context = {
+        'users': users,
+    }
+    # 引导前端页面
+    return render(request, '账号权限管理-账号管理.html', context=context)
+
+
 # 展示月度营业数据方法
 @login_required
 def show_monthly_sales_data(request):

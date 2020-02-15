@@ -8,6 +8,8 @@ urlpatterns = [
     path('user_login/', views.user_login, name='user_login'),
     # 登出方法
     path('user_logout/', views.user_logout, name='user_logout'),
+    # 展示账号管理页面方法
+    path('user_management/', views.user_management, name='user_management'),
 
     # 展示月度营业数据方法
     path('show_monthly_sales_data/', views.show_monthly_sales_data, name='show_monthly_sales_data'),
