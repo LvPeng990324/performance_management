@@ -58,26 +58,27 @@
                                 <td>前三年利润率参考值（表里取、数据模拟）'</td>
                             </tr>
                         </table>
-                        <form action="#!" method="post" class="row">
+                        <form action="{% url 'change_quarter_formula' %}" method="post" class="row">
+                            {% csrf_token %}
                             <div class="form-group col-md-12">
                                 <label for="turnover">营业额公式</label>
-                                <input type="text" class="form-control" id="turnover" name="turnover" value="C*(B/A)%*20%/A*25%C" />
+                                <input type="text" class="form-control" id="turnover" name="turnover" value="{{ turnover }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="operating_rate">营业费率公式</label>
-                                <input type="text" class="form-control" id="operating_rate" name="operating_rate" value="C*(B/A)%*30%/(1-E)*(1-D)" />
+                                <input type="text" class="form-control" id="operating_rate" name="operating_rate" value="{{ operating_rate }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="repaid_rate">回款率公式</label>
-                                <input type="text" class="form-control" id="repaid_rate" name="repaid_rate" value="C*(B/A)%*20%/100%*F" />
+                                <input type="text" class="form-control" id="repaid_rate" name="repaid_rate" value="{{ repaid_rate }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inventory_rate">库存率公式</label>
-                                <input type="text" class="form-control" id="inventory_rate" name="inventory_rate" value="C*(B/A)%*10%/(1-H)*(1-G)" />
+                                <input type="text" class="form-control" id="inventory_rate" name="inventory_rate" value="{{ inventory_rate }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="profit_rate">利润率公式</label>
-                                <input type="text" class="form-control" id="profit_rate" name="profit_rate" value="C*(B/A)%*20%/K*Y" />
+                                <input type="text" class="form-control" id="profit_rate" name="profit_rate" value="{{ profit_rate }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">保 存</button>
@@ -89,4 +90,21 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js_content %}
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

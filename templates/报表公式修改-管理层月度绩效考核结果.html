@@ -62,26 +62,27 @@
                                 <td>现场管理标准目标数（给定，录入）</td>
                             </tr>
                         </table>
-                        <form action="#!" method="post" class="row">
+                        <form action="{% url 'change_month_formula' %}" method="post" class="row">
+                            {% csrf_token %}
                             <div class="form-group col-md-12">
                                 <label for="delivery_rate">交付率公式</label>
-                                <input type="text" class="form-control" id="delivery_rate" name="delivery_rate" value="B/A*100%*C*25%*20%" />
+                                <input type="text" class="form-control" id="delivery_rate" name="delivery_rate" value="{{ delivery_rate }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="well_done_rate">成品率公式</label>
-                                <input type="text" class="form-control" id="well_done_rate" name="well_done_rate" value="D/E*100%*C*25%*20%" />
+                                <input type="text" class="form-control" id="well_done_rate" name="well_done_rate" value="{{ well_done_rate }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="medical_expenses">医药费公式</label>
-                                <input type="text" class="form-control" id="medical_expenses" name="medical_expenses" value="(1-G/F*100%)*c*25%*15%" />
+                                <input type="text" class="form-control" id="medical_expenses" name="medical_expenses" value="{{ medical_expenses }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="overall_cost">内控综合成本公式</label>
-                                <input type="text" class="form-control" id="overall_cost" name="overall_cost" value="(1-I/H*100%)*c*25%*30%" />
+                                <input type="text" class="form-control" id="overall_cost" name="overall_cost" value="{{ overall_cost }}" />
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="field_management">现场管理公式</label>
-                                <input type="text" class="form-control" id="field_management" name="field_management" value="K/L*100%*C*25%*10%" />
+                                <input type="text" class="form-control" id="field_management" name="field_management" value="{{ field_management }}" />
                             </div>
 
                             <div class="form-group col-md-12">
@@ -94,4 +95,21 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js_content %}
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -13,6 +13,7 @@ from .models import QuarterlyPerformance
 from .models import MonthlyFormula
 from .models import QuarterlyFormula
 from .models import User
+from .forms import cleaned_formula
 from .utils import UploadTable
 from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
@@ -903,66 +904,77 @@ def export_quarterly_performance(request):
 
 # 展示公式修改页-月度绩效考核
 def month_result_formula(request):
-    return render(request, '报表公式修改-管理层月度绩效考核结果.html')
+    delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
+    well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
+    medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
+    overall_cost = MonthlyFormula.objects.filter(target_item='内控综合成本').first().formula
+    field_management = MonthlyFormula.objects.filter(target_item='现场管理').first().formula
+    context = {
+        'delivery_rate': delivery_rate,
+        'well_done_rate': well_done_rate,
+        'medical_expenses': medical_expenses,
+        'overall_cost': overall_cost,
+        'field_management': field_management,
+    }
+    return render(request, '报表公式修改-管理层月度绩效考核结果.html', context=context)
 
 
 # 展示公式修改页-季度绩效考核
 def quarter_result_formula(request):
-    return render(request, '报表公式修改-季度绩效考核结果.html')
+    turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
+    operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
+    repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
+    inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
+    profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
+    context = {
+        'turnover': turnover,
+        'operating_rate': operating_rate,
+        'repaid_rate': repaid_rate,
+        'inventory_rate': inventory_rate,
+        'profit_rate': profit_rate,
+    }
+    return render(request, '报表公式修改-季度绩效考核结果.html', context=context)
 
 
-def test_formula(request):
-    # User.objects.create_user(username='syx1',password=123)
-    A = 1000
-    B = 2000
-    C = 3000
-    D = 4000
-    E = 5000
-    F = 6000
-    G = 7000
-    H = 8000
-    I = 9000
-    K = 10000
-    print(10)
-    # 月度测试，包含大写字母、/、*、数字
-    right_delivery_rate = round(B / A * C * 0.25 * 0.20, 2)
-    print(right_delivery_rate)
-    right_well_done_rate = round(D / E * C * 0.25 * 0.25, 2)
-    print(right_well_done_rate)
-    right_medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
-    print(right_medical_expenses)
-    str_delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
-    str_well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
-    str_medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
-    print(str_delivery_rate)
-    print(str_well_done_rate)
-    print(str_medical_expenses)
-    print(eval(str_delivery_rate))
-    print(eval(str_well_done_rate))
-    print(round(eval(MonthlyFormula.objects.filter(target_item='交付率').first().formula),2))
-    # medical_expenses = round((1 - G / F) * C * 0.25 * 0.15, 2)
-    # overall_cost = round((1 - I / H) * C * 0.25 * 0.30, 2)
-    # field_management = round(K / L * C * 0.25 * 0.10, 2)
+def change_month_formula(request):
+    # 获取输入的每个公式
+    delivery_rate = request.POST.get('delivery_rate')
+    well_done_rate = request.POST.get('well_done_rate')
+    medical_expenses = request.POST.get('medical_expenses')
+    overall_cost = request.POST.get('overall_cost')
+    field_management = request.POST.get('field_management')
+    # 验证公式合法性
+    for data in [delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management]:
+        if cleaned_formula(data) is False:
+            messages.error(request, '公式中存在非法字符，请重试')
+            return redirect('month_result_formula')
+    # 合法数据
+    MonthlyFormula.objects.filter(target_item='交付率').update(formula=delivery_rate)
+    MonthlyFormula.objects.filter(target_item='成品率').update(formula=well_done_rate)
+    MonthlyFormula.objects.filter(target_item='医药费').update(formula=medical_expenses)
+    MonthlyFormula.objects.filter(target_item='内控综合成本').update(formula=overall_cost)
+    MonthlyFormula.objects.filter(target_item='现场管理').update(formula=field_management)
+    messages.success(request, '公式更改成功')
+    return redirect('month_result_formula')
 
-    # 季度测试 包括大写括号、%、小写括号
-    # turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额
-    # operating_rate = round(C * (B / A) * 0.3 / (1 - E) * (1 - D), 2)  # 营业费率
-    # repaid_rate = round(C * (B / A) * 0.2 * F, 2)  # 回款率
-    # inventory_rate = round(C * (B / A) * 0.1 / (1 - H) * (1 - G), 2)  # 库存率
-    # profit_rate = round(C * (B / A) * 0.2 / K * I, 2)  # 利润率
-    # print('right:')
-    # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
 
-    str_turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
-    str_operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
-    str_repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
-    str_inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
-    str_profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
-    print(str_turnover)
-    print(eval(str_turnover),
-          eval(str_operating_rate),
-          eval(str_repaid_rate),
-          eval(str_inventory_rate),
-          eval(str_profit_rate))
-
-    return HttpResponse('ok')
+def change_quarter_formula(request):
+    # 获取输入的每个公式
+    turnover = request.POST.get('turnover')
+    operating_rate = request.POST.get('operating_rate')
+    repaid_rate = request.POST.get('repaid_rate')
+    inventory_rate = request.POST.get('inventory_rate')
+    profit_rate = request.POST.get('profit_rate')
+    # 验证公式合法性
+    for data in [turnover, operating_rate, repaid_rate, inventory_rate, profit_rate]:
+        if cleaned_formula(data) is False:
+            messages.error(request, '公式中存在非法字符，请重试')
+            return redirect('quarter_result_formula')
+    # 合法数据
+    QuarterlyFormula.objects.filter(target_item='营业额').update(formula=turnover)
+    QuarterlyFormula.objects.filter(target_item='营业费率').update(formula=operating_rate)
+    QuarterlyFormula.objects.filter(target_item='回款率').update(formula=repaid_rate)
+    QuarterlyFormula.objects.filter(target_item='库存率').update(formula=inventory_rate)
+    QuarterlyFormula.objects.filter(target_item='利润率').update(formula=profit_rate)
+    messages.success(request, '公式更改成功')
+    return redirect('quarter_result_formula')

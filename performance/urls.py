@@ -98,12 +98,13 @@ urlpatterns = [
     # 展示公式修改页-季度绩效考核
     path('quarter_result_formula/', views.quarter_result_formula, name='quarter_result_formula'),
 
+    # 修改月度公式
+    path('change_month_formula/', views.change_month_formula, name='change_month_formula'),
+    # 修改季度公式
+    path('change_quarter_formula/', views.change_quarter_formula, name='change_quarter_formula'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
-
-    # 公式测试
-    path('test_formula/', views.test_formula, name='test_formula'),
-
 
 
 ]
