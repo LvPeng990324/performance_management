@@ -10,6 +10,12 @@ urlpatterns = [
     path('user_logout/', views.user_logout, name='user_logout'),
     # 展示账号管理页面方法
     path('user_management/', views.user_management, name='user_management'),
+    # 新增账号方法
+    path('add_user/', views.add_user, name='add_user'),
+    # 删除用户方法
+    path('delete_user', views.delete_user, name='delete_user'),
+    # 修改用户方法
+    path('change_user', views.change_user, name='change_user'),
 
     # 展示月度营业数据方法
     path('show_monthly_sales_data/', views.show_monthly_sales_data, name='show_monthly_sales_data'),
