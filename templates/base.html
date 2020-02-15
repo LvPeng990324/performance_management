@@ -66,11 +66,11 @@
                                         href="{% url 'show_constant_data' %}">常量数据</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item nav-item-has-subnav">
+                        <li class="nav-item nav-item-has-subnav {% block change_formula_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
                             <ul class="nav nav-subnav ">
-                                <li class=""><a href="#!">管理层月度绩效考核结果</a></li>
-                                <li class=""><a href="#!">季度绩效考核结果</a></li>
+                                <li class="{% block month_formula_active %}{% endblock %}"><a href="{% url 'month_result_formula' %}">管理层月度绩效考核结果</a></li>
+                                <li class="{% block quarter_formula_active %}{% endblock %}"><a href="{% url 'quarter_result_formula' %}">季度绩效考核结果</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav {% block user_permission_management_active %}{% endblock %}">

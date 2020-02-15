@@ -91,11 +91,14 @@ urlpatterns = [
     # 导出季度绩效考核结果
     path('export_quarterly_performance/', views.export_quarterly_performance, name='export_quarterly_performance'),
 
+    # 展示公式修改页-月度绩效考核
+    path('month_result_formula/', views.month_result_formula, name='month_result_formula'),
+    # 展示公式修改页-季度绩效考核
+    path('quarter_result_formula/', views.quarter_result_formula, name='quarter_result_formula'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
-    # 测试扩展用户表
-    path('test_extension/', views.test_extension, name='test_extension'),
-    # 测试用户登录验证
-    path('test_authenticate/', views.test_authenticate, name='test_authenticate'),
+
+
 
 ]
