@@ -1,0 +1,559 @@
+{% extends 'base.html' %}
+
+{% block modal_content %}
+    <!-- 模态框 -->
+    <!--删除按钮(单条)-->
+    <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delModalLabel">删除角色</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除该角色?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--删除按钮(选中)-->
+    <div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">删除选中角色</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除选中角色?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改按钮 -->
+    <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modifyLabel">修改权限</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>表格</th>
+                                    <th>查看</th>
+                                    <th>录入</th>
+                                    <th>修改</th>
+                                    <th>公式</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>月度营业数据</td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-cyan">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-purple">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-warning">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-danger">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>季度营业数据</td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-cyan">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-purple">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-warning">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-danger">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>管理层月度绩效考核结果</td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-cyan">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-purple">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-warning">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-danger">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>季度绩效考核结果</td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-cyan">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-purple">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-warning">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-danger">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>内控指标汇总</td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-cyan">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-purple">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-warning">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label class="lyear-switch switch-solid switch-danger">
+                                            <input type="checkbox" checked="">
+                                            <span></span>
+                                        </label>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-warning">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增按钮 -->
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addLabel">新增角色</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="table-responsive">
+                            <div class="form-group">
+                                <label for="year_n" class="control-label">角色名：</label>
+                                <input type="text" class="form-control" id="year_n">
+                            </div>
+                            <div class="form-group">
+                                <label for="year_n" class="control-label">角色权限：</label>
+                                <div class="card">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>表格</th>
+                                                <th>查看</th>
+                                                <th>录入</th>
+                                                <th>修改</th>
+                                                <th>公式</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>月度营业数据</td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-cyan">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-purple">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-warning">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-danger">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>季度营业数据</td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-cyan">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-purple">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-warning">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-danger">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>管理层月度绩效考核结果</td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-cyan">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-purple">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-warning">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-danger">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>季度绩效考核结果</td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-cyan">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-purple">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-warning">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-danger">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>内控指标汇总</td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-cyan">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-purple">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-warning">
+                                                        <input type="checkbox">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="lyear-switch switch-solid switch-danger">
+                                                        <input type="checkbox" >
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新增角色按钮-->
+    <div class="modal fade bs-example-modal-lg" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addUserLabel">赋予用户角色</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header bg-cyan">
+                                    <h4>选择用户</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="请输入姓名...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><i class="mdi mdi-magnify"></i></button>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <select class="form-control" id="users" name="users" size="6" multiple>
+                                            <option value="1">选项 #1</option>
+                                            <option value="2">选项 #2</option>
+                                            <option value="3">选项 #3</option>
+                                            <option value="4">选项 #4</option>
+                                            <option value="5">选项 #5</option>
+                                            <option value="6">选项 #6</option>
+                                            <option value="7">选项 #7</option>
+                                            <option value="8">选项 #8</option>
+                                            <option value="9">选项 #9</option>
+                                            <option value="10">选项 #10</option>
+                                        </select>
+                                    </div>
+                                    <div class="btn-group pull-right">
+                                        <button type="button" class="btn-xs btn-primary m-t-10">添加<i class="mdi mdi-arrow-right"></i></button></li>
+                                    </div>
+                                    <button type="button" class="btn-xs btn-warning m-t-10">全选</button></li>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header bg-cyan">
+                                    <h4>已选中用户</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <select class="form-control" id="selected" name="selected" size="8" multiple>
+                                            <option value="1">选项 #1</option>
+                                            <option value="2">选项 #2</option>
+                                            <option value="3">选项 #3</option>
+                                            <option value="4">选项 #4</option>
+                                        </select>
+                                        <div class="btn-group pull-right">
+                                            <button type="button" class="btn-xs btn-warning m-t-10">清空</button></li>
+                                        </div>
+                                        <button type="button" class="btn-xs btn-primary m-t-10">删除<i class="mdi mdi-arrow-left"></i></button></li>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>角色管理</b></h4>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
+                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>角色名</th>
+                                    <th>添加用户</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <td>人事部</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>2</th>
+                                    <td>人事部</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>3</th>
+                                    <td>人事部</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
