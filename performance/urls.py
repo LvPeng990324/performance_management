@@ -18,6 +18,8 @@ urlpatterns = [
     path('change_user', views.change_user, name='change_user'),
     # 展示角色权限管理界面
     path('group_management/', views.group_management, name='group_management'),
+    # 增加角色方法
+    path('add_group/', views.add_group, name='add_group'),
 
     # 展示月度营业数据方法
     path('show_monthly_sales_data/', views.show_monthly_sales_data, name='show_monthly_sales_data'),
