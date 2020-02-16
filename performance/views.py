@@ -13,6 +13,7 @@ from .models import QuarterlyPerformance
 from .models import MonthlyFormula
 from .models import QuarterlyFormula
 from .models import User
+from django.contrib.auth.models import Group
 from .forms import cleaned_formula
 from .utils import UploadTable
 from .utils import ExportTable
@@ -28,7 +29,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '账号权限管理-权限界面.html')
+    return render(request, '账号权限管理-权限管理.html')
 
 
 # 登陆方法
@@ -145,6 +146,17 @@ def change_user(request):
     messages.success(request, '用户信息修改成功')
     # 重载账号展示页面
     return redirect('user_management')
+
+
+# 展示角色权限管理界面
+def group_management(request):
+    # 从数据库中取出所有角色(组)
+    groups = Group.objects.all()
+    # 打包数据
+    context = {
+        'groups': groups,
+    }
+    return render(request, '账号权限管理-权限管理.html', context=context)
 
 
 # 展示月度营业数据方法

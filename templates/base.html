@@ -76,8 +76,8 @@
                         <li class="nav-item nav-item-has-subnav {% block user_permission_management_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
-                                <li class="{% block user_management_active %}{% endblock %}"><a href="{% url 'user_management' %}">账号管理</a></li>
-                                <li class=""><a href="#!">权限管理</a></li>
+                                <li class="{% block user_management_active %}{% endblock %}"><a href="{% url 'user_management' %}">账号信息管理</a></li>
+                                <li class="{% block group_management_active %}{% endblock %}"><a href="{% url 'group_management' %}">角色权限管理</a></li>
                             </ul>
                         </li>
                     </ul>

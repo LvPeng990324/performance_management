@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block user_permission_management_active %}active open{% endblock %}
+{% block group_management_active %}active{% endblock %}
+
 {% block modal_content %}
     <!-- 模态框 -->
     <!--删除按钮(单条)-->
@@ -491,7 +494,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4><b>角色管理</b></h4>
+                        <h4><b>角色权限管理</b></h4>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
                             <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
@@ -509,45 +512,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td>人事部</td>
-                                    <td>
-                                        <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>人事部</td>
-                                    <td>
-                                        <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td>人事部</td>
-                                    <td>
-                                        <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {% for group in groups %}
+                                    <tr>
+                                        <th>{{ group.id }}</th>
+                                        <td>{{ group.name }}</td>
+                                        <td>
+                                            <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
