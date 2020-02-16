@@ -106,3 +106,5 @@ Control.ca-bundle
 Control.system-ca-bundle
 GitHub.sublime-settings
  
+*.py
+performance_management/settings.py
