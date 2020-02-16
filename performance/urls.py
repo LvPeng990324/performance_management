@@ -13,9 +13,9 @@ urlpatterns = [
     # 新增账号方法
     path('add_user/', views.add_user, name='add_user'),
     # 删除用户方法
-    path('delete_user', views.delete_user, name='delete_user'),
+    path('delete_user/', views.delete_user, name='delete_user'),
     # 修改用户方法
-    path('change_user', views.change_user, name='change_user'),
+    path('change_user/', views.change_user, name='change_user'),
     # 展示角色权限管理界面
     path('group_management/', views.group_management, name='group_management'),
     # 增加角色方法
@@ -24,6 +24,8 @@ urlpatterns = [
     path('delete_group/', views.delete_group, name='delete_group'),
     # 修改角色方法
     path('change_group/', views.change_group, name='change_group'),
+    # 从角色(组)批量赋予给账号方法
+    path('group_to_user/', views.group_to_user, name='group_to_user'),
 
     # 展示月度营业数据方法
     path('show_monthly_sales_data/', views.show_monthly_sales_data, name='show_monthly_sales_data'),

@@ -30,7 +30,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '账号权限管理-权限管理.html')
+    return render(request, '账号权限管理-权限管理-赋予用户角色.html')
 
 
 # 登陆方法
@@ -153,9 +153,12 @@ def change_user(request):
 def group_management(request):
     # 从数据库中取出所有角色(组)
     groups = Group.objects.all()
+    # 从数据库中取出所有账号
+    users = User.objects.all()
     # 打包数据
     context = {
         'groups': groups,
+        'users': users,
     }
     return render(request, '账号权限管理-权限管理.html', context=context)
 
@@ -230,6 +233,53 @@ def change_group(request):
     messages.success(request, '角色权限修改成功')
     # 重载角色权限管理界面
     return redirect('group_management')
+
+
+# 从角色(组)批量赋予给账号方法
+def group_to_user(request):
+    # 判断有无ajax变量值，有的话就是提交数据，没有就是访问页面
+    if not request.GET.get('ajax'):
+        # 获取角色(组)的id
+        group_id = request.GET.get('group_id')
+        group = Group.objects.get(id=group_id)
+        # 获取这个角色下的账号
+        in_group_users = group.user_set.all()
+        # 获取所有用户
+        users = User.objects.all()
+        # 筛选出未在此角色(组)的用户列表
+        out_group_user = users
+        for user in in_group_users:
+            out_group_user = out_group_user.exclude(id=user.id)
+        # 打包数据
+        context = {
+            'group_id': group_id,
+            'in_group_users': in_group_users,
+            'out_group_users': out_group_user,
+        }
+        # 引导前端页面
+        return render(request, '账号权限管理-权限管理-赋予用户角色.html', context=context)
+    else:
+        # 获取组id并取出这个组
+        group_id = request.GET.get('group_id')
+        group = Group.objects.get(id=group_id)
+        # 获取选择的账号id列表
+        user_id_list = request.GET.getlist('selected', [])
+
+        # 将这个组的用户清空
+        in_group_users = group.user_set.all()
+        for user in in_group_users:
+            user.groups.remove(group)
+
+        # 将这些用户加入到这个组中去
+        # 选出这些用户
+        users = User.objects.filter(id__in=user_id_list)
+        # 将这些用户加入到这个组里
+        for user in users:
+            user.groups.add(group)
+        # 写入成功提示
+        messages.success(request, '赋予角色成功')
+
+        return HttpResponse('success')
 
 
 # 展示月度营业数据方法

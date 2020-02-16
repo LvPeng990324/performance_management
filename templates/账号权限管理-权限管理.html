@@ -306,6 +306,8 @@
     <div class="modal fade bs-example-modal-lg" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <form action="{% url 'group_to_user' %}" method="post">
+                {% csrf_token %}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="addUserLabel">赋予用户角色</h4>
@@ -325,23 +327,17 @@
                                         </span>
                                     </div>
                                     <div>
-                                        <select class="form-control" id="users" name="users" size="6" multiple>
-                                            <option value="1">选项 #1</option>
-                                            <option value="2">选项 #2</option>
-                                            <option value="3">选项 #3</option>
-                                            <option value="4">选项 #4</option>
-                                            <option value="5">选项 #5</option>
-                                            <option value="6">选项 #6</option>
-                                            <option value="7">选项 #7</option>
-                                            <option value="8">选项 #8</option>
-                                            <option value="9">选项 #9</option>
-                                            <option value="10">选项 #10</option>
+                                        <select class="form-control" id="selected1" name="users" size="6" multiple>
+                                            {% for user in users %}
+                                                <option value="{{ user.id }}">{{ user.extension.job_number }}-{{ user.last_name }}</option>
+                                            {% endfor %}
+
                                         </select>
                                     </div>
                                     <div class="btn-group pull-right">
-                                        <button type="button" class="btn-xs btn-primary m-t-10">添加<i class="mdi mdi-arrow-right"></i></button></li>
+                                        <button type="button" class="btn-xs btn-primary m-t-10" onclick="get_item()">添加<i class="mdi mdi-arrow-right"></i></button>
                                     </div>
-                                    <button type="button" class="btn-xs btn-warning m-t-10">全选</button></li>
+                                    <button type="button" class="btn-xs btn-warning m-t-10" onclick="get_all()">全选</button></li>
                                 </div>
 
                             </div>
@@ -354,16 +350,13 @@
                                 </div>
                                 <div class="card-body">
                                     <div>
-                                        <select class="form-control" id="selected" name="selected" size="8" multiple>
-                                            <option value="1">选项 #1</option>
-                                            <option value="2">选项 #2</option>
-                                            <option value="3">选项 #3</option>
-                                            <option value="4">选项 #4</option>
+                                        <select class="form-control" id="selected2" name="selected" size="8" multiple>
+
                                         </select>
                                         <div class="btn-group pull-right">
-                                            <button type="button" class="btn-xs btn-warning m-t-10">清空</button></li>
+                                            <button type="button" class="btn-xs btn-warning m-t-10" onclick="del_all()">清空</button>
                                         </div>
-                                        <button type="button" class="btn-xs btn-primary m-t-10">删除<i class="mdi mdi-arrow-left"></i></button></li>
+                                        <button type="button" class="btn-xs btn-primary m-t-10" onclick="del_item()">删除<i class="mdi mdi-arrow-left"></i></button></li>
 
                                     </div>
                                 </div>
@@ -374,9 +367,11 @@
 
                 </div>
                 <div class="modal-footer">
+                    <input hidden id="id_group_id" name="group_id">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">确定</button>
+                    <button type="submit" class="btn btn-primary">确定</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -405,7 +400,7 @@
                                         </label>
                                     </th>
                                     <th>角色名</th>
-                                    <th>添加用户</th>
+                                    <th>管理用户</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -420,7 +415,7 @@
                                         </td>
                                         <th>{{ group.name }}</th>
                                         <td>
-                                            <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
+                                            <a class="btn btn-xs btn-default" href="{% url 'group_to_user' %}?group_id={{ group.id }}" title="添加用户"><i class="mdi mdi-plus"></i></a>
                                         </td>
                                         <td>
                                             <div class="btn-group">
@@ -502,4 +497,69 @@
             {% endif %}
         {% endfor %}
     {% endif %}
+    <!-- 授权选择框js -->
+    <script type="text/javascript">
+    //选择
+    function get_item(){
+
+        //var option1=document.getElementsByName("option1");
+        var selected1=document.getElementById("selected1");
+        var option1=selected1.getElementsByTagName("option");
+        var selected2=document.getElementById("selected2");
+
+        for(var i=0;i<option1.length;i++){
+            if(option1[i].selected==true){
+                selected2.appendChild(option1[i]);
+                i--;
+            }
+        }
+    }
+    //全部选择
+    function get_all(){
+        var selected1=document.getElementById("selected1");
+        var option1=selected1.getElementsByTagName("option");
+        var selected2=document.getElementById("selected2");
+
+        for(var i=0;i<option1.length;i++){
+
+                selected2.appendChild(option1[i]);
+                i--;
+
+        }
+
+    }
+    //删除
+    function del_item(){
+        var selected2=document.getElementById("selected2");
+        var option2=selected2.getElementsByTagName("option");
+        var selected1=document.getElementById("selected1");
+
+        for(var i=0;i<option2.length;i++){
+            if(option2[i].selected==true){
+                selected1.appendChild(option2[i]);
+                i--;
+            }
+        }
+    }
+    //全部删除
+    function del_all(){
+        var selected2=document.getElementById("selected2");
+        var option2=selected2.getElementsByTagName("option");
+        var selected1=document.getElementById("selected1");
+
+        for(var i=0;i<option2.length;i++){
+
+                selected1.appendChild(option2[i]);
+                i--;
+
+        }
+
+    }
+    </script>
+    <!-- 给授权模态框传值 -->
+    <script type="text/javascript">
+        function give_group_id_modal(group_id) {
+            $('#id_group_id').val(group_id);
+        }
+    </script>
 {% endblock %}
