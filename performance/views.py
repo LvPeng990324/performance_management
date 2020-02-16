@@ -14,6 +14,7 @@ from .models import MonthlyFormula
 from .models import QuarterlyFormula
 from .models import User
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import Permission
 from .forms import cleaned_formula
 from .utils import UploadTable
 from .utils import ExportTable
@@ -157,6 +158,42 @@ def group_management(request):
         'groups': groups,
     }
     return render(request, '账号权限管理-权限管理.html', context=context)
+
+
+# 增加角色方法
+def add_group(request):
+    # 取得角色名称
+    name = request.POST.get('name')
+    # 取得权限列表
+    permissions = request.POST.getlist('permissions')
+    # 判断有没有管理公式权限
+    # 有的话就删掉并加上管理两个公式的权限
+    if 'manage_formula' in permissions:
+        permissions.remove('manage_formula')
+        permissions.append('manage_monthly_formula')
+        permissions.append('manage_quarterly_formula')
+    # 判断前三张表有没有只有管理没查看的权限
+    # 如果存在这种情况，将相应的查看权限补充上
+    # 月度营业数据
+    if 'manage_monthly_sales_data' in permissions and 'view_monthly_sales_data' not in permissions:
+        permissions.append('view_monthly_sales_data')
+    # 季度营业数据
+    if 'manage_quarterly_sales_data' in permissions and 'view_quarterly_sales_data' not in permissions:
+        permissions.append('view_quarterly_sales_data')
+    # 内控指标汇总
+    if 'manage_internal_control_indicators' in permissions and 'view_internal_control_indicators' not in permissions:
+        permissions.append('view_internal_control_indicators')
+    # 从权限表中取出相应的权限
+    permissions_list = Permission.objects.filter(codename__in=permissions)
+
+    # 创建角色(组)
+    group = Group.objects.get_or_create(name=name)[0]
+    # 给新角色加权限
+    group.permissions.add(*permissions_list)
+    # 写入成功信息
+    messages.success(request, '角色增加成功')
+    # 重载角色权限管理界面
+    return redirect('group_management')
 
 
 # 展示月度营业数据方法
