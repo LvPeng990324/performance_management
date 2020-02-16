@@ -808,7 +808,12 @@ def upload_constant_data(request):
 @login_required
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
-    year_list = MonthlyPerformance.objects.values('year').distinct().order_by('-year')
+    years = list(InternalControlIndicators.objects.values_list('date', flat=True))
+    year_list = set()
+    for year in years:
+        year_list.add(year.year)
+    year_list = list(year_list)
+    year_list.sort(reverse=True)
     # 如果没有年份数据，直接返回空数据
     if not year_list:
         # 打包空数据
@@ -829,7 +834,7 @@ def show_monthly_result(request):
     else:
         # 没有筛选年份
         # 记录当前年份
-        current_year = year_list.first()['year']
+        current_year = year_list[0]
     # 选出当前年份的所有数据，按照月份正序排序
     monthly_result = MonthlyPerformance.objects.filter(year=current_year).order_by('month')
     # 打包数据
@@ -847,12 +852,18 @@ def show_monthly_result(request):
 def refresh_monthly_result(request):
     # 获取选中年份
     current_year = request.GET.get('select_year')
+    # 无年份
+    if current_year == '无数据':
+        messages.error(request, '无相关数据')
+        return redirect('/show_monthly_result')
     # 更新月度绩效考核结果中数据项的值，并更新数据库
     result = CalcuteMonthlyPerformance.monthly_get_and_refresh(current_year)
     if result == 'success':
-        messages.success(request, '数据刷新成功')
+        messages.success(request, '各月份考核结果已生成')
+    elif result == '所有月份数据不足！请检查数据来源' or result == '刷新失败！请检查公式！':
+        messages.error(request, result)
     else:
-        messages.error(request, '数据刷新失败，请重试')
+        messages.info(request, result)
     return redirect('/show_monthly_result?select_year=%s' % current_year)
 
 
@@ -860,7 +871,7 @@ def refresh_monthly_result(request):
 @login_required
 def show_quarterly_result(request):
     # 打包年份数据，去重并逆序排序
-    year_list = QuarterlyPerformance.objects.values('year').distinct().order_by('-year')
+    year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
     # 如果没有年份数据，直接返回空数据
     if not year_list:
         # 打包空数据
@@ -899,12 +910,18 @@ def show_quarterly_result(request):
 def refresh_quarterly_result(request):
     # 获取选中年份
     current_year = request.GET.get('select_year')
+    # 无年份
+    if current_year == '无数据':
+        messages.error(request, '无相关数据')
+        return redirect('/show_quarterly_result')
     # 更新季度绩效考核结果中数据项的值，并更新数据库
     result = CalculateQuarterlyPerformance.quarterly_get_and_refresh(current_year)
     if result == 'success':
-        messages.success(request, '数据刷新成功')
+        messages.success(request, '各季度考核结果已生成')
+    elif result == '所有季度数据不足！请检查数据来源':
+        messages.error(request, result)
     else:
-        messages.error(request, '数据刷新失败，请重试')
+        messages.info(request, result)
     return redirect('/show_quarterly_result?select_year=%s' % current_year)
 
 

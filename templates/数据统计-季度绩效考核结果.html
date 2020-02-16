@@ -89,7 +89,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {% if year_list %}
+                        {% if quarterly_result %}
                             <div id="chart_bar" class="chart_bar"></div>
                         {% endif %}
                     </div>
@@ -172,6 +172,10 @@
             {% elif message.tags == 'error' %}
                 <script type="text/javascript">
                     lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% elif message.tags == 'info' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'info', 3000);
                 </script>
             {% endif %}
         {% endfor %}
