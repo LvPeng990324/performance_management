@@ -1,5 +1,51 @@
 {% extends 'base.html' %}
 
+{% block css_content %}
+    <style>
+        .table-formula {
+            width: 40%;
+            display: inline-block;
+            padding: 2em;
+            float: left;
+        }
+
+        .table-formula > table > tbody > tr > td,
+        .table-formula > table > tbody > tr > th,
+        .table-formula > table > thead > tr > td,
+        .table-formula > table > thead > tr > th {
+            padding: 0.75em;
+            line-height: 2em;
+            border: 0.1em solid #eceeef;
+            text-align: center;
+        }
+
+        .form-formula {
+            width: 50%;
+            display: inline-block;
+            margin-bottom: 100px;
+            padding: 2em;
+        }
+
+        .form-formula > form > table > tbody > tr > td,
+        .form-formula > form > table > tbody > tr > th,
+        .form-formula > form > table > thead > tr > td,
+        .form-formula > form > table > thead > tr > th {
+            padding: 0.75em;
+            line-height: 2em;
+            border: 0.1em solid #eceeef;
+            text-align: center;
+        }
+
+        .input-self {
+            border: none;
+            width: 300px;
+            padding: 0;
+            display: inline-block;
+            float: left;
+        }
+    </style>
+{% endblock %}
+
 {% block change_formula_active %}active open{% endblock %}
 {% block quarter_formula_active %}active{% endblock %}
 
@@ -12,79 +58,130 @@
                         <h4><b>修改公式</b></h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>参数</th>
-                                <th>说明</th>
-                            </tr>
-                            <tr>
-                                <td>A</td>
-                                <td>年度目标营业额（提前给定，录入）</td>
-                            </tr>
-                            <tr>
-                                <td>B</td>
-                                <td>年度目标奖金额（提前给定，录入）</td>
-                            </tr>
-                            <tr>
-                                <td>C</td>
-                                <td>季度实际营业额（表里取、数据模拟）</td>
-                            </tr>
-                            <tr>
-                                <td>D</td>
-                                <td>季度实际营业费率（营业费用/营业额） </td>
-                            </tr>
-                            <tr>
-                                <td>E</td>
-                                <td>前三年营业费率参考值（表里取、数据模拟）</td>
-                            </tr>
-                            <tr>
-                                <td>F</td>
-                                <td>季度实际回款率（回款额/营业额）</td>
-                            </tr>
-                            <tr>
-                                <td>G</td>
-                                <td>季度实际库存率（库存量/营业额）</td>
-                            </tr>
-                            <tr>
-                                <td>H</td>
-                                <td>前三年库存率参考值（表里取、数据模拟）</td>
-                            </tr>
-                            <tr>
-                                <td>I</td>
-                                <td>季度实际利润率（利润额/营业额）</td>
-                            </tr>
-                            <tr>
-                                <td>K</td>
-                                <td>前三年利润率参考值（表里取、数据模拟）'</td>
-                            </tr>
-                        </table>
-                        <form action="{% url 'change_quarter_formula' %}" method="post" class="row">
-                            {% csrf_token %}
-                            <div class="form-group col-md-12">
-                                <label for="turnover">营业额公式</label>
-                                <input type="text" class="form-control" id="turnover" name="turnover" value="{{ turnover }}" />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="operating_rate">营业费率公式</label>
-                                <input type="text" class="form-control" id="operating_rate" name="operating_rate" value="{{ operating_rate }}" />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="repaid_rate">回款率公式</label>
-                                <input type="text" class="form-control" id="repaid_rate" name="repaid_rate" value="{{ repaid_rate }}" />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inventory_rate">库存率公式</label>
-                                <input type="text" class="form-control" id="inventory_rate" name="inventory_rate" value="{{ inventory_rate }}" />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="profit_rate">利润率公式</label>
-                                <input type="text" class="form-control" id="profit_rate" name="profit_rate" value="{{ profit_rate }}" />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">保 存</button>
-                                <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
-                            </div>
-                        </form>
+                        <div class="table-formula">
+                            <table class="table">
+                                <tr>
+                                    <th>参数</th>
+                                    <th>说明</th>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                    <td>年度目标营业额（提前给定，录入）</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>年度目标奖金额（提前给定，录入）</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td>季度实际营业额（表里取、数据模拟）</td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td>季度实际营业费率（营业费用/营业额）</td>
+                                </tr>
+                                <tr>
+                                    <td>E</td>
+                                    <td>前三年营业费率参考值（表里取、数据模拟）</td>
+                                </tr>
+                                <tr>
+                                    <td>F</td>
+                                    <td>季度实际回款率（回款额/营业额）</td>
+                                </tr>
+                                <tr>
+                                    <td>G</td>
+                                    <td>季度实际库存率（库存量/营业额）</td>
+                                </tr>
+                                <tr>
+                                    <td>H</td>
+                                    <td>前三年库存率参考值（表里取、数据模拟）</td>
+                                </tr>
+                                <tr>
+                                    <td>I</td>
+                                    <td>季度实际利润率（利润额/营业额）</td>
+                                </tr>
+                                <tr>
+                                    <td>K</td>
+                                    <td>前三年利润率参考值（表里取、数据模拟）</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="form-formula">
+                            <form action="{% url 'change_quarter_formula' %}" method="post">
+                                {% csrf_token %}
+                                <table class="table">
+                                    <tr>
+                                        <th>指标</th>
+                                        <th>公式</th>
+                                    </tr>
+                                    <tr>
+                                        <td>营业额</td>
+                                        <td><label><input type="text" class="form-control  input-self" id="turnover" name="turnover"
+                                                          value="{{ turnover }}"/></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>营业费率</td>
+                                        <td><label><input type="text" class="form-control input-self"
+                                                          id="operating_rate"
+                                                          name="operating_rate" value="{{ operating_rate }}"/></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>回款率</td>
+                                        <td>
+                                            <label><input type="text" class="form-control input-self" id="repaid_rate"
+                                                          name="repaid_rate"
+                                                          value="{{ repaid_rate }}"/></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td>库存率</td>
+                                        <td>
+                                            <label><input type="text" class="form-control input-self" id="inventory_rate"
+                                                          name="inventory_rate" value="{{ inventory_rate }}"/></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>利润率</td>
+                                        <td><label> <input type="text" class="form-control input-self" id="profit_rate"
+                                                           name="profit_rate" value="{{ profit_rate }}"/></label>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                {#                                <div class="form-group col-md-12">#}
+                                {#                                    <label for="turnover">营业额公式</label>#}
+                                {#                                    <input type="text" class="form-control" id="turnover" name="turnover"#}
+                                {#                                           value="{{ turnover }}"/>#}
+                                {#                                </div>#}
+                                {#                                <div class="form-group col-md-12">#}
+                                {#                                    <label for="operating_rate">营业费率公式</label>#}
+                                {#                                    <input type="text" class="form-control" id="operating_rate" name="operating_rate"#}
+                                {#                                           value="{{ operating_rate }}"/>#}
+                                {#                                </div>#}
+                                {#                                <div class="form-group col-md-12">#}
+                                {#                                    <label for="repaid_rate">回款率公式</label>#}
+                                {#                                    <input type="text" class="form-control" id="repaid_rate" name="repaid_rate"#}
+                                {#                                           value="{{ repaid_rate }}"/>#}
+                                {#                                </div>#}
+                                {#                                <div class="form-group col-md-12">#}
+                                {#                                    <label for="inventory_rate">库存率公式</label>#}
+                                {#                                    <input type="text" class="form-control" id="inventory_rate" name="inventory_rate"#}
+                                {#                                           value="{{ inventory_rate }}"/>#}
+                                {#                                </div>#}
+                                {#                                <div class="form-group col-md-12">#}
+                                {#                                    <label for="profit_rate">利润率公式</label>#}
+                                {#                                    <input type="text" class="form-control" id="profit_rate" name="profit_rate"#}
+                                {#                                           value="{{ profit_rate }}"/>#}
+                                {#                                </div>#}
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">保 存
+                                    </button>
+                                    <button type="button" class="btn btn-default"
+                                            onclick="javascript:history.back(-1);return false;">返 回
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
