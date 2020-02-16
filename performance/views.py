@@ -30,7 +30,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '账号权限管理-权限管理-赋予用户角色.html')
+    return render(request, '报表公式修改-管理层月度绩效考核结果.html')
 
 
 # 登陆方法
