@@ -86,14 +86,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        {% if year_list %}
-                            {% if year_list %}
-                                <div id="chart_turnover" class="chart_pie"></div>
-                                <div id="chart_operating_expenses" class="chart_pie"></div>
-                                <div id="chart_amount_repaid" class="chart_pie"></div>
-                                <div id="chart_inventory" class="chart_pie"></div>
-                                <div id="chart_profit" class="chart_pie"></div>
-                            {% endif %}
+                        {% if quarterly_sales_data %}
+                            <div id="chart_turnover" class="chart_pie"></div>
+                            <div id="chart_operating_expenses" class="chart_pie"></div>
+                            <div id="chart_amount_repaid" class="chart_pie"></div>
+                            <div id="chart_inventory" class="chart_pie"></div>
+                            <div id="chart_profit" class="chart_pie"></div>
                         {% endif %}
                     </div>
                 </div>
@@ -122,7 +120,7 @@
                 feature: {
                     saveAsImage: {show: true},
                 },
-                padding:[0, 60]
+                padding: [0, 60]
             },
             series: [
                 {
@@ -165,7 +163,7 @@
                 feature: {
                     saveAsImage: {show: true},
                 },
-                padding:[0, 60]
+                padding: [0, 60]
             },
             series: [
                 {
@@ -208,7 +206,7 @@
                 feature: {
                     saveAsImage: {show: true},
                 },
-                padding:[0, 60]
+                padding: [0, 60]
             },
             series: [
                 {
@@ -251,7 +249,7 @@
                 feature: {
                     saveAsImage: {show: true},
                 },
-                padding:[0, 60]
+                padding: [0, 60]
             },
             series: [
                 {
@@ -294,7 +292,7 @@
                 feature: {
                     saveAsImage: {show: true},
                 },
-                padding:[0, 60]
+                padding: [0, 60]
             },
             series: [
                 {
