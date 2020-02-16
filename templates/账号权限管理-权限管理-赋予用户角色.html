@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block user_permission_management_active %}active open{% endblock %}
+{% block group_management_active %}active{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>
+                            <a href="{% url 'group_management' %}">
+                                <button type="button" class="btn btn-default">返回</button>
+                            </a>
+                            <b>赋予账号角色</b>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header bg-cyan">
+                                    <h4>可选账号</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="请输入姓名...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><i class="mdi mdi-magnify"></i></button>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <select class="form-control" id="selected1" name="users" size="6" multiple>
+                                            {% for out_group_user in out_group_users %}
+                                                <option value="{{ out_group_user.id }}">{{ out_group_user.extension.job_number }}-{{ out_group_user.last_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="btn-group pull-right">
+                                        <button type="button" class="btn-xs btn-primary m-t-10" onclick="get_item()">添加<i class="mdi mdi-arrow-right"></i></button>
+                                    </div>
+                                    <button type="button" class="btn-xs btn-warning m-t-10" onclick="get_all()">全选</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header bg-cyan">
+                                    <h4>已赋予账号</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <select class="form-control" id="selected2" name="selected" size="8" multiple>
+                                            {% for in_group_user in in_group_users %}
+                                                <option value="{{ in_group_user.id }}">{{ in_group_user.extension.job_number }}-{{ in_group_user.last_name }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                        <div class="btn-group pull-right">
+                                            <button type="button" class="btn-xs btn-warning m-t-10" onclick="del_all()">清空</button>
+                                        </div>
+                                        <button type="button" class="btn-xs btn-primary m-t-10" onclick="del_item()">删除<i class="mdi mdi-arrow-left"></i></button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-primary" onclick="submit_action()">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_content %}
+    <!-- 授权选择框js -->
+    <script type="text/javascript">
+    //选择
+    function get_item(){
+
+        //var option1=document.getElementsByName("option1");
+        var selected1=document.getElementById("selected1");
+        var option1=selected1.getElementsByTagName("option");
+        var selected2=document.getElementById("selected2");
+
+        for(var i=0;i<option1.length;i++){
+            if(option1[i].selected==true){
+                selected2.appendChild(option1[i]);
+                i--;
+            }
+        }
+    }
+    //全部选择
+    function get_all(){
+        var selected1=document.getElementById("selected1");
+        var option1=selected1.getElementsByTagName("option");
+        var selected2=document.getElementById("selected2");
+
+        for(var i=0;i<option1.length;i++){
+
+                selected2.appendChild(option1[i]);
+                i--;
+
+        }
+
+    }
+    //删除
+    function del_item(){
+        var selected2=document.getElementById("selected2");
+        var option2=selected2.getElementsByTagName("option");
+        var selected1=document.getElementById("selected1");
+
+        for(var i=0;i<option2.length;i++){
+            if(option2[i].selected==true){
+                selected1.appendChild(option2[i]);
+                i--;
+            }
+        }
+    }
+    //全部删除
+    function del_all(){
+        var selected2=document.getElementById("selected2");
+        var option2=selected2.getElementsByTagName("option");
+        var selected1=document.getElementById("selected1");
+
+        for(var i=0;i<option2.length;i++){
+
+                selected1.appendChild(option2[i]);
+                i--;
+
+        }
+
+    }
+    </script>
+    <!-- 提交js -->
+    <script type="text/javascript">
+        function submit_action() {
+            // 获取选中框中账号id列表
+            var selected = [];  //定义数组
+            $("#selected2 option").each(function(){  //遍历所有option
+                var user_id = $(this).val();   //获取option值
+                selected.push(user_id);  //添加到数组中
+                console.log(user_id);
+             });
+
+            $.ajax({
+                type: "get",
+                url: "{% url 'group_to_user' %}",
+                traditional: true,
+                data: {
+                    'ajax': true,
+                    'group_id': {{ group_id }},
+                    'selected': selected,
+                },
+                success: function (arg) {
+                    if (arg === 'success') {
+                        location.replace('{% url 'group_management' %}');
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}
