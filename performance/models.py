@@ -162,7 +162,7 @@ class MonthlyFormula(models.Model):
         verbose_name_plural = '月度绩效考核公式表'
         verbose_name = '月度绩效考核公式表'
         permissions = (
-            ('manage_monthly_formula', '管理月度绩效考核公式'),
+            ('manage_formula', '管理报表公式'),
         )
 
     def __str__(self):
@@ -177,9 +177,6 @@ class QuarterlyFormula(models.Model):
     class Meta:
         verbose_name_plural = '季度绩效考核公式表'
         verbose_name = '季度绩效考核公式表'
-        permissions = (
-            ('manage_quarterly_formula', '管理季度绩效考核公式'),
-        )
 
     def __str__(self):
         return str(self.id)

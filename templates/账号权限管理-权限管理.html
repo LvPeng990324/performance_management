@@ -3,12 +3,16 @@
 {% block user_permission_management_active %}active open{% endblock %}
 {% block group_management_active %}active{% endblock %}
 
+{% load queryset_data %}
+
 {% block modal_content %}
     <!-- 模态框 -->
     <!--删除按钮(单条)-->
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <form action="{% url 'delete_group' %}" method="post">
+                    {% csrf_token %}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="delModalLabel">删除角色</h4>
@@ -17,9 +21,11 @@
                     确认删除该角色?
                 </div>
                 <div class="modal-footer">
+                    <input hidden id="id_delete_id" name="delete_id">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger">确定</button>
+                    <button type="submit" class="btn btn-danger">确定</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -47,6 +53,8 @@
     <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                <form action="{% url 'change_group' %}" method="post">
+                    {% csrf_token %}
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modifyLabel">修改权限</h4>
@@ -67,13 +75,13 @@
                                     <td>月度营业数据</td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-cyan">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="view_monthly_sales_data" value="view_monthly_sales_data" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-purple">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="manage_monthly_sales_data" value="manage_monthly_sales_data" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -82,13 +90,13 @@
                                     <td>季度营业数据</td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-cyan">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="view_quarterly_sales_data" value="view_quarterly_sales_data" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-purple">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="manage_quarterly_sales_data" value="manage_quarterly_sales_data" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -97,13 +105,13 @@
                                     <td>内控指标汇总</td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-cyan">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="view_internal_control_indicators" value="view_internal_control_indicators" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-purple">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="manage_internal_control_indicators" value="manage_internal_control_indicators" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -112,7 +120,7 @@
                                     <td>管理层月度绩效考核结果</td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-cyan">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="view_monthly_performance" value="view_monthly_performance" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -122,7 +130,7 @@
                                     <td>季度绩效考核结果</td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-cyan">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="view_quarterly_performance" value="view_quarterly_performance" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -133,7 +141,7 @@
                                     <td></td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-purple">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="manage_constant_data" value="manage_constant_data" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -143,7 +151,7 @@
                                     <td></td>
                                     <td>
                                         <label class="lyear-switch switch-solid switch-purple">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="manage_formula" value="manage_formula" name="permissions">
                                             <span></span>
                                         </label>
                                     </td>
@@ -155,9 +163,11 @@
 
                 </div>
                 <div class="modal-footer">
+                    <input hidden id="id_change_id" name="change_id">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-warning">确定</button>
+                    <button type="submit" class="btn btn-warning">确定</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -380,7 +390,7 @@
                     <div class="card-header">
                         <h4><b>角色权限管理</b></h4>
                         <div class="toolbar-btn-action">
-                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
+                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels" onclick="dels()"><i class="mdi mdi-window-close"></i> 删除</button>
                             <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
                         </div>
                     </div>
@@ -389,7 +399,11 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>
+                                        <label class="lyear-checkbox checkbox-primary">
+                                            <input type="checkbox" id="check-all"><span></span>
+                                        </label>
+                                    </th>
                                     <th>角色名</th>
                                     <th>添加用户</th>
                                     <th>操作</th>
@@ -398,15 +412,20 @@
                                 <tbody>
                                 {% for group in groups %}
                                     <tr>
-                                        <th>{{ forloop.counter }}</th>
-                                        <td>{{ group.name }}</td>
+                                        <td>
+                                            <label class="lyear-checkbox checkbox-primary">
+                                                <input type="checkbox" name="ids[]"
+                                                       value="{{ group.id }}"><span></span>
+                                            </label>
+                                        </td>
+                                        <th>{{ group.name }}</th>
                                         <td>
                                             <a class="btn btn-xs btn-default" href="#!" title="添加用户" data-toggle="modal" data-target="#addUser"><i class="mdi mdi-plus"></i></a>
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
-                                                <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ group.id }}', {{ group|group_permissions }})"><i class="mdi mdi-pencil"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ group.id }}')"><i class="mdi mdi-window-close"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -422,6 +441,53 @@
 {% endblock %}
 
 {% block js_content %}
+    <!-- 给确认删除模态框传值 -->
+    <script type="text/javascript">
+        function give_delete_modal(delete_id) {
+            $('#id_delete_id').val(delete_id);
+        }
+    </script>
+    <!-- 提交选中删除 -->
+    <script type="text/javascript">
+        function dels() {
+            var a = document.getElementsByName("ids[]");
+            var case_id = [];
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].checked) {
+                    case_id.push(a[i].value)
+                }
+            }
+            console.log(case_id);
+            $.ajax({
+                type: "get",
+                url: "{% url 'delete_group' %}",
+                traditional: true,
+                data: {'delete_id': case_id},
+                success: function (arg) {
+                    if (arg === 'success') {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    </script>
+    <!-- 给修改角色模态框传值 -->
+    <script type="text/javascript">
+        function give_change_modal(change_id, permission_list) {
+            $('#id_change_id').val(change_id);
+            // 现将所有的开关处于关闭状态
+            var checkbox = document.getElementsByName('permissions');
+            for (var i = 0; i < checkbox.length; i++){
+                checkbox[i].checked = false;
+            }
+            // 遍历取到的权限列表
+            // 通过id来选取相应的开关组件，并将它们设置为打开状态
+            for (var i = 0; i < permission_list.length; i++){
+                var checkbox = document.getElementById(permission_list[i]);
+                checkbox.checked = true;
+            }
+        }
+    </script>
     <!-- 消息提示框 -->
     {% if messages %}
         {% for message in messages %}

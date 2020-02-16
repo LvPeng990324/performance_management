@@ -165,13 +165,7 @@ def add_group(request):
     # 取得角色名称
     name = request.POST.get('name')
     # 取得权限列表
-    permissions = request.POST.getlist('permissions')
-    # 判断有没有管理公式权限
-    # 有的话就删掉并加上管理两个公式的权限
-    if 'manage_formula' in permissions:
-        permissions.remove('manage_formula')
-        permissions.append('manage_monthly_formula')
-        permissions.append('manage_quarterly_formula')
+    permissions = request.POST.getlist('permissions', [])
     # 判断前三张表有没有只有管理没查看的权限
     # 如果存在这种情况，将相应的查看权限补充上
     # 月度营业数据
@@ -192,6 +186,48 @@ def add_group(request):
     group.permissions.add(*permissions_list)
     # 写入成功信息
     messages.success(request, '角色增加成功')
+    # 重载角色权限管理界面
+    return redirect('group_management')
+
+
+# 删除角色方法
+def delete_group(request):
+    # get为多选删除，post为单条删除
+    if request.method == 'GET':
+        delete_id = request.GET.getlist('delete_id', [])
+        # 遍历删除
+        for id in delete_id:
+            Group.objects.get(id=id).delete()
+        # 写入删除成功提示
+        messages.success(request, '选中角色删除成功')
+        # 返回成功
+        return HttpResponse('success')
+    else:
+        delete_id = request.POST.get('delete_id')
+        # 从数据库中删除
+        Group.objects.get(id=delete_id).delete()
+        # 写入删除成功提示
+        messages.success(request, '角色删除成功')
+        # 重载页面
+        return redirect('group_management')
+
+
+# 修改角色方法
+def change_group(request):
+    # 获取要修改的id
+    change_id = request.POST.get('change_id')
+    # 获取更改后的权限列表
+    permissions = request.POST.getlist('permissions')
+    # 取出相应的权限
+    permissions_list = Permission.objects.filter(codename__in=permissions)
+    # 获取要修改的角色(组)
+    group = Group.objects.get(id=change_id)
+    # 清空当前权限
+    group.permissions.clear()
+    # 给当前角色(组)重新赋予权限
+    group.permissions.add(*permissions_list)
+    # 写入成功信息
+    messages.success(request, '角色权限修改成功')
     # 重载角色权限管理界面
     return redirect('group_management')
 

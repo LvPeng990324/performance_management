@@ -20,6 +20,10 @@ urlpatterns = [
     path('group_management/', views.group_management, name='group_management'),
     # 增加角色方法
     path('add_group/', views.add_group, name='add_group'),
+    # 删除角色方法
+    path('delete_group/', views.delete_group, name='delete_group'),
+    # 修改角色方法
+    path('change_group/', views.change_group, name='change_group'),
 
     # 展示月度营业数据方法
     path('show_monthly_sales_data/', views.show_monthly_sales_data, name='show_monthly_sales_data'),
