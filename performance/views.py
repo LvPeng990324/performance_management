@@ -86,11 +86,11 @@ def add_user(request):
 
     # 保存用户
     try:
-        user = User.objects.get_or_create(
+        user = User.objects.create_user(
             username=job_number,
             password=password,
             last_name=name,
-        )[0]
+        )
         user.extension.job_number = job_number
         user.extension.department = department
         user.extension.telephone = telephone
@@ -106,9 +106,17 @@ def add_user(request):
 
 # 删除账号方法
 def delete_user(request):
+    # 防止把自己删除
+    # 先获取当前登录用户id
+    current_user_id = str(User.objects.get(id=request.user.id).id)
     # GET为多条删除，POST为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
+        # 判断当前用户是否在列表中
+        # 在的话就直接提示不能删自己
+        if current_user_id in delete_id:
+            messages.error(request, '不可以删除当前登录的账号')
+            return HttpResponse('success')
         # 遍历删除
         for id in delete_id:
             User.objects.get(id=id).delete()
@@ -119,6 +127,11 @@ def delete_user(request):
     else:
         # 取得要删除的id
         delete_id = request.POST.get('delete_id')
+        # 判断要删除的是不是当前用户
+        # 是的话直接提示不能删自己
+        if current_user_id == delete_id:
+            messages.error(request, '不能删除当前登录账号')
+            return redirect('user_management')
         # 从数据库中删除
         User.objects.get(id=delete_id).delete()
         # 写入删除成功提示

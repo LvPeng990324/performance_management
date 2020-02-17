@@ -264,11 +264,11 @@ def upload_user_excel(file_data):
     # 将数据写入数据库
     try:
         for temp_data in table_list:
-            user = User.objects.get_or_create(
+            user = User.objects.create_user(
                 username=temp_data[1],
                 password=temp_data[4],
                 last_name=temp_data[2],
-            )[0]
+            )
             user.extension.job_number = temp_data[1]
             user.extension.department = temp_data[0]
             user.extension.telephone = temp_data[3]
