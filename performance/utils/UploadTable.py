@@ -52,6 +52,8 @@ def get_excel_list(file_data):
             # ctype说明：0 empty, 1 string, 2 number, 3 date, 4 boolean, 5 error
             if cell_data.ctype == 3:
                 temp_list.append(to_datetime(data=data, xldate=cell_data))
+            elif cell_data.ctype == 2:
+                temp_list.append(str(int(cell_data.value)))
             else:
                 temp_list.append(cell_data.value)
         # 将temp_list写入到table_list并清空temp_list
