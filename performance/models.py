@@ -4,6 +4,25 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 
+# 权限表
+class Permission(models.Model):
+    class Meta:
+        permissions = (
+            ('view_monthly_sales_data', '查看月度营业数据'),
+            ('manage_monthly_sales_data', '管理月度营业数据'),
+            ('view_quarterly_sales_data', '查看季度营业数据'),
+            ('manage_quarterly_sales_data', '管理季度营业数据'),
+            ('view_internal_control_indicators', '查看内控指标汇总'),
+            ('manage_internal_control_indicators', '管理内控指标汇总'),
+            ('view_monthly_performance', '查看月度绩效考核结果'),
+            ('view_quarterly_performance', '查看季度绩效考核结果'),
+            ('manage_constant_data', '管理常量数据'),
+            ('manage_formula', '管理报表公式'),
+            ('manage_user', '管理用户'),
+            ('manage_permission', '管理授权'),
+        )
+
+
 # 用户扩展表
 class UserExtension(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='extension')
@@ -34,10 +53,6 @@ class MonthlySalesData(models.Model):
     class Meta:
         verbose_name_plural = '月度营业数据'
         verbose_name = '月度营业数据'
-        permissions = (
-            ('view_monthly_sales_data', '查看月度营业数据'),
-            ('manage_monthly_sales_data', '管理月度营业数据'),
-        )
 
     def __str__(self):
         return str(self.id)
@@ -56,10 +71,6 @@ class QuarterlySalesData(models.Model):
     class Meta:
         verbose_name_plural = '季度营业数据'
         verbose_name = '季度营业数据'
-        permissions = (
-            ('view_quarterly_sales_data', '查看季度营业数据'),
-            ('manage_quarterly_sales_data', '管理季度营业数据'),
-        )
 
     def __str__(self):
         return str(self.id)
@@ -82,10 +93,6 @@ class InternalControlIndicators(models.Model):
     class Meta:
         verbose_name_plural = '内控指标汇总'
         verbose_name = '内控指标汇总'
-        permissions = (
-            ('view_internal_control_indicators', '查看内控指标汇总'),
-            ('manage_internal_control_indicators', '管理内控指标汇总'),
-        )
 
     def __str__(self):
         return str(self.order_number)
@@ -104,9 +111,6 @@ class MonthlyPerformance(models.Model):
     class Meta:
         verbose_name_plural = '月度绩效考核结果'
         verbose_name = '月度绩效考核结果'
-        permissions = (
-            ('view_monthly_performance', '查看月度绩效考核结果'),
-        )
 
     def __str__(self):
         return str(self.id)
@@ -125,9 +129,6 @@ class QuarterlyPerformance(models.Model):
     class Meta:
         verbose_name_plural = '季度绩效考核结果'
         verbose_name = '季度绩效考核结果'
-        permissions = (
-            ('view_quarterly_performance', '查看季度绩效考核结果'),
-        )
 
     def __str__(self):
         return str(self.id)
@@ -145,9 +146,6 @@ class ConstantData(models.Model):
     class Meta:
         verbose_name_plural = '常量数据'
         verbose_name = '常量数据'
-        permissions = (
-            ('manage_constant_data', '管理常量数据'),
-        )
 
     def __str__(self):
         return str(self.id)
@@ -161,9 +159,6 @@ class MonthlyFormula(models.Model):
     class Meta:
         verbose_name_plural = '月度绩效考核公式表'
         verbose_name = '月度绩效考核公式表'
-        permissions = (
-            ('manage_formula', '管理报表公式'),
-        )
 
     def __str__(self):
         return str(self.id)

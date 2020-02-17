@@ -38,34 +38,57 @@
                         <li class="nav-item {% block index_active %}{% endblock %}"><a href="{% url 'index' %}"><i
                                 class="mdi mdi-home"></i> 首页</a></li>
 
+                        {% if 'performance.view_monthly_sales_data' in request.user.get_all_permissions or 'performance.view_quarterly_sales_data' in request.user.get_all_permissions or 'performance.view_internal_control_indicators' in request.user.get_all_permissions or 'performance.view_monthly_performance' in request.user.get_all_permissions or 'performance.view_quarterly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
                         <li class="nav-item nav-item-has-subnav {% block show_data_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                             <ul class="nav nav-subnav">
+                                {% if 'performance.view_monthly_sales_data' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block display_monthly_sales_data_active %}{% endblock %}"><a
                                         href="{% url 'display_monthly_sales_data' %}">月度营业数据</a></li>
+                                {% endif %}
+                                {% if 'performance.view_quarterly_sales_data' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block display_quarterly_sales_data_active %}{% endblock %}"><a
                                         href="{% url 'display_quarterly_sales_data' %}">季度营业数据</a></li>
+                                {% endif %}
+                                {% if 'performance.view_internal_control_indicators' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block display_internal_control_indicators_active %}{% endblock %}"><a
                                         href="{% url 'display_internal_control_indicators' %}">内控指标汇总</a></li>
+                                {% endif %}
+                                {% if 'performance.view_monthly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_monthly_result_active %}{% endblock %}"><a
                                         href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a></li>
+                                {% endif %}
+                                {% if 'performance.view_quarterly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_quarterly_result_active %}{% endblock %}"><a
                                         href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a></li>
+                                {% endif %}
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if 'performance.manage_monthly_sales_data' in request.user.get_all_permissions or 'performance.manage_quarterly_sales_data' in request.user.get_all_permissions or 'performance.manage_internal_control_indicators' in request.user.get_all_permissions or 'performance.manage_constant_data' in request.user.get_all_permissions or request.user.is_superuser %}
                         <li class="nav-item nav-item-has-subnav {% block manage_data_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
                             <ul class="nav nav-subnav">
+                                {% if 'performance.manage_monthly_sales_data' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_monthly_sales_data_active %}{% endblock %}"><a
                                         href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
+                                {% endif %}
+                                {% if 'performance.manage_quarterly_sales_data' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_quarterly_sales_data_active %}{% endblock %}"><a
                                         href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a></li>
+                                {% endif %}
+                                {% if 'performance.manage_internal_control_indicators' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_internal_control_indicators_active %}{% endblock %}"><a
                                         href="{% url 'show_internal_control_indicators' %}">内控指标汇总</a></li>
+                                {% endif %}
+                                {% if 'performance.manage_constant_data' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_constant_data_active %}{% endblock %}"><a
                                         href="{% url 'show_constant_data' %}">常量数据</a></li>
+                                {% endif %}
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if 'performance.manage_formula' in request.user.get_all_permissions or request.user.is_superuser %}
                         <li class="nav-item nav-item-has-subnav {% block change_formula_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
                             <ul class="nav nav-subnav ">
@@ -73,13 +96,20 @@
                                 <li class="{% block quarter_formula_active %}{% endblock %}"><a href="{% url 'quarter_result_formula' %}">季度绩效考核结果</a></li>
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if 'performance.manage_user' in request.user.get_all_permissions or 'performance.manage_permission' in request.user.get_all_permissions or request.user.is_superuser %}
                         <li class="nav-item nav-item-has-subnav {% block user_permission_management_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-clipboard-account"></i> 账号权限管理</a>
                             <ul class="nav nav-subnav">
+                                {% if 'performance.manage_user' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block user_management_active %}{% endblock %}"><a href="{% url 'user_management' %}">账号信息管理</a></li>
+                                {% endif %}
+                                {% if 'performance.manage_permission' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block group_management_active %}{% endblock %}"><a href="{% url 'group_management' %}">角色权限管理</a></li>
+                                {% endif %}
                             </ul>
                         </li>
+                        {% endif %}
                     </ul>
                 </nav>
 

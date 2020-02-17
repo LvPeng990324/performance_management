@@ -78,11 +78,11 @@ def user_management(request):
 # 新增账号方法
 def add_user(request):
     # 从前端获取填写用户信息
-    job_number = request.POST.get('job_number')
-    name = request.POST.get('name')
-    department = request.POST.get('department')
-    telephone = request.POST.get('telephone')
-    password = request.POST.get('password')
+    job_number = str(request.POST.get('job_number'))
+    name = str(request.POST.get('name'))
+    department = str(request.POST.get('department'))
+    telephone = str(request.POST.get('telephone'))
+    password = str(request.POST.get('password'))
 
     # 保存用户
     try:

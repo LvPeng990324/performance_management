@@ -265,13 +265,13 @@ def upload_user_excel(file_data):
     try:
         for temp_data in table_list:
             user = User.objects.create_user(
-                username=temp_data[1],
-                password=temp_data[4],
-                last_name=temp_data[2],
+                username=str(temp_data[1]),
+                password=str(temp_data[4]),
+                last_name=str(temp_data[2]),
             )
-            user.extension.job_number = temp_data[1]
-            user.extension.department = temp_data[0]
-            user.extension.telephone = temp_data[3]
+            user.extension.job_number = str(temp_data[1])
+            user.extension.department = str(temp_data[0])
+            user.extension.telephone = str(temp_data[3])
             user.save()
     except:
         return '写入数据库失败'
