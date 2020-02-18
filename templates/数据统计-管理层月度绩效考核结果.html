@@ -72,8 +72,8 @@
                                     <th>交付率</th>
                                     <th>成品率</th>
                                     <th>医药费</th>
-                                    <th>内控综合成本</th>
-                                    <th>现场管理</th>
+                                    <th>当月挖掘成本</th>
+                                    <th>现场管理符合率</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -83,8 +83,8 @@
                                         <td>{{ data.delivery_rate }}</td>
                                         <td>{{ data.well_done_rate }}</td>
                                         <td>{{ data.medical_expenses }}</td>
-                                        <td>{{ data.overall_cost }}</td>
-                                        <td>{{ data.field_management }}</td>
+                                        <td>{{ data.month_dig_cost }}</td>
+                                        <td>{{ data.field_management_well_rate }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -113,7 +113,7 @@
                 left: 'center',
             },
             legend: {
-                data: ['交付率', '成品率', '医药费', '内控综合成本', '现场管理'],
+                data: ['交付率', '成品率', '医药费', '当月挖掘成本', '现场管理符合率'],
                 top: 'bottom',
             },
             toolbox: {
@@ -156,12 +156,12 @@
                 data: [{% for data in monthly_result %}{{ data.medical_expenses }}, {% endfor %}],
                 type: 'line'
             }, {
-                name: '内控综合成本',
-                data: [{% for data in monthly_result %}{{ data.overall_cost }}, {% endfor %}],
+                name: '当月挖掘成本',
+                data: [{% for data in monthly_result %}{{ data.month_dig_cost }}, {% endfor %}],
                 type: 'line'
             }, {
-                name: '现场管理',
-                data: [{% for data in monthly_result %}{{ data.field_management }}, {% endfor %}],
+                name: '现场管理符合率',
+                data: [{% for data in monthly_result %}{{ data.field_management_well_rate }}, {% endfor %}],
                 type: 'line'
             },]
         };

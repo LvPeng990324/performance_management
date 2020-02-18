@@ -80,15 +80,16 @@ class QuarterlySalesData(models.Model):
 class InternalControlIndicators(models.Model):
     date = models.DateTimeField(verbose_name='日期')
     order_number = models.CharField(max_length=100, verbose_name='订单号')
+    order_money = models.IntegerField(verbose_name='订单额')
     scheduled_delivery = models.DateTimeField(verbose_name='计划交期')
     actual_delivery = models.DateTimeField(verbose_name='实际交期')
     finished_number = models.IntegerField(verbose_name='完成数')
     unfinished_number = models.IntegerField(verbose_name='未完成数')
     target_well_done_rate = models.FloatField(verbose_name='目标成品率')
     actual_well_done_rate = models.FloatField(verbose_name='实际成品率')
-    month_medical_expenses = models.FloatField(verbose_name='当月医药费')
-    cost_per_wan = models.FloatField(verbose_name='万元成本')
-    field_management_compliance = models.IntegerField(verbose_name='现场管理符合数')
+    target_medical_expenses = models.FloatField(verbose_name='目标医药费')
+    target_comprehensive_cost = models.FloatField(verbose_name='目标综合成本')
+    target_management_compliance = models.IntegerField(verbose_name='目标管理符合数')
 
     class Meta:
         verbose_name_plural = '内控指标汇总'
@@ -105,8 +106,8 @@ class MonthlyPerformance(models.Model):
     delivery_rate = models.FloatField(verbose_name='交付率')
     well_done_rate = models.FloatField(verbose_name='成品率')
     medical_expenses = models.FloatField(verbose_name='医药费')
-    overall_cost = models.FloatField(verbose_name='内控综合成本')
-    field_management = models.FloatField(verbose_name='现场管理')
+    month_dig_cost = models.FloatField(verbose_name='当月挖掘成本')
+    field_management_well_rate = models.FloatField(verbose_name='现场管理符合率')
 
     class Meta:
         verbose_name_plural = '月度绩效考核结果'

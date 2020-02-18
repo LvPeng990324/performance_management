@@ -565,15 +565,16 @@ def add_internal_control_indicators(request):
     # 从前端获取数据
     date = request.POST.get('date')
     order_number = request.POST.get('order_number')
+    order_money = request.POST.get('order_money')
     scheduled_delivery = request.POST.get('scheduled_delivery')
     actual_delivery = request.POST.get('actual_delivery')
     finished_number = request.POST.get('finished_number')
     unfinished_number = request.POST.get('unfinished_number')
     target_well_done_rate = request.POST.get('target_well_done_rate')
     actual_well_done_rate = request.POST.get('actual_well_done_rate')
-    month_medical_expenses = request.POST.get('month_medical_expenses')
-    cost_per_wan = request.POST.get('cost_per_wan')
-    field_management_compliance = request.POST.get('field_management_compliance')
+    target_medical_expenses = request.POST.get('target_medical_expenses')
+    target_comprehensive_cost = request.POST.get('target_comprehensive_cost')
+    target_management_compliance = request.POST.get('target_management_compliance')
 
     # 转换日期对象
     date_list = date.split('-')
@@ -589,15 +590,16 @@ def add_internal_control_indicators(request):
     InternalControlIndicators.objects.create(
         date=date,
         order_number=order_number,
+        order_money=order_money,
         scheduled_delivery=scheduled_delivery,
         actual_delivery=actual_delivery,
         finished_number=finished_number,
         unfinished_number=unfinished_number,
         target_well_done_rate=target_well_done_rate,
         actual_well_done_rate=actual_well_done_rate,
-        month_medical_expenses=month_medical_expenses,
-        cost_per_wan=cost_per_wan,
-        field_management_compliance=field_management_compliance,
+        target_medical_expenses=target_medical_expenses,
+        target_comprehensive_cost=target_comprehensive_cost,
+        target_management_compliance=target_management_compliance,
     )
 
     # 写入数据增加成功提示
@@ -640,15 +642,16 @@ def change_internal_control_indicators(request):
     # 从前端获取修改后的数据
     change_date = request.POST.get('date')
     change_order_number = request.POST.get('order_number')
+    change_order_money = request.POST.get('order_money')
     change_scheduled_delivery = request.POST.get('scheduled_delivery')
     change_actual_delivery = request.POST.get('actual_delivery')
     change_finished_number = request.POST.get('finished_number')
     change_unfinished_number = request.POST.get('unfinished_number')
     change_target_well_done_rate = request.POST.get('target_well_done_rate')
     change_actual_well_done_rate = request.POST.get('actual_well_done_rate')
-    change_month_medical_expenses = request.POST.get('month_medical_expenses')
-    change_cost_per_wan = request.POST.get('cost_per_wan')
-    change_field_management_compliance = request.POST.get('field_management_compliance')
+    change_target_medical_expenses = request.POST.get('target_medical_expenses')
+    change_target_comprehensive_cost = request.POST.get('target_comprehensive_cost')
+    change_target_management_compliance = request.POST.get('target_management_compliance')
 
     # 转换日期对象
     date_list = change_date.split('-')
@@ -666,15 +669,16 @@ def change_internal_control_indicators(request):
     # 修改数据
     data.date = change_date
     data.order_number = change_order_number
+    data.order_money = change_order_money
     data.scheduled_delivery = change_scheduled_delivery
     data.actual_delivery = change_actual_delivery
     data.finished_number = change_finished_number
     data.unfinished_number = change_unfinished_number
     data.target_well_done_rate = change_target_well_done_rate
     data.actual_well_done_rate = change_actual_well_done_rate
-    data.month_medical_expenses = change_month_medical_expenses
-    data.cost_per_wan = change_cost_per_wan
-    data.field_management_compliance = change_field_management_compliance
+    data.target_medical_expenses = change_target_medical_expenses
+    data.target_comprehensive_cost = change_target_comprehensive_cost
+    data.target_management_compliance = change_target_management_compliance
     # 保存更改
     data.save()
 
