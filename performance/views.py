@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
@@ -64,6 +65,8 @@ def user_logout(request):
 
 
 # 展示账号管理页面方法
+@login_required
+@permission_required('manage_user', raise_exception=True)
 def user_management(request):
     # 获取所有用户信息
     users = User.objects.all()
@@ -76,6 +79,8 @@ def user_management(request):
 
 
 # 新增账号方法
+@login_required
+@permission_required('manage_user', raise_exception=True)
 def add_user(request):
     # 从前端获取填写用户信息
     job_number = str(request.POST.get('job_number'))
@@ -105,6 +110,8 @@ def add_user(request):
 
 
 # 删除账号方法
+@login_required
+@permission_required('manage_user', raise_exception=True)
 def delete_user(request):
     # 防止把自己删除
     # 先获取当前登录用户id
@@ -141,6 +148,8 @@ def delete_user(request):
 
 
 # 修改账户方法
+@login_required
+@permission_required('manage_user', raise_exception=True)
 def change_user(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -162,7 +171,9 @@ def change_user(request):
     return redirect('user_management')
 
 
-# 修改账户密码方法
+# 管理员修改账户密码方法
+@login_required
+@permission_required('manage_user', raise_exception=True)
 def change_password(request):
     # 获取要更改密码的id
     change_id = request.POST.get('passwd_id')
@@ -179,6 +190,8 @@ def change_password(request):
 
 
 # 展示角色权限管理界面
+@login_required
+@permission_required('manage_permission', raise_exception=True)
 def group_management(request):
     # 从数据库中取出所有角色(组)
     groups = Group.objects.all()
@@ -193,6 +206,8 @@ def group_management(request):
 
 
 # 增加角色方法
+@login_required
+@permission_required('manage_permission', raise_exception=True)
 def add_group(request):
     # 取得角色名称
     name = request.POST.get('name')
@@ -223,6 +238,8 @@ def add_group(request):
 
 
 # 删除角色方法
+@login_required
+@permission_required('manage_permission', raise_exception=True)
 def delete_group(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -245,6 +262,8 @@ def delete_group(request):
 
 
 # 修改角色方法
+@login_required
+@permission_required('manage_permission', raise_exception=True)
 def change_group(request):
     # 获取要修改的id
     change_id = request.POST.get('change_id')
@@ -265,6 +284,8 @@ def change_group(request):
 
 
 # 从角色(组)批量赋予给账号方法
+@login_required
+@permission_required('manage_permission', raise_exception=True)
 def group_to_user(request):
     # 判断有无ajax变量值，有的话就是提交数据，没有就是访问页面
     if not request.GET.get('ajax'):
@@ -313,6 +334,7 @@ def group_to_user(request):
 
 # 展示月度营业数据方法
 @login_required
+@permission_required('manage_monthly_sales_data', raise_exception=True)
 def show_monthly_sales_data(request):
     # 从数据库中取出所有数据
     monthly_sales_data = MonthlySalesData.objects.all()
@@ -326,6 +348,7 @@ def show_monthly_sales_data(request):
 
 # 增加月度营业数据方法
 @login_required
+@permission_required('manage_monthly_sales_data', raise_exception=True)
 def add_monthly_sales_data(request):
     # 从前端获取数据
     year = request.POST.get('year')
@@ -359,6 +382,7 @@ def add_monthly_sales_data(request):
 
 # 删除月度营业数据方法
 @login_required
+@permission_required('manage_monthly_sales_data', raise_exception=True)
 def delete_monthly_sales_data(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -382,6 +406,7 @@ def delete_monthly_sales_data(request):
 
 # 修改月度营业数据
 @login_required
+@permission_required('manage_monthly_sales_data', raise_exception=True)
 def change_monthly_sales_data(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -420,6 +445,7 @@ def change_monthly_sales_data(request):
 
 # 展示季度营业数据方法
 @login_required
+@permission_required('manage_quarterly_sales_data', raise_exception=True)
 def show_quarterly_sales_data(request):
     # 从数据库中取出所有数据
     quarterly_sales_data = QuarterlySalesData.objects.all()
@@ -433,6 +459,7 @@ def show_quarterly_sales_data(request):
 
 # 增加季度营业数据方法
 @login_required
+@permission_required('manage_quarterly_sales_data', raise_exception=True)
 def add_quarterly_sales_data(request):
     # 从前端获取数据
     year = int(request.POST.get('year'))
@@ -463,6 +490,7 @@ def add_quarterly_sales_data(request):
 
 # 删除季度营业数据方法
 @login_required
+@permission_required('manage_quarterly_sales_data', raise_exception=True)
 def delete_quarterly_sales_data(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -486,6 +514,7 @@ def delete_quarterly_sales_data(request):
 
 # 修改季度营业数据方法
 @login_required
+@permission_required('manage_quarterly_sales_data', raise_exception=True)
 def change_quarterly_sales_data(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -517,6 +546,7 @@ def change_quarterly_sales_data(request):
 
 # 展示内控指标汇总表方法
 @login_required
+@permission_required('manage_internal_control_indicators', raise_exception=True)
 def show_internal_control_indicators(request):
     # 从数据库中取出所有数据
     internal_control_indicators = InternalControlIndicators.objects.all()
@@ -530,6 +560,7 @@ def show_internal_control_indicators(request):
 
 # 增加内控指标汇总表方法
 @login_required
+@permission_required('manage_internal_control_indicators', raise_exception=True)
 def add_internal_control_indicators(request):
     # 从前端获取数据
     date = request.POST.get('date')
@@ -578,6 +609,7 @@ def add_internal_control_indicators(request):
 
 # 删除内控指标汇总表方法
 @login_required
+@permission_required('manage_internal_control_indicators', raise_exception=True)
 def delete_internal_control_indicators(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -601,6 +633,7 @@ def delete_internal_control_indicators(request):
 
 # 修改内控指标汇总表方法
 @login_required
+@permission_required('manage_internal_control_indicators', raise_exception=True)
 def change_internal_control_indicators(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
@@ -677,6 +710,7 @@ def give_internal_control_indicators(request):
 
 # 上传月度营业数据表格方法
 @login_required
+@permission_required('manage_monthly_sales_data', raise_exception=True)
 def upload_monthly_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_monthly_performance(file_data)
@@ -694,6 +728,7 @@ def upload_monthly_performance(request):
 
 # 上传季度营业数据表格方法
 @login_required
+@permission_required('manage_quarterly_sales_data', raise_exception=True)
 def upload_quarterly_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_quarterly_performance(file_data)
@@ -711,6 +746,7 @@ def upload_quarterly_performance(request):
 
 # 上传内控制表汇总表格方法
 @login_required
+@permission_required('manage_internal_control_indicators', raise_exception=True)
 def upload_internal_control_indicators_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_internal_control_indicators_performance(file_data)
@@ -727,6 +763,8 @@ def upload_internal_control_indicators_performance(request):
 
 
 # 上传用户信息表格方法
+@login_required
+@permission_required('manage_user', raise_exception=True)
 def upload_user(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_user_excel(file_data)
@@ -744,6 +782,7 @@ def upload_user(request):
 
 # 展示常量数据方法
 @login_required
+@permission_required('manage_constant_data', raise_exception=True)
 def show_constant_data(request):
     # 从数据库中取出所有数据
     constant_data = ConstantData.objects.all()
@@ -757,6 +796,7 @@ def show_constant_data(request):
 
 # 增加常量数据方法
 @login_required
+@permission_required('manage_constant_data', raise_exception=True)
 def add_constant_data(request):
     # 从前端获取数据
     date = request.POST.get('date')
@@ -789,6 +829,7 @@ def add_constant_data(request):
 
 # 删除常量数据方法
 @login_required
+@permission_required('manage_constant_data', raise_exception=True)
 def delete_constant_data(request):
     # get为多选删除，post为单条删除
     if request.method == 'GET':
@@ -812,12 +853,14 @@ def delete_constant_data(request):
 
 # 修改常量数据方法
 @login_required
+@permission_required('manage_constant_data', raise_exception=True)
 def change_constant_data(request):
     pass
 
 
 # 上传常量数据表格方法
 @login_required
+@permission_required('manage_constant_data', raise_exception=True)
 def upload_constant_data(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_constant_data(file_data)
@@ -835,6 +878,7 @@ def upload_constant_data(request):
 
 # 展示管理层月度绩效考核结果方法
 @login_required
+@permission_required('view_monthly_performance', raise_exception=True)
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
     years = list(InternalControlIndicators.objects.values_list('date', flat=True))
@@ -878,6 +922,7 @@ def show_monthly_result(request):
 
 # 更新月度绩效考核结果的数据
 @login_required
+@permission_required('view_monthly_performance', raise_exception=True)
 def refresh_monthly_result(request):
     # 获取选中年份
     current_year = request.GET.get('select_year')
@@ -898,6 +943,7 @@ def refresh_monthly_result(request):
 
 # 展示管理层季度绩效考核结果方法
 @login_required
+@permission_required('view_quarterly_performance', raise_exception=True)
 def show_quarterly_result(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
@@ -936,6 +982,7 @@ def show_quarterly_result(request):
 
 # 更新季度绩效考核结果的数据
 @login_required
+@permission_required('view_quarterly_performance', raise_exception=True)
 def refresh_quarterly_result(request):
     # 获取选中年份
     current_year = request.GET.get('select_year')
@@ -956,6 +1003,7 @@ def refresh_quarterly_result(request):
 
 # 仅展示月度营业数据方法
 @login_required
+@permission_required('view_monthly_sales_data', raise_exception=True)
 def display_monthly_sales_data(request):
     # 打包年份数据，去重并逆序排序
     year_list = MonthlySalesData.objects.values('year').distinct().order_by('-year')
@@ -994,6 +1042,7 @@ def display_monthly_sales_data(request):
 
 # 仅展示季度营业数据方法
 @login_required
+@permission_required('view_quarterly_sales_data', raise_exception=True)
 def display_quarterly_sales_data(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
@@ -1032,6 +1081,7 @@ def display_quarterly_sales_data(request):
 
 # 仅展示内控指标汇总方法
 @login_required
+@permission_required('view_internal_control_indicators', raise_exception=True)
 def display_internal_control_indicators(request):
     all_count = InternalControlIndicators.objects.all().count()
     page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators')
@@ -1055,35 +1105,42 @@ def display_internal_control_indicators(request):
 
 # 导出月度营业数据excel
 @login_required
+@permission_required('view_monthly_sales_data', raise_exception=True)
 def export_monthly_sales_data(request):
     return ExportTable.export_monthly_sales_data()
 
 
 # 导出季度营业数据excel
 @login_required
+@permission_required('view_quarterly_sales_data', raise_exception=True)
 def export_quarterly_sales_data(request):
     return ExportTable.export_quarterly_sales_data()
 
 
 # 导出内控指标汇总excel
 @login_required
+@permission_required('view_internal_control_indicators', raise_exception=True)
 def export_internal_control_indicators(request):
     return ExportTable.export_internal_control_indicators()
 
 
 # 导出月度绩效考核结果
 @login_required
+@permission_required('view_monthly_performance', raise_exception=True)
 def export_monthly_performance(request):
     return ExportTable.export_monthly_performance()
 
 
 # 导出季度绩效考核结果
 @login_required
+@permission_required('view_quarterly_performance', raise_exception=True)
 def export_quarterly_performance(request):
     return ExportTable.export_quarterly_performance()
 
 
 # 展示公式修改页-月度绩效考核
+@login_required
+@permission_required('manage_formula', raise_exception=True)
 def month_result_formula(request):
     delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
     well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
@@ -1101,6 +1158,8 @@ def month_result_formula(request):
 
 
 # 展示公式修改页-季度绩效考核
+@login_required
+@permission_required('manage_formula', raise_exception=True)
 def quarter_result_formula(request):
     turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
     operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
@@ -1117,6 +1176,9 @@ def quarter_result_formula(request):
     return render(request, '报表公式修改-季度绩效考核结果.html', context=context)
 
 
+# 修改月度绩效考核结果公式方法
+@login_required
+@permission_required('manage_formula', raise_exception=True)
 def change_month_formula(request):
     # 获取输入的每个公式
     delivery_rate = request.POST.get('delivery_rate')
@@ -1139,6 +1201,9 @@ def change_month_formula(request):
     return redirect('month_result_formula')
 
 
+# 修改季度绩效考核结果方法
+@login_required
+@permission_required('manage_formula', raise_exception=True)
 def change_quarter_formula(request):
     # 获取输入的每个公式
     turnover = request.POST.get('turnover')
