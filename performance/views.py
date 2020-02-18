@@ -162,6 +162,22 @@ def change_user(request):
     return redirect('user_management')
 
 
+# 修改账户密码方法
+def change_password(request):
+    # 获取要更改密码的id
+    change_id = request.POST.get('passwd_id')
+    user = User.objects.get(id=change_id)
+    # 获取新密码
+    password = request.POST.get('password')
+    # 设置新密码
+    user.set_password(password)
+    user.save()
+    # 写入成功提示
+    messages.success(request, '密码修改成功')
+    # 重载页面
+    return redirect('user_management')
+
+
 # 展示角色权限管理界面
 def group_management(request):
     # 从数据库中取出所有角色(组)

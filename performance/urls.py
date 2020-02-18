@@ -16,6 +16,8 @@ urlpatterns = [
     path('delete_user/', views.delete_user, name='delete_user'),
     # 修改用户方法
     path('change_user/', views.change_user, name='change_user'),
+    # 修改账户密码方法
+    path('change_password/', views.change_password, name='change_password'),
     # 展示角色权限管理界面
     path('group_management/', views.group_management, name='group_management'),
     # 增加角色方法
