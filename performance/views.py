@@ -429,7 +429,8 @@ def add_monthly_sales_data(request):
     operating_expenses = request.POST.get('operating_expenses')
     amount_repaid = request.POST.get('amount_repaid')
     inventory = request.POST.get('inventory')
-    profit = request.POST.get('profit')
+    # 利润额根据 营业额 - 营业费用 得出
+    profit = float(turnover) - float(operating_expenses)
 
     # 转换日期对象
     # date = datetime(year=year, month=month, day=1, hour=1, minute=1, second=1)
@@ -490,7 +491,8 @@ def change_monthly_sales_data(request):
     change_operating_expenses = request.POST.get('change_operating_expenses')
     change_amount_repaid = request.POST.get('change_amount_repaid')
     change_inventory = request.POST.get('change_inventory')
-    change_profit = request.POST.get('change_profit')
+    # 利润额根据 营业额 - 营业费用 得出
+    change_profit = float(change_turnover) - float(change_operating_expenses)
 
     # 转换日期对象
     # change_date = datetime(year=change_year, month=change_month, day=1, hour=1, minute=1, second=1)
@@ -635,28 +637,21 @@ def show_internal_control_indicators(request):
 @permission_required('manage_internal_control_indicators', raise_exception=True)
 def add_internal_control_indicators(request):
     # 从前端获取数据
-    date = request.POST.get('date')
-    order_number = request.POST.get('order_number')
-    order_money = request.POST.get('order_money')
-    scheduled_delivery = request.POST.get('scheduled_delivery')
-    actual_delivery = request.POST.get('actual_delivery')
-    finished_number = request.POST.get('finished_number')
-    unfinished_number = request.POST.get('unfinished_number')
-    target_well_done_rate = request.POST.get('target_well_done_rate')
-    actual_well_done_rate = request.POST.get('actual_well_done_rate')
-    target_medical_expenses = request.POST.get('target_medical_expenses')
-    target_comprehensive_cost = request.POST.get('target_comprehensive_cost')
-    target_management_compliance = request.POST.get('target_management_compliance')
+    date = request.POST.get('date')  # 订单时间
+    order_number = request.POST.get('order_number')  # 订单号
+    order_money = request.POST.get('order_money')  # 订单额
+    scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
+    target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
+    target_medical_expenses = request.POST.get('target_medical_expenses')  # 目标医药费
+    target_comprehensive_cost = request.POST.get('target_comprehensive_cost')  # 目标综合成本
+    target_management_compliance = request.POST.get('target_management_compliance')  # 目标管理符合数
 
     # 转换日期对象
     date_list = date.split('-')
     scheduled_delivery_list = scheduled_delivery.split('-')
-    actual_delivery_list = actual_delivery.split('-')
     date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
     scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                                   day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
-    actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
-                               day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
 
     # 存入数据库
     InternalControlIndicators.objects.create(
@@ -664,11 +659,7 @@ def add_internal_control_indicators(request):
         order_number=order_number,
         order_money=order_money,
         scheduled_delivery=scheduled_delivery,
-        actual_delivery=actual_delivery,
-        finished_number=finished_number,
-        unfinished_number=unfinished_number,
         target_well_done_rate=target_well_done_rate,
-        actual_well_done_rate=actual_well_done_rate,
         target_medical_expenses=target_medical_expenses,
         target_comprehensive_cost=target_comprehensive_cost,
         target_management_compliance=target_management_compliance,
@@ -712,18 +703,21 @@ def change_internal_control_indicators(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
-    change_date = request.POST.get('date')
-    change_order_number = request.POST.get('order_number')
-    change_order_money = request.POST.get('order_money')
-    change_scheduled_delivery = request.POST.get('scheduled_delivery')
-    change_actual_delivery = request.POST.get('actual_delivery')
-    change_finished_number = request.POST.get('finished_number')
-    change_unfinished_number = request.POST.get('unfinished_number')
-    change_target_well_done_rate = request.POST.get('target_well_done_rate')
-    change_actual_well_done_rate = request.POST.get('actual_well_done_rate')
-    change_target_medical_expenses = request.POST.get('target_medical_expenses')
-    change_target_comprehensive_cost = request.POST.get('target_comprehensive_cost')
-    change_target_management_compliance = request.POST.get('target_management_compliance')
+    change_date = request.POST.get('date')  # 订单时间
+    change_order_number = request.POST.get('order_number')  # 订单号
+    change_order_money = request.POST.get('order_money')  # 订单额
+    change_scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
+    change_target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
+    change_target_medical_expenses = request.POST.get('target_medical_expenses')  # 目标医药费
+    change_target_comprehensive_cost = request.POST.get('target_comprehensive_cost')  # 目标综合成本
+    change_target_management_compliance = request.POST.get('target_management_compliance')  # 目标管理符合数
+    change_actual_delivery = request.POST.get('actual_delivery')  # 实际交期
+    change_finished_number = request.POST.get('finished_number')  # 完成数
+    change_unfinished_number = request.POST.get('unfinished_number')  # 未完成数
+    change_actual_well_done_rate = request.POST.get('actual_well_done_rate')  # 实际成品率
+    change_actual_medical_expenses = request.POST.get('actual_medical_expenses')  # 实际医药费
+    change_actual_cost = request.POST.get('actual_cost')  # 实际成本
+    change_actual_management_compliance = request.POST.get('actual_management_compliance')  # 实际管理符合数
 
     # 转换日期对象
     date_list = change_date.split('-')
@@ -739,18 +733,22 @@ def change_internal_control_indicators(request):
     # 从数据库中取出该数据
     data = InternalControlIndicators.objects.get(id=change_id)
     # 修改数据
-    data.date = change_date
-    data.order_number = change_order_number
-    data.order_money = change_order_money
-    data.scheduled_delivery = change_scheduled_delivery
-    data.actual_delivery = change_actual_delivery
-    data.finished_number = change_finished_number
-    data.unfinished_number = change_unfinished_number
-    data.target_well_done_rate = change_target_well_done_rate
-    data.actual_well_done_rate = change_actual_well_done_rate
-    data.target_medical_expenses = change_target_medical_expenses
-    data.target_comprehensive_cost = change_target_comprehensive_cost
-    data.target_management_compliance = change_target_management_compliance
+    data.date = change_date  # 订单时间
+    data.order_number = change_order_number  # 订单号
+    data.order_money = change_order_money  # 订单额
+    data.scheduled_delivery = change_scheduled_delivery  # 计划交期
+    data.target_well_done_rate = change_target_well_done_rate  # 目标成品率
+    data.target_medical_expenses = change_target_medical_expenses  # 目标医药费
+    data.target_comprehensive_cost = change_target_comprehensive_cost  # 目标综合成本
+    data.target_management_compliance = change_target_management_compliance  # 目标管理符合数
+    data.actual_delivery = change_actual_delivery  # 实际交期
+    data.finished_number = change_finished_number  # 完成数
+    data.unfinished_number = change_unfinished_number  # 未完成数
+    data.actual_well_done_rate = change_actual_well_done_rate  # 实际成品率
+    data.actual_medical_expenses = change_actual_medical_expenses  # 实际医药费
+    data.actual_cost = change_actual_cost  # 实际成本
+    data.actual_management_compliance = change_actual_management_compliance  # 实际管理符合数
+
     # 保存更改
     data.save()
 
@@ -1198,14 +1196,14 @@ def month_result_formula(request):
     delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
     well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
     medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
-    overall_cost = MonthlyFormula.objects.filter(target_item='内控综合成本').first().formula
-    field_management = MonthlyFormula.objects.filter(target_item='现场管理').first().formula
+    month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
+    field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
     context = {
         'delivery_rate': delivery_rate,
         'well_done_rate': well_done_rate,
         'medical_expenses': medical_expenses,
-        'overall_cost': overall_cost,
-        'field_management': field_management,
+        'month_dig_cost': month_dig_cost,
+        'field_management_well_rate': field_management_well_rate,
     }
     return render(request, '报表公式修改-管理层月度绩效考核结果.html', context=context)
 
