@@ -1196,14 +1196,14 @@ def month_result_formula(request):
     delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
     well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
     medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
-    overall_cost = MonthlyFormula.objects.filter(target_item='内控综合成本').first().formula
-    field_management = MonthlyFormula.objects.filter(target_item='现场管理').first().formula
+    month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
+    field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
     context = {
         'delivery_rate': delivery_rate,
         'well_done_rate': well_done_rate,
         'medical_expenses': medical_expenses,
-        'overall_cost': overall_cost,
-        'field_management': field_management,
+        'month_dig_cost': month_dig_cost,
+        'field_management_well_rate': field_management_well_rate,
     }
     return render(request, '报表公式修改-管理层月度绩效考核结果.html', context=context)
 
