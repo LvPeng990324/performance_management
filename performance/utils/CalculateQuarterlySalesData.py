@@ -44,13 +44,13 @@ def quarterly_data_production(year, year_res_set, quarter_list):
         'inventory': res['inventory_sum'],
         'profit': res['profit_sum'],
     }
-    obj = MonthlySalesData.objects.filter(year=year, quarter=quarter)
+    obj = QuarterlySalesData.objects.filter(year=year, quarter=quarter)
     if obj:
         # 如果该月数据已存在，则更新
-        MonthlySalesData.objects.filter(year=year, quarter=quarter).update(**new_data)
+        QuarterlySalesData.objects.filter(year=year, quarter=quarter).update(**new_data)
         # print("%s年%s季 更新成功" % (year, quarter))
     else:
-        MonthlySalesData.objects.create(**new_data)
+        QuarterlySalesData.objects.create(**new_data)
         # print("%s年%s季 成功存入" % (year, quarter))
 
 

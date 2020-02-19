@@ -21,6 +21,7 @@ from .utils import UploadTable
 from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
+from .utils import CalculateQuarterlySalesData
 from .utils.Paginator import PageInfo
 
 
@@ -768,6 +769,10 @@ def upload_monthly_performance(request):
     if result == 0:
         # 写入导入成功提示
         messages.success(request, '导入成功')
+
+        # 刷新季度数据
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data()
+
         # 重定向数据展示页面
         return redirect('show_monthly_sales_data')
     else:
