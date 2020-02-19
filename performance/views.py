@@ -429,7 +429,8 @@ def add_monthly_sales_data(request):
     operating_expenses = request.POST.get('operating_expenses')
     amount_repaid = request.POST.get('amount_repaid')
     inventory = request.POST.get('inventory')
-    profit = request.POST.get('profit')
+    # 利润额根据 营业额 - 营业费用 得出
+    profit = float(turnover) - float(operating_expenses)
 
     # 转换日期对象
     # date = datetime(year=year, month=month, day=1, hour=1, minute=1, second=1)
@@ -490,7 +491,8 @@ def change_monthly_sales_data(request):
     change_operating_expenses = request.POST.get('change_operating_expenses')
     change_amount_repaid = request.POST.get('change_amount_repaid')
     change_inventory = request.POST.get('change_inventory')
-    change_profit = request.POST.get('change_profit')
+    # 利润额根据 营业额 - 营业费用 得出
+    change_profit = float(change_turnover) - float(change_operating_expenses)
 
     # 转换日期对象
     # change_date = datetime(year=change_year, month=change_month, day=1, hour=1, minute=1, second=1)

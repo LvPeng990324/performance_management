@@ -105,7 +105,7 @@ def upload_monthly_performance_excel(file_data):
                 operating_expenses=temp_data[3],
                 amount_repaid=temp_data[4],
                 inventory=temp_data[5],
-                profit=temp_data[6],
+                profit=float(temp_data[2]) - float(temp_data[3]),
             )
     except:
         return '写入数据库失败'
