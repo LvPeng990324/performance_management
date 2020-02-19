@@ -105,7 +105,7 @@ def upload_monthly_performance_excel(file_data):
                 operating_expenses=temp_data[3],
                 amount_repaid=temp_data[4],
                 inventory=temp_data[5],
-                profit=temp_data[6],
+                profit=float(temp_data[2]) - float(temp_data[3]),
             )
     except:
         return '写入数据库失败'
@@ -184,15 +184,16 @@ def upload_internal_control_indicators_performance_excel(file_data):
             InternalControlIndicators.objects.create(
                 date=temp_data[0],
                 order_number=temp_data[1],
-                scheduled_delivery=temp_data[2],
-                actual_delivery=temp_data[3],
-                finished_number=temp_data[4],
-                unfinished_number=temp_data[5],
-                target_well_done_rate=temp_data[6],
-                actual_well_done_rate=temp_data[7],
-                month_medical_expenses=temp_data[8],
-                cost_per_wan=temp_data[9],
-                field_management_compliance=temp_data[10],
+                order_money=temp_data[2],
+                scheduled_delivery=temp_data[3],
+                actual_delivery=temp_data[4],
+                finished_number=temp_data[5],
+                unfinished_number=temp_data[6],
+                target_well_done_rate=temp_data[7],
+                actual_well_done_rate=temp_data[8],
+                target_medical_expenses=temp_data[9],
+                target_comprehensive_cost=temp_data[10],
+                target_management_compliance=temp_data[11],
             )
     except:
         return '写入数据库失败'

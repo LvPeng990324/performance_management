@@ -115,7 +115,7 @@
     <div class="modal fade" id="password" tabindex="-1" role="dialog" aria-labelledby="passwordLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'add_user' %}" method="post">
+                <form action="{% url 'admin_change_password' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -125,10 +125,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="password_m" class="control-label">新密码：</label>
-                            <input type="text" class="form-control" id="password_m" name="password_m" required>
+                            <input type="text" class="form-control" id="password_m" name="password" required>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input hidden id="passwd_id" name="passwd_id">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="submit" class="btn btn-primary">确定</button>
                     </div>
@@ -187,6 +188,9 @@
             <div class="card">
                 <div class="card-header">
                     <h4><b>账号信息管理</b></h4>
+                    <div class="input-group">
+                    <form class="pull-right search-bar" method="get" action="#!" role="form">
+                     <div class="input-group">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">部门 <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
@@ -196,11 +200,11 @@
                                 </ul>
 
                             </div>
-                    <input type="text" class="form-control" placeholder="请输入账号名...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">搜索</button>
-                    </span>
-                    <div class="toolbar-btn-action">
+                         <input type="text" class="form-control" placeholder="请输入账号名...">
+                     </div>
+                    </form>
+                    </div>
+                    <div class="example-box">
                         <button type="button" class="btn btn-danger m-r-5 pull-right"
                                 data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
                         </button>
@@ -259,7 +263,7 @@
                                     <td>
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i class="mdi mdi-pencil"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="修改密码" data-toggle="modal" data-target="#password" onclick="give_delete_modal('{{ user.id }}')"><i class="mdi mdi-dns"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="修改密码" data-toggle="modal" data-target="#password" onclick="give_passwd_id_modal('{{ user.id }}')"><i class="mdi mdi-dns"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ user.id }}')"><i class="mdi mdi-window-close"></i></a>
                                         </div>
                                     </td>
@@ -281,6 +285,12 @@
     <script type="text/javascript">
         function give_delete_modal(delete_id) {
             $('#id_delete_id').val(delete_id);
+        }
+    </script>
+    <!-- 给修改密码模态框传值 -->
+    <script type="text/javascript">
+        function give_passwd_id_modal(passwd_id) {
+            $('#passwd_id').val(passwd_id);
         }
     </script>
     <!-- 提交选中删除 -->

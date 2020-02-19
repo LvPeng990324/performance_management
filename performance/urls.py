@@ -16,6 +16,12 @@ urlpatterns = [
     path('delete_user/', views.delete_user, name='delete_user'),
     # 修改用户方法
     path('change_user/', views.change_user, name='change_user'),
+    # 管理员修改账户密码方法
+    path('admin_change_password/', views.admin_change_password, name='admin_change_password'),
+    # 用户修改自己密码方法
+    path('user_change_password/', views.user_change_password, name='user_change_password'),
+    # 用户修改自己个人信息方法
+    path('user_change_information/', views.user_change_information, name='user_change_information'),
     # 展示角色权限管理界面
     path('group_management/', views.group_management, name='group_management'),
     # 增加角色方法
@@ -51,12 +57,6 @@ urlpatterns = [
     path('delete_internal_control_indicators/', views.delete_internal_control_indicators, name='delete_internal_control_indicators'),
     # 修改内控指标汇总方法
     path('change_internal_control_indicators/', views.change_internal_control_indicators, name='change_internal_control_indicators'),
-    # 传递月度营业数据接口方法
-    path('give_monthly_sales_data/', views.give_monthly_sales_data, name='give_monthly_sales_data'),
-    # 传递季度营业数据接口方法
-    path('give_quarterly_sales_data/', views.give_quarterly_sales_data, name='give_quarterly_sales_data'),
-    # 传递内控制表汇总接口方法
-    path('give_internal_control_indicators/', views.give_internal_control_indicators, name='give_internal_control_indicators'),
     # 上传月度营业数据表格方法
     path('upload_monthly_performance/', views.upload_monthly_performance, name='upload_monthly_performance'),
     # 上传季度营业数据表格方法

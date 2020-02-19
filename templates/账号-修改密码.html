@@ -7,18 +7,19 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <form method="post" action="#!" class="site-form">
+                                <form method="post" action="{% url 'user_change_password' %}" class="site-form">
+                                    {% csrf_token %}
                                     <div class="form-group">
                                         <label for="old-password">旧密码</label>
-                                        <input type="password" class="form-control" name="oldpwd" id="old-password" placeholder="输入账号的原登录密码">
+                                        <input type="password" class="form-control" name="old_password" id="old-password" placeholder="输入账号的原登录密码">
                                     </div>
                                     <div class="form-group">
                                         <label for="new-password">新密码</label>
-                                        <input type="password" class="form-control" name="newpwd" id="new-password" placeholder="输入新的密码">
+                                        <input type="password" class="form-control" name="new_password" id="new-password" placeholder="输入新的密码">
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm-password">确认新密码</label>
-                                        <input type="password" class="form-control" name="confirmpwd" id="confirm-password" placeholder="请确保两次输入新密码一致">
+                                        <input type="password" class="form-control" name="new_password_again" id="confirm-password" placeholder="请确保两次输入新密码一致">
                                     </div>
                                     <button type="submit" class="btn btn-primary">修改密码</button>
                                 </form>

@@ -7,26 +7,36 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <form method="post" action="#!" class="site-form">
+                                <form method="post" action="{% url 'user_change_information' %}" class="site-form">
+                                {% csrf_token %}
                                     <div class="form-group">
                                         <label for="department">部门</label>
-                                        <input type="text" class="form-control" name="department" id="department" value="软件174" disabled="disabled" />
+                                        <input type="text" class="form-control" name="department" id="department" value="{{ user.extension.department }}" disabled="disabled" />
                                     </div>
                                     <div class="form-group">
                                         <label for="job_number">工号</label>
-                                        <input type="text" class="form-control" name="job_number" id="job_number" value="17447216" disabled="disabled" />
+                                        <input type="text" class="form-control" name="job_number" id="job_number" value="{{ user.extension.job_number }}" disabled="disabled" />
                                     </div>
                                     <div class="form-group">
                                         <label for="username">用户名</label>
-                                        <input type="text" class="form-control" name="username" id="username" value="吕鹏" disabled="disabled" />
+                                        <input type="text" class="form-control" name="username" id="username" value="{{ user.last_name }}" disabled="disabled" />
                                     </div>
                                     <div class="form-group">
                                         <label for="group">角色</label>
-                                        <input type="text" class="form-control" name="group" id="group" value="超级管理员" disabled="disabled" />
+                                        {% if user.is_superuser %}
+                                            <input type="text" class="form-control" name="group" id="group" value="超级管理员" disabled="disabled" />
+                                        {% elif user.groups.all %}
+                                            {% for group in user.groups.all %}
+                                                <input type="text" class="form-control" name="group" id="group" value="{{ group }}" disabled="disabled" />
+                                                <br>
+                                            {% endfor %}
+                                        {% else %}
+                                            <input type="text" class="form-control" name="group" id="group" value="未分配" disabled="disabled" />
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label for="telephone">手机号</label>
-                                        <input type="text" class="form-control" name="telephone" id="telephone" placeholder="12345678901" value="12345678901">
+                                        <input type="text" class="form-control" name="telephone" id="telephone" value="{{ user.extension.telephone }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary">保存</button>
                                 </form>
