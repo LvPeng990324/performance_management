@@ -31,7 +31,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '账号权限管理-账号管理.html')
+    return render(request, '账号-修改密码.html')
 
 
 # 登陆方法
@@ -174,7 +174,7 @@ def change_user(request):
 # 管理员修改账户密码方法
 @login_required
 @permission_required('manage_user', raise_exception=True)
-def change_password(request):
+def admin_change_password(request):
     # 获取要更改密码的id
     change_id = request.POST.get('passwd_id')
     user = User.objects.get(id=change_id)
@@ -187,6 +187,41 @@ def change_password(request):
     messages.success(request, '密码修改成功')
     # 重载页面
     return redirect('user_management')
+
+
+# 用户修改自己密码方法
+@login_required
+def user_change_password(request):
+    if request.method == 'GET':
+        return render(request, '账号-修改密码.html')
+    else:
+        # 获取用户输入的密码
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        new_password_again = request.POST.get('new_password_again')
+        # 取出当前用户
+        user = User.objects.get(id=request.user.id)
+        # 验证当前用户密码是否匹配用户输入的旧密码
+        if not user.check_password(old_password):
+            # 验证失败，写入验证失败提示
+            messages.error(request, '旧密码有误，如遗忘请联系管理员修改')
+            # 重载更改密码页面
+            return redirect('user_change_password')
+    # 验证二次密码是否相同
+    if new_password != new_password_again:
+        # 写入两次确认密码不同错误
+        messages.error(request, '两次确认密码不同，请重新输入')
+        # 重载更改密码页面
+        return redirect('user_change_password')
+    # 更新用户密码
+    user.set_password(new_password)
+    user.save()
+    # 写入成功提示
+    messages.success(request, '密码修改成功，请重新登录')
+    # 注销该用户
+    logout(request)
+    # 重载登录界面
+    return redirect('user_login')
 
 
 # 展示角色权限管理界面
