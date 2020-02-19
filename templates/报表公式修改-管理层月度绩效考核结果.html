@@ -19,47 +19,39 @@
                                     </tr>
                                     <tr>
                                         <td>A</td>
-                                        <td>当月约定订单数（给定，录入）</td>
+                                        <td>当月计划完成的订单数</td>
                                     </tr>
                                     <tr>
                                         <td>B</td>
-                                        <td>当月实际交付数（内控指标汇总 完成数）</td>
+                                        <td>当月按时完成的订单数</td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
-                                        <td>当月挖掘成本（内控指标汇总 目标成本-万元成本 目标成本 给定 录入）</td>
+                                        <td>当月实际产品率累加</td>
                                     </tr>
                                     <tr>
                                         <td>D</td>
-                                        <td>当月成品率（实际成品率）</td>
+                                        <td>当月医药费累加</td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
-                                        <td>历史成品率参考值（表里取，数据模拟）</td>
+                                        <td>当月实际医药费累加</td>
                                     </tr>
                                     <tr>
                                         <td>F</td>
-                                        <td>历史医药费月度参考值（表里取，数据模拟）</td>
+                                        <td>目标成本</td>
                                     </tr>
                                     <tr>
                                         <td>G</td>
-                                        <td>当月医药费（内控指标汇总 当月医药费）</td>
+                                        <td>实际成本</td>
                                     </tr>
                                     <tr>
                                         <td>H</td>
-                                        <td>万元产值成本均值（表里取，数据模拟）</td>
+                                        <td>实际符合</td>
                                     </tr>
                                     <tr>
                                         <td>I</td>
-                                        <td>万元产值成本（内控指标汇总 万元成本）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>K</td>
-                                        <td>现场管理对应标准符合数（内控指标汇总 ）</td>
-                                    </tr>
-                                    <tr>
-                                        <td>L</td>
-                                        <td>现场管理标准目标数（给定，录入）</td>
+                                        <td>目标符合</td>
                                     </tr>
                                 </table>
                             </div>
@@ -100,17 +92,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="overall_cost">内控综合成本公式</label>
+                                            <label class="col-md-3 control-label" for="overall_cost">当月挖掘成本</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="overall_cost"
-                                                       name="overall_cost" value="{{ overall_cost }}"/>
+                                                       name="overall_cost" value="{{ month_dig_cost }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="field_management">现场管理公式</label>
+                                            <label class="col-md-3 control-label" for="field_management">现场管理符合率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="field_management"
-                                                       name="field_management" value="{{ field_management }}"/>
+                                                       name="field_management" value="{{ field_management_well_rate }}"/>
                                             </div>
                                         </div>
 

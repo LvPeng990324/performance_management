@@ -129,7 +129,6 @@
             dataset: {
                 source: [
                     ['季度', {% for data in quarterly_result %}'第{{ data.quarter }}季度', {% endfor %}],
-                    ['营业额', {% for data in quarterly_result %}{{ data.turnover }}, {% endfor %}],
                     ['营业费率', {% for data in quarterly_result %}{{ data.operating_rate }}, {% endfor %}],
                     ['回款率', {% for data in quarterly_result %}{{ data.repaid_rate }}, {% endfor %}],
                     ['库存率', {% for data in quarterly_result %}{{ data.inventory_rate }}, {% endfor %}],
@@ -153,7 +152,6 @@
                 {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
                 {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
                 {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
-                {type: 'bar', seriesLayoutBy: 'row'},
                 {type: 'bar', seriesLayoutBy: 'row'},
                 {type: 'bar', seriesLayoutBy: 'row'},
                 {type: 'bar', seriesLayoutBy: 'row'},
