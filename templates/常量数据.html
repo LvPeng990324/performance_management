@@ -85,24 +85,16 @@
                             <input type="date" class="form-control" id="id_date" name="date" required>
                         </div>
                         <div class="form-group">
-                            <label for="id_month_plan_order_number" class="control-label">当月约定订单数：</label>
-                            <input type="number" class="form-control" id="id_month_plan_order_number" name="month_plan_order_number" required>
+                            <label for="id_target_medical_expenses_rate" class="control-label">目标医药费百分比：</label>
+                            <input type="number" class="form-control" id="id_target_medical_expenses_rate" name="target_medical_expenses_rate" required>
                         </div>
                         <div class="form-group">
-                            <label for="id_target_cost" class="control-label">目标成本：</label>
-                            <input type="number" class="form-control" id="id_target_cost" name="target_cost" required>
+                            <label for="id_target_comprehensive_cost_rate" class="control-label">目标综合成本百分比：</label>
+                            <input type="number" class="form-control" id="id_target_comprehensive_cost_rate" name="target_comprehensive_cost_rate" required>
                         </div>
                         <div class="form-group">
-                            <label for="id_field_management_compliance_target_number" class="control-label">现场管理标准目标数：</label>
-                            <input type="number" class="form-control" id="id_field_management_compliance_target_number" name="field_management_compliance_target_number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_annual_target_turnover" class="control-label">年度目标营业额：</label>
-                            <input type="number" class="form-control" id="id_annual_target_turnover" name="annual_target_turnover" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_annual_target_award" class="control-label">年度目标奖金额：</label>
-                            <input type="number" class="form-control" id="id_annual_target_award" name="annual_target_award">
+                            <label for="id_target_management_compliance_value" class="control-label">目标管理符合数值：</label>
+                            <input type="number" class="form-control" id="id_target_management_compliance_value" name="target_management_compliance_value" required>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -129,24 +121,16 @@
                             <input type="text" class="form-control" id="date_m" placeholder="原本的值">
                         </div>
                         <div class="form-group">
-                            <label for="month_plan_order_number_m" class="control-label">当月约定订单数：</label>
-                            <input type="text" class="form-control" id="month_plan_order_number_m" placeholder="原本的值">
+                            <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
+                            <input type="text" class="form-control" id="target_medical_expenses_rate_m" placeholder="原本的值">
                         </div>
                         <div class="form-group">
-                            <label for="target_cost_m" class="control-label">目标成本：</label>
-                            <input type="text" class="form-control" id="target_cost_m" placeholder="原本的值">
+                            <label for="target_comprehensive_cost_rate_m" class="control-label">目标综合成本百分比：</label>
+                            <input type="text" class="form-control" id="target_comprehensive_cost_rate_m" placeholder="原本的值">
                         </div>
                         <div class="form-group">
-                            <label for="field_management_compliance_target_number_m" class="control-label">现场管理标准目标数：</label>
-                            <input type="text" class="form-control" id="field_management_compliance_target_number_m" placeholder="原本的值">
-                        </div>
-                        <div class="form-group">
-                            <label for="annual_target_turnover_m" class="control-label">年度目标营业额：</label>
-                            <input type="text" class="form-control" id="annual_target_turnover_m" placeholder="原本的值">
-                        </div>
-                        <div class="form-group">
-                            <label for="annual_target_award_m" class="control-label">年度目标奖金额：</label>
-                            <input type="text" class="form-control" id="annual_target_award_m" placeholder="原本的值">
+                            <label for="target_management_compliance_value_m" class="control-label">目标管理符合数值：</label>
+                            <input type="text" class="form-control" id="target_management_compliance_value_m" placeholder="原本的值">
                         </div>
                     </form>
                 </div>
@@ -200,11 +184,9 @@
                                     </th>
                                     <th>序号</th>
                                     <th>日期</th>
-                                    <th>当月约定订单数</th>
-                                    <th>目标成本</th>
-                                    <th>现场管理标准目标数</th>
-                                    <th>年度目标营业额</th>
-                                    <th>年度目标奖金额</th>
+                                    <th>目标医药费百分比</th>
+                                    <th>目标综合成本百分比</th>
+                                    <th>目标管理符合数值</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -219,11 +201,9 @@
                                         </td>
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ data.date|date:"Y-m" }}</td>
-                                        <td>{{ data.month_plan_order_number }}</td>
-                                        <td>{{ data.target_cost }}</td>
-                                        <td>{{ data.field_management_compliance_target_number }}</td>
-                                        <td>{{ data.annual_target_turnover }}</td>
-                                        <td>{{ data.annual_target_award }}</td>
+                                        <td>{{ data.target_medical_expenses_rate }}</td>
+                                        <td>{{ data.target_comprehensive_cost_rate }}</td>
+                                        <td>{{ data.target_management_compliance_value }}</td>
                                         <td>
                                             <div class="btn-group">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>

@@ -851,11 +851,9 @@ def show_constant_data(request):
 def add_constant_data(request):
     # 从前端获取数据
     date = request.POST.get('date')
-    month_plan_order_number = request.POST.get('month_plan_order_number')
-    target_cost = request.POST.get('target_cost')
-    field_management_compliance_target_number = request.POST.get('field_management_compliance_target_number')
-    annual_target_turnover = request.POST.get('annual_target_turnover')
-    annual_target_award = request.POST.get('annual_target_award')
+    target_medical_expenses_rate = request.POST.get('target_medical_expenses_rate')
+    target_comprehensive_cost_rate = request.POST.get('target_comprehensive_cost_rate')
+    target_management_compliance_value = request.POST.get('target_management_compliance_value')
 
     # 转换日期对象
     date_list = date.split('-')
@@ -864,11 +862,9 @@ def add_constant_data(request):
     # 写入数据库
     ConstantData.objects.create(
         date=date,
-        month_plan_order_number=month_plan_order_number,
-        target_cost=target_cost,
-        field_management_compliance_target_number=field_management_compliance_target_number,
-        annual_target_turnover=annual_target_turnover,
-        annual_target_award=annual_target_award,
+        target_medical_expenses_rate=target_medical_expenses_rate,
+        target_comprehensive_cost_rate=target_comprehensive_cost_rate,
+        target_management_compliance_value=target_management_compliance_value,
     )
 
     # 写入成功提示
