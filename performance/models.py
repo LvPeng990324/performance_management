@@ -78,18 +78,22 @@ class QuarterlySalesData(models.Model):
 
 # 内控指标汇总
 class InternalControlIndicators(models.Model):
-    date = models.DateTimeField(verbose_name='日期')
+    date = models.DateTimeField(verbose_name='订单时间')
     order_number = models.CharField(max_length=100, verbose_name='订单号')
     order_money = models.IntegerField(verbose_name='订单额')
     scheduled_delivery = models.DateTimeField(verbose_name='计划交期')
-    actual_delivery = models.DateTimeField(verbose_name='实际交期')
-    finished_number = models.IntegerField(verbose_name='完成数')
-    unfinished_number = models.IntegerField(verbose_name='未完成数')
     target_well_done_rate = models.FloatField(verbose_name='目标成品率')
-    actual_well_done_rate = models.FloatField(verbose_name='实际成品率')
     target_medical_expenses = models.FloatField(verbose_name='目标医药费')
     target_comprehensive_cost = models.FloatField(verbose_name='目标综合成本')
     target_management_compliance = models.IntegerField(verbose_name='目标管理符合数')
+    # 以下为二次录入数据项
+    actual_delivery = models.DateTimeField(verbose_name='实际交期', null=True)
+    finished_number = models.IntegerField(verbose_name='完成数', null=True)
+    unfinished_number = models.IntegerField(verbose_name='未完成数', null=True)
+    actual_well_done_rate = models.FloatField(verbose_name='实际成品率', null=True)
+    actual_medical_expenses = models.IntegerField(verbose_name='实际医药费', null=True)
+    actual_cost = models.IntegerField(verbose_name='实际成本', null=True)
+    actual_management_compliance = models.IntegerField(verbose_name='实际管理符合数', null=True)
 
     class Meta:
         verbose_name_plural = '内控指标汇总'
