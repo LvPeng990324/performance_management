@@ -217,20 +217,19 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>内控指标汇总</b></h4>
-                        <label for="year_s" class="control-label">年份：</label>
-                        <select name="type" class="form-control" id="year_s">
-                            <option value="2015">2015</option>
-                            <option value="2016">2016</option>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                        </select>
+                       <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        年份 <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                          <li><a href="#!">2015</a></li>
+                        <li><a href="#!">2016</a></li>
+                        <li><a href="#!">2018</a></li>
+                        <li><a href="#!">2019</a></li>
+                        <li><a href="#!">2020</a></li>
+                        <li><a href="#!">2021</a></li>
+                      </ul>
+                    </div>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
                             <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
