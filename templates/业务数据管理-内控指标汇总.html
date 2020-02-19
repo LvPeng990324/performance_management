@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block modal_content %}
     <!--导入表格-->
@@ -81,7 +82,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="id_date" class="control-label">订单时间：</label>
-                            <input type="date" class="form-control" id="id_date" name="date" required>
+                             <input class="form-control js-datepicker m-b-10" type="text" id="id_date" name="date" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
                         </div>
                         <div class="form-group">
                             <label for="id_order_number" class="control-label">订单号：</label>
@@ -93,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label for="id_scheduled_delivery" class="control-label">计划交期：</label>
-                            <input type="date" class="form-control" id="id_scheduled_delivery" name="scheduled_delivery" required>
+                            <input class="form-control js-datepicker m-b-10" type="text" id="id_scheduled_delivery" name="scheduled_delivery" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
                         </div>
                         <div class="form-group">
                             <label for="id_target_well_done_rate" class="control-label">目标成品率：</label>
@@ -135,6 +136,8 @@
                         <div class="form-group">
                             <label for="id_change_date" class="control-label">订单时间：</label>
                             <input type="date" class="form-control" id="id_change_date" name="date" required>
+                            <input class="form-control js-datepicker m-b-10" type="text" id="id_change_date" name="date" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
+
                         </div>
                         <div class="form-group">
                             <label for="id_change_order_number" class="control-label">订单号：</label>
@@ -147,6 +150,8 @@
                         <div class="form-group">
                             <label for="id_change_scheduled_delivery" class="control-label">计划交期：</label>
                             <input type="date" class="form-control" id="id_change_scheduled_delivery" name="scheduled_delivery" required>
+                             <input class="form-control js-datepicker m-b-10" type="text" id="id_change_scheduled_delivery" name="scheduled_delivery" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
+
                         </div>
                         <div class="form-group">
                             <label for="id_change_target_well_done_rate" class="control-label">目标成品率：</label>
@@ -166,7 +171,8 @@
                         </div>
                         <div class="form-group">
                             <label for="id_change_actual_delivery" class="control-label">实际交期：</label>
-                            <input type="date" class="form-control" id="id_change_actual_delivery" name="actual_delivery" required>
+                            <input class="form-control js-datepicker m-b-10" type="text" id="id_change_actual_delivery" name="actual_delivery" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
+
                         </div>
                         <div class="form-group">
                             <label for="id_change_finished_number" class="control-label">完成数：</label>
@@ -227,7 +233,7 @@
                         <li><a href="#!">2021</a></li>
                       </ul>
                     </div>
-                        <div class="toolbar-btn-action">
+                        <div class="example-box">
                             <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除</button>
                             <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格</button>
                             <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal" data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增</button>
@@ -413,4 +419,13 @@
             {% endif %}
         {% endfor %}
     {% endif %}
+<!--日期选择插件-->
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/bootstrap-datepicker/bootstrap-datepicker3.min.css' %}" type="text/css" >
+<link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css">
+
+
+
 {% endblock %}
