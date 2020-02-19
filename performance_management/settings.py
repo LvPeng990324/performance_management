@@ -77,14 +77,15 @@ WSGI_APPLICATION = 'performance_management.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'performance_management',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'performance_test',  # 数据库名字(需要先创建)
+        'USER': 'root',  # 登录用户名
+        'PASSWORD': 'lp990324',  # 密码
+        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost
+        'PORT': '5432',  # 端口
     }
 }
+
 
 
 # Password validation

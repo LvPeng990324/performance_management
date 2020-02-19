@@ -145,7 +145,7 @@
                                 <span>{{ request.user.last_name }} <span class="caret"></span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="lyear_pages_profile.html"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                                <li><a href="{% url 'user_change_information' %}"><i class="mdi mdi-account"></i> 个人信息</a></li>
                                 <li><a href="{% url 'user_change_password' %}"><i class="mdi mdi-lock-outline"></i> 修改密码</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{% url 'user_logout' %}"><i class="mdi mdi-logout-variant"></i> 退出登录</a>

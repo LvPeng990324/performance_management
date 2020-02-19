@@ -20,6 +20,8 @@ urlpatterns = [
     path('admin_change_password/', views.admin_change_password, name='admin_change_password'),
     # 用户修改自己密码方法
     path('user_change_password/', views.user_change_password, name='user_change_password'),
+    # 用户修改自己个人信息方法
+    path('user_change_information/', views.user_change_information, name='user_change_information'),
     # 展示角色权限管理界面
     path('group_management/', views.group_management, name='group_management'),
     # 增加角色方法

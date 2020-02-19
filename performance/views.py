@@ -31,7 +31,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '账号-修改密码.html')
+    return render(request, '账号-用户修改个人信息.html')
 
 
 # 登陆方法
@@ -213,15 +213,52 @@ def user_change_password(request):
         messages.error(request, '两次确认密码不同，请重新输入')
         # 重载更改密码页面
         return redirect('user_change_password')
-    # 更新用户密码
-    user.set_password(new_password)
-    user.save()
+    try:
+        # 更新用户密码
+        user.set_password(new_password)
+        user.save()
+    except:
+        messages.error(request, '未知错误，请重试或重新登录尝试')
+        return redirect('user_change_password')
     # 写入成功提示
     messages.success(request, '密码修改成功，请重新登录')
     # 注销该用户
     logout(request)
     # 重载登录界面
     return redirect('user_login')
+
+
+# 用户修改自己个人信息
+def user_change_information(request):
+    if request.method == 'GET':
+        # 取出当前用户
+        user = request.user
+        # 打包信息
+        context = {
+            'user': user,
+        }
+        # 引导前端
+        return render(request, '账号-用户修改个人信息.html', context=context)
+    else:
+        # 目前只能改手机号
+        # 从前端获取输入的手机号
+        telephone = request.POST.get('telephone')
+        try:
+            # 获取当前用户
+            user = request.user
+            # 更新信息
+            user.extension.telephone = telephone
+            user.save()
+        except:
+            # 打包错误信息
+            messages.error(request, '未知错误，请重试或重新登录尝试')
+            # 重载信息修改页面
+            return redirect('user_change_information')
+        # 打包成功信息
+        messages.success(request, '信息修改成功')
+        # 重载信息修改页面
+        return redirect('user_change_information')
+
 
 
 # 展示角色权限管理界面
