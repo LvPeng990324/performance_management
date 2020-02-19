@@ -200,7 +200,7 @@ def user_change_password(request):
         new_password = request.POST.get('new_password')
         new_password_again = request.POST.get('new_password_again')
         # 取出当前用户
-        user = User.objects.get(id=request.user.id)
+        user = request.user
         # 验证当前用户密码是否匹配用户输入的旧密码
         if not user.check_password(old_password):
             # 验证失败，写入验证失败提示
