@@ -31,7 +31,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '账号-用户修改个人信息.html')
+    return render(request, '业务数据管理-内控指标汇总.html')
 
 
 # 登陆方法
