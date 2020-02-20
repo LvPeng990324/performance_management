@@ -638,7 +638,7 @@ def show_internal_control_indicators(request):
 @permission_required('manage_internal_control_indicators', raise_exception=True)
 def add_internal_control_indicators(request):
     # 从前端获取数据
-    date = request.POST.get('date')  # 订单时间
+    order_date = request.POST.get('order_date')  # 订单时间
     order_number = request.POST.get('order_number')  # 订单号
     order_money = float(request.POST.get('order_money'))  # 订单额
     scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
@@ -655,15 +655,15 @@ def add_internal_control_indicators(request):
     target_management_compliance = order_money * target_management_compliance_value  # 目标管理符合数
 
     # 转换日期对象
-    date_list = date.split('-')
+    order_date_list = order_date.split('-')
     scheduled_delivery_list = scheduled_delivery.split('-')
-    date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1, second=1)
+    order_date = datetime(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]), hour=1, minute=1, second=1)
     scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                                   day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
 
     # 存入数据库
     InternalControlIndicators.objects.create(
-        date=date,
+        order_date=order_date,
         order_number=order_number,
         order_money=order_money,
         scheduled_delivery=scheduled_delivery,
@@ -711,7 +711,7 @@ def change_internal_control_indicators(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
-    change_date = request.POST.get('date')  # 订单时间
+    change_order_date = request.POST.get('order_date')  # 订单时间
     change_order_number = request.POST.get('order_number')  # 订单号
     change_order_money = float(request.POST.get('order_money'))  # 订单额
     change_scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
@@ -744,10 +744,10 @@ def change_internal_control_indicators(request):
         change_unfinished_number = 1
 
     # 转换日期对象
-    date_list = change_date.split('-')
+    order_date_list = change_order_date.split('-')
     scheduled_delivery_list = change_scheduled_delivery.split('-')
     actual_delivery_list = change_actual_delivery.split('-')
-    change_date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]), hour=1, minute=1,
+    change_date = datetime(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]), hour=1, minute=1,
                            second=1)
     change_scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                                          day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)

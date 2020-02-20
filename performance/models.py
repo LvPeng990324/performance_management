@@ -78,7 +78,7 @@ class QuarterlySalesData(models.Model):
 
 # 内控指标汇总
 class InternalControlIndicators(models.Model):
-    date = models.DateTimeField(verbose_name='订单时间')
+    order_date = models.DateTimeField(verbose_name='订单时间')
     order_number = models.CharField(max_length=100, verbose_name='订单号')
     order_money = models.IntegerField(verbose_name='订单额')
     scheduled_delivery = models.DateTimeField(verbose_name='计划交期')
