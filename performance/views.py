@@ -655,16 +655,6 @@ def add_internal_control_indicators(request):
     order_money = float(request.POST.get('order_money'))  # 订单额
     scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
     target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
-    # 从常量数据表中取出相应的常量数据
-    # 规则为，日期在这条数据之前的最新一条常量数据
-    # 先模拟数据
-    target_medical_expenses_rate = 0.01  # 目标医药费百分比
-    target_comprehensive_cost_rate = 0.02  # 目标综合成本百分比
-    target_management_compliance_value = 0.03  # 目标管理符合数值
-    # 计算数据项
-    target_medical_expenses = order_money * target_medical_expenses_rate  # 目标医药费
-    target_comprehensive_cost = order_money * target_comprehensive_cost_rate  # 目标综合成本
-    target_management_compliance = order_money * target_management_compliance_value  # 目标管理符合数
 
     # 转换日期对象
     order_date_list = order_date.split('-')
@@ -672,6 +662,23 @@ def add_internal_control_indicators(request):
     order_date = date(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]))
     scheduled_delivery = date(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                               day=int(scheduled_delivery_list[2]))
+
+    # 从常量数据表中取出相应的常量数据
+    # 规则为，日期在这条数据之前的最新一条常量数据
+    # 获取符合条件的一批常量
+    constant_data = ConstantData.objects.filter(date__lte=order_date).last()
+    # 如果没获取到符合条件的常量，写入错误信息
+    if not constant_data:
+        messages.error(request, '未找到符合条件的常量数据，请检查订单时间或者联系管理员录入常量数据')
+        return redirect('show_internal_control_indicators')
+    # 获取常量数据
+    target_medical_expenses_rate = constant_data.target_medical_expenses_rate  # 目标医药费百分比
+    target_comprehensive_cost_rate = constant_data.target_comprehensive_cost_rate  # 目标综合成本百分比
+    target_management_compliance_value = constant_data.target_management_compliance_value  # 目标管理符合数值
+    # 计算数据项
+    target_medical_expenses = order_money * target_medical_expenses_rate  # 目标医药费
+    target_comprehensive_cost = order_money * target_comprehensive_cost_rate  # 目标综合成本
+    target_management_compliance = order_money * target_management_compliance_value  # 目标管理符合数
 
     # 存入数据库
     InternalControlIndicators.objects.create(
