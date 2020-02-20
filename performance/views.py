@@ -896,9 +896,9 @@ def show_constant_data(request):
 @permission_required('manage_constant_data', raise_exception=True)
 def add_constant_data(request):
     # 从前端获取数据
-    target_medical_expenses_rate = request.POST.get('target_medical_expenses_rate')
-    target_comprehensive_cost_rate = request.POST.get('target_comprehensive_cost_rate')
-    target_management_compliance_value = request.POST.get('target_management_compliance_value')
+    target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate'))
+    target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate'))
+    target_management_compliance_value = int(request.POST.get('target_management_compliance_value'))
 
     # 写入数据库
     ConstantData.objects.create(
