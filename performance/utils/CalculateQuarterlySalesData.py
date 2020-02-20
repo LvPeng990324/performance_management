@@ -54,7 +54,7 @@ def quarterly_data_production(year, year_res_set, quarter_list):
         # print("%s年%s季 成功存入" % (year, quarter))
 
 
-def calculate_quarterly_sales_data():
+def calculate_quarterly_sales_data(year=MonthlySalesData.objects.values_list('year', flat=True).distinct()):
     """
         功能：由月度数据生成季度数据
         参考：季度/月度字段
@@ -71,11 +71,11 @@ def calculate_quarterly_sales_data():
         2.错误捕获也没写
         3.就算缺数据也会求和（比如第一季度只有前两个月的数据）
         4.主函数是这个
+        5.(2020/2/20)默认全部求和，可传入列表求指定的年份
     """
 
     success_message = ""
     error_message = ""
-    year = MonthlySalesData.objects.values_list('year', flat=True).distinct()
     for year_ in year:
         year_res_set = MonthlySalesData.objects.filter(year=year_)
         quarterly_data_production(year_, year_res_set, [1, 2, 3])
