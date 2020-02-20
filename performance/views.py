@@ -433,9 +433,6 @@ def add_monthly_sales_data(request):
     # 利润额根据 营业额 - 营业费用 得出
     profit = float(turnover) - float(operating_expenses)
 
-    # 转换日期对象
-    # date = datetime(year=year, month=month, day=1, hour=1, minute=1, second=1)
-
     # 写入数据库
     MonthlySalesData.objects.create(
         year=year,
@@ -450,6 +447,9 @@ def add_monthly_sales_data(request):
     # 写入成功提示
     messages.success(request, '数据添加成功')
 
+    # 刷新当年季度营业数据
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=list(year))
+
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
 
@@ -458,22 +458,34 @@ def add_monthly_sales_data(request):
 @login_required
 @permission_required('manage_monthly_sales_data', raise_exception=True)
 def delete_monthly_sales_data(request):
+    # 用来记录删除数据的年份
+    year_set = set()
     # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
-        # 遍历删除
+        # 遍历删除，取出年份
         for id in delete_id:
-            MonthlySalesData.objects.get(id=id).delete()
+            data = MonthlySalesData.objects.get(id=id)
+            # 记录年份，方便更新季度数据
+            year_set.add(data.year)
+            # 删除数据
+            data.delete()
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
+        # 刷新当年季度营业数据
+        # CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
-        MonthlySalesData.objects.get(id=delete_id).delete()
+        data = MonthlySalesData.objects.get(id=delete_id)
+        year_set.add(data.year)
+        data.delete()
         # 写入删除成功提示
         messages.success(request, '数据删除成功')
+        # 刷新当年季度营业数据
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 重载页面
         return redirect('show_monthly_sales_data')
 
