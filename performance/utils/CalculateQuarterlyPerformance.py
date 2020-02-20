@@ -9,35 +9,35 @@ from performance.models import QuarterlyPerformance
 from performance.models import QuarterlyFormula
 
 
-# 获取A值方法
+# 获取季度营业额
 def get_a(need_year, need_quarter):
     a = QuarterlySalesData.objects.get(
         year=need_year, quarter=need_quarter).turnover
     return a
 
 
-# 获取B值方法
+# 获取营业费用
 def get_b(need_year, need_quarter):
     b = QuarterlySalesData.objects.get(
         year=need_year, quarter=need_quarter).operating_expenses
     return b
 
 
-# 获取C值方法
+# 获取回款额
 def get_c(need_year, need_quarter):
     c = QuarterlySalesData.objects.get(
         year=need_year, quarter=need_quarter).amount_repaid
     return c
 
 
-# 获取D值方法
+# 获取库存量
 def get_d(need_year, need_quarter):
     d = QuarterlySalesData.objects.get(
         year=need_year, quarter=need_quarter).inventory
     return d
 
 
-# 获取E值方法
+# 获取利润额
 def get_e(need_year, need_quarter):
     e = QuarterlySalesData.objects.get(
         year=need_year, quarter=need_quarter).profit

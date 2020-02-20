@@ -19,92 +19,104 @@ from performance.models import MonthlyPerformance
 from performance.models import MonthlyFormula
 
 
-# 获取A值方法
+# 获取当月完成订单数
 def get_a(need_year, need_month):
     a = InternalControlIndicators.objects.filter(
         scheduled_delivery__year=need_year,
         scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
+        actual_delivery__month=need_month,
     ).count()
+    # print(a)
     return a
 
 
-# 获取B值方法
+# 获取当月计划订单数
 def get_b(need_year, need_month):
     b = InternalControlIndicators.objects.filter(
         scheduled_delivery__year=need_year,
         scheduled_delivery__month=need_month,
-        actual_delivery__month=need_month,
     ).count()
+    # print(b)
     return b
 
 
-# 获取C值方法
+# 获取当月实际成品率累加
 def get_c(need_year, need_month):
     c = InternalControlIndicators.objects.filter(
         scheduled_delivery__year=need_year,
         scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    ).actual_well_done_rate
+    ).aggregate(sum_actual_well_done_rate=Sum('actual_well_done_rate'))
+    c = c['sum_actual_well_done_rate']
+    # print(c)
     return c
 
 
-# 获取D值方法
+# 获取当月计划医药费
 def get_d(need_year, need_month):
     d = InternalControlIndicators.objects.filter(
-        scheduled_delivery__year=need_year,
-        scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    )
+    ).aggregate(sum_target_medical_expenses=Sum('target_medical_expenses'))
+    d = d['sum_target_medical_expenses']
+    # print(d)
     return d
 
 
-# 获取E值方法
+# 获取当月实际医药费
 def get_e(need_year, need_month):
     e = InternalControlIndicators.objects.filter(
-        scheduled_delivery__year=need_year,
-        scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    ).target_medical_expenses
+    ).aggregate(sum_actual_medical_expenses=Sum('actual_medical_expenses'))
+    e = e['sum_actual_medical_expenses']
+    # print(e)
     return e
 
 
-# 获取F值方法
+# 获取订单目标成本
 def get_f(need_year, need_month):
     f = InternalControlIndicators.objects.filter(
-        scheduled_delivery__year=need_year,
-        scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    )
+    ).aggregate(sum_target_comprehensive_cost=Sum('target_comprehensive_cost'))
+    f = f['sum_target_comprehensive_cost']
+    # print(f)
     return f
 
 
-# 获取G值方法
+# 获取订单实际成本
 def get_g(need_year, need_month):
     g = InternalControlIndicators.objects.filter(
-        scheduled_delivery__year=need_year,
-        scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    )
+    ).aggregate(sum_actual_cost=Sum('actual_cost'))
+    g = g['sum_actual_cost']
+    # print(g)
     return g
 
 
-# 获取H值方法
+# 获取订单实际符合
 def get_h(need_year, need_month):
     h = InternalControlIndicators.objects.filter(
-        scheduled_delivery__year=need_year,
-        scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    )
+    ).aggregate(sum_actual_management_compliance=Sum('actual_management_compliance'))
+    h = h['sum_actual_management_compliance']
+    # print(h)
     return h
 
 
-# 获取I值方法
+# 获取目标符合
 def get_i(need_year, need_month):
     i = InternalControlIndicators.objects.filter(
-        scheduled_delivery__year=need_year,
-        scheduled_delivery__month=need_month,
+        actual_delivery__year=need_year,
         actual_delivery__month=need_month,
-    )
+    ).aggregate(sum_target_management_compliance=Sum('target_management_compliance'))
+    i = i['sum_target_management_compliance']
+    # print(i)
     return i
 
 
@@ -124,15 +136,21 @@ def monthly_get_and_refresh(current_year):
             G = get_g(year, month)
             H = get_h(year, month)
             I = get_i(year, month)
-            # print('A=', A)
-            # print('B=', B)
-            # print('C=', C)
-            # print('D=', D)
-            # print('E=', E)
-            # print('F=', F)
-            # print('G=', G)
-            # print('H=', H)
-            # print('I=', I)
+            if A is None or B is None or C is None or D is None or E is None or F is None or G is None or H is None or I is None:
+                obj = MonthlyPerformance.objects.filter(year=year, month=month)
+                if obj:
+                    MonthlyPerformance.objects.filter(year=year, month=month).delete()
+                error_message += '%s ' % month
+                continue
+            print('A=', A)
+            print('B=', B)
+            print('C=', C)
+            print('D=', D)
+            print('E=', E)
+            print('F=', F)
+            print('G=', G)
+            print('H=', H)
+            print('I=', I)
         except AttributeError:
             obj = MonthlyPerformance.objects.filter(year=year, month=month)
             if obj:
@@ -147,11 +165,11 @@ def monthly_get_and_refresh(current_year):
                 target_item='成品率').first().formula), 2)
             medical_expenses = round(eval(MonthlyFormula.objects.filter(
                 target_item='医药费').first().formula), 2)
-            overall_cost = round(eval(MonthlyFormula.objects.filter(
-                target_item='内控综合成本').first().formula), 2)
-            field_management = round(eval(MonthlyFormula.objects.filter(
-                target_item='现场管理').first().formula), 2)
-            # print(delivery_rate, well_done_rate, medical_expenses, overall_cost, field_management)
+            month_dig_cost = round(eval(MonthlyFormula.objects.filter(
+                target_item='当月挖掘成本').first().formula), 2)
+            field_management_well_rate = round(eval(MonthlyFormula.objects.filter(
+                target_item='现场管理符合率').first().formula), 2)
+            print(delivery_rate, well_done_rate, medical_expenses, month_dig_cost, field_management_well_rate)
 
             new_data = {
                 'year': year,
@@ -159,8 +177,8 @@ def monthly_get_and_refresh(current_year):
                 'delivery_rate': delivery_rate,
                 'well_done_rate': well_done_rate,
                 'medical_expenses': medical_expenses,
-                'overall_cost': overall_cost,
-                'field_management': field_management,
+                'month_dig_cost': month_dig_cost,
+                'field_management_well_rate': field_management_well_rate,
             }
             obj = MonthlyPerformance.objects.filter(year=year, month=month)
             if obj:
