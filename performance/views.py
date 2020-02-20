@@ -877,18 +877,12 @@ def show_constant_data(request):
 @permission_required('manage_constant_data', raise_exception=True)
 def add_constant_data(request):
     # 从前端获取数据
-    date = request.POST.get('date')
     target_medical_expenses_rate = request.POST.get('target_medical_expenses_rate')
     target_comprehensive_cost_rate = request.POST.get('target_comprehensive_cost_rate')
     target_management_compliance_value = request.POST.get('target_management_compliance_value')
 
-    # 转换日期对象
-    date_list = date.split('-')
-    date = datetime(year=int(date_list[0]), month=int(date_list[1]), day=1, hour=1, minute=1, second=1)
-
     # 写入数据库
     ConstantData.objects.create(
-        date=date,
         target_medical_expenses_rate=target_medical_expenses_rate,
         target_comprehensive_cost_rate=target_comprehensive_cost_rate,
         target_management_compliance_value=target_management_compliance_value,
@@ -955,7 +949,7 @@ def upload_constant_data(request):
 @permission_required('view_monthly_performance', raise_exception=True)
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
-    years = list(InternalControlIndicators.objects.values_list('date', flat=True))
+    years = list(InternalControlIndicators.objects.values_list('order_date', flat=True))
     year_list = set()
     for year in years:
         year_list.add(year.year)
@@ -1216,11 +1210,23 @@ def export_quarterly_performance(request):
 @login_required
 @permission_required('manage_formula', raise_exception=True)
 def month_result_formula(request):
-    delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
-    well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
-    medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
-    month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
-    field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
+    try:
+        delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
+        well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
+        medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
+        month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
+        field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
+    except:
+        MonthlyFormula.objects.create(target_item='交付率', formula='')
+        MonthlyFormula.objects.create(target_item='成品率', formula='')
+        MonthlyFormula.objects.create(target_item='医药费', formula='')
+        MonthlyFormula.objects.create(target_item='当月挖掘成本', formula='')
+        MonthlyFormula.objects.create(target_item='现场管理符合率', formula='')
+        delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
+        well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
+        medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
+        month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
+        field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
     context = {
         'delivery_rate': delivery_rate,
         'well_done_rate': well_done_rate,
@@ -1235,11 +1241,23 @@ def month_result_formula(request):
 @login_required
 @permission_required('manage_formula', raise_exception=True)
 def quarter_result_formula(request):
-    turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
-    operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
-    repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
-    inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
-    profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
+    try:
+        turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
+        operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
+        repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
+        inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
+        profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
+    except:
+        QuarterlyFormula.objects.create(target_item='营业额',formula='')
+        QuarterlyFormula.objects.create(target_item='营业费率',formula='')
+        QuarterlyFormula.objects.create(target_item='回款率',formula='')
+        QuarterlyFormula.objects.create(target_item='库存率',formula='')
+        QuarterlyFormula.objects.create(target_item='利润率',formula='')
+        turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
+        operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
+        repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
+        inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
+        profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
     context = {
         'turnover': turnover,
         'operating_rate': operating_rate,

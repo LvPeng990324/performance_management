@@ -81,10 +81,6 @@
 
                 <div class="modal-body">
                         <div class="form-group">
-                            <label for="id_date" class="control-label">日期：</label>
-                            <input type="date" class="form-control" id="id_date" name="date" required>
-                        </div>
-                        <div class="form-group">
                             <label for="id_target_medical_expenses_rate" class="control-label">目标医药费百分比：</label>
                             <input type="number" class="form-control" id="id_target_medical_expenses_rate" name="target_medical_expenses_rate" required>
                         </div>
@@ -116,10 +112,6 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="form-group">
-                            <label for="date_m" class="control-label">日期：</label>
-                            <input type="text" class="form-control" id="date_m" placeholder="原本的值">
-                        </div>
                         <div class="form-group">
                             <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
                             <input type="text" class="form-control" id="target_medical_expenses_rate_m" placeholder="原本的值">
@@ -183,7 +175,7 @@
                                         </label>
                                     </th>
                                     <th>序号</th>
-                                    <th>日期</th>
+                                    <th>录入日期</th>
                                     <th>目标医药费百分比</th>
                                     <th>目标综合成本百分比</th>
                                     <th>目标管理符合数值</th>
@@ -200,7 +192,7 @@
                                             </label>
                                         </td>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ data.date|date:"Y-m" }}</td>
+                                        <td>{{ data.date|date:"Y-m-d" }}</td>
                                         <td>{{ data.target_medical_expenses_rate }}</td>
                                         <td>{{ data.target_comprehensive_cost_rate }}</td>
                                         <td>{{ data.target_management_compliance_value }}</td>

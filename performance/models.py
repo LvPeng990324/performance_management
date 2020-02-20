@@ -141,7 +141,7 @@ class QuarterlyPerformance(models.Model):
 
 # 常量数据
 class ConstantData(models.Model):
-    date = models.DateTimeField(verbose_name='日期')
+    date = models.DateField(verbose_name='日期', auto_now_add=True)
     target_medical_expenses_rate = models.FloatField(verbose_name='目标医药费百分比')
     target_comprehensive_cost_rate = models.FloatField(verbose_name='目标综合成本百分比')
     target_management_compliance_value = models.IntegerField(verbose_name='目标管理符合数值')
