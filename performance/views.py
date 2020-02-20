@@ -433,9 +433,6 @@ def add_monthly_sales_data(request):
     # 利润额根据 营业额 - 营业费用 得出
     profit = float(turnover) - float(operating_expenses)
 
-    # 转换日期对象
-    # date = datetime(year=year, month=month, day=1, hour=1, minute=1, second=1)
-
     # 写入数据库
     MonthlySalesData.objects.create(
         year=year,
@@ -450,6 +447,9 @@ def add_monthly_sales_data(request):
     # 写入成功提示
     messages.success(request, '数据添加成功')
 
+    # 刷新当年季度营业数据
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=list(year))
+
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
 
@@ -458,22 +458,34 @@ def add_monthly_sales_data(request):
 @login_required
 @permission_required('manage_monthly_sales_data', raise_exception=True)
 def delete_monthly_sales_data(request):
+    # 用来记录删除数据的年份
+    year_set = set()
     # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
-        # 遍历删除
+        # 遍历删除，取出年份
         for id in delete_id:
-            MonthlySalesData.objects.get(id=id).delete()
+            data = MonthlySalesData.objects.get(id=id)
+            # 记录年份，方便更新季度数据
+            year_set.add(data.year)
+            # 删除数据
+            data.delete()
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
+        # 刷新当年季度营业数据
+        # CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
-        MonthlySalesData.objects.get(id=delete_id).delete()
+        data = MonthlySalesData.objects.get(id=delete_id)
+        year_set.add(data.year)
+        data.delete()
         # 写入删除成功提示
         messages.success(request, '数据删除成功')
+        # 刷新当年季度营业数据
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 重载页面
         return redirect('show_monthly_sales_data')
 
@@ -643,16 +655,6 @@ def add_internal_control_indicators(request):
     order_money = float(request.POST.get('order_money'))  # 订单额
     scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
     target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
-    # 从常量数据表中取出相应的常量数据
-    # 规则为，日期在这条数据之前的最新一条常量数据
-    # 先模拟数据
-    target_medical_expenses_rate = 0.01  # 目标医药费百分比
-    target_comprehensive_cost_rate = 0.02  # 目标综合成本百分比
-    target_management_compliance_value = 0.03  # 目标管理符合数值
-    # 计算数据项
-    target_medical_expenses = order_money * target_medical_expenses_rate  # 目标医药费
-    target_comprehensive_cost = order_money * target_comprehensive_cost_rate  # 目标综合成本
-    target_management_compliance = order_money * target_management_compliance_value  # 目标管理符合数
 
     # 转换日期对象
     order_date_list = order_date.split('-')
@@ -660,6 +662,23 @@ def add_internal_control_indicators(request):
     order_date = date(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]))
     scheduled_delivery = date(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                               day=int(scheduled_delivery_list[2]))
+
+    # 从常量数据表中取出相应的常量数据
+    # 规则为，日期在这条数据之前的最新一条常量数据
+    # 获取符合条件的一批常量
+    constant_data = ConstantData.objects.filter(date__lte=order_date).last()
+    # 如果没获取到符合条件的常量，写入错误信息
+    if not constant_data:
+        messages.error(request, '未找到符合条件的常量数据，请检查订单时间或者联系管理员录入常量数据')
+        return redirect('show_internal_control_indicators')
+    # 获取常量数据
+    target_medical_expenses_rate = constant_data.target_medical_expenses_rate  # 目标医药费百分比
+    target_comprehensive_cost_rate = constant_data.target_comprehensive_cost_rate  # 目标综合成本百分比
+    target_management_compliance_value = constant_data.target_management_compliance_value  # 目标管理符合数值
+    # 计算数据项
+    target_medical_expenses = order_money * target_medical_expenses_rate  # 目标医药费
+    target_comprehensive_cost = order_money * target_comprehensive_cost_rate  # 目标综合成本
+    target_management_compliance = order_money * target_management_compliance_value  # 目标管理符合数
 
     # 存入数据库
     InternalControlIndicators.objects.create(
@@ -877,9 +896,9 @@ def show_constant_data(request):
 @permission_required('manage_constant_data', raise_exception=True)
 def add_constant_data(request):
     # 从前端获取数据
-    target_medical_expenses_rate = request.POST.get('target_medical_expenses_rate')
-    target_comprehensive_cost_rate = request.POST.get('target_comprehensive_cost_rate')
-    target_management_compliance_value = request.POST.get('target_management_compliance_value')
+    target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate'))
+    target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate'))
+    target_management_compliance_value = int(request.POST.get('target_management_compliance_value'))
 
     # 写入数据库
     ConstantData.objects.create(
@@ -1210,6 +1229,7 @@ def export_quarterly_performance(request):
 @login_required
 @permission_required('manage_formula', raise_exception=True)
 def month_result_formula(request):
+    # 第一次进入系统时，获取不到公式，则默认为原始公式
     try:
         delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
         well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
@@ -1217,11 +1237,11 @@ def month_result_formula(request):
         month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
         field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
     except:
-        MonthlyFormula.objects.create(target_item='交付率', formula='')
-        MonthlyFormula.objects.create(target_item='成品率', formula='')
-        MonthlyFormula.objects.create(target_item='医药费', formula='')
-        MonthlyFormula.objects.create(target_item='当月挖掘成本', formula='')
-        MonthlyFormula.objects.create(target_item='现场管理符合率', formula='')
+        MonthlyFormula.objects.create(target_item='交付率', formula='A/B')
+        MonthlyFormula.objects.create(target_item='成品率', formula='C/B')
+        MonthlyFormula.objects.create(target_item='医药费', formula='D-E')
+        MonthlyFormula.objects.create(target_item='当月挖掘成本', formula='F-G')
+        MonthlyFormula.objects.create(target_item='现场管理符合率', formula='H-I')
         delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
         well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
         medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
@@ -1241,6 +1261,7 @@ def month_result_formula(request):
 @login_required
 @permission_required('manage_formula', raise_exception=True)
 def quarter_result_formula(request):
+    # 第一次进入系统时，获取不到公式，则默认为原始公式
     try:
         turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
         operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
@@ -1248,11 +1269,11 @@ def quarter_result_formula(request):
         inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
         profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
     except:
-        QuarterlyFormula.objects.create(target_item='营业额',formula='')
-        QuarterlyFormula.objects.create(target_item='营业费率',formula='')
-        QuarterlyFormula.objects.create(target_item='回款率',formula='')
-        QuarterlyFormula.objects.create(target_item='库存率',formula='')
-        QuarterlyFormula.objects.create(target_item='利润率',formula='')
+        QuarterlyFormula.objects.create(target_item='营业额',formula='A')
+        QuarterlyFormula.objects.create(target_item='营业费率',formula='B/A')
+        QuarterlyFormula.objects.create(target_item='回款率',formula='C/A')
+        QuarterlyFormula.objects.create(target_item='库存率',formula='D/A')
+        QuarterlyFormula.objects.create(target_item='利润率',formula='E/A')
         turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
         operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
         repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
