@@ -13,3 +13,12 @@ def group_permissions(group):
     data = list(data)
 
     return str(data)
+
+
+# 将显示为None的数据改为空字符串
+@register.filter
+def clear_none(data):
+    if data is None:
+        return ''
+    else:
+        return data

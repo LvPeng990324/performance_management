@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load queryset_data %}
 
 {% block modal_content %}
     <!--导入表格-->
@@ -283,12 +284,12 @@
                                     <td>{{ data.target_comprehensive_cost }}</td>
                                     <td>{{ data.target_management_compliance }}</td>
                                     <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                    <td>{{ data.finished_number }}</td>
-                                    <td>{{ data.unfinished_number }}</td>
-                                    <td>{{ data.actual_well_done_rate }}</td>
-                                    <td>{{ data.actual_medical_expenses }}</td>
-                                    <td>{{ data.actual_cost }}</td>
-                                    <td>{{ data.actual_management_compliance }}</td>
+                                    <td>{{ data.finished_number|clear_none }}</td>
+                                    <td>{{ data.unfinished_number|clear_none }}</td>
+                                    <td>{{ data.actual_well_done_rate|clear_none }}</td>
+                                    <td>{{ data.actual_medical_expenses|clear_none }}</td>
+                                    <td>{{ data.actual_cost|clear_none }}</td>
+                                    <td>{{ data.actual_management_compliance|clear_none }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
