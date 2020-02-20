@@ -10,9 +10,6 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            <a href="{% url 'group_management' %}">
-                                <button type="button" class="btn btn-default">返回</button>
-                            </a>
                             <b>赋予账号角色</b>
                         </h4>
                     </div>
@@ -20,7 +17,7 @@
                         <div class="table-responsive">
                         <div class="col-sm-6">
                             <div class="card">
-                                <div class="card-header bg-cyan">
+                                <div class="card-header bg-primary">
                                     <h4>可选账号</h4>
                                 </div>
                                 <div class="card-body">
@@ -37,18 +34,19 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="btn-group pull-right">
-                                        <button type="button" class="btn-xs btn-primary m-t-10" onclick="get_item()">添加<i class="mdi mdi-arrow-right"></i></button>
+                                    <div>
+                                        <div class="btn-group pull-right">
+                                            <button type="button" class="btn btn-xs btn-default m-t-10" onclick="get_item()">添加<i class="mdi mdi-arrow-right"></i></button>
+                                        </div>
+                                        <button type="button" class="btn btn-xs btn-default m-t-10" onclick="get_all()">全选</button>
                                     </div>
-                                    <button type="button" class="btn-xs btn-warning m-t-10" onclick="get_all()">全选</button>
                                 </div>
-
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="card">
-                                <div class="card-header bg-cyan">
+                                <div class="card-header bg-primary">
                                     <h4>已赋予账号</h4>
                                 </div>
                                 <div class="card-body">
@@ -57,13 +55,13 @@
                                             {% for in_group_user in in_group_users %}
                                                 <option value="{{ in_group_user.id }}">{{ in_group_user.extension.job_number }}-{{ in_group_user.last_name }}</option>
                                             {% endfor %}
-
                                         </select>
+                                    </div>
+                                    <div>
                                         <div class="btn-group pull-right">
-                                            <button type="button" class="btn-xs btn-warning m-t-10" onclick="del_all()">清空</button>
+                                            <button type="button" class="btn btn-xs btn-default m-t-10" onclick="del_all()">清空</button>
                                         </div>
-                                        <button type="button" class="btn-xs btn-primary m-t-10" onclick="del_item()">删除<i class="mdi mdi-arrow-left"></i></button>
-
+                                        <button type="button" class="btn btn-xs btn-danger m-t-10" onclick="del_item()"><i class="mdi mdi-arrow-left"></i>删除</button>
                                     </div>
                                 </div>
                             </div>
@@ -73,6 +71,9 @@
                     </div>
                     </div>
                     <div class="modal-footer">
+                        <a href="{% url 'group_management' %}">
+                            <button type="button" class="btn btn-default">返回</button>
+                        </a>
                         {% csrf_token %}
                         <button type="button" class="btn btn-primary" onclick="submit_action()">确定</button>
                     </div>
