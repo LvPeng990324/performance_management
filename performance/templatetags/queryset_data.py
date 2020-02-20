@@ -22,3 +22,12 @@ def clear_none(data):
         return ''
     else:
         return data
+
+
+# 将数字转化为百分数
+@register.filter
+def percentage(data):
+    if not data:
+        return data
+    res = '{}%'.format(data*100)
+    return res

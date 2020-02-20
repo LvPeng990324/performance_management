@@ -99,19 +99,7 @@
                         </div>
                         <div class="form-group">
                             <label for="id_target_well_done_rate" class="control-label">目标成品率：</label>
-                            <input type="number" class="form-control" id="id_target_well_done_rate" name="target_well_done_rate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_target_medical_expenses" class="control-label">目标医药费(万元)：</label>
-                            <input type="number" class="form-control" id="id_target_medical_expenses" name="target_medical_expenses" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_target_comprehensive_cost" class="control-label">目标综合成本(万元)：</label>
-                            <input type="number" class="form-control" id="id_target_comprehensive_cost" name="target_comprehensive_cost" required>
-                        </div>
-                        <div class="form-group_n">
-                            <label for="id_target_management_compliance" class="control-label">目标管理符合数：</label>
-                            <input type="number" class="form-control" id="id_target_management_compliance" name="target_management_compliance" required>
+                            <input type="number" class="form-control" id="id_target_well_done_rate" name="target_well_done_rate" value="1" readonly required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -154,19 +142,19 @@
                         </div>
                         <div class="form-group">
                             <label for="id_change_target_well_done_rate" class="control-label">目标成品率：</label>
-                            <input type="number" class="form-control" id="id_change_target_well_done_rate" name="target_well_done_rate" required>
+                            <input type="number" class="form-control" id="id_change_target_well_done_rate" name="target_well_done_rate" value="1" readonly required>
                         </div>
                         <div class="form-group">
                             <label for="id_change_target_medical_expenses" class="control-label">目标医药费(万元)：</label>
-                            <input type="number" class="form-control" id="id_change_target_medical_expenses" name="target_medical_expenses" required>
+                            <input type="number" class="form-control" id="id_change_target_medical_expenses" name="target_medical_expenses" disabled required>
                         </div>
                         <div class="form-group">
                             <label for="id_change_target_comprehensive_cost" class="control-label">目标综合成本(万元)：</label>
-                            <input type="number" class="form-control" id="id_change_target_comprehensive_cost" name="target_comprehensive_cost" required>
+                            <input type="number" class="form-control" id="id_change_target_comprehensive_cost" name="target_comprehensive_cost" disabled required>
                         </div>
                         <div class="form-group_n">
                             <label for="id_change_target_management_compliance" class="control-label">目标管理符合数：</label>
-                            <input type="number" class="form-control" id="id_change_target_management_compliance" name="target_management_compliance" required>
+                            <input type="number" class="form-control" id="id_change_target_management_compliance" name="target_management_compliance" disabled required>
                         </div>
                         <div class="form-group">
                             <label for="id_change_actual_delivery" class="control-label">实际交期：</label>
@@ -174,16 +162,11 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="id_change_finished_number" class="control-label">完成数：</label>
-                            <input type="number" class="form-control" id="id_change_finished_number" name="finished_number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="id_change_unfinished_number" class="control-label">未完成数：</label>
-                            <input type="number" class="form-control" id="id_change_unfinished_number" name="unfinished_number" required>
-                        </div>
-                        <div class="form-group">
                             <label for="id_change_actual_well_done_rate" class="control-label">实际成品率：</label>
-                            <input type="number" class="form-control" id="id_change_actual_well_done_rate" name="actual_well_done_rate" required>
+                            <select class="form-control" id="id_change_actual_well_done_rate" name="actual_well_done_rate" required>
+                                <option value="0">0%</option>
+                                <option value="1">100%</option>
+                            </select>
                         </div>
                         <div class="form-group_n">
                             <label for="id_change_actual_medical_expenses" class="control-label">实际医药费(万元)：</label>
@@ -279,14 +262,14 @@
                                     <td>{{ data.order_number }}</td>
                                     <td>{{ data.order_money }}</td>
                                     <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                    <td>{{ data.target_well_done_rate }}</td>
+                                    <td>{{ data.target_well_done_rate|percentage }}</td>
                                     <td>{{ data.target_medical_expenses }}</td>
                                     <td>{{ data.target_comprehensive_cost }}</td>
                                     <td>{{ data.target_management_compliance }}</td>
                                     <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
                                     <td>{{ data.finished_number|clear_none }}</td>
                                     <td>{{ data.unfinished_number|clear_none }}</td>
-                                    <td>{{ data.actual_well_done_rate|clear_none }}</td>
+                                    <td>{{ data.actual_well_done_rate|clear_none|percentage }}</td>
                                     <td>{{ data.actual_medical_expenses|clear_none }}</td>
                                     <td>{{ data.actual_cost|clear_none }}</td>
                                     <td>{{ data.actual_management_compliance|clear_none }}</td>
@@ -358,7 +341,7 @@
                                    change_target_medical_expenses,
                                    change_target_comprehensive_cost,
                                    change_target_management_compliance,
-                                   change_target_actual_medical_expenses,
+                                   change_actual_medical_expenses,
                                    change_actual_cost,
                                    change_actual_management_compliance,
         ) {
@@ -375,7 +358,7 @@
             $('#id_change_target_medical_expenses').val(change_target_medical_expenses);
             $('#id_change_target_comprehensive_cost').val(change_target_comprehensive_cost);
             $('#id_change_target_management_compliance').val(change_target_management_compliance);
-            $('#id_change_target_actual_medical_expenses').val(change_target_actual_medical_expenses);
+            $('#id_change_actual_medical_expenses').val(change_actual_medical_expenses);
             $('#id_change_actual_cost').val(change_actual_cost);
             $('#id_change_actual_management_compliance').val(change_actual_management_compliance);
         }

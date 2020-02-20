@@ -640,12 +640,19 @@ def add_internal_control_indicators(request):
     # 从前端获取数据
     date = request.POST.get('date')  # 订单时间
     order_number = request.POST.get('order_number')  # 订单号
-    order_money = request.POST.get('order_money')  # 订单额
+    order_money = float(request.POST.get('order_money'))  # 订单额
     scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
     target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
-    target_medical_expenses = request.POST.get('target_medical_expenses')  # 目标医药费
-    target_comprehensive_cost = request.POST.get('target_comprehensive_cost')  # 目标综合成本
-    target_management_compliance = request.POST.get('target_management_compliance')  # 目标管理符合数
+    # 从常量数据表中取出相应的常量数据
+    # 规则为，日期在这条数据之前的最新一条常量数据
+    # 先模拟数据
+    target_medical_expenses_rate = 0.01  # 目标医药费百分比
+    target_comprehensive_cost_rate = 0.02  # 目标综合成本百分比
+    target_management_compliance_value = 0.03  # 目标管理符合数值
+    # 计算数据项
+    target_medical_expenses = order_money * target_medical_expenses_rate  # 目标医药费
+    target_comprehensive_cost = order_money * target_comprehensive_cost_rate  # 目标综合成本
+    target_management_compliance = order_money * target_management_compliance_value  # 目标管理符合数
 
     # 转换日期对象
     date_list = date.split('-')
@@ -706,19 +713,35 @@ def change_internal_control_indicators(request):
     # 从前端获取修改后的数据
     change_date = request.POST.get('date')  # 订单时间
     change_order_number = request.POST.get('order_number')  # 订单号
-    change_order_money = request.POST.get('order_money')  # 订单额
+    change_order_money = float(request.POST.get('order_money'))  # 订单额
     change_scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
     change_target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
-    change_target_medical_expenses = request.POST.get('target_medical_expenses')  # 目标医药费
-    change_target_comprehensive_cost = request.POST.get('target_comprehensive_cost')  # 目标综合成本
-    change_target_management_compliance = request.POST.get('target_management_compliance')  # 目标管理符合数
     change_actual_delivery = request.POST.get('actual_delivery')  # 实际交期
-    change_finished_number = request.POST.get('finished_number')  # 完成数
-    change_unfinished_number = request.POST.get('unfinished_number')  # 未完成数
     change_actual_well_done_rate = request.POST.get('actual_well_done_rate')  # 实际成品率
     change_actual_medical_expenses = request.POST.get('actual_medical_expenses')  # 实际医药费
     change_actual_cost = request.POST.get('actual_cost')  # 实际成本
     change_actual_management_compliance = request.POST.get('actual_management_compliance')  # 实际管理符合数
+    # 从常量数据表中取出相应的常量数据
+    # 规则为，日期在这条数据之前的最新一条常量数据
+    # 先模拟数据
+    target_medical_expenses_rate = 0.01  # 目标医药费百分比
+    target_comprehensive_cost_rate = 0.02  # 目标综合成本百分比
+    target_management_compliance_value = 0.03  # 目标管理符合数值
+    # 计算数据项
+    change_target_medical_expenses = change_order_money * target_medical_expenses_rate  # 目标医药费
+    change_target_comprehensive_cost = change_order_money * target_comprehensive_cost_rate  # 目标综合成本
+    change_target_management_compliance = change_order_money * target_management_compliance_value  # 目标管理符合数
+    # 比对实际交期于计划交期，生成完成数于未完成数
+    # 实际交期在计划交期之前，完成数 = 1，未完成数 = 0
+    # 实际交期在计划交期之后，完成数 = 0，未完成数 = 1
+    if change_actual_delivery <= change_scheduled_delivery:
+        # 按时完成
+        change_finished_number = 1
+        change_unfinished_number = 0
+    else:
+        # 未按时完成
+        change_finished_number = 0
+        change_unfinished_number = 1
 
     # 转换日期对象
     date_list = change_date.split('-')
