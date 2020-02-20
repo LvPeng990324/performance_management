@@ -78,16 +78,16 @@ class QuarterlySalesData(models.Model):
 
 # 内控指标汇总
 class InternalControlIndicators(models.Model):
-    order_date = models.DateTimeField(verbose_name='订单时间')
+    order_date = models.DateField(verbose_name='订单时间')
     order_number = models.CharField(max_length=100, verbose_name='订单号')
     order_money = models.IntegerField(verbose_name='订单额')
-    scheduled_delivery = models.DateTimeField(verbose_name='计划交期')
+    scheduled_delivery = models.DateField(verbose_name='计划交期')
     target_well_done_rate = models.FloatField(verbose_name='目标成品率')
     target_medical_expenses = models.FloatField(verbose_name='目标医药费')
     target_comprehensive_cost = models.FloatField(verbose_name='目标综合成本')
     target_management_compliance = models.IntegerField(verbose_name='目标管理符合数')
     # 以下为二次录入数据项
-    actual_delivery = models.DateTimeField(verbose_name='实际交期', null=True)
+    actual_delivery = models.DateField(verbose_name='实际交期', null=True)
     finished_number = models.IntegerField(verbose_name='完成数', null=True)
     unfinished_number = models.IntegerField(verbose_name='未完成数', null=True)
     actual_well_done_rate = models.FloatField(verbose_name='实际成品率', null=True)

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
+from datetime import date
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
@@ -259,7 +260,6 @@ def user_change_information(request):
         messages.success(request, '信息修改成功')
         # 重载信息修改页面
         return redirect('user_change_information')
-
 
 
 # 展示角色权限管理界面
@@ -657,9 +657,9 @@ def add_internal_control_indicators(request):
     # 转换日期对象
     order_date_list = order_date.split('-')
     scheduled_delivery_list = scheduled_delivery.split('-')
-    order_date = datetime(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]), hour=1, minute=1, second=1)
-    scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
-                                  day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
+    order_date = date(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]))
+    scheduled_delivery = date(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
+                              day=int(scheduled_delivery_list[2]))
 
     # 存入数据库
     InternalControlIndicators.objects.create(
@@ -747,12 +747,11 @@ def change_internal_control_indicators(request):
     order_date_list = change_order_date.split('-')
     scheduled_delivery_list = change_scheduled_delivery.split('-')
     actual_delivery_list = change_actual_delivery.split('-')
-    change_date = datetime(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]), hour=1, minute=1,
-                           second=1)
-    change_scheduled_delivery = datetime(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
-                                         day=int(scheduled_delivery_list[2]), hour=1, minute=1, second=1)
-    change_actual_delivery = datetime(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
-                                      day=int(actual_delivery_list[2]), hour=1, minute=1, second=1)
+    change_date = date(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]))
+    change_scheduled_delivery = date(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
+                                     day=int(scheduled_delivery_list[2]))
+    change_actual_delivery = date(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
+                                  day=int(actual_delivery_list[2]))
 
     # 从数据库中取出该数据
     data = InternalControlIndicators.objects.get(id=change_id)
