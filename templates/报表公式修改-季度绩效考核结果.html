@@ -1,49 +1,6 @@
 {% extends 'base.html' %}
 
 {% block css_content %}
-    <style>
-        .table-formula {
-            width: 40%;
-            display: inline-block;
-            padding: 2em;
-            float: left;
-        }
-
-        .table-formula > table > tbody > tr > td,
-        .table-formula > table > tbody > tr > th,
-        .table-formula > table > thead > tr > td,
-        .table-formula > table > thead > tr > th {
-            padding: 0.75em;
-            line-height: 2em;
-            border: 0.1em solid #eceeef;
-            text-align: center;
-        }
-
-        .form-formula {
-            width: 50%;
-            display: inline-block;
-            margin-bottom: 100px;
-            padding: 2em;
-        }
-
-        .form-formula > form > table > tbody > tr > td,
-        .form-formula > form > table > tbody > tr > th,
-        .form-formula > form > table > thead > tr > td,
-        .form-formula > form > table > thead > tr > th {
-            padding: 0.75em;
-            line-height: 2em;
-            border: 0.1em solid #eceeef;
-            text-align: center;
-        }
-
-        .input-self {
-            border: none;
-            width: 300px;
-            padding: 0;
-            display: inline-block;
-            float: left;
-        }
-    </style>
 {% endblock %}
 
 {% block change_formula_active %}active open{% endblock %}
@@ -93,7 +50,7 @@
 
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header"><h4><b>修改公式</b></h4></div>
+                    <div class="card-header"><h4><b>指标生成规则</b></h4></div>
                     <div class="card-body">
                         <div class="form-horizontal">
                             <form action="{% url 'change_quarter_formula' %}" method="post">
@@ -101,7 +58,7 @@
                                 <div class="table-hover">
                                     <table class="table">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="example-hf-email">营业额公式</label>
+                                            <label class="col-md-3 control-label" for="example-hf-email">营业额</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="turnover"
                                                        name="turnover"
@@ -109,14 +66,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="example-hf-email">营业费率公式</label>
+                                            <label class="col-md-3 control-label" for="example-hf-email">营业费率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="operating_rate"
                                                        name="operating_rate" value="{{ operating_rate }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="example-hf-email">回款率公式</label>
+                                            <label class="col-md-3 control-label" for="example-hf-email">回款率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="repaid_rate"
                                                        name="repaid_rate"
@@ -124,14 +81,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="example-hf-email">库存率公式</label>
+                                            <label class="col-md-3 control-label" for="example-hf-email">库存率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="inventory_rate"
                                                        name="inventory_rate" value="{{ inventory_rate }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="example-hf-email">利润率公式</label>
+                                            <label class="col-md-3 control-label" for="example-hf-email">利润率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="profit_rate"
                                                        name="profit_rate" value="{{ profit_rate }}"/>
