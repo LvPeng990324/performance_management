@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load queryset_data %}
 
 {% block css_content %}
     <link href="{% static 'css/echarts.css' %}" rel="stylesheet">
@@ -80,10 +81,10 @@
                                     <tr>
                                         <td>{{ data.quarter }}</td>
                                         <td>{{ data.turnover }}</td>
-                                        <td>{{ data.operating_rate }}</td>
-                                        <td>{{ data.repaid_rate }}</td>
-                                        <td>{{ data.inventory_rate }}</td>
-                                        <td>{{ data.profit_rate }}</td>
+                                        <td>{{ data.operating_rate|percentage }}</td>
+                                        <td>{{ data.repaid_rate|percentage }}</td>
+                                        <td>{{ data.inventory_rate|percentage }}</td>
+                                        <td>{{ data.profit_rate|percentage }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
