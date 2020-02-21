@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load queryset_data %}
 
 {% block modal_content %}
     <!--导出excel-->
@@ -58,33 +59,41 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>日期</th>
-                                    <th>订单号</th>
-                                    <th>计划交期</th>
-                                    <th>实际交期</th>
-                                    <th>完成数</th>
-                                    <th>未完成数</th>
-                                    <th>目标成品率</th>
-                                    <th>实际成品率</th>
-                                    <th>当月医药费(万元)</th>
-                                    <th>万元成本</th>
-                                    <th>现场管理符合数</th>
+                                    <th nowrap="nowrap">订单时间</th>
+                                    <th nowrap="nowrap">订单号</th>
+                                    <th nowrap="nowrap">订单额</th>
+                                    <th nowrap="nowrap">计划交期</th>
+                                    <th nowrap="nowrap">目标成品率</th>
+                                    <th nowrap="nowrap">目标医药费(万元)</th>
+                                    <th nowrap="nowrap">目标综合成本(万元)</th>
+                                    <th nowrap="nowrap">目标管理符合数</th>
+                                    <th nowrap="nowrap">实际交期</th>
+                                    <th nowrap="nowrap">完成数</th>
+                                    <th nowrap="nowrap">未完成数</th>
+                                    <th nowrap="nowrap">实际成品率</th>
+                                    <th nowrap="nowrap">实际医药费</th>
+                                    <th nowrap="nowrap">实际成本</th>
+                                    <th nowrap="nowrap">实际管理符合数</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for data in internal_control_indicators %}
                                     <tr>
-                                        <th scope="row">{{ data.date|date:"Y年m月d日" }}</th>
-                                        <td>{{ data.order_number }}</td>
-                                        <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                        <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                        <td>{{ data.finished_number }}</td>
-                                        <td>{{ data.unfinished_number }}</td>
-                                        <td>{{ data.target_well_done_rate }}</td>
-                                        <td>{{ data.actual_well_done_rate }}</td>
-                                        <td>{{ data.target_medical_expenses }}</td>
-                                        <td>{{ data.cost_per_wan }}</td>
-                                        <td>{{ data.field_management_compliance }}</td>
+                                        <td>{{ data.order_date|date:"Y年m月d日" }}</td>
+                                    <td>{{ data.order_number }}</td>
+                                    <td>{{ data.order_money }}</td>
+                                    <td>{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
+                                    <td>{{ data.target_well_done_rate|percentage }}</td>
+                                    <td>{{ data.target_medical_expenses }}</td>
+                                    <td>{{ data.target_comprehensive_cost }}</td>
+                                    <td>{{ data.target_management_compliance }}</td>
+                                    <td>{{ data.actual_delivery|date:"Y年m月d日" }}</td>
+                                    <td>{{ data.finished_number|clear_none }}</td>
+                                    <td>{{ data.unfinished_number|clear_none }}</td>
+                                    <td>{{ data.actual_well_done_rate|clear_none|percentage }}</td>
+                                    <td>{{ data.actual_medical_expenses|clear_none }}</td>
+                                    <td>{{ data.actual_cost|clear_none }}</td>
+                                    <td>{{ data.actual_management_compliance|clear_none }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
