@@ -31,7 +31,7 @@ def quarterly_data_production(year, year_res_set, quarter_list):
     res = year_res_set.filter(month__in=quarter_list)
     if res.exists():
         # 月度表中存在数据
-        res.aggregate(
+        res = res.aggregate(
             turnover_sum=Sum("turnover"),
             operating_expenses_sum=Sum("operating_expenses"),
             amount_repaid_sum=Sum("amount_repaid"),

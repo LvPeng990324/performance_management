@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.db.models import F
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
@@ -42,8 +43,8 @@ def user_login(request):
         return render(request, '登录.html')
     else:
         # 从前端获取用户名密码
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username').strip()
+        password = request.POST.get('password').strip()
 
         # 验证登录信息
         user = authenticate(username=username, password=password)
@@ -85,11 +86,11 @@ def user_management(request):
 @permission_required('manage_user', raise_exception=True)
 def add_user(request):
     # 从前端获取填写用户信息
-    job_number = str(request.POST.get('job_number'))
-    name = str(request.POST.get('name'))
-    department = str(request.POST.get('department'))
-    telephone = str(request.POST.get('telephone'))
-    password = str(request.POST.get('password'))
+    job_number = str(request.POST.get('job_number')).strip()
+    name = str(request.POST.get('name')).strip()
+    department = str(request.POST.get('department')).strip()
+    telephone = str(request.POST.get('telephone')).strip()
+    password = str(request.POST.get('password')).strip()
 
     # 保存用户
     try:
@@ -179,7 +180,7 @@ def change_user(request):
 def admin_change_password(request):
     # 获取要更改密码的id
     change_id = request.POST.get('passwd_id')
-    user = User.objects.get(id=change_id)
+    user = User.objects.get(id=change_id).strip()
     # 获取新密码
     password = request.POST.get('password')
     # 设置新密码
@@ -198,9 +199,9 @@ def user_change_password(request):
         return render(request, '账号-修改密码.html')
     else:
         # 获取用户输入的密码
-        old_password = request.POST.get('old_password')
-        new_password = request.POST.get('new_password')
-        new_password_again = request.POST.get('new_password_again')
+        old_password = request.POST.get('old_password').strip()
+        new_password = request.POST.get('new_password').strip()
+        new_password_again = request.POST.get('new_password_again').strip()
         # 取出当前用户
         user = request.user
         # 验证当前用户密码是否匹配用户输入的旧密码
@@ -244,7 +245,7 @@ def user_change_information(request):
     else:
         # 目前只能改手机号
         # 从前端获取输入的手机号
-        telephone = request.POST.get('telephone')
+        telephone = request.POST.get('telephone').strip()
         try:
             # 获取当前用户
             user = request.user
@@ -409,11 +410,35 @@ def group_to_user(request):
 @login_required
 @permission_required('manage_monthly_sales_data', raise_exception=True)
 def show_monthly_sales_data(request):
-    # 从数据库中取出所有数据
-    monthly_sales_data = MonthlySalesData.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = MonthlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        # 引导前端页面
+        return render(request, '业务数据管理-月度营业数据.html', context=context)
+    # 尝试取用户选择的年份
+    current_year = request.GET.get('current_year')
+    # 如果没取到或者取到了'所有年份'，说明是访问此页面或者选择展示所有数据，展示所有数据
+    if current_year == '所有年份' or not current_year:
+        # 从数据库中取出所有数据，并按照年份和月份顺序排序
+        monthly_sales_data = MonthlySalesData.objects.all().order_by(F('year') * 100 + F('month'))
+        # 记录current_year
+        current_year = '所有年份'
+    # 如果取到了具体年份数据，取出对应的数据并展示
+    else:
+        # 从数据库中取出对用年份的数据并按照月份顺序排序
+        monthly_sales_data = MonthlySalesData.objects.filter(year=current_year).order_by('month')
+        # 记录current_year
+        current_year = int(current_year)
     # 打包数据
     context = {
         'monthly_sales_data': monthly_sales_data,
+        'year_list': year_list,
+        'current_year': current_year,
     }
     # 引导前端页面
     return render(request, '业务数据管理-月度营业数据.html', context=context)
@@ -448,7 +473,7 @@ def add_monthly_sales_data(request):
     messages.success(request, '数据添加成功')
 
     # 刷新当年季度营业数据
-    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=list(year))
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -473,7 +498,7 @@ def delete_monthly_sales_data(request):
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
         # 刷新当年季度营业数据
-        # CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 返回成功
         return HttpResponse('success')
     else:
@@ -526,6 +551,9 @@ def change_monthly_sales_data(request):
     # 写入数据修改成功
     messages.success(request, '数据修改成功')
 
+    # 刷新季度营业数据
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year])
+
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
 
@@ -534,11 +562,35 @@ def change_monthly_sales_data(request):
 @login_required
 @permission_required('manage_quarterly_sales_data', raise_exception=True)
 def show_quarterly_sales_data(request):
-    # 从数据库中取出所有数据
-    quarterly_sales_data = QuarterlySalesData.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        # 引导前端页面
+        return render(request, '业务数据管理-季度营业数据.html', context=context)
+    # 尝试取用户选择的年份
+    current_year = request.GET.get('current_year')
+    # 如果没取到或者取到了'所有年份'，说明是访问此页面或者选择展示所有数据，展示所有数据
+    if current_year == '所有年份' or not current_year:
+        # 从数据库中取出所有数据，并按照年份和月份顺序排序
+        quarterly_sales_data = QuarterlySalesData.objects.all().order_by(F('year') * 100 + F('quarter'))
+        # 记录current_year
+        current_year = '所有年份'
+    # 如果取到了具体年份数据，取出对应的数据并展示
+    else:
+        # 从数据库中取出对用年份的数据并按照月份顺序排序
+        quarterly_sales_data = QuarterlySalesData.objects.filter(year=current_year).order_by('quarter')
+        # 记录current_year
+        current_year = int(current_year)
     # 打包数据
     context = {
         'quarterly_sales_data': quarterly_sales_data,
+        'year_list': year_list,
+        'current_year': current_year,
     }
     # 引导前端页面
     return render(request, '业务数据管理-季度营业数据.html', context=context)
