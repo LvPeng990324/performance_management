@@ -111,22 +111,28 @@ def export_internal_control_indicators():
     data_list = []  # 用于存储所有数据
     temp_list = []  # 用于临时存储一行，最后存入data_list
     # 建立表头
-    temp_list = ['日期', '订单号', '计划交期', '实际交期', '完成数', '未完成数', '目标成品率', '实际成品率', '当月医药费', '万元成本', '现场管理符合数']
+    temp_list = ['订单时间', '订单号', '计划交期', '目标成品率', '目标医药费(万元)', '目标综合成本(万元)', '目标管理符合数',
+                 '实际交期', '完成数', '未完成数', '实际成品率', '实际医药费', '实际成本', '实际管理符合数']
     data_list.append(temp_list)
     temp_list = []
     # 遍历数据库内容并存入data_list
     for line in data:
-        temp_list.append(line.date)
-        temp_list.append(line.order_number)
-        temp_list.append(line.scheduled_delivery)
-        temp_list.append(line.actual_delivery)
-        temp_list.append(line.finished_number)
-        temp_list.append(line.unfinished_number)
-        temp_list.append(line.target_well_done_rate)
-        temp_list.append(line.actual_well_done_rate)
-        temp_list.append(line.month_medical_expenses)
-        temp_list.append(line.cost_per_wan)
-        temp_list.append(line.field_management_compliance)
+        temp_list.append(line.order_date)  # 订单时间
+        temp_list.append(line.order_number)  # 订单号
+        temp_list.append(line.order_money)  # 订单额
+        temp_list.append(line.scheduled_delivery)  # 计划交期
+        temp_list.append(line.target_well_done_rate)  # 目标成品率
+        temp_list.append(line.target_medical_expenses)  # 目标医药费
+        temp_list.append(line.target_comprehensive_cost)  # 目标综合成本
+        temp_list.append(line.target_management_compliance)  # 目标管理符合数
+        # 一下为二次录入数据
+        temp_list.append(line.actual_delivery)  # 实际交期
+        temp_list.append(line.finished_number)  # 完成数
+        temp_list.append(line.unfinished_number)  # 未完成数
+        temp_list.append(line.actual_well_done_rate)  # 实际成品率
+        temp_list.append(line.actual_medical_expenses)  # 实际医药费
+        temp_list.append(line.actual_cost)  # 实际成本
+        temp_list.append(line.actual_management_compliance)  # 实际管理符合数
         # 存入data_list并清空temp_list
         data_list.append(temp_list)
         temp_list = []
