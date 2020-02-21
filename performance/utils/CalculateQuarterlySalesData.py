@@ -78,7 +78,6 @@ def calculate_quarterly_sales_data(year=MonthlySalesData.objects.values_list('ye
 
     success_message = ""
     error_message = ""
-    t1 = type(year)
     for year_ in year:
         year_res_set = MonthlySalesData.objects.filter(year=year_)
         quarterly_data_production(year_, year_res_set, [1, 2, 3])
