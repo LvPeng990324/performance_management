@@ -42,8 +42,8 @@ def user_login(request):
         return render(request, '登录.html')
     else:
         # 从前端获取用户名密码
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username').strip()
+        password = request.POST.get('password').strip()
 
         # 验证登录信息
         user = authenticate(username=username, password=password)
@@ -85,11 +85,11 @@ def user_management(request):
 @permission_required('manage_user', raise_exception=True)
 def add_user(request):
     # 从前端获取填写用户信息
-    job_number = str(request.POST.get('job_number'))
-    name = str(request.POST.get('name'))
-    department = str(request.POST.get('department'))
-    telephone = str(request.POST.get('telephone'))
-    password = str(request.POST.get('password'))
+    job_number = str(request.POST.get('job_number')).strip()
+    name = str(request.POST.get('name')).strip()
+    department = str(request.POST.get('department')).strip()
+    telephone = str(request.POST.get('telephone')).strip()
+    password = str(request.POST.get('password')).strip()
 
     # 保存用户
     try:
@@ -179,7 +179,7 @@ def change_user(request):
 def admin_change_password(request):
     # 获取要更改密码的id
     change_id = request.POST.get('passwd_id')
-    user = User.objects.get(id=change_id)
+    user = User.objects.get(id=change_id).strip()
     # 获取新密码
     password = request.POST.get('password')
     # 设置新密码
@@ -198,9 +198,9 @@ def user_change_password(request):
         return render(request, '账号-修改密码.html')
     else:
         # 获取用户输入的密码
-        old_password = request.POST.get('old_password')
-        new_password = request.POST.get('new_password')
-        new_password_again = request.POST.get('new_password_again')
+        old_password = request.POST.get('old_password').strip()
+        new_password = request.POST.get('new_password').strip()
+        new_password_again = request.POST.get('new_password_again').strip()
         # 取出当前用户
         user = request.user
         # 验证当前用户密码是否匹配用户输入的旧密码
@@ -244,7 +244,7 @@ def user_change_information(request):
     else:
         # 目前只能改手机号
         # 从前端获取输入的手机号
-        telephone = request.POST.get('telephone')
+        telephone = request.POST.get('telephone').strip()
         try:
             # 获取当前用户
             user = request.user
