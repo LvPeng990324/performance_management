@@ -448,7 +448,7 @@ def add_monthly_sales_data(request):
     messages.success(request, '数据添加成功')
 
     # 刷新当年季度营业数据
-    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=list(year))
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -527,7 +527,7 @@ def change_monthly_sales_data(request):
     messages.success(request, '数据修改成功')
 
     # 刷新季度营业数据
-    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=list(change_year))
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year])
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
