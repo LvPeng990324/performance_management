@@ -473,7 +473,7 @@ def delete_monthly_sales_data(request):
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
         # 刷新当年季度营业数据
-        # CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 返回成功
         return HttpResponse('success')
     else:
@@ -525,6 +525,9 @@ def change_monthly_sales_data(request):
 
     # 写入数据修改成功
     messages.success(request, '数据修改成功')
+
+    # 刷新季度营业数据
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=list(change_year))
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
