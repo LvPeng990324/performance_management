@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.db.models import F
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
@@ -409,11 +410,35 @@ def group_to_user(request):
 @login_required
 @permission_required('manage_monthly_sales_data', raise_exception=True)
 def show_monthly_sales_data(request):
-    # 从数据库中取出所有数据
-    monthly_sales_data = MonthlySalesData.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = MonthlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        # 引导前端页面
+        return render(request, '业务数据管理-月度营业数据.html', context=context)
+    # 尝试取用户选择的年份
+    current_year = request.GET.get('current_year')
+    # 如果没取到或者取到了'所有年份'，说明是访问此页面或者选择展示所有数据，展示所有数据
+    if current_year == '所有年份' or not current_year:
+        # 从数据库中取出所有数据，并按照年份和月份顺序排序
+        monthly_sales_data = MonthlySalesData.objects.all().order_by(F('year') * 100 + F('month'))
+        # 记录current_year
+        current_year = '所有年份'
+    # 如果取到了具体年份数据，取出对应的数据并展示
+    else:
+        # 从数据库中取出对用年份的数据并按照月份顺序排序
+        monthly_sales_data = MonthlySalesData.objects.filter(year=current_year).order_by('month')
+        # 记录current_year
+        current_year = int(current_year)
     # 打包数据
     context = {
         'monthly_sales_data': monthly_sales_data,
+        'year_list': year_list,
+        'current_year': current_year,
     }
     # 引导前端页面
     return render(request, '业务数据管理-月度营业数据.html', context=context)
@@ -537,11 +562,35 @@ def change_monthly_sales_data(request):
 @login_required
 @permission_required('manage_quarterly_sales_data', raise_exception=True)
 def show_quarterly_sales_data(request):
-    # 从数据库中取出所有数据
-    quarterly_sales_data = QuarterlySalesData.objects.all()
+    # 打包年份数据，去重并逆序排序
+    year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        # 引导前端页面
+        return render(request, '业务数据管理-季度营业数据.html', context=context)
+    # 尝试取用户选择的年份
+    current_year = request.GET.get('current_year')
+    # 如果没取到或者取到了'所有年份'，说明是访问此页面或者选择展示所有数据，展示所有数据
+    if current_year == '所有年份' or not current_year:
+        # 从数据库中取出所有数据，并按照年份和月份顺序排序
+        quarterly_sales_data = QuarterlySalesData.objects.all().order_by(F('year') * 100 + F('quarter'))
+        # 记录current_year
+        current_year = '所有年份'
+    # 如果取到了具体年份数据，取出对应的数据并展示
+    else:
+        # 从数据库中取出对用年份的数据并按照月份顺序排序
+        quarterly_sales_data = QuarterlySalesData.objects.filter(year=current_year).order_by('quarter')
+        # 记录current_year
+        current_year = int(current_year)
     # 打包数据
     context = {
         'quarterly_sales_data': quarterly_sales_data,
+        'year_list': year_list,
+        'current_year': current_year,
     }
     # 引导前端页面
     return render(request, '业务数据管理-季度营业数据.html', context=context)
