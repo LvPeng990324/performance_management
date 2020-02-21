@@ -63,7 +63,7 @@
 
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header"><h4><b>修改公式</b></h4></div>
+                    <div class="card-header"><h4><b>指标生成规则</b></h4></div>
                     <div class="card-body">
                         <div class="form-horizontal">
                             <form action="{% url 'change_month_formula' %}" method="post">
@@ -71,21 +71,21 @@
                                 <div class="table-hover">
                                     <table class="table">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="delivery_rate">交付率公式</label>
+                                            <label class="col-md-3 control-label" for="delivery_rate">交付率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="delivery_rate"
                                                        name="delivery_rate" value="{{ delivery_rate }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="well_done_rate">成品率公式</label>
+                                            <label class="col-md-3 control-label" for="well_done_rate">成品率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="well_done_rate"
                                                        name="well_done_rate" value="{{ well_done_rate }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label" for="medical_expenses">医药费公式</label>
+                                            <label class="col-md-3 control-label" for="medical_expenses">医药费</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="medical_expenses"
                                                        name="medical_expenses" value="{{ medical_expenses }}"/>
