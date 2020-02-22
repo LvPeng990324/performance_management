@@ -256,7 +256,7 @@
                                     {% endif %}
                                     <th>{{ user.last_login }}</th>
                                     <td>
-                                        <div class="btn-group">
+                                        <div class="btn-group-justified">
                                             <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i class="mdi mdi-pencil"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="修改密码" data-toggle="modal" data-target="#password" onclick="give_passwd_id_modal('{{ user.id }}')"><i class="mdi mdi-dns"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ user.id }}')"><i class="mdi mdi-window-close"></i></a>

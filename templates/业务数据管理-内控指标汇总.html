@@ -174,7 +174,8 @@
                                         </div>
                                         <div class="form-group_n">
                                             <label for="id_change_actual_management_compliance" class="control-label">实际管理符合数：</label>
-                                            <input type="number" class="form-control" id="id_change_actual_management_compliance"
+                                            <input type="number" class="form-control"
+                                                   id="id_change_actual_management_compliance"
                                                    name="actual_management_compliance" required>
                                         </div>
                                     </div>
@@ -348,7 +349,8 @@
                                                 </td>
                                                 <td nowrap="nowrap">
                                                     <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-info" style="width: 100%;"></div>
+                                                        <div class="progress-bar progress-bar-info"
+                                                             style="width: 100%;"></div>
                                                     </div>
                                                 </td>
                                             {% else %}
@@ -357,7 +359,8 @@
                                                 </td>
                                                 <td nowrap="nowrap">
                                                     <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-yellow" style="width: 100%;"></div>
+                                                        <div class="progress-bar progress-bar-yellow"
+                                                             style="width: 100%;"></div>
                                                     </div>
                                                 </td>
                                             {% endif %}
@@ -369,7 +372,8 @@
                                                     </td>
                                                     <td nowrap="nowrap">
                                                         <div class="progress progress-striped progress-sm">
-                                                            <div class="progress-bar progress-bar-primary" style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
+                                                            <div class="progress-bar progress-bar-primary"
+                                                                 style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
                                                         </div>
                                                     </td>
                                                 {% else %}
@@ -378,7 +382,8 @@
                                                     </td>
                                                     <td nowrap="nowrap">
                                                         <div class="progress progress-striped progress-sm">
-                                                            <div class="progress-bar progress-bar-pink" style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
+                                                            <div class="progress-bar progress-bar-pink"
+                                                                 style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
                                                         </div>
                                                     </td>
                                                 {% endif %}
@@ -388,7 +393,8 @@
                                                 </td>
                                                 <td nowrap="nowrap">
                                                     <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-danger" style="width: 100%;"></div>
+                                                        <div class="progress-bar progress-bar-danger"
+                                                             style="width: 100%;"></div>
                                                     </div>
                                                 </td>
                                             {% endif %}
@@ -410,19 +416,19 @@
                                         <td nowrap="nowrap">{{ data.actual_cost|clear_none }}</td>
                                         <td nowrap="nowrap">{{ data.actual_management_compliance|clear_none }}</td>
                                         <td nowrap="nowrap">
-                                            <div class="btn-group">
+                                            <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
                                                    onclick="give_change_modal('{{ data.id }}', '{{ data.order_date|date:"Y-m-d" }}',
                                                            '{{ data.order_number }}','{{ data.order_money }}' , '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
                                                            '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
                                                            '{{ data.actual_well_done_rate }}', '{{ data.target_medical_expenses }}', '{{ data.target_comprehensive_cost }}',
-                                                           '{{ data.target_management_compliance }}', '{{ data.actual_medical_expenses }}', '{{ data.actual_cost }}', '{{ data.actual_management_compliance }}')"><i
-                                                        class="mdi mdi-pencil"></i></a>
+                                                           '{{ data.target_management_compliance }}', '{{ data.actual_medical_expenses }}', '{{ data.actual_cost }}', '{{ data.actual_management_compliance }}')">
+                                                    <i class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                    data-toggle="modal" data-target="#del"
-                                                   onclick="give_delete_modal('{{ data.id }}')"><i
-                                                        class="mdi mdi-window-close"></i></a>
+                                                   onclick="give_delete_modal('{{ data.id }}')">
+                                                    <i class="mdi mdi-window-close"></i></a>
                                             </div>
                                         </td>
                                     </tr>
