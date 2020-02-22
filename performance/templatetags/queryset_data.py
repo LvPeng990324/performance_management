@@ -1,5 +1,6 @@
 # 用于获取queryset数据类型具体数据的过滤器文件
 from django.template import Library
+import datetime
 
 # 将注册类实例化为register对象
 register = Library()
@@ -31,3 +32,20 @@ def percentage(data):
         return data
     res = '{}%'.format(data*100)
     return res
+
+
+# 返回订单日期到计划交期中间当前时间对应的进度百分比
+@register.filter
+def progress(order_date, scheduled_delivery):
+    # 获取当前日期
+    current_date = datetime.date.today()
+    # 如果当前时间已经超过计划交期，返回False
+    if current_date > scheduled_delivery:
+        return False
+    # 计算百分数
+    print(order_date)
+    print(current_date)
+    print(scheduled_delivery)
+    print(((current_date - order_date).days / (scheduled_delivery - order_date).days)*100)
+    return ((current_date - order_date).days / (scheduled_delivery - order_date).days)*100
+
