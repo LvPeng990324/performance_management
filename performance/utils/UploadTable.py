@@ -53,7 +53,7 @@ def get_excel_list(file_data):
             if cell_data.ctype == 3:
                 temp_list.append(to_datetime(data=data, xldate=cell_data))
             elif cell_data.ctype == 2:
-                temp_list.append(str(int(cell_data.value)))
+                temp_list.append(cell_data.value)
             else:
                 temp_list.append(cell_data.value)
         # 将temp_list写入到table_list并清空temp_list
@@ -98,14 +98,22 @@ def upload_monthly_performance_excel(file_data):
     # 将数据写入数据库
     try:
         for temp_data in table_list:
+            # 将列表数据分类
+            year = temp_data[0]
+            month = temp_data[1]
+            turnover = temp_data[2]
+            operating_expenses = temp_data[3]
+            amount_repaid = temp_data[4]
+            inventory = temp_data[5]
+            profit = float(temp_data[2]) - float(temp_data[3])
             MonthlySalesData.objects.create(
-                year=temp_data[0],
-                month=temp_data[1],
-                turnover=temp_data[2],
-                operating_expenses=temp_data[3],
-                amount_repaid=temp_data[4],
-                inventory=temp_data[5],
-                profit=float(temp_data[2]) - float(temp_data[3]),
+                year=year,
+                month=month,
+                turnover=turnover,
+                operating_expenses=operating_expenses,
+                amount_repaid=amount_repaid,
+                inventory=inventory,
+                profit=profit,
             )
     except:
         return '写入数据库失败'
@@ -272,9 +280,9 @@ def upload_user_excel(file_data):
         for temp_data in table_list:
             # 将列表数据分类
             department = str(temp_data[0]).strip()
-            job_number = str(temp_data[1]).strip()
+            job_number = str(temp_data[1]).split('.')[0]
             name = temp_data[2].strip()
-            telephone = temp_data[3].strip()
+            telephone = str(temp_data[3]).split('.')[0]
             password = temp_data[4].strip()
             user = User.objects.create_user(
                 username=job_number,

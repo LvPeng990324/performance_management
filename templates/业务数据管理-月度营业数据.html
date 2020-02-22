@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load queryset_data %}
 
 {% block modal_content %}
     <!--导入表格-->
@@ -270,7 +271,7 @@
                                         <td nowrap="nowrap">{{ data.turnover }}</td>
                                         <td nowrap="nowrap">{{ data.operating_expenses }}</td>
                                         <td nowrap="nowrap">{{ data.amount_repaid }}</td>
-                                        <td nowrap="nowrap">{{ data.inventory }}</td>
+                                        <td nowrap="nowrap">{{ data.inventory|to_int }}</td>
                                         <td nowrap="nowrap">{{ data.profit }}</td>
                                         <td nowrap="nowrap">
                                             <div class="btn-group">
