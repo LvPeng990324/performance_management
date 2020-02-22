@@ -11,7 +11,6 @@ class Permission(models.Model):
             ('view_monthly_sales_data', '查看月度营业数据'),
             ('manage_monthly_sales_data', '管理月度营业数据'),
             ('view_quarterly_sales_data', '查看季度营业数据'),
-            ('manage_quarterly_sales_data', '管理季度营业数据'),
             ('view_internal_control_indicators', '查看内控指标汇总'),
             ('manage_internal_control_indicators', '管理内控指标汇总'),
             ('view_monthly_performance', '查看月度绩效考核结果'),

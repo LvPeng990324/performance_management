@@ -117,48 +117,6 @@ def upload_monthly_performance_csv(file_data):
     return '暂不支持csv文件，请先转换为excel'
 
 
-# 上传季度营业数据表
-def upload_quarterly_performance(file_data):
-    # 判断文件类型并分别使用下边不同方法处理
-    file_type = get_file_type(file_data)
-    # excel表
-    if file_type == 'xls' or file_type == 'xlsx':
-        return upload_quarterly_performance_excel(file_data)
-    # csv表
-    elif file_type == 'csv':
-        upload_quarterly_performance_csv(file_data)
-    # 不支持的类型返回错误信息
-    else:
-        return '不支持的文件类型'
-
-
-# 季度营业数据excel表
-def upload_quarterly_performance_excel(file_data):
-    # 获取列表数据
-    table_list = get_excel_list(file_data)
-    # 将数据写入数据库
-    try:
-        for temp_data in table_list:
-            QuarterlySalesData.objects.create(
-                year=temp_data[0],
-                quarter=temp_data[1],
-                turnover=temp_data[2],
-                operating_expenses=temp_data[3],
-                amount_repaid=temp_data[4],
-                inventory=temp_data[5],
-                profit=temp_data[6],
-            )
-    except:
-        return '写入数据库失败'
-
-    return 0
-
-
-# 季度营业数据csv表
-def upload_quarterly_performance_csv(file_data):
-    return '暂不支持csv文件，请先转换为excel'
-
-
 # 上传内控指标汇总表
 def upload_internal_control_indicators_performance(file_data):
     # 判断文件类型并分别使用下边不同方法处理

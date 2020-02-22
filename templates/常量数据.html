@@ -174,12 +174,12 @@
                                             <input type="checkbox" id="check-all"><span></span>
                                         </label>
                                     </th>
-                                    <th>序号</th>
-                                    <th>录入日期</th>
-                                    <th>目标医药费百分比</th>
-                                    <th>目标综合成本百分比</th>
-                                    <th>目标管理符合数值</th>
-                                    <th>操作</th>
+                                    <th nowrap="nowrap">序号</th>
+                                    <th nowrap="nowrap">录入日期</th>
+                                    <th nowrap="nowrap">目标医药费百分比</th>
+                                    <th nowrap="nowrap">目标综合成本百分比</th>
+                                    <th nowrap="nowrap">目标管理符合数值</th>
+                                    <th nowrap="nowrap">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -191,12 +191,12 @@
                                                 <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                             </label>
                                         </td>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ data.date|date:"Y-m-d" }}</td>
-                                        <td>{{ data.target_medical_expenses_rate }}</td>
-                                        <td>{{ data.target_comprehensive_cost_rate }}</td>
-                                        <td>{{ data.target_management_compliance_value }}</td>
-                                        <td>
+                                        <td nowrap="nowrap">{{ forloop.counter }}</td>
+                                        <td nowrap="nowrap">{{ data.date|date:"Y-m-d" }}</td>
+                                        <td nowrap="nowrap">{{ data.target_medical_expenses_rate }}</td>
+                                        <td nowrap="nowrap">{{ data.target_comprehensive_cost_rate }}</td>
+                                        <td nowrap="nowrap">{{ data.target_management_compliance_value }}</td>
+                                        <td nowrap="nowrap">
                                             <div class="btn-group">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify"><i class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i class="mdi mdi-window-close"></i></a>

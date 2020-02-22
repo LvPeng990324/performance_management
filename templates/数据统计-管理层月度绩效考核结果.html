@@ -69,23 +69,23 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>月份</th>
-                                    <th>交付率</th>
-                                    <th>成品率</th>
-                                    <th>医药费(万元)</th>
-                                    <th>当月挖掘成本(万元)</th>
-                                    <th>现场管理符合率</th>
+                                    <th nowrap="nowrap">月份</th>
+                                    <th nowrap="nowrap">交付率</th>
+                                    <th nowrap="nowrap">成品率</th>
+                                    <th nowrap="nowrap">医药费(万元)</th>
+                                    <th nowrap="nowrap">当月挖掘成本(万元)</th>
+                                    <th nowrap="nowrap">现场管理符合率</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for data in monthly_result %}
                                     <tr>
-                                        <td>{{ data.month }}</td>
-                                        <td>{{ data.delivery_rate|percentage }}</td>
-                                        <td>{{ data.well_done_rate|percentage }}</td>
-                                        <td>{{ data.medical_expenses }}</td>
-                                        <td>{{ data.month_dig_cost }}</td>
-                                        <td>{{ data.field_management_well_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.month }}</td>
+                                        <td nowrap="nowrap">{{ data.delivery_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.well_done_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.medical_expenses }}</td>
+                                        <td nowrap="nowrap">{{ data.month_dig_cost }}</td>
+                                        <td nowrap="nowrap">{{ data.field_management_well_rate|percentage }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

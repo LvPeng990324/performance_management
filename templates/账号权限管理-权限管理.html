@@ -94,12 +94,6 @@
                                             <span></span>
                                         </label>
                                     </td>
-                                    <td>
-                                        <label class="lyear-switch switch-solid switch-purple">
-                                            <input type="checkbox" id="manage_quarterly_sales_data" value="manage_quarterly_sales_data" name="permissions">
-                                            <span></span>
-                                        </label>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td>内控指标汇总</td>
@@ -241,12 +235,6 @@
                                                 <td>
                                                     <label class="lyear-switch switch-solid switch-cyan">
                                                         <input type="checkbox" value="view_quarterly_sales_data" name="permissions">
-                                                        <span></span>
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <label class="lyear-switch switch-solid switch-purple">
-                                                        <input type="checkbox" value="manage_quarterly_sales_data" name="permissions">
                                                         <span></span>
                                                     </label>
                                                 </td>
@@ -439,9 +427,9 @@
                                             <input type="checkbox" id="check-all"><span></span>
                                         </label>
                                     </th>
-                                    <th>角色名</th>
-                                    <th>管理用户</th>
-                                    <th>操作</th>
+                                    <th nowrap="nowrap">角色名</th>
+                                    <th nowrap="nowrap">管理用户</th>
+                                    <th nowrap="nowrap">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -453,7 +441,7 @@
                                                        value="{{ group.id }}"><span></span>
                                             </label>
                                         </td>
-                                        <th>{{ group.name }}</th>
+                                        <th nowrap="nowrap">{{ group.name }}</th>
                                         <td>
                                             <a class="btn btn-xs btn-default" href="{% url 'group_to_user' %}?group_id={{ group.id }}" title="添加用户"><i class="mdi mdi-plus"></i></a>
                                         </td>
