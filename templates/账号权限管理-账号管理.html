@@ -192,7 +192,7 @@
                     <form class="pull-right search-bar" method="post" action="{% url 'user_management' %}" role="form">
                         {% csrf_token %}
                         <div class="input-group m-b-10">
-                            <input type="text" class="form-control" placeholder="请输入部门名..." name="department" value="{{ department }}">
+                            <input type="text" class="form-control" placeholder="请输入部门关键词..." name="department" value="{{ department }}">
                             <span class="input-group-btn" id="basic-addon3">
                                 <button class="btn btn-default" type="submit">筛选部门</button>
                             </span>
