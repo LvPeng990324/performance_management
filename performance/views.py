@@ -196,9 +196,9 @@ def change_user(request):
 def admin_change_password(request):
     # 获取要更改密码的id
     change_id = request.POST.get('passwd_id')
-    user = User.objects.get(id=change_id).strip()
+    user = User.objects.get(id=change_id)
     # 获取新密码
-    password = request.POST.get('password')
+    password = request.POST.get('password').strip()
     # 设置新密码
     user.set_password(password)
     user.save()
