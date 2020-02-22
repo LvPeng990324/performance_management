@@ -579,8 +579,8 @@ def change_monthly_sales_data(request):
 @login_required
 @permission_required('performance.manage_internal_control_indicators', raise_exception=True)
 def show_internal_control_indicators(request):
-    # 从数据库中取出所有数据
-    internal_control_indicators = InternalControlIndicators.objects.all()
+    # 从数据库中取出所有数据，按时间倒序排序
+    internal_control_indicators = InternalControlIndicators.objects.all().order_by('-order_date')
     # 打包数据
     context = {
         'internal_control_indicators': internal_control_indicators,
@@ -1124,7 +1124,7 @@ def display_quarterly_sales_data(request):
 def display_internal_control_indicators(request):
     all_count = InternalControlIndicators.objects.all().count()
     page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators')
-    internal_control_indicators = InternalControlIndicators.objects.all()[
+    internal_control_indicators = InternalControlIndicators.objects.all().order_by('-order_date')[
                                   page_info.start():page_info.end()]
 
     # 打包数据
