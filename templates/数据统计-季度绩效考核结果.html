@@ -58,7 +58,7 @@
                         </div>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-success pull-right" data-toggle="modal"
-                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
+                                    data-target="#export"><i class="mdi mdi-file-excel"></i> 导出为Excel
                             </button>
                         </div>
                     </div>
@@ -68,23 +68,23 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>季度</th>
-                                    <th>营业额(万元)</th>
-                                    <th>营业费率</th>
-                                    <th>回款率</th>
-                                    <th>库存率</th>
-                                    <th>利润率</th>
+                                    <th nowrap="nowrap">季度</th>
+                                    <th nowrap="nowrap">营业额(万元)</th>
+                                    <th nowrap="nowrap">营业费率</th>
+                                    <th nowrap="nowrap">回款率</th>
+                                    <th nowrap="nowrap">库存率</th>
+                                    <th nowrap="nowrap">利润率</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for data in quarterly_result %}
                                     <tr>
-                                        <td>{{ data.quarter }}</td>
-                                        <td>{{ data.turnover }}</td>
-                                        <td>{{ data.operating_rate|percentage }}</td>
-                                        <td>{{ data.repaid_rate|percentage }}</td>
-                                        <td>{{ data.inventory_rate|percentage }}</td>
-                                        <td>{{ data.profit_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.quarter }}</td>
+                                        <td nowrap="nowrap">{{ data.turnover }}</td>
+                                        <td nowrap="nowrap">{{ data.operating_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.repaid_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.inventory_rate|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.profit_rate|percentage }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

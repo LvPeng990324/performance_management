@@ -64,23 +64,23 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>月份</th>
-                                    <th>营业额(万元)</th>
-                                    <th>营业费用(万元)</th>
-                                    <th>回款额(万元)</th>
-                                    <th>库存量</th>
-                                    <th>利润额(万元)</th>
+                                    <th nowrap="nowrap">月份</th>
+                                    <th nowrap="nowrap">营业额(万元)</th>
+                                    <th nowrap="nowrap">营业费用(万元)</th>
+                                    <th nowrap="nowrap">回款额(万元)</th>
+                                    <th nowrap="nowrap">库存量</th>
+                                    <th nowrap="nowrap">利润额(万元)</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for data in monthly_sales_data %}
                                     <tr>
-                                        <th scope="row">{{ data.month }}</th>
-                                        <td>{{ data.turnover }}</td>
-                                        <td>{{ data.operating_expenses }}</td>
-                                        <td>{{ data.amount_repaid }}</td>
-                                        <td>{{ data.inventory }}</td>
-                                        <td>{{ data.profit }}</td>
+                                        <th nowrap="nowrap">{{ data.month }}</th>
+                                        <td nowrap="nowrap">{{ data.turnover }}</td>
+                                        <td nowrap="nowrap">{{ data.operating_expenses }}</td>
+                                        <td nowrap="nowrap">{{ data.amount_repaid }}</td>
+                                        <td nowrap="nowrap">{{ data.inventory }}</td>
+                                        <td nowrap="nowrap">{{ data.profit }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

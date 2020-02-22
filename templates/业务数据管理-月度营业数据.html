@@ -243,15 +243,15 @@
                                         </label>
                                     </th>
                                     {% if current_year == '所有年份' %}
-                                    <th>年份</th>
+                                    <th nowrap="nowrap">年份</th>
                                     {% endif %}
-                                    <th>月份</th>
-                                    <th>营业额(万元)</th>
-                                    <th>营业费用(万元)</th>
-                                    <th>回款额(万元)</th>
-                                    <th>库存量</th>
-                                    <th>利润额(万元)</th>
-                                    <th>操作</th>
+                                    <th nowrap="nowrap">月份</th>
+                                    <th nowrap="nowrap">营业额(万元)</th>
+                                    <th nowrap="nowrap">营业费用(万元)</th>
+                                    <th nowrap="nowrap">回款额(万元)</th>
+                                    <th nowrap="nowrap">库存量</th>
+                                    <th nowrap="nowrap">利润额(万元)</th>
+                                    <th nowrap="nowrap">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -264,15 +264,15 @@
                                             </label>
                                         </td>
                                         {% if current_year == '所有年份' %}
-                                        <th>{{ data.year }}</th>
+                                        <th nowrap="nowrap">{{ data.year }}</th>
                                         {% endif %}
-                                        <th>{{ data.month }}</th>
-                                        <td>{{ data.turnover }}</td>
-                                        <td>{{ data.operating_expenses }}</td>
-                                        <td>{{ data.amount_repaid }}</td>
-                                        <td>{{ data.inventory }}</td>
-                                        <td>{{ data.profit }}</td>
-                                        <td>
+                                        <th nowrap="nowrap">{{ data.month }}</th>
+                                        <td nowrap="nowrap">{{ data.turnover }}</td>
+                                        <td nowrap="nowrap">{{ data.operating_expenses }}</td>
+                                        <td nowrap="nowrap">{{ data.amount_repaid }}</td>
+                                        <td nowrap="nowrap">{{ data.inventory }}</td>
+                                        <td nowrap="nowrap">{{ data.profit }}</td>
+                                        <td nowrap="nowrap">
                                             <div class="btn-group">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
