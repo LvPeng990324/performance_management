@@ -92,7 +92,8 @@
                             </table>
                         </div>
                         {% if monthly_result %}
-                            <div id="chart_line" class="chart_line"></div>
+                            <div id="chart_month_result_rate" class="chart_month_result_rate"></div>
+                            <div id="chart_month_result_amount" class="chart_month_result_amount"></div>
                         {% endif %}
                     </div>
                 </div>
@@ -104,7 +105,7 @@
 {% block js_content %}
     <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart_line'));
+        var myChart = echarts.init(document.getElementById('chart_month_result_rate'));
         option = {
             title: {
                 text: '{{ current_year }}年度各月份绩效考核结果',
@@ -114,7 +115,7 @@
                 left: 'center',
             },
             legend: {
-                data: ['交付率', '成品率', '医药费', '当月挖掘成本', '现场管理符合率'],
+                data: ['交付率', '成品率', '现场管理符合率'],
                 top: 'bottom',
             },
             toolbox: {
@@ -153,16 +154,61 @@
                 data: [{% for data in monthly_result %}{{ data.well_done_rate }}, {% endfor %}],
                 type: 'line'
             }, {
+                name: '现场管理符合率',
+                data: [{% for data in monthly_result %}{{ data.field_management_well_rate }}, {% endfor %}],
+                type: 'line'
+            },]
+        };
+        myChart.setOption(option);
+    </script>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('chart_month_result_amount'));
+        option = {
+            title: {
+                text: '{{ current_year }}年度各月份绩效考核结果',
+                textStyle: {
+                    fontSize: 22,
+                },
+                left: 'center',
+            },
+            legend: {
+                data: [ '医药费', '当月挖掘成本',],
+                top: 'bottom',
+            },
+            toolbox: {
+                feature: {
+                    magicType: {show: true, type: ['bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true},
+                },
+                padding: [0, 100]
+            },
+            grid: {
+                left: '6%',
+                right: '6%',
+                bottom: '8%',
+                containLabel: true,
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name: '月份',
+                type: 'category',
+                boundaryGap: false,
+                data: [{% for data in monthly_result %}'{{ data.month }}月',{% endfor %}]
+            },
+            yAxis: {
+                name: '%',
+                type: 'value',
+            },
+            series: [{
                 name: '医药费',
                 data: [{% for data in monthly_result %}{{ data.medical_expenses }}, {% endfor %}],
                 type: 'line'
             }, {
                 name: '当月挖掘成本',
                 data: [{% for data in monthly_result %}{{ data.month_dig_cost }}, {% endfor %}],
-                type: 'line'
-            }, {
-                name: '现场管理符合率',
-                data: [{% for data in monthly_result %}{{ data.field_management_well_rate }}, {% endfor %}],
                 type: 'line'
             },]
         };

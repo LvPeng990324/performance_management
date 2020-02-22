@@ -1,4 +1,11 @@
-.chart_line {
+.chart_month_result_rate {
+    width: 100%;
+    height: 600px;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+.chart_month_result_amount {
     width: 100%;
     height: 600px;
     margin-top: 3em;

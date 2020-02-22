@@ -133,7 +133,7 @@
                 name: '月份',
                 type: 'category',
                 boundaryGap: false,
-                data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+                data: [{% for data in monthly_sales_data %}'{{ data.month }}月', {% endfor %}]
             },
             yAxis: {
                 name: '万',
