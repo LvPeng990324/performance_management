@@ -402,18 +402,18 @@
 
                                         <td nowrap="nowrap">{{ data.order_date|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.order_number }}</td>
-                                        <td nowrap="nowrap">{{ data.order_money }}</td>
+                                        <td nowrap="nowrap">{{ data.order_money|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.target_well_done_rate|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.target_medical_expenses }}</td>
-                                        <td nowrap="nowrap">{{ data.target_comprehensive_cost }}</td>
+                                        <td nowrap="nowrap">{{ data.target_medical_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.target_management_compliance }}</td>
                                         <td nowrap="nowrap">{{ data.actual_delivery|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.finished_number|clear_none }}</td>
                                         <td nowrap="nowrap">{{ data.unfinished_number|clear_none }}</td>
                                         <td nowrap="nowrap">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.actual_medical_expenses|clear_none }}</td>
-                                        <td nowrap="nowrap">{{ data.actual_cost|clear_none }}</td>
+                                        <td nowrap="nowrap">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.actual_management_compliance|clear_none }}</td>
                                         <td nowrap="nowrap">
                                             <div class="btn-group-justified">

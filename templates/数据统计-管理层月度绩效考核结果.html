@@ -83,8 +83,8 @@
                                         <td nowrap="nowrap">{{ data.month }}</td>
                                         <td nowrap="nowrap">{{ data.delivery_rate|percentage }}</td>
                                         <td nowrap="nowrap">{{ data.well_done_rate|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.medical_expenses }}</td>
-                                        <td nowrap="nowrap">{{ data.month_dig_cost }}</td>
+                                        <td nowrap="nowrap">{{ data.medical_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ data.month_dig_cost|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.field_management_well_rate|percentage }}</td>
                                     </tr>
                                 {% endfor %}

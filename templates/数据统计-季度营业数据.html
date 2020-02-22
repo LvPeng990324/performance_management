@@ -76,11 +76,11 @@
                                 {% for data in quarterly_sales_data %}
                                     <tr>
                                         <th nowrap="nowrap">{{ data.quarter }}</th>
-                                        <td nowrap="nowrap">{{ data.turnover }}</td>
-                                        <td nowrap="nowrap">{{ data.operating_expenses }}</td>
-                                        <td nowrap="nowrap">{{ data.amount_repaid }}</td>
+                                        <td nowrap="nowrap">{{ data.turnover|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ data.operating_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ data.amount_repaid|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.inventory }}</td>
-                                        <td nowrap="nowrap">{{ data.profit }}</td>
+                                        <td nowrap="nowrap">{{ data.profit|floatformat:"2" }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

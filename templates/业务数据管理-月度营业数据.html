@@ -268,10 +268,10 @@
                                         {% endif %}
                                         <th nowrap="nowrap">{{ data.month }}</th>
                                         <td nowrap="nowrap">{{ data.turnover }}</td>
-                                        <td nowrap="nowrap">{{ data.operating_expenses }}</td>
-                                        <td nowrap="nowrap">{{ data.amount_repaid }}</td>
+                                        <td nowrap="nowrap">{{ data.operating_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ data.amount_repaid|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.inventory }}</td>
-                                        <td nowrap="nowrap">{{ data.profit }}</td>
+                                        <td nowrap="nowrap">{{ data.profit|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
