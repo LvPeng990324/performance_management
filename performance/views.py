@@ -179,6 +179,7 @@ def change_user(request):
     # 取出此账户并更新信息
     user = User.objects.get(id=change_id)
     user.extension.job_number = job_number
+    user.username = job_number
     user.last_name = name
     user.extension.department = department
     user.extension.telephone = telephone
