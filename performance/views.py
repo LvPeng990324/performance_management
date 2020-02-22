@@ -867,7 +867,33 @@ def delete_constant_data(request):
 @login_required
 @permission_required('performance.manage_constant_data', raise_exception=True)
 def change_constant_data(request):
-    pass
+    # 从前端获取数据
+    change_id = request.POST.get('change_id')
+    change_date = request.POST.get('date_m')
+    change_target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate_m'))
+    change_target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate_m'))
+    change_target_management_compliance_value = int(request.POST.get('target_management_compliance_value_m'))
+
+    date_list = change_date.split('-')
+    change_date = date(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]))
+
+    print(type(change_date))
+    # 从数据库中取出该数据
+    data = ConstantData.objects.get(id=change_id)
+    # 修改数据
+    data.date = change_date
+    data.target_medical_expenses_rate = change_target_medical_expenses_rate
+    data.target_comprehensive_cost_rate = change_target_comprehensive_cost_rate
+    data.target_management_compliance_value = change_target_management_compliance_value
+
+    # 保存更改
+    data.save()
+
+    # 写入成功提示
+    messages.success(request, '数据修改成功')
+
+    # 重定向展示页面
+    return redirect('show_constant_data')
 
 
 # 上传常量数据表格方法
@@ -893,7 +919,7 @@ def upload_constant_data(request):
 @permission_required('performance.view_monthly_performance', raise_exception=True)
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
-    years = list(InternalControlIndicators.objects.values_list('order_date', flat=True))
+    years = list(InternalControlIndicators.objects.values_list('actual_delivery', flat=True))
     year_list = set()
     for year in years:
         year_list.add(year.year)
