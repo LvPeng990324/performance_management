@@ -221,13 +221,13 @@
                                         <input type="checkbox" id="check-all"><span></span>
                                     </label>
                                 </th>
-                                <th nowrap="nowrap">部门</th>
-                                <th nowrap="nowrap">工号</th>
-                                <th nowrap="nowrap">姓名</th>
-                                <th nowrap="nowrap">手机</th>
-                                <th nowrap="nowrap">角色</th>
-                                <th nowrap="nowrap">上次登录时间</th>
-                                <th nowrap="nowrap">操作</th>
+                                <th nowrap="nowrap" class="text-center">部门</th>
+                                <th nowrap="nowrap" class="text-center">工号</th>
+                                <th nowrap="nowrap" class="text-center">姓名</th>
+                                <th nowrap="nowrap" class="text-center">手机</th>
+                                <th nowrap="nowrap" class="text-center">角色</th>
+                                <th nowrap="nowrap" class="text-center">上次登录时间</th>
+                                <th nowrap="nowrap" class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -238,23 +238,23 @@
                                             <input type="checkbox" name="ids[]" value="{{ user.id }}"><span></span>
                                         </label>
                                     </td>
-                                    <th nowrap="nowrap">{{ user.extension.department }}</th>
-                                    <th nowrap="nowrap">{{ user.extension.job_number }}</th>
-                                    <td nowrap="nowrap">{{ user.last_name }}</td>
-                                    <th nowrap="nowrap">{{ user.extension.telephone }}</th>
+                                    <th nowrap="nowrap" class="text-center">{{ user.extension.department }}</th>
+                                    <th nowrap="nowrap" class="text-center">{{ user.extension.job_number }}</th>
+                                    <td nowrap="nowrap" class="text-center">{{ user.last_name }}</td>
+                                    <th nowrap="nowrap" class="text-center">{{ user.extension.telephone }}</th>
                                     {% if user.is_superuser %}
-                                        <th nowrap="nowrap">超级管理员</th>
+                                        <th nowrap="nowrap" class="text-center">超级管理员</th>
                                     {% elif user.groups.all %}
-                                        <th nowrap="nowrap">
+                                        <th nowrap="nowrap" class="text-center">
                                         {% for group in user.groups.all %}
                                             {{ group }}
                                             <br>
                                         {% endfor %}
                                         </th>
                                     {% else %}
-                                        <th nowrap="nowrap"><p style="color: blue">未分配</p></th>
+                                        <th nowrap="nowrap" class="text-center"><p style="color: blue">未分配</p></th>
                                     {% endif %}
-                                    <th>{{ user.last_login }}</th>
+                                    <th class="text-center">{{ user.last_login }}</th>
                                     <td>
                                         <div class="btn-group-justified">
                                             <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i class="mdi mdi-pencil"></i></a>

@@ -427,9 +427,9 @@
                                             <input type="checkbox" id="check-all"><span></span>
                                         </label>
                                     </th>
-                                    <th nowrap="nowrap">角色名</th>
-                                    <th nowrap="nowrap">管理用户</th>
-                                    <th nowrap="nowrap">操作</th>
+                                    <th nowrap="nowrap" class="text-center">角色名</th>
+                                    <th nowrap="nowrap" class="text-center">管理用户</th>
+                                    <th nowrap="nowrap" class="text-center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -441,11 +441,11 @@
                                                        value="{{ group.id }}"><span></span>
                                             </label>
                                         </td>
-                                        <th nowrap="nowrap">{{ group.name }}</th>
-                                        <td>
+                                        <th nowrap="nowrap" class="text-center">{{ group.name }}</th>
+                                        <td class="text-center">
                                             <a class="btn btn-xs btn-default" href="{% url 'group_to_user' %}?group_id={{ group.id }}" title="添加用户"><i class="mdi mdi-plus"></i></a>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ group.id }}', {{ group|group_permissions }})"><i class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ group.id }}')"><i class="mdi mdi-window-close"></i></a>

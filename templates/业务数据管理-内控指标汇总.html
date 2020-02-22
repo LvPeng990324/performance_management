@@ -313,24 +313,24 @@
                                             <input type="checkbox" id="check-all"><span></span>
                                         </label>
                                     </th>
-                                    <th nowrap="nowrap">状态</th>
-                                    <th nowrap="nowrap">时间进度</th>
-                                    <th nowrap="nowrap">订单时间</th>
-                                    <th nowrap="nowrap">订单号</th>
-                                    <th nowrap="nowrap">订单额</th>
-                                    <th nowrap="nowrap">计划交期</th>
-                                    <th nowrap="nowrap">目标成品率</th>
-                                    <th nowrap="nowrap">目标医药费(万元)</th>
-                                    <th nowrap="nowrap">目标综合成本(万元)</th>
-                                    <th nowrap="nowrap">目标管理符合数</th>
-                                    <th nowrap="nowrap">实际交期</th>
-                                    <th nowrap="nowrap">完成数</th>
-                                    <th nowrap="nowrap">未完成数</th>
-                                    <th nowrap="nowrap">实际成品率</th>
-                                    <th nowrap="nowrap">实际医药费</th>
-                                    <th nowrap="nowrap">实际成本</th>
-                                    <th nowrap="nowrap">实际管理符合数</th>
-                                    <th nowrap="nowrap">操作</th>
+                                    <th nowrap="nowrap" class="text-center">状态</th>
+                                    <th nowrap="nowrap" class="text-center">时间进度</th>
+                                    <th nowrap="nowrap" class="text-center">订单时间</th>
+                                    <th nowrap="nowrap" class="text-center">订单号</th>
+                                    <th nowrap="nowrap" class="text-center">订单额</th>
+                                    <th nowrap="nowrap" class="text-center">计划交期</th>
+                                    <th nowrap="nowrap" class="text-center">目标成品率</th>
+                                    <th nowrap="nowrap" class="text-center">目标医药费(万元)</th>
+                                    <th nowrap="nowrap" class="text-center">目标综合成本(万元)</th>
+                                    <th nowrap="nowrap" class="text-center">目标管理符合数</th>
+                                    <th nowrap="nowrap" class="text-center">实际交期</th>
+                                    <th nowrap="nowrap" class="text-center">完成数</th>
+                                    <th nowrap="nowrap" class="text-center">未完成数</th>
+                                    <th nowrap="nowrap" class="text-center">实际成品率</th>
+                                    <th nowrap="nowrap" class="text-center">实际医药费</th>
+                                    <th nowrap="nowrap" class="text-center">实际成本</th>
+                                    <th nowrap="nowrap" class="text-center">实际管理符合数</th>
+                                    <th nowrap="nowrap" class="text-center">操作</th>
 
                                 </tr>
                                 </thead>
@@ -402,19 +402,19 @@
 
                                         <td nowrap="nowrap">{{ data.order_date|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.order_number }}</td>
-                                        <td nowrap="nowrap">{{ data.order_money|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.order_money|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                        <td nowrap="nowrap">{{ data.target_well_done_rate|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.target_medical_expenses|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap">{{ data.target_management_compliance }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_well_done_rate|percentage }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_medical_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_management_compliance }}</td>
                                         <td nowrap="nowrap">{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                        <td nowrap="nowrap">{{ data.finished_number|clear_none }}</td>
-                                        <td nowrap="nowrap">{{ data.unfinished_number|clear_none }}</td>
-                                        <td nowrap="nowrap">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap">{{ data.actual_management_compliance|clear_none }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.finished_number|clear_none }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.unfinished_number|clear_none }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
                                         <td nowrap="nowrap">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"

@@ -243,20 +243,20 @@
                                         </label>
                                     </th>
                                     {% if current_year == '所有年份' %}
-                                    <th nowrap="nowrap">年份</th>
+                                    <th nowrap="nowrap" class="text-center">年份</th>
                                     {% endif %}
-                                    <th nowrap="nowrap">月份</th>
-                                    <th nowrap="nowrap">营业额(万元)</th>
-                                    <th nowrap="nowrap">营业费用(万元)</th>
-                                    <th nowrap="nowrap">回款额(万元)</th>
-                                    <th nowrap="nowrap">库存量</th>
-                                    <th nowrap="nowrap">利润额(万元)</th>
-                                    <th nowrap="nowrap">操作</th>
+                                    <th nowrap="nowrap" class="text-center">月份</th>
+                                    <th nowrap="nowrap" class="text-right">营业额(万元)</th>
+                                    <th nowrap="nowrap" class="text-right">营业费用(万元)</th>
+                                    <th nowrap="nowrap" class="text-right">回款额(万元)</th>
+                                    <th nowrap="nowrap" class="text-right">库存量</th>
+                                    <th nowrap="nowrap" class="text-right">利润额(万元)</th>
+                                    <th nowrap="nowrap" class="text-center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for data in monthly_sales_data %}
-                                    <tr>
+                                    <tr class="text-right">
                                         <td>
                                             <label class="lyear-checkbox checkbox-primary">
                                                 <input type="checkbox" name="ids[]"
@@ -264,9 +264,9 @@
                                             </label>
                                         </td>
                                         {% if current_year == '所有年份' %}
-                                        <th nowrap="nowrap">{{ data.year }}</th>
+                                        <th nowrap="nowrap" class="text-center">{{ data.year }}</th>
                                         {% endif %}
-                                        <th nowrap="nowrap">{{ data.month }}</th>
+                                        <th nowrap="nowrap" class="text-center">{{ data.month }}</th>
                                         <td nowrap="nowrap">{{ data.turnover }}</td>
                                         <td nowrap="nowrap">{{ data.operating_expenses|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.amount_repaid|floatformat:"2" }}</td>

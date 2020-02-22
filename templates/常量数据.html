@@ -201,12 +201,12 @@
                                             <input type="checkbox" id="check-all"><span></span>
                                         </label>
                                     </th>
-                                    <th nowrap="nowrap">序号</th>
-                                    <th nowrap="nowrap">启用日</th>
-                                    <th nowrap="nowrap">目标医药费百分比</th>
-                                    <th nowrap="nowrap">目标综合成本百分比</th>
-                                    <th nowrap="nowrap">目标管理符合数值</th>
-                                    <th nowrap="nowrap">操作</th>
+                                    <th nowrap="nowrap" class="text-center">序号</th>
+                                    <th nowrap="nowrap" class="text-center">启用日</th>
+                                    <th nowrap="nowrap" class="text-center">目标医药费百分比</th>
+                                    <th nowrap="nowrap" class="text-center">目标综合成本百分比</th>
+                                    <th nowrap="nowrap" class="text-center">目标管理符合数值</th>
+                                    <th nowrap="nowrap" class="text-center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -218,12 +218,12 @@
                                                 <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                             </label>
                                         </td>
-                                        <td nowrap="nowrap">{{ forloop.counter }}</td>
-                                        <td nowrap="nowrap">{{ data.date|date:"Y-m-d" }}</td>
-                                        <td nowrap="nowrap">{{ data.target_medical_expenses_rate }}</td>
-                                        <td nowrap="nowrap">{{ data.target_comprehensive_cost_rate }}</td>
-                                        <td nowrap="nowrap">{{ data.target_management_compliance_value }}</td>
-                                        <td nowrap="nowrap">
+                                        <td nowrap="nowrap" class="text-center">{{ forloop.counter }}</td>
+                                        <td nowrap="nowrap" class="text-center">{{ data.date|date:"Y-m-d" }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_medical_expenses_rate }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_comprehensive_cost_rate }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.target_management_compliance_value }}</td>
+                                        <td nowrap="nowrap" class="text-center">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
