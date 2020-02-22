@@ -49,3 +49,9 @@ def progress(order_date, scheduled_delivery):
     print(((current_date - order_date).days / (scheduled_delivery - order_date).days)*100)
     return ((current_date - order_date).days / (scheduled_delivery - order_date).days)*100
 
+
+# 去除数据的小数部分
+@register.filter
+def to_int(data):
+    return int(data)
+
