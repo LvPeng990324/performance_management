@@ -65,17 +65,13 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if 'performance.manage_monthly_sales_data' in request.user.get_all_permissions or 'performance.manage_quarterly_sales_data' in request.user.get_all_permissions or 'performance.manage_internal_control_indicators' in request.user.get_all_permissions or 'performance.manage_constant_data' in request.user.get_all_permissions or request.user.is_superuser %}
+                        {% if 'performance.manage_monthly_sales_data' in request.user.get_all_permissions or 'performance.manage_internal_control_indicators' in request.user.get_all_permissions or 'performance.manage_constant_data' in request.user.get_all_permissions or request.user.is_superuser %}
                         <li class="nav-item nav-item-has-subnav {% block manage_data_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-collage"></i> 业务数据录入</a>
                             <ul class="nav nav-subnav">
                                 {% if 'performance.manage_monthly_sales_data' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_monthly_sales_data_active %}{% endblock %}"><a
                                         href="{% url 'show_monthly_sales_data' %}">月度营业数据</a></li>
-                                {% endif %}
-                                {% if 'performance.manage_quarterly_sales_data' in request.user.get_all_permissions or request.user.is_superuser %}
-                                <li class="{% block show_quarterly_sales_data_active %}{% endblock %}"><a
-                                        href="{% url 'show_quarterly_sales_data' %}">季度营业数据</a></li>
                                 {% endif %}
                                 {% if 'performance.manage_internal_control_indicators' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_internal_control_indicators_active %}{% endblock %}"><a
