@@ -71,14 +71,29 @@ def user_logout(request):
 @login_required
 @permission_required('performance.manage_user', raise_exception=True)
 def user_management(request):
-    # 获取所有用户信息
-    users = User.objects.all()
-    # 打包信息
-    context = {
-        'users': users,
-    }
-    # 引导前端页面
-    return render(request, '账号权限管理-账号管理.html', context=context)
+    # GET：无筛选访问
+    # POST：带部门筛选的访问
+    if request.method == 'GET':
+        # 获取所有用户信息
+        users = User.objects.all()
+        # 打包信息
+        context = {
+            'users': users,
+        }
+        # 引导前端页面
+        return render(request, '账号权限管理-账号管理.html', context=context)
+    else:
+        # 获取要筛选的部门名
+        department = request.POST.get('department')
+        # 筛选名称包含该字段的部门下所有员工
+        users = User.objects.filter(extension__department__contains=department)
+        # 打包信息
+        context = {
+            'users': users,
+            'department': department,
+        }
+        # 引导前端页面
+        return render(request, '账号权限管理-账号管理.html', context=context)
 
 
 # 新增账号方法
