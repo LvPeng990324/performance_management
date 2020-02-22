@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <h3 style="font-size: 300%;position: absolute;left: 50%;top: 40%;transform: translate(-30%, -50%);">
+                抱歉，您无权限执行此操作！<br>请向管理员申请相应的权限。<br>回到<a href="{% url 'index' %}">首页</a>
+            </h3>
+        </div>
+    </div>
+{% endblock %}
