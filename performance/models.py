@@ -46,7 +46,7 @@ class MonthlySalesData(models.Model):
     turnover = models.FloatField(verbose_name='营业额')
     operating_expenses = models.FloatField(verbose_name='营业费用')
     amount_repaid = models.FloatField(verbose_name='回款额')
-    inventory = models.FloatField(verbose_name='库存量')
+    inventory = models.IntegerField(verbose_name='库存量')
     profit = models.FloatField(verbose_name='利润额')
 
     class Meta:
@@ -64,7 +64,7 @@ class QuarterlySalesData(models.Model):
     turnover = models.FloatField(verbose_name='营业额')
     operating_expenses = models.FloatField(verbose_name='营业费用')
     amount_repaid = models.FloatField(verbose_name='回款额')
-    inventory = models.FloatField(verbose_name='库存量')
+    inventory = models.IntegerField(verbose_name='库存量')
     profit = models.FloatField(verbose_name='利润额')
 
     class Meta:
@@ -79,7 +79,7 @@ class QuarterlySalesData(models.Model):
 class InternalControlIndicators(models.Model):
     order_date = models.DateField(verbose_name='订单时间')
     order_number = models.CharField(max_length=100, verbose_name='订单号')
-    order_money = models.IntegerField(verbose_name='订单额')
+    order_money = models.FloatField(verbose_name='订单额')
     scheduled_delivery = models.DateField(verbose_name='计划交期')
     target_well_done_rate = models.FloatField(verbose_name='目标成品率')
     target_medical_expenses = models.FloatField(verbose_name='目标医药费')
@@ -90,8 +90,8 @@ class InternalControlIndicators(models.Model):
     finished_number = models.IntegerField(verbose_name='完成数', null=True)
     unfinished_number = models.IntegerField(verbose_name='未完成数', null=True)
     actual_well_done_rate = models.FloatField(verbose_name='实际成品率', null=True)
-    actual_medical_expenses = models.IntegerField(verbose_name='实际医药费', null=True)
-    actual_cost = models.IntegerField(verbose_name='实际成本', null=True)
+    actual_medical_expenses = models.FloatField(verbose_name='实际医药费', null=True)
+    actual_cost = models.FloatField(verbose_name='实际成本', null=True)
     actual_management_compliance = models.IntegerField(verbose_name='实际管理符合数', null=True)
 
     class Meta:
