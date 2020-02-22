@@ -148,15 +148,15 @@
             series: [{
                 name: '交付率',
                 data: [{% for data in monthly_result %}{{ data.delivery_rate }}, {% endfor %}],
-                type: 'line'
+                type: 'line',
             }, {
                 name: '成品率',
                 data: [{% for data in monthly_result %}{{ data.well_done_rate }}, {% endfor %}],
-                type: 'line'
+                type: 'line',
             }, {
                 name: '现场管理符合率',
                 data: [{% for data in monthly_result %}{{ data.field_management_well_rate }}, {% endfor %}],
-                type: 'line'
+                type: 'line',
             },]
         };
         myChart.setOption(option);
