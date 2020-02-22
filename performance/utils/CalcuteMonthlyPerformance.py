@@ -50,6 +50,8 @@ def get_c(need_year, need_month):
         actual_delivery__month=need_month,
     ).aggregate(sum_actual_well_done_rate=Sum('actual_well_done_rate'))
     c = c['sum_actual_well_done_rate']
+    if c is None:
+        c = 0
     # print(c)
     return c
 
@@ -61,7 +63,7 @@ def get_d(need_year, need_month):
         actual_delivery__month=need_month,
     ).aggregate(sum_target_medical_expenses=Sum('target_medical_expenses'))
     d = d['sum_target_medical_expenses']
-    # print(d)
+    print(d)
     return d
 
 
