@@ -144,34 +144,39 @@ def monthly_get_and_refresh(current_year):
                     MonthlyPerformance.objects.filter(year=year, month=month).delete()
                 error_message += '%s ' % month
                 continue
-            print('A=', A)
-            print('B=', B)
-            print('C=', C)
-            print('D=', D)
-            print('E=', E)
-            print('F=', F)
-            print('G=', G)
-            print('H=', H)
-            print('I=', I)
+            # print('A=', A)
+            # print('B=', B)
+            # print('C=', C)
+            # print('D=', D)
+            # print('E=', E)
+            # print('F=', F)
+            # print('G=', G)
+            # print('H=', H)
+            # print('I=', I)
         except AttributeError:
             obj = MonthlyPerformance.objects.filter(year=year, month=month)
             if obj:
                 MonthlyPerformance.objects.filter(year=year, month=month).delete()
             error_message += '%s ' % month
             continue
+        # 从数据库公式表中取到公式并计算
         try:
-            # 从数据库公式表中取到公式并计算
-            delivery_rate = round(eval(MonthlyFormula.objects.filter(
-                target_item='交付率').first().formula), 3)
-            well_done_rate = round(eval(MonthlyFormula.objects.filter(
-                target_item='成品率').first().formula), 3)
+            # 避免除0储错误
+            if B == 0:
+                delivery_rate = 0
+                well_done_rate = 0
+            else:
+                delivery_rate = round(eval(MonthlyFormula.objects.filter(
+                    target_item='交付率').first().formula), 3)
+                well_done_rate = round(eval(MonthlyFormula.objects.filter(
+                    target_item='成品率').first().formula), 3)
             medical_expenses = round(eval(MonthlyFormula.objects.filter(
                 target_item='医药费').first().formula), 3)
             month_dig_cost = round(eval(MonthlyFormula.objects.filter(
                 target_item='当月挖掘成本').first().formula), 3)
             field_management_well_rate = round(eval(MonthlyFormula.objects.filter(
                 target_item='现场管理符合率').first().formula), 3)
-            print(delivery_rate, well_done_rate, medical_expenses, month_dig_cost, field_management_well_rate)
+            # print(delivery_rate, well_done_rate, medical_expenses, month_dig_cost, field_management_well_rate)
 
             new_data = {
                 'year': year,
@@ -186,16 +191,16 @@ def monthly_get_and_refresh(current_year):
             if obj:
                 # 如果该月数据已存在，则更新
                 MonthlyPerformance.objects.filter(year=year, month=month).update(**new_data)
-                # print("%s年%s月 更新成功" % (year, month))
+                print("%s年%s月 更新成功" % (year, month))
             else:
                 MonthlyPerformance.objects.create(**new_data)
-                # print("%s年%s月 成功存入" % (year, month))
+                print("%s年%s月 成功存入" % (year, month))
             # 反馈成功信息
             success_message += '%s月' % month
-        # 公式出错
+            # 公式出错
         except:
-            # 删除所有数据
-            MonthlyPerformance.objects.all().delete()
+        # 删除所有数据
+            MonthlyPerformance.objects.filter(year=year).delete()
             error_message = '刷新失败！请检查公式！'
             return error_message
 
