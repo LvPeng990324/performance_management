@@ -30,7 +30,8 @@ def clear_none(data):
 def percentage(data):
     if not data:
         return data
-    res = '{}%'.format(data*100)
+    # res = '{}%'.format(data*100)
+    res = "%.1f%%"% (data * 100)
     return res
 
 
@@ -43,9 +44,5 @@ def progress(order_date, scheduled_delivery):
     if current_date > scheduled_delivery:
         return False
     # 计算百分数
-    print(order_date)
-    print(current_date)
-    print(scheduled_delivery)
-    print(((current_date - order_date).days / (scheduled_delivery - order_date).days)*100)
     return ((current_date - order_date).days / (scheduled_delivery - order_date).days)*100
 
