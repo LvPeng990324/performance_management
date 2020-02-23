@@ -66,15 +66,15 @@ def quarterly_get_and_refresh(current_year):
         try:
             # 从数据库公式表中取到公式并计算
             turnover = round(eval(QuarterlyFormula.objects.filter(
-                target_item='营业额').first().formula), 2)
+                target_item='营业额').first().formula), 3)
             operating_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='营业费率').first().formula), 2)
+                target_item='营业费率').first().formula), 3)
             repaid_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='回款率').first().formula), 2)
+                target_item='回款率').first().formula), 3)
             inventory_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='库存率').first().formula), 2)
+                target_item='库存率').first().formula), 3)
             profit_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='利润率').first().formula), 2)
+                target_item='利润率').first().formula), 3)
             # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
 
             new_data = {

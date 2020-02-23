@@ -162,15 +162,15 @@ def monthly_get_and_refresh(current_year):
         try:
             # 从数据库公式表中取到公式并计算
             delivery_rate = round(eval(MonthlyFormula.objects.filter(
-                target_item='交付率').first().formula), 2)
+                target_item='交付率').first().formula), 3)
             well_done_rate = round(eval(MonthlyFormula.objects.filter(
-                target_item='成品率').first().formula), 2)
+                target_item='成品率').first().formula), 3)
             medical_expenses = round(eval(MonthlyFormula.objects.filter(
-                target_item='医药费').first().formula), 2)
+                target_item='医药费').first().formula), 3)
             month_dig_cost = round(eval(MonthlyFormula.objects.filter(
-                target_item='当月挖掘成本').first().formula), 2)
+                target_item='当月挖掘成本').first().formula), 3)
             field_management_well_rate = round(eval(MonthlyFormula.objects.filter(
-                target_item='现场管理符合率').first().formula), 2)
+                target_item='现场管理符合率').first().formula), 3)
             print(delivery_rate, well_done_rate, medical_expenses, month_dig_cost, field_management_well_rate)
 
             new_data = {
