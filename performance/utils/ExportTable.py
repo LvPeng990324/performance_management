@@ -2,7 +2,7 @@
 
 import xlwt
 from io import BytesIO
-from datetime import datetime
+from datetime import date
 from django.http import HttpResponse
 from performance.models import MonthlySalesData
 from performance.models import QuarterlySalesData
@@ -31,7 +31,7 @@ def excel_response(data_list, sheet_name):
             # 写入一个单元格
             # 判断是不是datetime类型
             # 是的话就加日期样式写入
-            if isinstance(data, datetime):
+            if isinstance(data, date):
                 # 是日期类型，加入样式
                 worksheet.write(row_index, col_index, data, date_style)
             else:
@@ -111,7 +111,7 @@ def export_internal_control_indicators():
     data_list = []  # 用于存储所有数据
     temp_list = []  # 用于临时存储一行，最后存入data_list
     # 建立表头
-    temp_list = ['订单时间', '订单号', '计划交期', '目标成品率', '目标医药费(万元)', '目标综合成本(万元)', '目标管理符合数',
+    temp_list = ['订单时间', '订单号', '订单额', '计划交期', '目标成品率', '目标医药费(万元)', '目标综合成本(万元)', '目标管理符合数',
                  '实际交期', '完成数', '未完成数', '实际成品率', '实际医药费', '实际成本', '实际管理符合数']
     data_list.append(temp_list)
     temp_list = []
