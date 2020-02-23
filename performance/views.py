@@ -920,20 +920,23 @@ def upload_constant_data(request):
 @permission_required('performance.view_monthly_performance', raise_exception=True)
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
-    years = list(InternalControlIndicators.objects.values_list('actual_delivery', flat=True))
-    year_list = set()
-    for year in years:
-        year_list.add(year.year)
-    year_list = list(year_list)
-    year_list.sort(reverse=True)
+    dates = list(InternalControlIndicators.objects.values_list('actual_delivery', flat=True))
+    date_list=[]
+    for date in dates:
+        if date is not None:
+            date_list.append(date)
     # 如果没有年份数据，直接返回空数据
-    if not year_list:
-        # 打包空数据
+    if date_list.__len__() == 0:
         context = {
             'current_year': '无数据',
         }
         # 引导前端页面
         return render(request, '数据统计-管理层月度绩效考核结果.html', context=context)
+    year_list = set()
+    for date in date_list:
+        year_list.add(date.year)
+    year_list = list(year_list)
+    year_list.sort(reverse=True)
     # 如果是第一次访问，选取最新一年数据进行展示
     # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
     # 尝试获取年份
