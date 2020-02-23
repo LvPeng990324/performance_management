@@ -42,6 +42,14 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>管理层月度绩效考核结果（内控）</b></h4>
+                        <div class="btn-toolbar">
+                            <div class="btn-group-sm">
+                                <a class="btn btn-sm btn-default" href="#!" title="查看表格" data-toggle="tooltip"><i
+                                        class="mdi mdi-table-large"></i></a>
+                                <a class="btn btn-sm btn-default" href="#!" title="查看图表" data-toggle="tooltip"><i
+                                        class="mdi mdi-chart-line"></i></a>
+                            </div>
+                        </div>
                         <a href="{% url 'refresh_monthly_result' %}?select_year={{ current_year }}">刷新数据</a>
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
@@ -172,7 +180,7 @@
                 left: 'center',
             },
             legend: {
-                data: [ '医药费', '当月挖掘成本',],
+                data: ['医药费', '当月挖掘成本',],
                 top: 'bottom',
             },
             toolbox: {
