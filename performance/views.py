@@ -1124,24 +1124,107 @@ def display_quarterly_sales_data(request):
 @login_required
 @permission_required('performance.view_internal_control_indicators', raise_exception=True)
 def display_internal_control_indicators(request):
-    all_count = InternalControlIndicators.objects.all().count()
-    page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators')
-    internal_control_indicators = InternalControlIndicators.objects.all().order_by('-order_date')[
-                                  page_info.start():page_info.end()]
+    # GET为请求页面，展示所有数据
+    # POST为带时间段筛选请求，取出时间段内数据展示
+    if request.method == 'GET':
+        # 尝试获取选择的状态
+        # 如果没有或者是'所有状态'，就取出所有数据
+        # 如果有状态，就筛选出相应状态的订单
+        current_status = request.GET.get('current_status')
+        if current_status == '按时完成':
+            # 完成数为1
+            data = InternalControlIndicators.objects.filter(finished_number=1)
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 9999, '/display_internal_control_indicators')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        elif current_status == '尚未完成':
+            # 没有完成数
+            # 当前时间没超过计划交期
+            # 时间进度小于等于70%
+            data = InternalControlIndicators.objects.filter(finished_number=None)
+            # 获取当前时间
+            current_time = date.today()
+            # 遍历循环，不符合条件的排除掉
+            for temp in data:
+                # 计算时间进度百分比
+                percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
+                # 当前时间大于计划时间的排除
+                # 时间进度百分比超过0.7的排除
+                if current_time > temp.scheduled_delivery or percentage > 0.7:
+                    data = data.exclude(id=temp.id)
+            # 写入数据
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 9999,
+                                 '/display_internal_control_indicators')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        elif current_status == '逾期完成':
+            # 完成数为0
+            data = InternalControlIndicators.objects.filter(finished_number=0)
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 9999, '/display_internal_control_indicators')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        elif current_status == '快到交期':
+            # 没有完成数
+            # 当前时间没超过计划交期
+            # 时间进度大于70%
+            data = InternalControlIndicators.objects.filter(finished_number=None)
+            # 获取当前时间
+            current_time = date.today()
+            # 遍历循环，不符合条件的排除掉
+            for temp in data:
+                # 计算时间进度百分比
+                percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
+                # 当前时间大于计划时间的排除
+                # 时间进度百分比未超过0.7的排除
+                if current_time > temp.scheduled_delivery or percentage <= 0.7:
+                    data = data.exclude(id=temp.id)
+            # 写入数据
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 9999,
+                                 '/display_internal_control_indicators')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        elif current_status == '已经逾期':
+            # 没有完成数
+            # 当前时间在计划交期之后
+            data = InternalControlIndicators.objects.filter(finished_number=None)
+            # 获取当前时间
+            current_time = date.today()
+            # 遍历判断，不符合条件的排除掉
+            for temp in data:
+                # 判断当前时间是否在计划交期之后
+                # 是的话就pass
+                # 不是就排除掉
+                if current_time > temp.scheduled_delivery:
+                    print(current_time)
+                    print(temp.scheduled_delivery)
+                    pass
+                else:
+                    data = data.exclude(id=temp.id)
+            # 写入数据
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 9999, '/display_internal_control_indicators')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        else:
+            # 取出所有订单信息
+            data = InternalControlIndicators.objects.all()
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+            # 标记当前状态
+            current_status = '所有状态'
 
-    # 打包数据
-    context = {
-        'internal_control_indicators': internal_control_indicators,
-        'page_info': page_info,
-    }
-    # 引导前端页面
-    return render(request, '数据统计-内控指标汇总.html', context=context)
-    # 从数据库中取出所有数据
-    # internal_control_indicators = InternalControlIndicators.objects.all()
-    # 打包数据
-    # context = {
-    #     'internal_control_indicators': internal_control_indicators,
-    # }
+
+        # 打包数据
+        context = {
+            'internal_control_indicators': internal_control_indicators,
+            'page_info': page_info,
+            'current_status': current_status,
+        }
+        # 引导前端页面
+        return render(request, '数据统计-内控指标汇总.html', context=context)
+    else:
+        # 根据时间筛选
+        pass
 
 
 # 导出月度营业数据excel

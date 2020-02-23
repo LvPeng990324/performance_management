@@ -35,20 +35,31 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>内控指标汇总</b></h4>
-                        <label for="year" class="control-label">年份：</label>
-                        <select name="type" class="form-control" id="year">
-                            <option value="2015">2015</option>
-                            <option value="2016">2016</option>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                        </select>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ current_status }} <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                              <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
+                                  <a href="{% url 'display_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
+                              </li>
+                              <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
+                                  <a href="{% url 'display_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
+                              </li>
+                              <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
+                                  <a href="{% url 'display_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
+                              </li>
+                              <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
+                                  <a href="{% url 'display_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
+                              </li>
+                              <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
+                                  <a href="{% url 'display_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
+                              </li>
+                              <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
+                                  <a href="{% url 'display_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
+                              </li>
+                          </ul>
+                        </div>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel</button>
                         </div>
