@@ -878,7 +878,6 @@ def change_constant_data(request):
     date_list = change_date.split('-')
     change_date = date(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]))
 
-    print(type(change_date))
     # 从数据库中取出该数据
     data = ConstantData.objects.get(id=change_id)
     # 修改数据
@@ -1196,7 +1195,7 @@ def month_result_formula(request):
         MonthlyFormula.objects.create(target_item='成品率', formula='C/B')
         MonthlyFormula.objects.create(target_item='医药费', formula='D-E')
         MonthlyFormula.objects.create(target_item='当月挖掘成本', formula='F-G')
-        MonthlyFormula.objects.create(target_item='现场管理符合率', formula='H-I')
+        MonthlyFormula.objects.create(target_item='现场管理符合率', formula='H/I')
         delivery_rate = MonthlyFormula.objects.filter(target_item='交付率').first().formula
         well_done_rate = MonthlyFormula.objects.filter(target_item='成品率').first().formula
         medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
@@ -1264,7 +1263,7 @@ def change_month_formula(request):
     MonthlyFormula.objects.filter(target_item='成品率').update(formula=well_done_rate)
     MonthlyFormula.objects.filter(target_item='医药费').update(formula=medical_expenses)
     MonthlyFormula.objects.filter(target_item='内控综合成本').update(formula=overall_cost)
-    MonthlyFormula.objects.filter(target_item='现场管理').update(formula=field_management)
+    MonthlyFormula.objects.filter(target_item='现场管理符合率').update(formula=field_management)
     messages.success(request, '公式更改成功')
     return redirect('month_result_formula')
 

@@ -1,28 +1,39 @@
 .chart_month_result_rate {
     width: 100%;
-    height: 600px;
+    height: 450px;
     margin-top: 3em;
     margin-bottom: 3em;
 }
-
 .chart_month_result_amount {
     width: 100%;
-    height: 600px;
+    height: 450px;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+.chart_month_data_amount{
+    width: 100%;
+    height: 450px;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+.chart_line {
+    width: 100%;
+    height: 450px;
     margin-top: 3em;
     margin-bottom: 3em;
 }
 
 .chart_bar {
     width: 100%;
-    height: 600px;
+    height: 550px;
     margin-top: 3em;
     margin-bottom: 3em;
 }
 
 .chart_pie {
     width: 360px;
-    height: 280px;
+    height: 270px;
     display: inline-block;
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }

@@ -42,9 +42,11 @@
                         <h4><b>季度营业数据</b></h4>
                         <div class="btn-toolbar">
                             <div class="btn-group-sm">
-                                <a class="btn btn-sm btn-default" href="#!" title="查看表格" data-toggle="tooltip"><i
+                                <a id="show_table" class="btn btn-sm btn-default" href="javascript:void(0)" title="查看表格"
+                                   data-toggle="tooltip"><i
                                         class="mdi mdi-table-large"></i></a>
-                                <a class="btn btn-sm btn-default" href="#!" title="查看图表" data-toggle="tooltip"><i
+                                <a id="show_charts" class="btn btn-sm btn-default" href="javascript:void(0)"
+                                   title="查看图表" data-toggle="tooltip"><i
                                         class="mdi mdi-chart-line"></i></a>
                             </div>
                         </div>
@@ -68,7 +70,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive text-right">
+                        <div id="table_display" class="table-responsive text-right">
                             <table class="table table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -95,11 +97,11 @@
                             </table>
                         </div>
                         {% if quarterly_sales_data %}
-                            <div id="chart_turnover" class="chart_pie"></div>
-                            <div id="chart_operating_expenses" class="chart_pie"></div>
-                            <div id="chart_amount_repaid" class="chart_pie"></div>
-                            <div id="chart_inventory" class="chart_pie"></div>
-                            <div id="chart_profit" class="chart_pie"></div>
+                            <div id="chart_turnover" class="chart_pie hidden"></div>
+                            <div id="chart_operating_expenses" class="chart_pie hidden"></div>
+                            <div id="chart_amount_repaid" class="chart_pie hidden"></div>
+                            <div id="chart_inventory" class="chart_pie hidden"></div>
+                            <div id="chart_profit" class="chart_pie hidden"></div>
                         {% endif %}
                     </div>
                 </div>
@@ -110,8 +112,11 @@
 
 {% block js_content %}
     <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart_turnover'));
+        var myChart = $("#chart_turnover")[0];
+        myChart.style.width = ($("#table_display").width())/3.1 + 'px';
+        chartObj = echarts.init(myChart);
         var option = {
             title: {
                 text: '营业额',
@@ -151,10 +156,12 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        chartObj.setOption(option);
     </script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart_operating_expenses'));
+        var myChart = $("#chart_operating_expenses")[0];
+        myChart.style.width = ($("#table_display").width())/3.1 + 'px';
+        chartObj = echarts.init(myChart);
         var option = {
             title: {
                 text: '营业费用',
@@ -194,10 +201,12 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        chartObj.setOption(option);
     </script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart_amount_repaid'));
+        var myChart = $("#chart_amount_repaid")[0];
+        myChart.style.width = ($("#table_display").width())/3.1 + 'px';
+        chartObj = echarts.init(myChart);
         var option = {
             title: {
                 text: '回款额',
@@ -237,10 +246,12 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        chartObj.setOption(option);
     </script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart_inventory'));
+        var myChart = $("#chart_inventory")[0];
+        myChart.style.width = ($("#table_display").width())/3.1 + 'px';
+        chartObj = echarts.init(myChart);
         var option = {
             title: {
                 text: '库存量',
@@ -280,10 +291,12 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        chartObj.setOption(option);
     </script>
     <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('chart_profit'));
+        var myChart = $("#chart_profit")[0];
+        myChart.style.width = ($("#table_display").width())/3.1 + 'px';
+        chartObj = echarts.init(myChart);
         var option = {
             title: {
                 text: '利润额',
@@ -323,6 +336,24 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        chartObj.setOption(option);
+    </script>
+    <script type="text/javascript">
+        $('#show_charts').click(function () {
+            $('#chart_turnover').removeClass('hidden');
+            $('#chart_operating_expenses').removeClass('hidden');
+            $('#chart_amount_repaid').removeClass('hidden');
+            $('#chart_inventory').removeClass('hidden');
+            $('#chart_profit').removeClass('hidden');
+            $('#table_display').addClass('hidden');
+        })
+        $('#show_table').click(function () {
+            $('#table_display').removeClass('hidden');
+            $('#chart_turnover').addClass('hidden');
+            $('#chart_operating_expenses').addClass('hidden');
+            $('#chart_amount_repaid').addClass('hidden');
+            $('#chart_inventory').addClass('hidden');
+            $('#chart_profit').addClass('hidden');
+        })
     </script>
 {% endblock %}
