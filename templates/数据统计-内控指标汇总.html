@@ -102,7 +102,7 @@
                                                 </td>
                                             {% endif %}
                                         {% else %}
-                                            {% if data.order_date|progress:data.scheduled_delivery %}
+                                            {% if data.order_date|progress:data.scheduled_delivery != -1 %}
                                                 {% if data.order_date|progress:data.scheduled_delivery <= 70 %}
                                                     <td nowrap="nowrap">
                                                         <span class="label label-primary">尚未完成</span>
