@@ -28,10 +28,10 @@ def clear_none(data):
 # 将数字转化为百分数
 @register.filter
 def percentage(data):
-    if not data:
+    if data is None:
         return data
     # res = '{}%'.format(data*100)
-    res = "%.1f%%"% (data * 100)
+    res = "%.1f%%" % (data * 100)
     return res
 
 
