@@ -278,30 +278,42 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>内控指标汇总</b></h4>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ current_status }} <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu">
-                              <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
-                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
-                              </li>
-                              <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
-                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
-                              </li>
-                              <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
-                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
-                              </li>
-                              <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
-                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
-                              </li>
-                              <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
-                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
-                              </li>
-                              <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
-                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
-                              </li>
-                          </ul>
+                        <div class="input-group">
+                            <from class="pull-right search-bar" method="post" action="#!" role="form">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                            {{ current_status }} <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="..." placeholder="请输入订单号...">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default">搜索</button>
+                                    </div>
+                                </div>
+                            </from>
                         </div>
                         <div class="example-box">
                             <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal"
@@ -316,6 +328,43 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <!--手风琴效果-->
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                           aria-controls="collapseThree">
+                                            订单日期筛选
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <form method="post" action="{% url 'user_management' %}" role="form">
+                                            <div class="input-daterange input-group">
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange1" name="example-daterange1"
+                                                       placeholder="订单时间">
+                                                <span class="input-group-addon"><i
+                                                        class="mdi mdi-chevron-right"></i></span>
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange2" name="example-daterange2"
+                                                       placeholder="计划交期">
+                                                <span class="input-group-btn" id="basic-addon3">
+                                                <button class="btn btn-default" type="submit">筛选订单</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--手风琴效果 End-->
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
@@ -414,19 +463,30 @@
 
                                         <td nowrap="nowrap">{{ data.order_date|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.order_number }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.order_money|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.order_money|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_well_done_rate|percentage }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_medical_expenses|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_management_compliance }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_well_done_rate|percentage }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_medical_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_management_compliance }}</td>
                                         <td nowrap="nowrap">{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.finished_number|clear_none }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.unfinished_number|clear_none }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.finished_number|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.unfinished_number|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
                                         <td nowrap="nowrap">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
