@@ -46,9 +46,9 @@ def get_e(need_year, need_quarter):
 
 
 def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.values_list('year', flat=True).distinct()):
-    print(year_list)
+    # print(year_list)
     for year in year_list:
-        print(year)
+        # print(year)
         success_message = ''
         error_message = ''
         for quarter in range(1, 5):
@@ -93,10 +93,10 @@ def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.values_list('ye
                 if obj:
                     # 如果该月数据已存在，则更新
                     QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
-                    print("%s年%s季度 更新成功" % (year, quarter))
+                    # print("%s年%s季度 更新成功" % (year, quarter))
                 else:
                     QuarterlyPerformance.objects.create(**new_data)
-                    print("%s年%s季度 成功存入" % (year, quarter))
+                    # print("%s年%s季度 成功存入" % (year, quarter))
                 success_message += '%s ' % quarter
             # 公式出错
             except:
