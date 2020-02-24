@@ -40,46 +40,48 @@
                         <h4><b>内控指标汇总</b></h4>
                     </div>
                     <div class="card-toolbar clearfix">
-                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                        <form class="pull-right search-bar" method="post" action="{% url 'display_internal_control_indicators' %}" role="form">
+                        {% csrf_token %}
                             <div class="input-group-btn">
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                {{ current_status }} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
-                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
-                                </li>
-                                <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
-                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
-                                </li>
-                                <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
-                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
-                                </li>
-                                <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
-                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
-                                </li>
-                                <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
-                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
-                                </li>
-                                <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
-                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
-                                </li>
-                            </ul>
+                                                aria-haspopup="true" aria-expanded="false">
+                                            {{ current_status }} <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
+                                                <a href="{% url 'display_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
+                                                <a href="{% url 'display_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
+                                                <a href="{% url 'display_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
+                                                <a href="{% url 'display_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
+                                                <a href="{% url 'display_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
+                                            </li>
+                                            <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
+                                                <a href="{% url 'display_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <input type="text" class="form-control" aria-label="..." placeholder="请输入订单号...">
+                                    <input hidden name="action" value="订单号搜索">
+                                    <input type="text" class="form-control" name="order_number" aria-label="..." placeholder="请输入订单号...">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default">搜索</button>
+                                        <button type="submit" class="btn btn-default">搜索</button>
                                     </div>
                                 </div>
 
                             </div>
-                        </from>
+                        </form>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
+                                    data-target="#export"><i class="mdi mdi-file-excel"></i> 导出为Excel
                             </button>
                         </div>
                     </div>
@@ -100,16 +102,18 @@
                                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="headingThree">
                                     <div class="panel-body">
-                                        <form method="post" action="{% url 'user_management' %}" role="form">
+                                        <form method="post" action="{% url 'display_internal_control_indicators' %}" role="form">
+                                            {% csrf_token %}
+                                            <input hidden name="action" value="订单时间筛选">
                                             <div class="input-daterange input-group">
                                                 <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange1" name="example-daterange1"
-                                                       placeholder="订单时间">
+                                                       type="text" id="example-daterange1" name="start_date"
+                                                       placeholder="订单时间起点">
                                                 <span class="input-group-addon"><i
                                                         class="mdi mdi-chevron-right"></i></span>
                                                 <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange2" name="example-daterange2"
-                                                       placeholder="计划交期">
+                                                       type="text" id="example-daterange2" name="end_date"
+                                                       placeholder="订单时间终点">
                                                 <span class="input-group-btn" id="basic-addon3">
                                                 <button class="btn btn-default" type="submit">筛选订单</button>
                                                 </span>

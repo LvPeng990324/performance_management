@@ -699,6 +699,9 @@ def show_internal_control_indicators(request):
             order_number = request.POST.get('order_number')
             # 筛选订单信息
             data = InternalControlIndicators.objects.filter(order_number__contains=order_number)
+        # 如果出现未知动作，重载页面
+        else:
+            return redirect('show_internal_control_indicators')
 
         # 写入数据
         all_count = data.count()
@@ -1352,8 +1355,45 @@ def display_internal_control_indicators(request):
         # 引导前端页面
         return render(request, '数据统计-内控指标汇总.html', context=context)
     else:
-        # 根据时间筛选
-        pass
+        # 获取当前动作
+        current_action = request.POST.get('action')
+        # 判断动作
+        if current_action == '订单时间筛选':
+            # 根据订单时间筛选
+            # 从前端获取起止时间
+            start_date = str(request.POST.get('start_date')).split('-')
+            end_date = str(request.POST.get('end_date')).split('-')
+            # 转换日期对象
+            start_date = date(year=int(start_date[0]), month=int(start_date[1]), day=int(start_date[2]))
+            end_date = date(year=int(end_date[0]), month=int(end_date[1]), day=int(end_date[2]))
+            # 筛选此时间段内的订单数据
+            data = InternalControlIndicators.objects.filter(order_date__gte=start_date,
+                                                            scheduled_delivery__lte=end_date)
+        elif current_action == '订单号搜索':
+            # 根据订单号搜索
+            # 获取搜索用订单号
+            order_number = request.POST.get('order_number')
+            # 筛选订单信息
+            data = InternalControlIndicators.objects.filter(order_number__contains=order_number)
+        # 如果出现未知动作，重载页面
+        else:
+            return redirect('display_internal_control_indicators')
+
+        # 写入数据
+        all_count = data.count()
+        page_info = PageInfo(request.GET.get('page'), all_count, 9999,
+                             '/show_internal_control_indicators/?')
+        internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        # 记录当前状态
+        current_status = '所有状态'
+        # 打包数据
+        context = {
+            'internal_control_indicators': internal_control_indicators,
+            'page_info': page_info,
+            'current_status': current_status,
+        }
+        # 引导前端页面
+        return render(request, '数据统计-内控指标汇总.html', context=context)
 
 
 # 导出月度营业数据excel
