@@ -24,7 +24,7 @@ class PageInfo(object):
         if self.current_page == 1:
             first_page = "<li><a href='javascript:void(0)'>首页</a></li>"
         else:
-            first_page = "<li><a href='%s?page=1'>首页</a></li>" % self.base_url
+            first_page = "<li><a href='%spage=1'>首页</a></li>" % self.base_url
         page_list.append(first_page)
         half = int((self.show_page - 1) / 2)
         # 如果数据总页数<最大展示页数
@@ -48,25 +48,25 @@ class PageInfo(object):
             prev_page = "<li><a href='javascript:void(0)'>上一页</a></li>"
             page_list.append(prev_page)
         else:
-            prev_page = "<li><a href='%s?page=%s'>上一页</a></li>" % (self.base_url, self.current_page - 1)
+            prev_page = "<li><a href='%spage=%s'>上一页</a></li>" % (self.base_url, self.current_page - 1)
             page_list.append(prev_page)
         for i in range(begin, stop):
             if i == self.current_page:
                 temp = "<li class='active'><a href='javascript:void(0)'>%s</a></li>" % i
             else:
-                temp = "<li><a href='%s?page=%s'>%s</a></li>" % (self.base_url, i, i)
+                temp = "<li><a href='%spage=%s'>%s</a></li>" % (self.base_url, i, i)
             page_list.append(temp)
 
         if self.current_page >= self.all_page:
             next_page = "<li><a href='javascript:void(0)'>下一页</a></li>"
             page_list.append(next_page)
         else:
-            next_page = "<li><a href='%s?page=%s'>下一页</a></li>" % (self.base_url, self.current_page + 1)
+            next_page = "<li><a href='%spage=%s'>下一页</a></li>" % (self.base_url, self.current_page + 1)
             page_list.append(next_page)
         # 加入尾页
         if self.current_page == self.all_page:
             last_page = "<li><a href='javascript:void(0)'>尾页</a></li>"
         else:
-            last_page = "<li><a href='%s?page=%s'>尾页</a></li>" % (self.base_url, self.all_page)
+            last_page = "<li><a href='%spage=%s'>尾页</a></li>" % (self.base_url, self.all_page)
         page_list.append(last_page)
         return ' '.join(page_list)

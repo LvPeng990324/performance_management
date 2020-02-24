@@ -1135,7 +1135,8 @@ def display_internal_control_indicators(request):
             # 完成数为1
             data = InternalControlIndicators.objects.filter(finished_number=1)
             all_count = data.count()
-            page_info = PageInfo(request.GET.get('page'), all_count, 9999, '/display_internal_control_indicators')
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/display_internal_control_indicators/?current_status=按时完成&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         elif current_status == '尚未完成':
             # 没有完成数
@@ -1154,14 +1155,15 @@ def display_internal_control_indicators(request):
                     data = data.exclude(id=temp.id)
             # 写入数据
             all_count = data.count()
-            page_info = PageInfo(request.GET.get('page'), all_count, 9999,
-                                 '/display_internal_control_indicators')
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/display_internal_control_indicators/?current_status=尚未完成&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         elif current_status == '逾期完成':
             # 完成数为0
             data = InternalControlIndicators.objects.filter(finished_number=0)
             all_count = data.count()
-            page_info = PageInfo(request.GET.get('page'), all_count, 9999, '/display_internal_control_indicators')
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/display_internal_control_indicators/?current_status=逾期完成&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         elif current_status == '快到交期':
             # 没有完成数
@@ -1180,8 +1182,8 @@ def display_internal_control_indicators(request):
                     data = data.exclude(id=temp.id)
             # 写入数据
             all_count = data.count()
-            page_info = PageInfo(request.GET.get('page'), all_count, 9999,
-                                 '/display_internal_control_indicators')
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/display_internal_control_indicators/?current_status=快到交期&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         elif current_status == '已经逾期':
             # 没有完成数
@@ -1195,20 +1197,19 @@ def display_internal_control_indicators(request):
                 # 是的话就pass
                 # 不是就排除掉
                 if current_time > temp.scheduled_delivery:
-                    print(current_time)
-                    print(temp.scheduled_delivery)
                     pass
                 else:
                     data = data.exclude(id=temp.id)
             # 写入数据
             all_count = data.count()
-            page_info = PageInfo(request.GET.get('page'), all_count, 9999, '/display_internal_control_indicators')
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/display_internal_control_indicators/?current_status=已经逾期&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         else:
             # 取出所有订单信息
             data = InternalControlIndicators.objects.all()
             all_count = data.count()
-            page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators')
+            page_info = PageInfo(request.GET.get('page'), all_count, 15, '/display_internal_control_indicators/?')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
             # 标记当前状态
             current_status = '所有状态'
