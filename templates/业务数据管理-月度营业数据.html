@@ -173,30 +173,43 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>月度营业数据管理</b></h4>
-                       <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ current_year }} <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu">
-                          <li class="{% ifequal current_year '所有年份' %}active{% endifequal %}">
-                              <a href="{% url 'show_monthly_sales_data' %}?current_year=所有年份">所有年份</a>
-                          </li>
-                          {% for year in year_list %}
-                              <li class="{% ifequal current_year year.year %}active{% endifequal %}">
-                                  <a href="{% url 'show_monthly_sales_data' %}?current_year={{ year.year }}">{{ year.year }}</a>
-                              </li>
-                          {% endfor %}
-                      </ul>
                     </div>
-                        <div class="example-box">
-                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
+                    <div class="card-toolbar clearfix">
+                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                            <div class="input-group-btn">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{ current_year }} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li class="{% ifequal current_year '所有年份' %}active{% endifequal %}">
+                                                    <a href="{% url 'show_monthly_sales_data' %}?current_year=所有年份">所有年份</a>
+                                                </li>
+                                                {% for year in year_list %}
+                                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}">
+                                                        <a href="{% url 'show_monthly_sales_data' %}?current_year={{ year.year }}">{{ year.year }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </from>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
+                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
                             </button>
-                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
                                     data-target="#export"><i class="mdi mdi-file-excel"></i> 导入表格
                             </button>
-                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
+                            <button type="button" class="btn btn-danger m-r-5" data-toggle="modal"
+                                    data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
                             </button>
                         </div>
                     </div>
@@ -211,7 +224,7 @@
                                         </label>
                                     </th>
                                     {% if current_year == '所有年份' %}
-                                    <th nowrap="nowrap" class="text-center">年份</th>
+                                        <th nowrap="nowrap" class="text-center">年份</th>
                                     {% endif %}
                                     <th nowrap="nowrap" class="text-center">月份</th>
                                     <th nowrap="nowrap" class="text-right">营业额(万元)</th>
@@ -232,7 +245,7 @@
                                             </label>
                                         </td>
                                         {% if current_year == '所有年份' %}
-                                        <th nowrap="nowrap" class="text-center">{{ data.year }}</th>
+                                            <th nowrap="nowrap" class="text-center">{{ data.year }}</th>
                                         {% endif %}
                                         <th nowrap="nowrap" class="text-center">{{ data.month }}</th>
                                         <td nowrap="nowrap">{{ data.turnover }}</td>
@@ -333,19 +346,19 @@
     <!-- 年月日期选择器 -->
     <script src="{% static 'js/laydate/laydate.js' %}"></script>
     <script>
-    lay('#version').html('-v'+ laydate.v);
-    //执行一个laydate实例
-    laydate.render({
-      elem: '#date_n'
-      ,type: 'month'
-    });
+        lay('#version').html('-v' + laydate.v);
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#date_n'
+            , type: 'month'
+        });
     </script>
     <script>
-    lay('#version').html('-v'+ laydate.v);
-    //执行一个laydate实例
-    laydate.render({
-      elem: '#id_change_date'
-      ,type: 'month'
-    });
+        lay('#version').html('-v' + laydate.v);
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#id_change_date'
+            , type: 'month'
+        });
     </script>
 {% endblock %}

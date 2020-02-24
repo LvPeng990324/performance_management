@@ -51,7 +51,12 @@
                             </div>
                         </div>
                         <a href="{% url 'refresh_quarterly_result' %}?select_year={{ current_year }}">刷新数据</a>
-                        <div class="input-group-btn">
+
+
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                            <div class="input-group-btn">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="false" aria-expanded="true">
                                 {{ current_year }} <span class="caret"></span>
@@ -65,13 +70,13 @@
 
                             </ul>
                         </div>
-                        <div class="toolbar-btn-action">
-                            <button type="button" class="btn btn-success pull-right" data-toggle="modal"
+                        </from>
+                       <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-success" data-toggle="modal"
                                     data-target="#export"><i class="mdi mdi-file-excel"></i> 导出为Excel
                             </button>
                         </div>
                     </div>
-
                     <div class="card-body">
                         <div id="table_display" class="table-responsive text-right">
                             <table class="table table-striped table-hover">

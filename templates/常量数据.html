@@ -166,32 +166,44 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>常量数据</b></h4>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                年份 <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#!">2015</a></li>
-                                <li><a href="#!">2016</a></li>
-                                <li><a href="#!">2018</a></li>
-                                <li><a href="#!">2019</a></li>
-                                <li><a href="#!">2020</a></li>
-                                <li><a href="#!">2021</a></li>
-                            </ul>
-                        </div>
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                            <div class="input-group-btn">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                年份 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#!">2015</a></li>
+                                                <li><a href="#!">2016</a></li>
+                                                <li><a href="#!">2018</a></li>
+                                                <li><a href="#!">2019</a></li>
+                                                <li><a href="#!">2020</a></li>
+                                                <li><a href="#!">2021</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </from>
                         <div class="toolbar-btn-action">
-                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
+                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
                             </button>
-                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
                                     data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导入表格
                             </button>
-                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
+                            <button type="button" class="btn btn-danger m-r-5" data-toggle="modal"
+                                    data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
                             </button>
                         </div>
                     </div>
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -221,9 +233,12 @@
                                         </td>
                                         <th nowrap="nowrap" class="text-center">{{ forloop.counter }}</th>
                                         <td nowrap="nowrap" class="text-center">{{ data.date|date:"Y-m-d" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_medical_expenses_rate }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_comprehensive_cost_rate }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_management_compliance_value }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_medical_expenses_rate }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_comprehensive_cost_rate }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_management_compliance_value }}</td>
                                         <td nowrap="nowrap" class="text-center">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
