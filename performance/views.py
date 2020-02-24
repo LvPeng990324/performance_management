@@ -680,7 +680,29 @@ def show_internal_control_indicators(request):
         return render(request, '业务数据管理-内控指标汇总.html', context=context)
     else:
         # 根据时间筛选
-        pass
+        # 从前端获取起止时间
+        start_date = str(request.POST.get('start_date')).split('-')
+        end_date = str(request.POST.get('end_date')).split('-')
+        # 转换日期对象
+        start_date = date(year=int(start_date[0]), month=int(start_date[1]), day=int(start_date[2]))
+        end_date = date(year=int(end_date[0]), month=int(end_date[1]), day=int(end_date[2]))
+        # 筛选此时间段内的订单数据
+        data = InternalControlIndicators.objects.filter(order_date__gte=start_date, scheduled_delivery__lte=end_date)
+        # 写入数据
+        all_count = data.count()
+        page_info = PageInfo(request.GET.get('page'), all_count, 9999,
+                             '/show_internal_control_indicators/?')
+        internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        # 记录当前状态
+        current_status = '所有状态'
+        # 打包数据
+        context = {
+            'internal_control_indicators': internal_control_indicators,
+            'page_info': page_info,
+            'current_status': current_status,
+        }
+        # 引导前端页面
+        return render(request, '业务数据管理-内控指标汇总.html', context=context)
 
 
 # 增加内控指标汇总表方法

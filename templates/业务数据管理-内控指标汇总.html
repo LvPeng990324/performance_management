@@ -348,16 +348,17 @@
                                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="headingThree">
                                     <div class="panel-body">
-                                        <form method="post" action="{% url 'user_management' %}" role="form">
+                                        <form method="post" action="{% url 'show_internal_control_indicators' %}" role="form">
+                                            {% csrf_token %}
                                             <div class="input-daterange input-group">
                                                 <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange1" name="example-daterange1"
-                                                       placeholder="订单时间">
+                                                       type="text" id="example-daterange1" name="start_date"
+                                                       placeholder="订单时间起点">
                                                 <span class="input-group-addon"><i
                                                         class="mdi mdi-chevron-right"></i></span>
                                                 <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange2" name="example-daterange2"
-                                                       placeholder="计划交期">
+                                                       type="text" id="example-daterange2" name="end_date"
+                                                       placeholder="订单时间终点">
                                                 <span class="input-group-btn" id="basic-addon3">
                                                 <button class="btn btn-default" type="submit">筛选订单</button>
                                                 </span>
