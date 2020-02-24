@@ -278,18 +278,29 @@
                     <div class="card-header">
                         <h4><b>内控指标汇总</b></h4>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                年份 <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#!">2015</a></li>
-                                <li><a href="#!">2016</a></li>
-                                <li><a href="#!">2018</a></li>
-                                <li><a href="#!">2019</a></li>
-                                <li><a href="#!">2020</a></li>
-                                <li><a href="#!">2021</a></li>
-                            </ul>
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ current_status }} <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                              <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
+                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
+                              </li>
+                              <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
+                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
+                              </li>
+                              <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
+                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
+                              </li>
+                              <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
+                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
+                              </li>
+                              <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
+                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
+                              </li>
+                              <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
+                                  <a href="{% url 'show_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
+                              </li>
+                          </ul>
                         </div>
                         <div class="example-box">
                             <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal"
@@ -438,25 +449,9 @@
                             </table>
                         </div>
                         <div>
-                            <nav>
+                            <nav aria-label="Page navigation">
                                 <ul class="pagination">
-                                    <li class="disabled">
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-left"></i></span>
-                                        </a>
-                                    </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#!">2</a></li>
-                                    <li><a href="#!">3</a></li>
-                                    <li><a href="#!">4</a></li>
-                                    <li><a href="#!">5</a></li>
-                                    <li><a href="#!">...</a></li>
-                                    <li><a href="#!">1000</a></li>
-                                    <li>
-                                        <a href="#!">
-                                            <span><i class="mdi mdi-chevron-right"></i></span>
-                                        </a>
-                                    </li>
+                                    {{ page_info.pager|safe }}
                                 </ul>
                             </nav>
                         </div>
