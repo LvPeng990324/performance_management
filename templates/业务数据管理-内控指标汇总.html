@@ -281,7 +281,8 @@
 
                     </div>
                     <div class="card-toolbar clearfix">
-                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                        <form class="pull-right search-bar" method="post" action="{% url 'show_internal_control_indicators' %}" role="form">
+                        {% csrf_token %}
                             <div class="input-group-btn">
                                 <div class="input-group">
                                     <div class="input-group-btn">
@@ -311,14 +312,15 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <input type="text" class="form-control" aria-label="..." placeholder="请输入订单号...">
+                                    <input hidden name="action" value="订单号搜索">
+                                    <input type="text" class="form-control" name="order_number" aria-label="..." placeholder="请输入订单号...">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default">搜索</button>
+                                        <button type="submit" class="btn btn-default">搜索</button>
                                     </div>
                                 </div>
 
                             </div>
-                        </from>
+                        </form>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
                                     data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
@@ -350,6 +352,7 @@
                                     <div class="panel-body">
                                         <form method="post" action="{% url 'show_internal_control_indicators' %}" role="form">
                                             {% csrf_token %}
+                                            <input hidden name="action" value="订单时间筛选">
                                             <div class="input-daterange input-group">
                                                 <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
                                                        type="text" id="example-daterange1" name="start_date"
