@@ -122,96 +122,98 @@ def get_i(need_year, need_month):
     return i
 
 
-def monthly_get_and_refresh(current_year):
-    year = int(current_year)
-    success_message = ''
-    error_message = ''
-    for month in range(1, 13):
-        try:
-            # 尝试获取数据项
-            A = get_a(year, month)
-            B = get_b(year, month)
-            C = get_c(year, month)
-            D = get_d(year, month)
-            E = get_e(year, month)
-            F = get_f(year, month)
-            G = get_g(year, month)
-            H = get_h(year, month)
-            I = get_i(year, month)
-            if A is None or B is None or C is None or D is None or E is None or F is None or G is None or H is None or I is None:
+def monthly_get_and_refresh(year_list=InternalControlIndicators.objects.values_list('actual_delivery', flat=True).distinct()):
+    print(year_list)
+    for year in year_list:
+        success_message = ''
+        error_message = ''
+        for month in range(1, 13):
+            try:
+                # 尝试获取数据项
+                A = get_a(year, month)
+                B = get_b(year, month)
+                C = get_c(year, month)
+                D = get_d(year, month)
+                E = get_e(year, month)
+                F = get_f(year, month)
+                G = get_g(year, month)
+                H = get_h(year, month)
+                I = get_i(year, month)
+                if A is None or B is None or C is None or D is None or E is None or F is None or G is None or H is None or I is None:
+                    obj = MonthlyPerformance.objects.filter(year=year, month=month)
+                    if obj:
+                        MonthlyPerformance.objects.filter(year=year, month=month).delete()
+                    error_message += '%s ' % month
+                    continue
+                # print('A=', A)
+                # print('B=', B)
+                # print('C=', C)
+                # print('D=', D)
+                # print('E=', E)
+                # print('F=', F)
+                # print('G=', G)
+                # print('H=', H)
+                # print('I=', I)
+            except AttributeError:
                 obj = MonthlyPerformance.objects.filter(year=year, month=month)
                 if obj:
                     MonthlyPerformance.objects.filter(year=year, month=month).delete()
                 error_message += '%s ' % month
                 continue
-            # print('A=', A)
-            # print('B=', B)
-            # print('C=', C)
-            # print('D=', D)
-            # print('E=', E)
-            # print('F=', F)
-            # print('G=', G)
-            # print('H=', H)
-            # print('I=', I)
-        except AttributeError:
-            obj = MonthlyPerformance.objects.filter(year=year, month=month)
-            if obj:
-                MonthlyPerformance.objects.filter(year=year, month=month).delete()
-            error_message += '%s ' % month
-            continue
-        # 从数据库公式表中取到公式并计算
-        try:
-            # 避免除0储错误
-            if B == 0:
-                delivery_rate = 0
-                well_done_rate = 0
-            else:
-                delivery_rate = round(eval(MonthlyFormula.objects.filter(
-                    target_item='交付率').first().formula), 3)
-                well_done_rate = round(eval(MonthlyFormula.objects.filter(
-                    target_item='成品率').first().formula), 3)
-            medical_expenses = round(eval(MonthlyFormula.objects.filter(
-                target_item='医药费').first().formula), 3)
-            month_dig_cost = round(eval(MonthlyFormula.objects.filter(
-                target_item='当月挖掘成本').first().formula), 3)
-            field_management_well_rate = round(eval(MonthlyFormula.objects.filter(
-                target_item='现场管理符合率').first().formula), 3)
-            # print(delivery_rate, well_done_rate, medical_expenses, month_dig_cost, field_management_well_rate)
+            # 从数据库公式表中取到公式并计算
+            try:
+                # 避免除0储错误
+                if B == 0:
+                    delivery_rate = 0
+                    well_done_rate = 0
+                else:
+                    delivery_rate = round(eval(MonthlyFormula.objects.filter(
+                        target_item='交付率').first().formula), 3)
+                    well_done_rate = round(eval(MonthlyFormula.objects.filter(
+                        target_item='成品率').first().formula), 3)
+                medical_expenses = round(eval(MonthlyFormula.objects.filter(
+                    target_item='医药费').first().formula), 3)
+                month_dig_cost = round(eval(MonthlyFormula.objects.filter(
+                    target_item='当月挖掘成本').first().formula), 3)
+                field_management_well_rate = round(eval(MonthlyFormula.objects.filter(
+                    target_item='现场管理符合率').first().formula), 3)
+                # print(delivery_rate, well_done_rate, medical_expenses, month_dig_cost, field_management_well_rate)
 
-            new_data = {
-                'year': year,
-                'month': month,
-                'delivery_rate': delivery_rate,
-                'well_done_rate': well_done_rate,
-                'medical_expenses': medical_expenses,
-                'month_dig_cost': month_dig_cost,
-                'field_management_well_rate': field_management_well_rate,
-            }
-            obj = MonthlyPerformance.objects.filter(year=year, month=month)
-            if obj:
-                # 如果该月数据已存在，则更新
-                MonthlyPerformance.objects.filter(year=year, month=month).update(**new_data)
-                print("%s年%s月 更新成功" % (year, month))
-            else:
-                MonthlyPerformance.objects.create(**new_data)
-                print("%s年%s月 成功存入" % (year, month))
-            # 反馈成功信息
-            success_message += '%s月' % month
-            # 公式出错
-        except:
-        # 删除所有数据
-            MonthlyPerformance.objects.filter(year=year).delete()
-            error_message = '刷新失败！请检查公式！'
-            return error_message
+                new_data = {
+                    'year': year,
+                    'month': month,
+                    'delivery_rate': delivery_rate,
+                    'well_done_rate': well_done_rate,
+                    'medical_expenses': medical_expenses,
+                    'month_dig_cost': month_dig_cost,
+                    'field_management_well_rate': field_management_well_rate,
+                }
+                obj = MonthlyPerformance.objects.filter(year=year, month=month)
+                if obj:
+                    # 如果该月数据已存在，则更新
+                    MonthlyPerformance.objects.filter(year=year, month=month).update(**new_data)
+                    print("%s年%s月 更新成功" % (year, month))
+                else:
+                    MonthlyPerformance.objects.create(**new_data)
+                    print("%s年%s月 成功存入" % (year, month))
+                # 反馈成功信息
+                success_message += '%s月' % month
+                # 公式出错
+            except:
+            # 删除所有数据
+                MonthlyPerformance.objects.filter(year=year).delete()
+                error_message = '刷新失败！请检查公式！'
+                # return error_message
+                continue
 
-    # 无错误信息
-    if error_message == '':
-        return 'success'
-    # 有错误信息
-    else:
-        # 12个月都出错
-        if len(error_message) == 27:
-            error_message = '所有月份数据不足！请检查数据来源'
+        # 无错误信息
+        if error_message == '':
+            return 'success'
+        # 有错误信息
         else:
-            error_message += '月份数据不足！其余月份更新成功！'
-        return error_message
+            # 12个月都出错
+            if len(error_message) == 27:
+                error_message = '所有月份数据不足！请检查数据来源'
+            else:
+                error_message += '月份数据不足！其余月份更新成功！'
+            return error_message

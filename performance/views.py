@@ -489,9 +489,10 @@ def add_monthly_sales_data(request):
 
     # 写入成功提示
     messages.success(request, '数据添加成功')
-
     # 刷新当年季度营业数据
     CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
+    # 刷新当年季度考核结果
+    CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=[year])
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -515,8 +516,12 @@ def delete_monthly_sales_data(request):
             data.delete()
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
+
         # 刷新当年季度营业数据
         CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
+        # 刷新当年季度考核结果
+        CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=year_set)
+
         # 返回成功
         return HttpResponse('success')
     else:
@@ -527,8 +532,12 @@ def delete_monthly_sales_data(request):
         data.delete()
         # 写入删除成功提示
         messages.success(request, '数据删除成功')
+
         # 刷新当年季度营业数据
         CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
+        # 刷新当年季度考核结果
+        CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=year_set)
+
         # 重载页面
         return redirect('show_monthly_sales_data')
 
@@ -566,6 +575,8 @@ def change_monthly_sales_data(request):
 
     # 刷新季度营业数据
     CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year_month[0]])
+    # 刷新季度考核结果
+    CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=[change_year_month[0]])
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -773,22 +784,38 @@ def add_internal_control_indicators(request):
 @login_required
 @permission_required('performance.manage_internal_control_indicators', raise_exception=True)
 def delete_internal_control_indicators(request):
+    # 用来记录删除数据的年份
+    year_set=set()
     # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
         # 遍历删除
         for id in delete_id:
-            InternalControlIndicators.objects.get(id=id).delete()
+            data = InternalControlIndicators.objects.get(id=id)
+            if data.actual_delivery:
+                # 记录年份，方便更新月度数据
+                year_set.add(data.actual_delivery.year)
+            # 删除数据
+            data.delete()
         # 写入数据删除成功提示
         messages.success(request, '选中数据删除成功')
+        # 刷新月度考核结果
+        CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=year_set)
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
-        InternalControlIndicators.objects.get(id=delete_id).delete()
+        data = InternalControlIndicators.objects.get(id=delete_id)
+        if data.actual_delivery:
+            # 记录年份，方便更新月度数据
+            year_set.add(data.actual_delivery.year)
+        # 删除数据
+        data.delete()
         # 写入数据删除成功提示
         messages.success(request, '数据删除成功')
+        # 刷新月度考核结果
+        CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=year_set)
         # 重载页面
         return redirect('show_internal_control_indicators')
 
@@ -867,6 +894,10 @@ def change_internal_control_indicators(request):
     # 返回数据修改成功提示
     messages.success(request, '数据修改成功')
 
+    # 刷新月度考核结果
+    if change_actual_delivery:
+        CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=[change_actual_delivery.year])
+
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
 
@@ -883,6 +914,8 @@ def upload_monthly_performance(request):
 
         # 刷新季度数据
         CalculateQuarterlySalesData.calculate_quarterly_sales_data()
+        # 刷新当年季度考核结果
+        CalculateQuarterlyPerformance.quarterly_get_and_refresh()
 
         # 重定向数据展示页面
         return redirect('show_monthly_sales_data')
@@ -902,6 +935,9 @@ def upload_internal_control_indicators_performance(request):
     if result == 0:
         # 写入导入成功提示
         messages.success(request, '导入成功')
+
+        CalcuteMonthlyPerformance.monthly_get_and_refresh()
+
         # 重定向数据展示页面
         return redirect('show_internal_control_indicators')
     else:
@@ -1046,7 +1082,7 @@ def upload_constant_data(request):
 def show_monthly_result(request):
     # 打包年份数据，去重并逆序排序
     dates = list(InternalControlIndicators.objects.values_list('actual_delivery', flat=True))
-    date_list=[]
+    date_list = []
     for date in dates:
         if date is not None:
             date_list.append(date)
@@ -1340,7 +1376,6 @@ def display_internal_control_indicators(request):
             # 标记当前状态
             current_status = '所有状态'
 
-
         # 打包数据
         context = {
             'internal_control_indicators': internal_control_indicators,
@@ -1470,11 +1505,11 @@ def quarter_result_formula(request):
         inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
         profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
     except:
-        QuarterlyFormula.objects.create(target_item='营业额',formula='A')
-        QuarterlyFormula.objects.create(target_item='营业费率',formula='B/A')
-        QuarterlyFormula.objects.create(target_item='回款率',formula='C/A')
-        QuarterlyFormula.objects.create(target_item='库存率',formula='D/A')
-        QuarterlyFormula.objects.create(target_item='利润率',formula='E/A')
+        QuarterlyFormula.objects.create(target_item='营业额', formula='A')
+        QuarterlyFormula.objects.create(target_item='营业费率', formula='B/A')
+        QuarterlyFormula.objects.create(target_item='回款率', formula='C/A')
+        QuarterlyFormula.objects.create(target_item='库存率', formula='D/A')
+        QuarterlyFormula.objects.create(target_item='利润率', formula='E/A')
         turnover = QuarterlyFormula.objects.filter(target_item='营业额').first().formula
         operating_rate = QuarterlyFormula.objects.filter(target_item='营业费率').first().formula
         repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
@@ -1512,6 +1547,8 @@ def change_month_formula(request):
     MonthlyFormula.objects.filter(target_item='内控综合成本').update(formula=overall_cost)
     MonthlyFormula.objects.filter(target_item='现场管理符合率').update(formula=field_management)
     messages.success(request, '公式更改成功')
+    # 修改月度考核结果
+    CalcuteMonthlyPerformance.monthly_get_and_refresh()
     return redirect('month_result_formula')
 
 
@@ -1537,4 +1574,6 @@ def change_quarter_formula(request):
     QuarterlyFormula.objects.filter(target_item='库存率').update(formula=inventory_rate)
     QuarterlyFormula.objects.filter(target_item='利润率').update(formula=profit_rate)
     messages.success(request, '公式更改成功')
+    # 刷新当年季度考核结果
+    CalculateQuarterlyPerformance.quarterly_get_and_refresh()
     return redirect('quarter_result_formula')

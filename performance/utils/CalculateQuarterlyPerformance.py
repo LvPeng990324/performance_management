@@ -7,6 +7,7 @@ django.setup()
 from performance.models import QuarterlySalesData
 from performance.models import QuarterlyPerformance
 from performance.models import QuarterlyFormula
+from performance.models import MonthlySalesData
 
 
 # 获取季度营业额
@@ -44,73 +45,75 @@ def get_e(need_year, need_quarter):
     return e
 
 
-def quarterly_get_and_refresh(current_year):
-    year = int(current_year)
-    success_message = ''
-    error_message = ''
-    for quarter in range(1, 5):
-        try:
-            # 尝试获取数据项
-            A = get_a(year, quarter)
-            B = get_b(year, quarter)
-            C = get_c(year, quarter)
-            D = get_d(year, quarter)
-            E = get_e(year, quarter)
-            print(A,B,C,D,E)
-        except AttributeError:
-            obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
-            if obj:
-                QuarterlyPerformance.objects.filter(year=year, quarter=quarter).delete()
-            error_message += '%s ' % quarter
-            continue
-        try:
-            # 从数据库公式表中取到公式并计算
-            turnover = round(eval(QuarterlyFormula.objects.filter(
-                target_item='营业额').first().formula), 3)
-            operating_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='营业费率').first().formula), 3)
-            repaid_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='回款率').first().formula), 3)
-            inventory_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='库存率').first().formula), 3)
-            profit_rate = round(eval(QuarterlyFormula.objects.filter(
-                target_item='利润率').first().formula), 3)
-            # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
+def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.values_list('year', flat=True).distinct()):
+    print(year_list)
+    for year in year_list:
+        print(year)
+        success_message = ''
+        error_message = ''
+        for quarter in range(1, 5):
+            try:
+                # 尝试获取数据项
+                A = get_a(year, quarter)
+                B = get_b(year, quarter)
+                C = get_c(year, quarter)
+                D = get_d(year, quarter)
+                E = get_e(year, quarter)
+            except:
+                obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
+                if obj:
+                    QuarterlyPerformance.objects.filter(year=year, quarter=quarter).delete()
+                error_message += '%s ' % quarter
+                continue
+            try:
+                # 从数据库公式表中取到公式并计算
+                turnover = round(eval(QuarterlyFormula.objects.filter(
+                    target_item='营业额').first().formula), 3)
+                operating_rate = round(eval(QuarterlyFormula.objects.filter(
+                    target_item='营业费率').first().formula), 3)
+                repaid_rate = round(eval(QuarterlyFormula.objects.filter(
+                    target_item='回款率').first().formula), 3)
+                inventory_rate = round(eval(QuarterlyFormula.objects.filter(
+                    target_item='库存率').first().formula), 3)
+                profit_rate = round(eval(QuarterlyFormula.objects.filter(
+                    target_item='利润率').first().formula), 3)
+                # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
 
-            new_data = {
-                'year': year,
-                'quarter': quarter,
-                'turnover': turnover,
-                'operating_rate': operating_rate,
-                'repaid_rate': repaid_rate,
-                'inventory_rate': inventory_rate,
-                'profit_rate': profit_rate,
-            }
+                new_data = {
+                    'year': year,
+                    'quarter': quarter,
+                    'turnover': turnover,
+                    'operating_rate': operating_rate,
+                    'repaid_rate': repaid_rate,
+                    'inventory_rate': inventory_rate,
+                    'profit_rate': profit_rate,
+                }
 
-            obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
-            if obj:
-                # 如果该月数据已存在，则更新
-                QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
-                # print("%s年%s季度 更新成功" % (year, quarter))
-            else:
-                QuarterlyPerformance.objects.create(**new_data)
-                # print("%s年%s季度 成功存入" % (year, quarter))
-            success_message += '%s ' % quarter
-        # 公式出错
-        except:
-            # 删除所有数据
-            QuarterlyPerformance.objects.all().delete()
-            error_message = '刷新失败！请检查公式！'
-            return error_message
-
-    # 无错误信息
-    if error_message == '':
-        return 'success'
-    # 有错误信息
-    else:
-        # 四季度都出错
-        if len(error_message) == 8:
-            error_message = '所有季度数据不足！请检查数据来源'
-        else:
-            error_message += '季度数据不足！其余季度更新成功！'
-        return error_message
+                obj = QuarterlyPerformance.objects.filter(year=year, quarter=quarter)
+                if obj:
+                    # 如果该月数据已存在，则更新
+                    QuarterlyPerformance.objects.filter(year=year, quarter=quarter).update(**new_data)
+                    print("%s年%s季度 更新成功" % (year, quarter))
+                else:
+                    QuarterlyPerformance.objects.create(**new_data)
+                    print("%s年%s季度 成功存入" % (year, quarter))
+                success_message += '%s ' % quarter
+            # 公式出错
+            except:
+                # 删除所有数据
+                QuarterlyPerformance.objects.all().delete()
+                # error_message = '刷新失败！请检查公式！'
+                # return error_message
+                continue
+        #
+        # # 无错误信息
+        # if error_message == '':
+        #     return 'success'
+        # # 有错误信息
+        # else:
+        #     # 四季度都出错
+        #     if len(error_message) == 8:
+        #         error_message = '所有季度数据不足！请检查数据来源'
+        #     else:
+        #         error_message += '季度数据不足！其余季度更新成功！'
+        #     return error_message
