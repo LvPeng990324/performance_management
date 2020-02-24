@@ -24,8 +24,7 @@ def get_a(need_year, need_month):
     a = InternalControlIndicators.objects.filter(
         scheduled_delivery__year=need_year,
         scheduled_delivery__month=need_month,
-        actual_delivery__year=need_year,
-        actual_delivery__month=need_month,
+        finished_number=1,
     ).count()
     # print(a)
     return a
