@@ -278,8 +278,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>内控指标汇总</b></h4>
-                        <div class="input-group">
-                            <from class="pull-right search-bar" method="post" action="#!" role="form">
+
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                            <div class="input-group-btn">
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default dropdown-toggle"
@@ -313,17 +316,18 @@
                                         <button type="button" class="btn btn-default">搜索</button>
                                     </div>
                                 </div>
-                            </from>
-                        </div>
-                        <div class="example-box">
-                            <button type="button" class="btn btn-danger m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
+
+                            </div>
+                        </from>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
+                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
                             </button>
-                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
                                     data-target="#export"><i class="mdi mdi-file-excel"></i> 导入表格
                             </button>
-                            <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
-                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
+                            <button type="button" class="btn btn-danger m-r-5" data-toggle="modal"
+                                    data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
                             </button>
                         </div>
                     </div>
