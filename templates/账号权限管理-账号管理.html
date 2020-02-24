@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}账号权限管理-账号信息管理{% endblock %}
 
 {% block user_permission_management_active %}active open{% endblock %}
 {% block user_management_active %}active{% endblock %}
@@ -76,7 +77,7 @@
     <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-               <form action="{% url 'change_user' %}" method="post">
+                <form action="{% url 'change_user' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -88,7 +89,8 @@
                         <input hidden id="id_change_id" name="change_id">
                         <div class="form-group">
                             <label for="id_job_number" class="control-label">工号：</label>
-                            <input type="text" class="form-control" id="id_change_job_number" name="job_number" required>
+                            <input type="text" class="form-control" id="id_change_job_number" name="job_number"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="id_name" class="control-label">姓名：</label>
@@ -96,7 +98,8 @@
                         </div>
                         <div class="form-group">
                             <label for="turnover_n" class="control-label">所在部门：</label>
-                            <input type="text" class="form-control" id="id_change_department" name="department" required>
+                            <input type="text" class="form-control" id="id_change_department" name="department"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="expenses_n" class="control-label">手机：</label>
@@ -182,97 +185,116 @@
 {% endblock %}
 
 {% block main_content %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4><b>账号信息管理</b></h4>
-                    <div class="input-group">
-                    <form class="pull-right search-bar" method="post" action="{% url 'user_management' %}" role="form">
-                        {% csrf_token %}
-                        <div class="input-group m-b-10">
-                            <input type="text" class="form-control" placeholder="请输入部门关键词..." name="department" value="{{ department }}">
-                            <span class="input-group-btn" id="basic-addon3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>账号信息管理</b></h4>
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                            <div class="input-group-btn">
+                                <div class="input-group">
+                                    <form class="pull-right search-bar" method="post"
+                                          action="{% url 'user_management' %}"
+                                          role="form">
+                                        {% csrf_token %}
+                                        <div class="input-group m-b-10">
+                                            <input type="text" class="form-control" placeholder="请输入部门关键词..."
+                                                   name="department"
+                                                   value="{{ department }}">
+                                            <span class="input-group-btn" id="basic-addon3">
                                 <button class="btn btn-default" type="submit">筛选部门</button>
                             </span>
-                        </div>
-                    </form>
-                    </div>
-                    <div class="example-box">
-                        <button type="button" class="btn btn-danger m-r-5 pull-right"
-                                data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
-                        </button>
-                        <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </from>
+                        <div class="toolbar-btn-action">
+                           <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
+                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
+                            </button>
+                            <button type="button" class="btn btn-success m-r-5" data-toggle="modal"
                                     data-target="#export"><i class="mdi mdi-file-excel"></i> 导入表格
                             </button>
-                        <button type="button" class="btn btn-success m-r-5 pull-right" data-toggle="modal"
-                                data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
-                        </button>
+                            <button type="button" class="btn btn-danger m-r-5"
+                                    data-toggle="modal" data-target="#dels"><i class="mdi mdi-window-close"></i> 删除
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>
-                                    <label class="lyear-checkbox checkbox-primary">
-                                        <input type="checkbox" id="check-all"><span></span>
-                                    </label>
-                                </th>
-                                <th nowrap="nowrap" class="text-center">部门</th>
-                                <th nowrap="nowrap" class="text-center">工号</th>
-                                <th nowrap="nowrap" class="text-center">姓名</th>
-                                <th nowrap="nowrap" class="text-center">手机</th>
-                                <th nowrap="nowrap" class="text-center">角色</th>
-                                <th nowrap="nowrap" class="text-center">上次登录时间</th>
-                                <th nowrap="nowrap" class="text-center">操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for user in users %}
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
                                 <tr>
-                                    <td>
+                                    <th>
                                         <label class="lyear-checkbox checkbox-primary">
-                                            <input type="checkbox" name="ids[]" value="{{ user.id }}"><span></span>
+                                            <input type="checkbox" id="check-all"><span></span>
                                         </label>
-                                    </td>
-                                    <th nowrap="nowrap" class="text-center">{{ user.extension.department }}</th>
-                                    <th nowrap="nowrap" class="text-center">{{ user.extension.job_number }}</th>
-                                    <td nowrap="nowrap" class="text-center">{{ user.last_name }}</td>
-                                    <th nowrap="nowrap" class="text-center">{{ user.extension.telephone }}</th>
-                                    {% if user.is_superuser %}
-                                        <th nowrap="nowrap" class="text-center">超级管理员</th>
-                                    {% elif user.groups.all %}
-                                        <th nowrap="nowrap" class="text-center">
-                                        {% for group in user.groups.all %}
-                                            {{ group }}
-                                            <br>
-                                        {% endfor %}
-                                        </th>
-                                    {% else %}
-                                        <th nowrap="nowrap" class="text-center"><p style="color: blue">未分配</p></th>
-                                    {% endif %}
-                                    <th class="text-center">{{ user.last_login }}</th>
-                                    <td>
-                                        <div class="btn-group-justified">
-                                            <a class="btn btn-xs btn-default" href="#!" title="编辑" data-toggle="modal" data-target="#modify" onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i class="mdi mdi-pencil"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="修改密码" data-toggle="modal" data-target="#password" onclick="give_passwd_id_modal('{{ user.id }}')"><i class="mdi mdi-dns"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal" data-target="#del" onclick="give_delete_modal('{{ user.id }}')"><i class="mdi mdi-window-close"></i></a>
-                                        </div>
-                                    </td>
+                                    </th>
+                                    <th nowrap="nowrap" class="text-center">部门</th>
+                                    <th nowrap="nowrap" class="text-center">工号</th>
+                                    <th nowrap="nowrap" class="text-center">姓名</th>
+                                    <th nowrap="nowrap" class="text-center">手机</th>
+                                    <th nowrap="nowrap" class="text-center">角色</th>
+                                    <th nowrap="nowrap" class="text-center">上次登录时间</th>
+                                    <th nowrap="nowrap" class="text-center">操作</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <td>
+                                            <label class="lyear-checkbox checkbox-primary">
+                                                <input type="checkbox" name="ids[]" value="{{ user.id }}"><span></span>
+                                            </label>
+                                        </td>
+                                        <th nowrap="nowrap" class="text-center">{{ user.extension.department }}</th>
+                                        <th nowrap="nowrap" class="text-center">{{ user.extension.job_number }}</th>
+                                        <td nowrap="nowrap" class="text-center">{{ user.last_name }}</td>
+                                        <th nowrap="nowrap" class="text-center">{{ user.extension.telephone }}</th>
+                                        {% if user.is_superuser %}
+                                            <th nowrap="nowrap" class="text-center">超级管理员</th>
+                                        {% elif user.groups.all %}
+                                            <th nowrap="nowrap" class="text-center">
+                                                {% for group in user.groups.all %}
+                                                    {{ group }}
+                                                    <br>
+                                                {% endfor %}
+                                            </th>
+                                        {% else %}
+                                            <th nowrap="nowrap" class="text-center"><p style="color: blue">未分配</p></th>
+                                        {% endif %}
+                                        <th class="text-center">{{ user.last_login }}</th>
+                                        <td>
+                                            <div class="btn-group-justified">
+                                                <a class="btn btn-xs btn-default" href="#!" title="编辑"
+                                                   data-toggle="modal" data-target="#modify"
+                                                   onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i
+                                                        class="mdi mdi-pencil"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="修改密码"
+                                                   data-toggle="modal" data-target="#password"
+                                                   onclick="give_passwd_id_modal('{{ user.id }}')"><i
+                                                        class="mdi mdi-dns"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="删除"
+                                                   data-toggle="modal" data-target="#del"
+                                                   onclick="give_delete_modal('{{ user.id }}')"><i
+                                                        class="mdi mdi-window-close"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block js_content %}

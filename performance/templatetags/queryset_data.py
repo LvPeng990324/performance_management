@@ -28,7 +28,7 @@ def clear_none(data):
 # 将数字转化为百分数
 @register.filter
 def percentage(data):
-    if data is None:
+    if data is '':
         return data
     # res = '{}%'.format(data*100)
     res = "%.1f%%" % (data * 100)
@@ -42,7 +42,7 @@ def progress(order_date, scheduled_delivery):
     current_date = datetime.date.today()
     # 如果当前时间已经超过计划交期，返回False
     if current_date > scheduled_delivery:
-        return False
+        return -1
     # 计算百分数
     return ((current_date - order_date).days / (scheduled_delivery - order_date).days)*100
 

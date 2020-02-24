@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load queryset_data %}
+{% load static %}
+{% block title %}数据统计查看-内控指标汇总{% endblock %}
 
 {% block modal_content %}
     <!--导出excel-->
@@ -8,17 +10,18 @@
             <div class="modal-content">
                 <form action="{% url 'export_internal_control_indicators' %}" method="post">
                     {% csrf_token %}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
-                </div>
-                <div class="modal-body">
-                    如遇编码问题，请使用微软office。
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-danger">下载</button>
-                </div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">导出excel</h4>
+                    </div>
+                    <div class="modal-body">
+                        如遇编码问题，请使用微软office。
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">下载</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -35,26 +38,89 @@
                 <div class="card">
                     <div class="card-header">
                         <h4><b>内控指标汇总</b></h4>
-                        <label for="year" class="control-label">年份：</label>
-                        <select name="type" class="form-control" id="year">
-                            <option value="2015">2015</option>
-                            <option value="2016">2016</option>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                        </select>
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <from class="pull-right search-bar" method="post" action="#!" role="form">
+                            <div class="input-group-btn">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                {{ current_status }} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
+                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=所有状态">所有状态</a>
+                                </li>
+                                <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
+                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=按时完成">按时完成</a>
+                                </li>
+                                <li class="{% ifequal current_status '尚未完成' %}active{% endifequal %}">
+                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=尚未完成">尚未完成</a>
+                                </li>
+                                <li class="{% ifequal current_status '逾期完成' %}active{% endifequal %}">
+                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=逾期完成">逾期完成</a>
+                                </li>
+                                <li class="{% ifequal current_status '快到交期' %}active{% endifequal %}">
+                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=快到交期">快到交期</a>
+                                </li>
+                                <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
+                                    <a href="{% url 'display_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
+                                </li>
+                            </ul>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="..." placeholder="请输入订单号...">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default">搜索</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </from>
                         <div class="toolbar-btn-action">
-                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel</button>
+                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i> 导出为Excel
+                            </button>
                         </div>
                     </div>
-
                     <div class="card-body">
+                        <!--手风琴效果-->
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                           aria-controls="collapseThree">
+                                            订单日期筛选
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <form method="post" action="{% url 'user_management' %}" role="form">
+                                            <div class="input-daterange input-group">
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange1" name="example-daterange1"
+                                                       placeholder="订单时间">
+                                                <span class="input-group-addon"><i
+                                                        class="mdi mdi-chevron-right"></i></span>
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange2" name="example-daterange2"
+                                                       placeholder="计划交期">
+                                                <span class="input-group-btn" id="basic-addon3">
+                                                <button class="btn btn-default" type="submit">筛选订单</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--手风琴效果 End-->
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -88,7 +154,8 @@
                                                 </td>
                                                 <td nowrap="nowrap">
                                                     <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-info" style="width: 100%;"></div>
+                                                        <div class="progress-bar progress-bar-info"
+                                                             style="width: 100%;"></div>
                                                     </div>
                                                 </td>
                                             {% else %}
@@ -97,19 +164,21 @@
                                                 </td>
                                                 <td nowrap="nowrap">
                                                     <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-yellow" style="width: 100%;"></div>
+                                                        <div class="progress-bar progress-bar-yellow"
+                                                             style="width: 100%;"></div>
                                                     </div>
                                                 </td>
                                             {% endif %}
                                         {% else %}
-                                            {% if data.order_date|progress:data.scheduled_delivery %}
+                                            {% if data.order_date|progress:data.scheduled_delivery != -1 %}
                                                 {% if data.order_date|progress:data.scheduled_delivery <= 70 %}
                                                     <td nowrap="nowrap">
                                                         <span class="label label-primary">尚未完成</span>
                                                     </td>
                                                     <td nowrap="nowrap">
                                                         <div class="progress progress-striped progress-sm">
-                                                            <div class="progress-bar progress-bar-primary" style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
+                                                            <div class="progress-bar progress-bar-primary"
+                                                                 style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
                                                         </div>
                                                     </td>
                                                 {% else %}
@@ -118,7 +187,8 @@
                                                     </td>
                                                     <td nowrap="nowrap">
                                                         <div class="progress progress-striped progress-sm">
-                                                            <div class="progress-bar progress-bar-pink" style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
+                                                            <div class="progress-bar progress-bar-pink"
+                                                                 style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
                                                         </div>
                                                     </td>
                                                 {% endif %}
@@ -128,7 +198,8 @@
                                                 </td>
                                                 <td nowrap="nowrap">
                                                     <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-danger" style="width: 100%;"></div>
+                                                        <div class="progress-bar progress-bar-danger"
+                                                             style="width: 100%;"></div>
                                                     </div>
                                                 </td>
                                             {% endif %}
@@ -137,17 +208,27 @@
                                         <td nowrap="nowrap">{{ data.order_number }}</td>
                                         <td nowrap="nowrap" class="text-right">{{ data.order_money }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_well_done_rate|percentage }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_medical_expenses|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.target_management_compliance }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_well_done_rate|percentage }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_medical_expenses|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_comprehensive_cost|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_management_compliance }}</td>
                                         <td nowrap="nowrap">{{ data.actual_delivery|date:"Y年m月d日" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.finished_number|clear_none }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.unfinished_number|clear_none }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.finished_number|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.unfinished_number|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_well_done_rate|clear_none|percentage }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_medical_expenses|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -168,5 +249,10 @@
 {% endblock %}
 
 {% block js_content %}
-
+    <!--日期选择插件-->
+    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/bootstrap-datepicker/bootstrap-datepicker3.min.css' %}" type="text/css">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
