@@ -44,7 +44,7 @@ def get_e(need_year, need_quarter):
         year=need_year, quarter=need_quarter).profit
     return e
 
-#
+
 def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.values_list('year', flat=True).distinct()):
     print(year_list)
     for year in year_list:
