@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}业务数据管理-月度营业数据{% endblock %}
 
 {% block modal_content %}
@@ -86,25 +87,8 @@
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="year_n" class="control-label">年份：</label>
-                            <input type="text" class="form-control" id="year_n" name="year" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="month_n" class="control-label">月份：</label>
-                            <select class="form-control" id="month_n" name="month" required>
-                                <option value="1">1月</option>
-                                <option value="2">2月</option>
-                                <option value="3">3月</option>
-                                <option value="4">4月</option>
-                                <option value="5">5月</option>
-                                <option value="6">6月</option>
-                                <option value="7">7月</option>
-                                <option value="8">8月</option>
-                                <option value="9">9月</option>
-                                <option value="10">10月</option>
-                                <option value="11">11月</option>
-                                <option value="12">12月</option>
-                            </select>
+                            <label for="date_n" class="control-label">日期：</label>
+                            <input type="text" class="form-control" id="date_n" name="date" required>
                         </div>
                         <div class="form-group">
                             <label for="turnover_n" class="control-label">营业额(万元)：</label>
@@ -146,25 +130,8 @@
                     <div class="modal-body">
                         <input hidden id="id_change_id" name="change_id">
                         <div class="form-group">
-                            <label for="year_m" class="control-label">年份：</label>
-                            <input type="text" class="form-control" id="id_change_year" name="change_year" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="month_m" class="control-label">月份：</label>
-                            <select class="form-control" id="id_change_month" name="change_month" required>
-                                <option value="1">1月</option>
-                                <option value="2">2月</option>
-                                <option value="3">3月</option>
-                                <option value="4">4月</option>
-                                <option value="5">5月</option>
-                                <option value="6">6月</option>
-                                <option value="7">7月</option>
-                                <option value="8">8月</option>
-                                <option value="9">9月</option>
-                                <option value="10">10月</option>
-                                <option value="11">11月</option>
-                                <option value="12">12月</option>
-                            </select>
+                            <label for="id_change_date" class="control-label">年月：</label>
+                            <input type="text" class="form-control" id="id_change_date" name="change_date" required>
                         </div>
                         <div class="form-group">
                             <label for="turnover_m" class="control-label">营业额(万元)：</label>
@@ -277,7 +244,7 @@
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
-                                                   onclick="give_change_modal('{{ data.id }}', '{{ data.year }}',
+                                                   onclick="give_change_modal('{{ data.id }}', '{{ data.year }}', '{{ data.month }}',
                                                            '{{ data.turnover }}', '{{ data.operating_expenses }}', '{{ data.amount_repaid }}', '{{ data.inventory }}', '{{ data.profit }}')"><i
                                                         class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除"
@@ -309,13 +276,15 @@
     <script type="text/javascript">
         function give_change_modal(change_id,
                                    change_year,
+                                   change_month,
                                    change_turnover,
                                    change_operating_expenses,
                                    change_amount_repaid,
                                    change_inventory,
                                    change_profit) {
             $('#id_change_id').val(change_id);
-            $('#id_change_year').val(change_year);
+            var year_month = change_year + '-' + change_month;
+            $('#id_change_date').val(year_month);
             $('#id_change_turnover').val(change_turnover);
             $('#id_change_operating_expenses').val(change_operating_expenses);
             $('#id_change_amount_repaid').val(change_amount_repaid);
@@ -361,4 +330,22 @@
             {% endif %}
         {% endfor %}
     {% endif %}
+    <!-- 年月日期选择器 -->
+    <script src="{% static 'js/laydate/laydate.js' %}"></script>
+    <script>
+    lay('#version').html('-v'+ laydate.v);
+    //执行一个laydate实例
+    laydate.render({
+      elem: '#date_n'
+      ,type: 'month'
+    });
+    </script>
+    <script>
+    lay('#version').html('-v'+ laydate.v);
+    //执行一个laydate实例
+    laydate.render({
+      elem: '#id_change_date'
+      ,type: 'month'
+    });
+    </script>
 {% endblock %}

@@ -466,8 +466,9 @@ def show_monthly_sales_data(request):
 @permission_required('performance.manage_monthly_sales_data', raise_exception=True)
 def add_monthly_sales_data(request):
     # 从前端获取数据
-    year = request.POST.get('year')
-    month = request.POST.get('month')
+    year_month = str(request.POST.get('date')).split('-')
+    year = year_month[0]
+    month = year_month[1]
     turnover = request.POST.get('turnover')
     operating_expenses = request.POST.get('operating_expenses')
     amount_repaid = request.POST.get('amount_repaid')
