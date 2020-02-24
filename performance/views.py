@@ -540,9 +540,7 @@ def change_monthly_sales_data(request):
     # 从前端获取要修改的id
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
-    # change_date_month = int(request.POST.get('change_date_month'))
-    change_year = request.POST.get('change_year')
-    change_month = request.POST.get('change_month')
+    change_year_month = str(request.POST.get('change_date')).split('-')
     change_turnover = request.POST.get('change_turnover')
     change_operating_expenses = request.POST.get('change_operating_expenses')
     change_amount_repaid = request.POST.get('change_amount_repaid')
@@ -550,14 +548,11 @@ def change_monthly_sales_data(request):
     # 利润额根据 营业额 - 营业费用 得出
     change_profit = float(change_turnover) - float(change_operating_expenses)
 
-    # 转换日期对象
-    # change_date = datetime(year=change_year, month=change_month, day=1, hour=1, minute=1, second=1)
-
     # 从数据库中取出该数据
     data = MonthlySalesData.objects.get(id=change_id)
     # 修改数据
-    data.year = change_year
-    data.month = change_month
+    data.year = change_year_month[0]
+    data.month = change_year_month[1]
     data.turnover = change_turnover
     data.operating_expenses = change_operating_expenses
     data.amount_repaid = change_amount_repaid
@@ -570,7 +565,7 @@ def change_monthly_sales_data(request):
     messages.success(request, '数据修改成功')
 
     # 刷新季度营业数据
-    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year])
+    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year_month[0]])
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
