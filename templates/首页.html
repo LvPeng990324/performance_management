@@ -8,6 +8,16 @@
     <div class="container-fluid">
 
         <div class="row">
+            <div class="col-sm-1 col-lg-12">
+                <div class="card">
+                    <div class="card-body clearfix">
+                        <a style="position: absolute;left: 45%;transform: translate(-30%, -50%);">
+                <i class="mdi mdi-creation"></i>  欢迎使用利润绩效管理系统！
+            </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-sm-6 col-lg-3">
                 <div class="card bg-primary">
                     <div class="card-body clearfix">
@@ -16,7 +26,7 @@
                             <p class="h3 text-white m-b-0">{{ month_order_count }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi mdi-tab fa-1-5x"></i></span></div>
+                                class="mdi mdi-content-paste fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
@@ -29,7 +39,7 @@
                             <p class="h3 text-white m-b-0">{{ request.user.extension.job_number }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi mdi-collage fa-1-5x"></i></span></div>
+                                class="mdi mdi-square-inc fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
@@ -42,7 +52,7 @@
                             <p class="h3 text-white m-b-0">{{ request.user.extension.department }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi  mdi-marker fa-1-5x"></i></span></div>
+                                class="mdi  mdi-crown fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
@@ -58,13 +68,13 @@
 
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi mdi-clipboard-account fa-1-5x"></i></span></div>
+                                class="mdi mdi-account fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
+
+
         </div>
-
-
         <div class="row">
 
             <div class="col-lg-12">
@@ -96,21 +106,24 @@
                                             <td><span class="label label-primary">尚未完成</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-primary" style="width: {{ order.order_date|progress:order.scheduled_delivery }}%;"></div>
+                                                    <div class="progress-bar progress-bar-primary"
+                                                         style="width: {{ order.order_date|progress:order.scheduled_delivery }}%;"></div>
                                                 </div>
                                             </td>
                                         {% elif order|order_status == '快到交期' %}
                                             <td><span class="label label-pink">快到交期</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-pink" style="width: {{ order.order_date|progress:order.scheduled_delivery }}%;"></div>
+                                                    <div class="progress-bar progress-bar-pink"
+                                                         style="width: {{ order.order_date|progress:order.scheduled_delivery }}%;"></div>
                                                 </div>
                                             </td>
                                         {% elif order|order_status == '已经逾期' %}
                                             <td><span class="label label-danger">已经逾期</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 100%;"></div>
+                                                    <div class="progress-bar progress-bar-danger"
+                                                         style="width: 100%;"></div>
                                                 </div>
                                             </td>
                                         {% endif %}
