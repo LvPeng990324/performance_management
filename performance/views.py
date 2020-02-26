@@ -27,9 +27,40 @@ from .utils import CalculateQuarterlySalesData
 from .utils.Paginator import PageInfo
 
 
+# 展示首页
 @login_required
 def index(request):
-    return render(request, '首页.html')
+    # 统计首页展示数据
+    # 统计本月订单数
+    today = date.today()
+    month_order_count = InternalControlIndicators.objects.filter(order_date__year=today.year,
+                                                                 order_date__month=today.month).count()
+    # 统计当前用户数
+    user_count = User.objects.count()
+    # 统计当前角色数
+    group_count = Group.objects.count()
+    # 获取当前用户角色
+    user_group = []
+    if request.user.is_superuser:
+        user_group.append('超级管理员')
+    else:
+        for group in request.user.groups.all():
+            user_group.append(group.name)
+    # 获取本月待完成订单信息
+    month_to_finish_order = InternalControlIndicators.objects.filter(scheduled_delivery__year=today.year,
+                                                                     scheduled_delivery__month=today.month,
+                                                                     finished_number=None)
+
+    # 打包数据
+    context = {
+        'month_order_count': month_order_count,
+        'user_count': user_count,
+        'group_count': group_count,
+        'user_group': user_group,
+        'month_to_finish_order': month_to_finish_order,
+    }
+
+    return render(request, '首页.html', context=context)
 
 
 # 测试页面方法
