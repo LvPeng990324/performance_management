@@ -5,10 +5,176 @@
 
 {% block main_content %}
     <div class="container-fluid">
+
         <div class="row">
-            <h3 style="font-size: 300%;position: absolute;left: 50%;top: 40%;transform: translate(-30%, -50%);">
-                欢迎使用利润绩效管理系统！
-            </h3>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card bg-primary">
+                    <div class="card-body clearfix">
+                        <div class="pull-right">
+                            <p class="h3 text-white m-t-0">数据统计</p>
+                            <p class="h6 text-white m-b-0">查看</p>
+                        </div>
+                        <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                class="mdi mdi-tab fa-1-5x"></i></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card bg-pink">
+                    <div class="card-body clearfix">
+                        <div class="pull-right">
+                            <p class="h3 text-white m-t-0">业务数据</p>
+                            <p class="h6 text-white m-b-0">管理</p>
+                        </div>
+                        <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                class="mdi mdi-collage fa-1-5x"></i></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card bg-cyan">
+                    <div class="card-body clearfix">
+                        <div class="pull-right">
+                            <p class="h3 text-white m-t-0">报表公式</p>
+                            <p class="h6 text-white m-b-0">修改</p>
+                        </div>
+                        <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                class="mdi  mdi-marker fa-1-5x"></i></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card bg-dark">
+                    <div class="card-body clearfix">
+                        <div class="pull-right">
+                            <p class="h3 text-white m-t-0">账号权限</p>
+                            <p class="h6 text-white m-b-0">管理</p>
+                        </div>
+                        <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                class="mdi mdi-clipboard-account fa-1-5x"></i></span></div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>订单信息</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>订单号</th>
+                                    <th>订单时间</th>
+                                    <th>计划交期</th>
+                                    <th>状态</th>
+                                    <th>进度</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>后台管理系统模板设计</td>
+                                    <td>25/01/2019</td>
+                                    <td>09/05/2019</td>
+                                    <td><span class="label label-primary">尚未完成</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar" style="width: 55%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>前端设计</td>
+                                    <td>10/10/2019</td>
+                                    <td>12/12/2019</td>
+                                    <td><span class="label label-yellow">逾期完成</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar-yellow" style="width: 0%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>桌面软件测试</td>
+                                    <td>10/01/2019</td>
+                                    <td>29/03/2019</td>
+                                    <td><span class="label label-pink">快到交期</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar-pink" style="width: 75%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>APP改版开发</td>
+                                    <td>25/02/2019</td>
+                                    <td>12/05/2019</td>
+                                    <td><span class="label label-danger">已经逾期</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar-danger" style="width: 15%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Logo设计</td>
+                                    <td>10/02/2019</td>
+                                    <td>01/03/2019</td>
+                                    <td><span class="label label-info">按时完成</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar-info" style="width: 100%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>APP改版开发</td>
+                                    <td>25/02/2019</td>
+                                    <td>12/05/2019</td>
+                                    <td><span class="label label-danger">已经逾期</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar-danger" style="width: 15%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Logo设计</td>
+                                    <td>10/02/2019</td>
+                                    <td>01/03/2019</td>
+                                    <td><span class="label label-info">按时完成</span></td>
+                                    <td>
+                                        <div class="progress progress-striped progress-sm">
+                                            <div class="progress-bar progress-bar-info" style="width: 100%;"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 {% endblock %}
