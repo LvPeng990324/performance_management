@@ -411,62 +411,57 @@
                                                 <input type="checkbox" name="ids[]" value="{{ data.id }}"><span></span>
                                             </label>
                                         </td>
-                                        {% if data.finished_number != None %}
-                                            {% if data.finished_number == 1 %}
-                                                <td nowrap="nowrap">
-                                                    <span class="label label-info">按时完成</span>
-                                                </td>
-                                                <td nowrap="nowrap">
-                                                    <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-info"
-                                                             style="width: 100%;"></div>
-                                                    </div>
-                                                </td>
-                                            {% else %}
-                                                <td nowrap="nowrap">
-                                                    <span class="label label-yellow">逾期完成</span>
-                                                </td>
-                                                <td nowrap="nowrap">
-                                                    <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-yellow"
-                                                             style="width: 100%;"></div>
-                                                    </div>
-                                                </td>
-                                            {% endif %}
-                                        {% else %}
-                                            {% if data.order_date|progress:data.scheduled_delivery != -1 %}
-                                                {% if data.order_date|progress:data.scheduled_delivery <= 70 %}
-                                                    <td nowrap="nowrap">
-                                                        <span class="label label-primary">尚未完成</span>
-                                                    </td>
-                                                    <td nowrap="nowrap">
-                                                        <div class="progress progress-striped progress-sm">
-                                                            <div class="progress-bar progress-bar-primary"
-                                                                 style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
-                                                        </div>
-                                                    </td>
-                                                {% else %}
-                                                    <td nowrap="nowrap">
-                                                        <span class="label label-pink">快到交期</span>
-                                                    </td>
-                                                    <td nowrap="nowrap">
-                                                        <div class="progress progress-striped progress-sm">
-                                                            <div class="progress-bar progress-bar-pink"
-                                                                 style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
-                                                        </div>
-                                                    </td>
-                                                {% endif %}
-                                            {% else %}
-                                                <td nowrap="nowrap">
-                                                    <span class="label label-danger">已经逾期</span>
-                                                </td>
-                                                <td nowrap="nowrap">
-                                                    <div class="progress progress-striped progress-sm">
-                                                        <div class="progress-bar progress-bar-danger"
-                                                             style="width: 100%;"></div>
-                                                    </div>
-                                                </td>
-                                            {% endif %}
+
+                                        {% if data|order_status == '按时完成' %}
+                                            <td nowrap="nowrap">
+                                                <span class="label label-info">按时完成</span>
+                                            </td>
+                                            <td nowrap="nowrap">
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-info"
+                                                         style="width: 100%;"></div>
+                                                </div>
+                                            </td>
+                                        {% elif data|order_status == '逾期完成' %}
+                                            <td nowrap="nowrap">
+                                                <span class="label label-yellow">逾期完成</span>
+                                            </td>
+                                            <td nowrap="nowrap">
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-yellow"
+                                                         style="width: 100%;"></div>
+                                                </div>
+                                            </td>
+                                        {% elif data|order_status == '尚未完成' %}
+                                            <td nowrap="nowrap">
+                                                <span class="label label-primary">尚未完成</span>
+                                            </td>
+                                            <td nowrap="nowrap">
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-primary"
+                                                         style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
+                                                </div>
+                                            </td>
+                                        {% elif data|order_status == '快到交期' %}
+                                            <td nowrap="nowrap">
+                                                <span class="label label-pink">快到交期</span>
+                                            </td>
+                                            <td nowrap="nowrap">
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-pink"
+                                                         style="width: {{ data.order_date|progress:data.scheduled_delivery }}%;"></div>
+                                                </div>
+                                            </td>
+                                        {% elif data|order_status == '已经逾期' %}
+                                            <td nowrap="nowrap">
+                                                <span class="label label-danger">已经逾期</span>
+                                            </td>
+                                            <td nowrap="nowrap">
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-danger"
+                                                         style="width: 100%;"></div>
+                                                </div>
+                                            </td>
                                         {% endif %}
 
                                         <td nowrap="nowrap">{{ data.order_date|date:"Y年m月d日" }}</td>
