@@ -22,8 +22,8 @@
                 <div class="card bg-primary">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0">本月订单数</p>
-                            <p class="h3 text-white m-b-0">{{ month_order_count }}</p>
+                            <p class="h6 text-white m-t-0 text-right">本月订单数</p>
+                            <p class="h3 text-white m-b-0 text-right">{{ month_order_count }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi mdi-content-paste fa-1-5x"></i></span></div>
@@ -35,8 +35,8 @@
                 <div class="card bg-pink">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0">您的工号</p>
-                            <p class="h3 text-white m-b-0">{{ request.user.extension.job_number }}</p>
+                            <p class="h6 text-white m-t-0 text-right">您的工号</p>
+                            <p class="h3 text-white m-b-0 text-right">{{ request.user.extension.job_number }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi mdi-square-inc fa-1-5x"></i></span></div>
@@ -48,8 +48,8 @@
                 <div class="card bg-cyan">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0">您的部门</p>
-                            <p class="h3 text-white m-b-0">{{ request.user.extension.department }}</p>
+                            <p class="h6 text-white m-t-0 text-right">您的部门</p>
+                            <p class="h3 text-white m-b-0 text-right">{{ request.user.extension.department }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi  mdi-crown fa-1-5x"></i></span></div>
@@ -61,9 +61,9 @@
                 <div class="card bg-dark">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0">您的角色</p>
+                            <p class="h6 text-white m-t-0 text-right">您的角色</p>
                             {% for group in user_group %}
-                                <p class="h3 text-white m-b-0">{{ group }}</p>
+                                <p class="h3 text-white m-b-0 text-right">{{ group }}</p>
                             {% endfor %}
 
                         </div>
@@ -84,21 +84,21 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover text-center">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>订单号</th>
-                                    <th>订单时间</th>
-                                    <th>计划交期</th>
-                                    <th>状态</th>
-                                    <th>时间进度</th>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">订单号</th>
+                                    <th class="text-center">订单时间</th>
+                                    <th class="text-center">计划交期</th>
+                                    <th class="text-center">状态</th>
+                                    <th class="text-center">时间进度</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for order in month_to_finish_order %}
                                     <tr>
-                                        <td>{{ forloop.counter }}</td>
+                                        <th class="text-center">{{ forloop.counter }}</th>
                                         <td>{{ order.order_number }}</td>
                                         <td>{{ order.order_date|date:"Y-m-d" }}</td>
                                         <td>{{ order.scheduled_delivery|date:"Y-m-d" }}</td>
