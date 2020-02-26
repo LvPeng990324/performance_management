@@ -56,7 +56,7 @@
                                 {% endif %}
                                 {% if 'performance.view_monthly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_monthly_result_active %}{% endblock %}"><a
-                                        href="{% url 'show_monthly_result' %}">管理层月度绩效考核结果</a></li>
+                                        href="{% url 'show_monthly_result' %}">月度绩效考核结果</a></li>
                                 {% endif %}
                                 {% if 'performance.view_quarterly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
                                 <li class="{% block show_quarterly_result_active %}{% endblock %}"><a
@@ -88,7 +88,7 @@
                         <li class="nav-item nav-item-has-subnav {% block change_formula_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-marker"></i> 报表公式修改</a>
                             <ul class="nav nav-subnav ">
-                                <li class="{% block month_formula_active %}{% endblock %}"><a href="{% url 'month_result_formula' %}">管理层月度绩效考核结果</a></li>
+                                <li class="{% block month_formula_active %}{% endblock %}"><a href="{% url 'month_result_formula' %}">月度绩效考核结果</a></li>
                                 <li class="{% block quarter_formula_active %}{% endblock %}"><a href="{% url 'quarter_result_formula' %}">季度绩效考核结果</a></li>
                             </ul>
                         </li>
