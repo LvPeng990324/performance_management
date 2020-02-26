@@ -35,10 +35,6 @@ def index(request):
     today = date.today()
     month_order_count = InternalControlIndicators.objects.filter(order_date__year=today.year,
                                                                  order_date__month=today.month).count()
-    # 统计当前用户数
-    user_count = User.objects.count()
-    # 统计当前角色数
-    group_count = Group.objects.count()
     # 获取当前用户角色
     user_group = []
     if request.user.is_superuser:
@@ -54,8 +50,6 @@ def index(request):
     # 打包数据
     context = {
         'month_order_count': month_order_count,
-        'user_count': user_count,
-        'group_count': group_count,
         'user_group': user_group,
         'month_to_finish_order': month_to_finish_order,
     }

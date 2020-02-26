@@ -25,8 +25,8 @@
                 <div class="card bg-pink">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0">系统当前用户数</p>
-                            <p class="h3 text-white m-b-0">{{ user_count }}</p>
+                            <p class="h6 text-white m-t-0">您的工号</p>
+                            <p class="h3 text-white m-b-0">{{ request.user.extension.job_number }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi mdi-collage fa-1-5x"></i></span></div>
@@ -38,8 +38,8 @@
                 <div class="card bg-cyan">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0">系统当前角色数</p>
-                            <p class="h3 text-white m-b-0">{{ group_count }}</p>
+                            <p class="h6 text-white m-t-0">您的部门</p>
+                            <p class="h3 text-white m-b-0">{{ request.user.extension.department }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi  mdi-marker fa-1-5x"></i></span></div>
