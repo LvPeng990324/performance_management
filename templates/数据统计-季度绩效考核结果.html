@@ -139,12 +139,6 @@
                     type: 'shadow',
                 },
             },
-            toolbox: {
-                feature: {
-                    saveAsImage: {show: true},
-                },
-                padding: [0, 120]
-            },
             dataset: {
                 source: [
                     ['季度', {% for data in quarterly_result %}'第{{ data.quarter }}季度', {% endfor %}],

@@ -20,11 +20,11 @@
                                     </tr>
                                     <tr>
                                         <td>A</td>
-                                        <td>当月按时完成的订单数</td>
+                                        <td>当月订单按时完成数</td>
                                     </tr>
                                     <tr>
                                         <td>B</td>
-                                        <td>当月计划完成的订单数</td>
+                                        <td>当月订单计划完成数</td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
@@ -32,7 +32,7 @@
                                     </tr>
                                     <tr>
                                         <td>D</td>
-                                        <td>当月医药费累加</td>
+                                        <td>当月目标医药费累加</td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
@@ -40,23 +40,24 @@
                                     </tr>
                                     <tr>
                                         <td>F</td>
-                                        <td>目标成本</td>
+                                        <td>当月目标成本累加</td>
                                     </tr>
                                     <tr>
                                         <td>G</td>
-                                        <td>实际成本</td>
+                                        <td>当月实际成本累加</td>
                                     </tr>
                                     <tr>
                                         <td>H</td>
-                                        <td>实际符合</td>
+                                        <td>当月实际符合符合数</td>
                                     </tr>
                                     <tr>
                                         <td>I</td>
-                                        <td>目标符合</td>
+                                        <td>当月目标管理符合数</td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
+                        <h5 style="font-size: 110%"><b>提示：</b>公式中仅可输入<b>数字</b>、<b>小数点</b>、<b>大写字母</b>、<b>计算符号</b>和<b>西文括号</b></h5>
                     </div>
                 </div>
             </div>
@@ -103,7 +104,8 @@
                                             <label class="col-md-3 control-label" for="field_management">现场管理符合率</label>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="field_management"
-                                                       name="field_management" value="{{ field_management_well_rate }}"/>
+                                                       name="field_management"
+                                                       value="{{ field_management_well_rate }}"/>
                                             </div>
                                         </div>
 
