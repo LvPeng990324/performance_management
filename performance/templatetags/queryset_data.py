@@ -40,9 +40,43 @@ def percentage(data):
 def progress(order_date, scheduled_delivery):
     # 获取当前日期
     current_date = datetime.date.today()
-    # 如果当前时间已经超过计划交期，返回False
+    # 如果当前时间已经超过计划交期，返回-1
     if current_date > scheduled_delivery:
         return -1
     # 计算百分数
     return ((current_date - order_date).days / (scheduled_delivery - order_date).days)*100
+
+
+# 返回订单状态
+@register.filter
+def order_status(order):
+    # 设定快到交期阈值
+    threshold = 70
+    # 分类数据
+    finished_number = order.finished_number
+    progress_number = progress(order.order_date, order.scheduled_delivery)
+    # 先分是否完成
+    if finished_number is None:
+        # 未完成订单
+        # 先判断是否是已经逾期
+        if progress_number == -1:
+            # 已经逾期
+            return '已经逾期'
+        else:
+            # 再根据时间进度是否超过阈值分
+            if progress_number <= threshold:
+                # 尚未完成
+                return '尚未完成'
+            else:
+                # 快到交期
+                return '快到交期'
+    else:
+        # 已完成订单
+        # 再根据finished_number来判断是否逾期完成
+        if finished_number == 1:
+            # 按时完成
+            return '按时完成'
+        else:
+            # 逾期完成
+            return '逾期完成'
 
