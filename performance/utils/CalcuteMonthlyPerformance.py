@@ -62,7 +62,7 @@ def get_d(need_year, need_month):
         actual_delivery__month=need_month,
     ).aggregate(sum_target_medical_expenses=Sum('target_medical_expenses'))
     d = d['sum_target_medical_expenses']
-    print(d)
+    # print(d)
     return d
 
 
@@ -191,10 +191,10 @@ def monthly_get_and_refresh(year_list=InternalControlIndicators.objects.values_l
                 if obj:
                     # 如果该月数据已存在，则更新
                     MonthlyPerformance.objects.filter(year=year, month=month).update(**new_data)
-                    # print("%s年%s月 更新成功" % (year, month))
+                    print("%s年%s月 更新成功" % (year, month))
                 else:
                     MonthlyPerformance.objects.create(**new_data)
-                    # print("%s年%s月 成功存入" % (year, month))
+                    print("%s年%s月 成功存入" % (year, month))
                 # 反馈成功信息
                 success_message += '%s月' % month
                 # 公式出错
@@ -206,13 +206,13 @@ def monthly_get_and_refresh(year_list=InternalControlIndicators.objects.values_l
                 continue
 
         # 无错误信息
-        if error_message == '':
-            return 'success'
+        # if error_message == '':
+            # return 'success'
         # 有错误信息
-        else:
+        # else:
             # 12个月都出错
-            if len(error_message) == 27:
-                error_message = '所有月份数据不足！请检查数据来源'
-            else:
-                error_message += '月份数据不足！其余月份更新成功！'
-            return error_message
+            # if len(error_message) == 27:
+            #     error_message = '所有月份数据不足！请检查数据来源'
+            # else:
+            #     error_message += '月份数据不足！其余月份更新成功！'
+            # return error_message
