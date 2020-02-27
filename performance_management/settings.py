@@ -75,14 +75,24 @@ WSGI_APPLICATION = 'performance_management.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'performance_test',  # 数据库名字(需要先创建)
+#         'USER': 'root',  # 登录用户名
+#         'PASSWORD': 'lp990324',  # 密码
+#         'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost
+#         'PORT': '5432',  # 端口
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'performance_test',  # 数据库名字(需要先创建)
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'performance_management',  # 数据库名字(需要先创建)
         'USER': 'root',  # 登录用户名
-        'PASSWORD': 'lp990324',  # 密码
-        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost
-        'PORT': '5432',  # 端口
+        'PASSWORD': '123456',  # 密码
+        'HOST': '',  # 数据库IP地址,留空默认为localhost
+        'PORT': '3306',  # 端口
     }
 }
 
