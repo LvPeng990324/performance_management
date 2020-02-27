@@ -51,6 +51,9 @@ def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.values_list('ye
         # print(year)
         success_message = ''
         error_message = ''
+        # 排除内控数据不完整的情况
+        if year is None:
+            continue
         for quarter in range(1, 5):
             try:
                 # 尝试获取数据项
