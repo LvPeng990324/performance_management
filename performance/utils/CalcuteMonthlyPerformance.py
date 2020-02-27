@@ -126,6 +126,9 @@ def monthly_get_and_refresh(year_list=InternalControlIndicators.objects.values_l
     for year in year_list:
         success_message = ''
         error_message = ''
+        # 排除内控数据不完整的情况
+        if year is None:
+            continue
         for month in range(1, 13):
             try:
                 # 尝试获取数据项
