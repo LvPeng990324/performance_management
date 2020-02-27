@@ -39,7 +39,7 @@ class PageInfo(object):
                 stop = self.show_page + 1
             else:
                 if self.current_page + half > self.all_page:
-                    begin = self.all_page - self.show_page
+                    begin = self.all_page - self.show_page + 1
                     stop = self.all_page + 1
                 else:
                     begin = self.current_page - half
