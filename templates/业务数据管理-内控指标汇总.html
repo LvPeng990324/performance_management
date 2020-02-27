@@ -310,6 +310,9 @@
                                             <li class="{% ifequal current_status '已经逾期' %}active{% endifequal %}">
                                                 <a href="{% url 'show_internal_control_indicators' %}?current_status=已经逾期">已经逾期</a>
                                             </li>
+                                            <li class="{% ifequal current_status '还未开始' %}active{% endifequal %}">
+                                                <a href="{% url 'show_internal_control_indicators' %}?current_status=还未开始">还未开始</a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <input hidden name="action" value="订单号搜索">
@@ -460,6 +463,16 @@
                                                 <div class="progress progress-striped progress-sm">
                                                     <div class="progress-bar progress-bar-danger"
                                                          style="width: 100%;"></div>
+                                                </div>
+                                            </td>
+                                            {% elif data|order_status == '还未开始' %}
+                                            <td nowrap="nowrap">
+                                                <span class="label label-secondary">还未开始</span>
+                                            </td>
+                                            <td nowrap="nowrap">
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-secondary"
+                                                         style="width: 0%;"></div>
                                                 </div>
                                             </td>
                                         {% endif %}

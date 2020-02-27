@@ -635,6 +635,10 @@ def show_internal_control_indicators(request):
             # 遍历循环，不符合条件的排除掉
             for temp in data:
                 # 计算时间进度百分比
+                # 如果订单时间跟计划交期相同，则排除掉
+                if temp.order_date == temp.scheduled_delivery:
+                    data = data.exclude(id=temp.id)
+                    continue
                 percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比超过0.7的排除
@@ -662,7 +666,16 @@ def show_internal_control_indicators(request):
             # 遍历循环，不符合条件的排除掉
             for temp in data:
                 # 计算时间进度百分比
-                percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
+                # 当订单时间与计划交期一样时，只有当前时间也一样才是快到交期
+                if temp.scheduled_delivery == temp.order_date:
+                    if current_time == temp.order_date:
+                        percentage = 1
+                    else:
+                        data = data.exclude(id=temp.id)
+                        continue
+                else:
+                    percentage = (current_time - temp.order_date).days / (
+                                temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比未超过0.7的排除
                 if current_time > temp.scheduled_delivery or percentage <= 0.7:
@@ -691,6 +704,14 @@ def show_internal_control_indicators(request):
             all_count = data.count()
             page_info = PageInfo(request.GET.get('page'), all_count, 15,
                                  '/show_internal_control_indicators/?current_status=已经逾期&')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        elif current_status == '还未开始':
+            current_time = date.today()
+            data = InternalControlIndicators.objects.filter(order_date__gte=current_time, finished_number=None)
+            # 写入数据
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/show_internal_control_indicators/?current_status=还未开始&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         else:
             # 取出所有订单信息
@@ -1341,6 +1362,10 @@ def display_internal_control_indicators(request):
             # 遍历循环，不符合条件的排除掉
             for temp in data:
                 # 计算时间进度百分比
+                # 如果订单时间跟计划交期相同，则排除掉
+                if temp.order_date == temp.scheduled_delivery:
+                    data = data.exclude(id=temp.id)
+                    continue
                 percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比超过0.7的排除
@@ -1368,7 +1393,15 @@ def display_internal_control_indicators(request):
             # 遍历循环，不符合条件的排除掉
             for temp in data:
                 # 计算时间进度百分比
-                percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
+                # 当订单时间与计划交期一样时，只有当前时间也一样才是快到交期
+                if temp.scheduled_delivery == temp.order_date:
+                    if current_time == temp.order_date:
+                        percentage = 1
+                    else:
+                        data = data.exclude(id=temp.id)
+                        continue
+                else:
+                    percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比未超过0.7的排除
                 if current_time > temp.scheduled_delivery or percentage <= 0.7:
@@ -1397,6 +1430,14 @@ def display_internal_control_indicators(request):
             all_count = data.count()
             page_info = PageInfo(request.GET.get('page'), all_count, 15,
                                  '/display_internal_control_indicators/?current_status=已经逾期&')
+            internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
+        elif current_status == '还未开始':
+            current_time = date.today()
+            data = InternalControlIndicators.objects.filter(order_date__gte=current_time, finished_number=None)
+            # 写入数据
+            all_count = data.count()
+            page_info = PageInfo(request.GET.get('page'), all_count, 15,
+                                 '/show_internal_control_indicators/?current_status=还未开始&')
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         else:
             # 取出所有订单信息
