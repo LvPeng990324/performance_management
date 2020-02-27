@@ -50,28 +50,28 @@
                                         class="mdi mdi-chart-line"></i></a>
                             </div>
                         </div>
-{#                        <a href="{% url 'refresh_quarterly_result' %}?select_year={{ current_year }}">刷新数据</a>#}
+                        {#                        <a href="{% url 'refresh_quarterly_result' %}?select_year={{ current_year }}">刷新数据</a>#}
 
 
                     </div>
                     <div class="card-toolbar clearfix">
                         <from class="pull-right search-bar" method="post" action="#!" role="form">
                             <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="false" aria-expanded="true">
-                                {{ current_year }} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                {% for year in year_list %}
-                                    <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a
-                                            href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a>
-                                    </li>
-                                {% endfor %}
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="false" aria-expanded="true">
+                                    {{ current_year }} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for year in year_list %}
+                                        <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a
+                                                href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a>
+                                        </li>
+                                    {% endfor %}
 
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
                         </from>
-                       <div class="toolbar-btn-action">
+                        <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-success" data-toggle="modal"
                                     data-target="#export"><i class="mdi mdi-file-excel"></i> 导出为Excel
                             </button>
@@ -121,7 +121,7 @@
         var myChart = $("#chart_display")[0];
         myChart.style.width = $("#table_display").width() + 'px';
         chartObj = echarts.init(myChart);
-        var myChart = echarts.init(document.getElementById('chart_display'));
+        {#var myChart = echarts.init(document.getElementById('chart_display'));#}
         option = {
             title: {
                 text: '{{ current_year }}年度各季度绩效考核结果',
@@ -148,27 +148,21 @@
                     ['利润率', {% for data in quarterly_result %}{{ data.profit_rate }}, {% endfor %}],
                 ]
             },
-            xAxis: [
-                {type: 'category', gridIndex: 1},
-                {type: 'category', gridIndex: 0},
-            ],
-            yAxis: [
-                {gridIndex: 1},
-                {gridIndex: 0},
-            ],
-            grid: [
-                {bottom: '55%'},
-                {top: '55%'}
-            ],
+            xAxis: {
+                type: 'category',
+            },
+            yAxis: {
+                axisLabel: {
+                    formatter: function (value) {
+                        return (value * 100) + '%';
+                    },
+                }
+            },
             series: [
-                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
-                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
-                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
-                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
-                {type: 'bar', seriesLayoutBy: 'row'},
-                {type: 'bar', seriesLayoutBy: 'row'},
-                {type: 'bar', seriesLayoutBy: 'row'},
-                {type: 'bar', seriesLayoutBy: 'row'},
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
             ]
         };
         chartObj.setOption(option);
@@ -177,7 +171,7 @@
         $('#show_charts').click(function () {
             $('#chart_display').removeClass('hidden');
             $('#table_display').addClass('hidden');
-        })
+        });
         $('#show_table').click(function () {
             $('#table_display').removeClass('hidden');
             $('#chart_display').addClass('hidden');

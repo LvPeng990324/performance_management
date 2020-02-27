@@ -139,9 +139,8 @@
                 feature: {
                     magicType: {show: true, type: ['bar']},
                     restore: {show: true},
-                    saveAsImage: {show: true},
                 },
-                padding: [0, 100]
+                padding: [30, 80],
             },
             grid: {
                 left: '8%',
@@ -159,8 +158,13 @@
                 data: [{% for data in monthly_result %}'{{ data.month }}月',{% endfor %}]
             },
             yAxis: {
-                name: '比例',
+                name: '',
                 type: 'value',
+                axisLabel: {
+                    formatter: function (value) {
+                        return (value * 100) + '%';
+                    },
+                },
             },
             series: [{
                 name: '交付率',
@@ -191,9 +195,8 @@
                 feature: {
                     magicType: {show: true, type: ['bar']},
                     restore: {show: true},
-                    saveAsImage: {show: true},
                 },
-                padding: [0, 100]
+                padding: [30, 80],
             },
             grid: {
                 left: '8%',
