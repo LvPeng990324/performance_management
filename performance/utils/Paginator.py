@@ -64,7 +64,7 @@ class PageInfo(object):
             next_page = "<li><a href='%spage=%s'>下一页</a></li>" % (self.base_url, self.current_page + 1)
             page_list.append(next_page)
         # 加入尾页
-        if self.current_page == self.all_page:
+        if self.current_page == self.all_page or self.all_page == 0:
             last_page = "<li><a href='javascript:void(0)'>尾页</a></li>"
         else:
             last_page = "<li><a href='%spage=%s'>尾页</a></li>" % (self.base_url, self.all_page)
