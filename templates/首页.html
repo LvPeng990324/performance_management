@@ -126,6 +126,14 @@
                                                          style="width: 100%;"></div>
                                                 </div>
                                             </td>
+                                            {% elif order|order_status == '还未开始' %}
+                                            <td><span class="label label-secondary">还未开始</span></td>
+                                            <td>
+                                                <div class="progress progress-striped progress-sm">
+                                                    <div class="progress-bar progress-bar-secondary"
+                                                         style="width: 0%;"></div>
+                                                </div>
+                                            </td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}
