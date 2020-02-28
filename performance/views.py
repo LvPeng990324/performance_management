@@ -642,7 +642,8 @@ def show_internal_control_indicators(request):
                 percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比超过0.7的排除
-                if current_time > temp.scheduled_delivery or percentage > 0.7:
+                # 当前时间小于订单时间的排除
+                if current_time > temp.scheduled_delivery or percentage > 0.7 or current_time < temp.order_date:
                     data = data.exclude(id=temp.id)
             # 写入数据
             all_count = data.count()
@@ -1369,7 +1370,8 @@ def display_internal_control_indicators(request):
                 percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比超过0.7的排除
-                if current_time > temp.scheduled_delivery or percentage > 0.7:
+                # 当前时间小于订单时间的排除
+                if current_time > temp.scheduled_delivery or percentage > 0.7 or current_time < temp.order_date:
                     data = data.exclude(id=temp.id)
             # 写入数据
             all_count = data.count()
