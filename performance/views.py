@@ -60,7 +60,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '系统安全备份-用户操作日志.html')
+    return render(request, '系统安全备份-数据备份还原.html')
 
 
 # 登陆方法
