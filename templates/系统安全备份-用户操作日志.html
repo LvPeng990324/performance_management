@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}系统操控日志{% endblock %}
+
+{% block css_content %}
+{% endblock %}
+
+{% block modal_content %}
+    <!--导出excel-->
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'export_monthly_sales_data' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">导出系统操控日志</h4>
+                    </div>
+                    <div class="modal-body">
+                        导出系统操控日志
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">下载</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>用户操作日志</b></h4>
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <form class="pull-right search-bar" method="post"
+                              action="{% url 'display_internal_control_indicators' %}" role="form">
+                            {% csrf_token %}
+                            <div class="input-group-btn">
+                                <div class="input-group">
+                                    <input hidden name="action" value="操作账号搜索">
+                                    <input type="text" class="form-control" name="order_number" aria-label="..."
+                                           placeholder="操作账号搜索...">
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default">搜索</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i>
+                                导出用户操作日志
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!--手风琴效果-->
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                           aria-controls="collapseThree">
+                                            操作时间筛选
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <form method="post" action="{% url 'display_internal_control_indicators' %}"
+                                              role="form">
+                                            {% csrf_token %}
+                                            <input hidden name="action" value="操作日志筛选">
+                                            <div class="input-daterange input-group">
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange1" name="start_date"
+                                                       placeholder="操作时间起点" required>
+                                                <span class="input-group-addon"><i
+                                                        class="mdi mdi-chevron-right"></i></span>
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange2" name="end_date"
+                                                       placeholder="操作时间终点" required>
+                                                <span class="input-group-btn" id="basic-addon3">
+                                                <button class="btn btn-default" type="submit">筛选订单</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--手风琴效果 End-->
+                        <div id="table_display" class="table-responsive text-right">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <label class="lyear-checkbox checkbox-primary">
+                                            <input type="checkbox" id="check-all"><span></span>
+                                        </label>
+                                    </th>
+                                    <th nowrap="nowrap" class="text-center">时间</th>
+                                    <th nowrap="nowrap" class="text-center">操作账号</th>
+                                    <th nowrap="nowrap" class="text-center">账号工号</th>
+                                    <th nowrap="nowrap" class="text-center">操作内容</th>
+                                    <th nowrap="nowrap" class="text-center">参数</th>
+                                    <th nowrap="nowrap" class="text-center">操作结果</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <label class="lyear-checkbox checkbox-primary">
+                                            <input type="checkbox" name="ids[]" value="1"><span></span>
+                                        </label>
+                                    </td>
+                                    <th nowrap="nowrap" class="text-center">2020.2.29</th>
+                                    <td nowrap="nowrap">CQY</td>
+                                    <td nowrap="nowrap">17481104</td>
+                                    <td nowrap="nowrap">导入表信息</td>
+                                    <td nowrap="nowrap">1.xsl</td>
+                                    <td nowrap="nowrap">success</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_content %}
+
+{% endblock %}

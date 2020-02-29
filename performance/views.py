@@ -59,7 +59,7 @@ def index(request):
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '业务数据管理-内控指标汇总.html')
+    return render(request, '系统安全备份-用户操作日志.html')
 
 
 # 登陆方法
