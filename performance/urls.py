@@ -103,6 +103,11 @@ urlpatterns = [
     # 修改季度公式
     path('change_quarter_formula/', views.change_quarter_formula, name='change_quarter_formula'),
 
+    # 下载月度营业数据表格模板
+    path('download_monthly_sales_modal/', views.download_monthly_sales_modal, name='download_monthly_sales_modal'),
+    # 下载内控指标汇总模板
+    path('download_internal_control_modal/', views.download_internal_control_modal, name='download_internal_control_modal'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
 

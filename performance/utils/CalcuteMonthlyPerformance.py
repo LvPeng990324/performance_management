@@ -200,7 +200,7 @@ def monthly_get_and_refresh(year_list=InternalControlIndicators.objects.values_l
                     # print("%s年%s月 成功存入" % (year, month))
                 # 反馈成功信息
                 success_message += '%s月' % month
-                # 公式出错
+            # 公式出错
             except:
             # 删除所有数据
                 MonthlyPerformance.objects.filter(year=year).delete()

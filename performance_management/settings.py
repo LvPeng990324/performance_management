@@ -80,10 +80,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'performance_test',  # 数据库名字(需要先创建)
         'USER': 'root',  # 登录用户名
-        'PASSWORD': 'lp990324',  # 密码
-        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost
-        'PORT': '5432',  # 端口
-    }
+        'PASSWORD': 'lp990324',  # 密码	 
+        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost	
+        'PORT': '5432',  # 端口	
+    }	
 }
 
 
