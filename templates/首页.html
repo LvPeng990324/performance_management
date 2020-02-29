@@ -12,63 +12,63 @@
                 <div class="card">
                     <div class="card-body clearfix">
                         <a style="position: absolute;left: 45%;transform: translate(-30%, -50%);">
-                <i class="mdi mdi-creation"></i>  欢迎使用利润绩效管理系统！
-            </a>
+                            <i class="mdi mdi-creation"></i> 欢迎使用利润绩效管理系统！
+                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 col-lg-3">
-                <div class="card bg-primary">
+                <div class="card bg-secondary">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0 text-right">本月订单数</p>
-                            <p class="h3 text-white m-b-0 text-right">{{ month_order_count }}</p>
+                            <p class="h6 text m-t-0 text-right"><b>本月订单数</b></p>
+                            <p class="h3 text m-b-0 text-right">{{ month_order_count }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi mdi-content-paste fa-1-5x"></i></span></div>
+                                class="mdi mdi-content-paste mdi-dark fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 col-lg-3">
-                <div class="card bg-pink">
+                <div class="card bg-secondary">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0 text-right">您的工号</p>
-                            <p class="h3 text-white m-b-0 text-right">{{ request.user.extension.job_number }}</p>
+                            <p class="h6 text m-t-0 text-right"><b>您的工号</b></p>
+                            <p class="h3 text m-b-0 text-right">{{ request.user.extension.job_number }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi mdi-square-inc fa-1-5x"></i></span></div>
+                                class="mdi mdi-square-inc mdi-dark fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 col-lg-3">
-                <div class="card bg-cyan">
+                <div class="card bg-secondary">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0 text-right">您的部门</p>
-                            <p class="h3 text-white m-b-0 text-right">{{ request.user.extension.department }}</p>
+                            <p class="h6 text m-t-0 text-right"><b>您的部门</b></p>
+                            <p class="h3 text m-b-0 text-right">{{ request.user.extension.department }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi  mdi-crown fa-1-5x"></i></span></div>
+                                class="mdi  mdi-crown mdi-dark fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 col-lg-3">
-                <div class="card bg-dark">
+                <div class="card bg-secondary">
                     <div class="card-body clearfix">
                         <div class="pull-right">
-                            <p class="h6 text-white m-t-0 text-right">您的角色</p>
+                            <p class="h6 text m-t-0 text-right"><b>您的角色</b></p>
                             {% for group in user_group %}
-                                <p class="h3 text-white m-b-0 text-right">{{ group }}</p>
+                                <p class="h3 text m-b-0 text-right">{{ group }}</p>
                             {% endfor %}
 
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
-                                class="mdi mdi-account fa-1-5x"></i></span></div>
+                                class="mdi mdi-account mdi-dark fa-1-5x"></i></span></div>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,87 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>本月待完成订单</h4>
+                        <h4><b>系统公告</b></h4>
+                    </div>
+                    <div class="card-body">
+                        <!--手风琴效果-->
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            3.4日进行了系统综合测试和最终微调
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <blockquote class="blockquote">
+                                            <p>为了适配项目需求以及满足客户期待，项目组进行了系统综合测试和最终微调，进行了系统的最终演示测试以及黑盒稳定性测试，以及修正了一些的bug。</p>
+                                            <footer>项目开发小组</footer>
+
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                           aria-controls="collapseTwo">
+                                            3.1日进行了系统维护和数据测试
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        <blockquote class="blockquote">
+                                            <p>为了适配项目需求以及满足客户期待，项目组进行了系统维护和数据测试，测试了一系列数据集，以及系统安全控制等
+                                                功能，以及修正了一些的bug。</p>
+                                            <footer>项目开发小组</footer>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                           aria-controls="collapseThree">
+                                            2.28日进行了系统调整和一系列的更新
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <blockquote class="blockquote">
+                                            <p>为了适配项目需求以及满足客户期待，项目组更新了前端页面，进行了一系列的系统调整，新增加了系统日志回滚，数据库备份等
+                                                安全维护功能，以及修正了一些的bug。</p>
+                                            <footer>项目开发小组</footer>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--手风琴效果 End-->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>本月待完成订单</b></h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -126,7 +206,7 @@
                                                          style="width: 100%;"></div>
                                                 </div>
                                             </td>
-                                            {% elif order|order_status == '还未开始' %}
+                                        {% elif order|order_status == '还未开始' %}
                                             <td><span class="label label-secondary">还未开始</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
