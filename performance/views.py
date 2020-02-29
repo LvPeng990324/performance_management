@@ -3,10 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.db.models import F
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.contrib import messages
 from datetime import datetime
 from datetime import date
+from django.utils.encoding import escape_uri_path
 from .models import MonthlySalesData
 from .models import QuarterlySalesData
 from .models import InternalControlIndicators
@@ -676,7 +677,7 @@ def show_internal_control_indicators(request):
                         continue
                 else:
                     percentage = (current_time - temp.order_date).days / (
-                                temp.scheduled_delivery - temp.order_date).days
+                            temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比未超过0.7的排除
                 if current_time > temp.scheduled_delivery or percentage <= 0.7:
@@ -832,7 +833,7 @@ def add_internal_control_indicators(request):
 @permission_required('performance.manage_internal_control_indicators', raise_exception=True)
 def delete_internal_control_indicators(request):
     # 用来记录删除数据的年份
-    year_set=set()
+    year_set = set()
     # get为多选删除，post为单条删除
     if request.method == 'GET':
         delete_id = request.GET.getlist('delete_id', [])
@@ -1403,7 +1404,8 @@ def display_internal_control_indicators(request):
                         data = data.exclude(id=temp.id)
                         continue
                 else:
-                    percentage = (current_time - temp.order_date).days / (temp.scheduled_delivery - temp.order_date).days
+                    percentage = (current_time - temp.order_date).days / (
+                                temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比未超过0.7的排除
                 if current_time > temp.scheduled_delivery or percentage <= 0.7:
@@ -1651,3 +1653,19 @@ def change_quarter_formula(request):
     # 刷新当年季度考核结果
     CalculateQuarterlyPerformance.quarterly_get_and_refresh()
     return redirect('quarter_result_formula')
+
+
+def download_monthly_sales_modal(request):
+    file = open('media/月度营业数据-模板.xls', 'rb')
+    response = HttpResponse(file)
+    response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    response['Content-Disposition'] = "attachment;filename*=UTF-8''{}".format(escape_uri_path("月度营业数据-模板.xls"))
+    return response
+
+
+def download_internal_control_modal(request):
+    file = open('media/内控指标汇总-模板.xls', 'rb')
+    response = HttpResponse(file)
+    response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    response['Content-Disposition'] = "attachment;filename*=UTF-8''{}".format(escape_uri_path("内控指标汇总-模板.xls"))
+    return response
