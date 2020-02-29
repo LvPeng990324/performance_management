@@ -15,7 +15,7 @@
                         <h4 class="modal-title" id="delModalLabel">导入月度营业数据</h4>
                     </div>
                     <div class="modal-body">
-                        支持excel和csv文件
+                        支持Excel文件
                         <div class="form-group">
                             <input class="form-control" type="file" name="upload_file">
                         </div>
@@ -331,13 +331,6 @@
                 }
             });
         }
-        {#$('#download_model').click(function () {#}
-        {#    $.ajax({#}
-        {#        type:'get',#}
-        {#        url:{% url 'download_monthly_sales_modal' %},#}
-        {#        success:function () {#}
-        {#        }#}
-        {#    })#}
     </script>
     <!-- 消息提示框 -->
     {% if messages %}
