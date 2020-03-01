@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.db.models import F
+from django.db.models import Q
 from django.http import JsonResponse, FileResponse
 from django.contrib import messages
 from datetime import datetime
@@ -17,6 +18,7 @@ from .models import QuarterlyPerformance
 from .models import MonthlyFormula
 from .models import QuarterlyFormula
 from .models import User
+from .models import Logs
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from .forms import cleaned_formula
@@ -26,6 +28,7 @@ from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
 from .utils.Paginator import PageInfo
+from .utils.UserLog import add_log
 
 
 # 展示首页
@@ -146,9 +149,15 @@ def add_user(request):
         user.save()
         # 写入成功提示
         messages.success(request, '用户增加成功')
+        # 记录日志
+        action = '增加了工号为{}，姓名为{}的账号'.format(job_number, name)
+        add_log(request, action, '成功')
     except:
         # 写入失败提示
         messages.error(request, '用户增加失败')
+        # 记录日志
+        action = '试图增加工号为{}，姓名为{}的账号'.format(job_number, name)
+        add_log(request, action, '失败')
     # 重载账号展示页面
     return redirect('user_management')
 
@@ -173,6 +182,9 @@ def delete_user(request):
             User.objects.get(id=id).delete()
         # 写入删除成功提示
         messages.success(request, '选中用户删除成功')
+        # 记录日志
+        action = '多选删除了{}个账号'.format(len(delete_id))
+        add_log(request, action, '成功')
         # 返回成功
         return HttpResponse('success')
     else:
@@ -183,10 +195,18 @@ def delete_user(request):
         if current_user_id == delete_id:
             messages.error(request, '不能删除当前登录账号')
             return redirect('user_management')
-        # 从数据库中删除
-        User.objects.get(id=delete_id).delete()
+        # 从数据库中取出
+        user = User.objects.get(id=delete_id)
+        # 记录日志用信息
+        job_number = user.extension.job_number
+        name = user.last_name
+        # 删除
+        user.delete()
         # 写入删除成功提示
         messages.success(request, '用户删除成功')
+        # 记录日志
+        action = '删除了工号为{}，姓名为{}的账号'.format(job_number, name)
+        add_log(request, action, '成功')
     # 重载账号展示页面
     return redirect('user_management')
 
@@ -212,6 +232,9 @@ def change_user(request):
     user.save()
     # 写入成功提示
     messages.success(request, '用户信息修改成功')
+    # 记录日志
+    action = '修改了工号为{}，姓名为{}的账号信息'.format(job_number, name)
+    add_log(request, action, '成功')
     # 重载账号展示页面
     return redirect('user_management')
 
@@ -230,6 +253,9 @@ def admin_change_password(request):
     user.save()
     # 写入成功提示
     messages.success(request, '密码修改成功')
+    # 记录日志
+    action = '修改了工号为{}，姓名为{}的账号密码'.format(user.extension.job_number, user.last_name)
+    add_log(request, action, '成功')
     # 重载页面
     return redirect('user_management')
 
@@ -267,6 +293,9 @@ def user_change_password(request):
         return redirect('user_change_password')
     # 写入成功提示
     messages.success(request, '密码修改成功，请重新登录')
+    # 记录日志
+    action = '修改了自己账户的密码'
+    add_log(request, action, '成功')
     # 注销该用户
     logout(request)
     # 重载登录界面
@@ -302,6 +331,9 @@ def user_change_information(request):
             return redirect('user_change_information')
         # 打包成功信息
         messages.success(request, '信息修改成功')
+        # 记录日志
+        action = '修改了个人账号信息'
+        add_log(request, action, '成功')
         # 重载信息修改页面
         return redirect('user_change_information')
 
@@ -350,6 +382,9 @@ def add_group(request):
     group.permissions.add(*permissions_list)
     # 写入成功信息
     messages.success(request, '角色增加成功')
+    # 记录日志
+    action = '增加了{}角色'.format(name)
+    add_log(request, action, '成功')
     # 重载角色权限管理界面
     return redirect('group_management')
 
@@ -366,14 +401,24 @@ def delete_group(request):
             Group.objects.get(id=id).delete()
         # 写入删除成功提示
         messages.success(request, '选中角色删除成功')
+        # 记录日志
+        action = '多选删除了{}个角色'.format(len(delete_id))
+        add_log(request, action, '成功')
         # 返回成功
         return HttpResponse('success')
     else:
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
-        Group.objects.get(id=delete_id).delete()
+        group = Group.objects.get(id=delete_id)
+        # 取出记录日志信息
+        name = group.name
+        # 删除
+        group.delete()
         # 写入删除成功提示
         messages.success(request, '角色删除成功')
+        # 记录日志
+        action = '删除了{}角色'.format(name)
+        add_log(request, action, '成功')
         # 重载页面
         return redirect('group_management')
 
@@ -396,6 +441,9 @@ def change_group(request):
     group.permissions.add(*permissions_list)
     # 写入成功信息
     messages.success(request, '角色权限修改成功')
+    # 记录日志
+    action = '修改了{}角色权限'.format(group.name)
+    add_log(request, action, '成功')
     # 重载角色权限管理界面
     return redirect('group_management')
 
@@ -445,6 +493,9 @@ def group_to_user(request):
             user.groups.add(group)
         # 写入成功提示
         messages.success(request, '赋予角色成功')
+        # 记录日志
+        action = '将{}角色赋予给{}个账号'.format(group.name, len(user_id_list))
+        add_log(request, action, '成功')
 
         return HttpResponse('success')
 
@@ -515,6 +566,9 @@ def add_monthly_sales_data(request):
 
     # 写入成功提示
     messages.success(request, '数据添加成功')
+    # 记录日志
+    action = '增加了{}年{}月的月度营业数据'.format(year, month)
+    add_log(request, action, '成功')
     # 刷新当年季度营业数据
     CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
     # 刷新当年季度考核结果
@@ -543,6 +597,10 @@ def delete_monthly_sales_data(request):
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
 
+        # 记录日志
+        action = '多选删除了{}条月度营业数据'.format(len(delete_id))
+        add_log(request, action, '成功')
+
         # 刷新当年季度营业数据
         CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 刷新当年季度考核结果
@@ -554,10 +612,17 @@ def delete_monthly_sales_data(request):
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
         data = MonthlySalesData.objects.get(id=delete_id)
-        year_set.add(data.year)
+        # 取出数据年月
+        year = data.year
+        month = data.month
+        year_set.add(year)
         data.delete()
         # 写入删除成功提示
         messages.success(request, '数据删除成功')
+
+        # 记录日志
+        action = '删除了{}年{}月的月度营业数据'.format(year, month)
+        add_log(request, action, '成功')
 
         # 刷新当年季度营业数据
         CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
@@ -598,6 +663,10 @@ def change_monthly_sales_data(request):
 
     # 写入数据修改成功
     messages.success(request, '数据修改成功')
+
+    # 记录日志
+    action = '修改了{}年{}月的月度营业数据'.format(change_year_month[0], change_year_month[1])
+    add_log(request, action, '成功')
 
     # 刷新季度营业数据
     CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year_month[0]])
@@ -824,6 +893,10 @@ def add_internal_control_indicators(request):
     # 写入数据增加成功提示
     messages.success(request, '数据增加成功')
 
+    # 记录日志
+    action = '增加了{}订单号为{}的订单数据'.format(order_date.strftime('%Y年%m月%d日'), order_number)
+    add_log(request, action, '成功')
+
     # 重定向展示页面
     return redirect('show_internal_control_indicators')
 
@@ -847,6 +920,9 @@ def delete_internal_control_indicators(request):
             data.delete()
         # 写入数据删除成功提示
         messages.success(request, '选中数据删除成功')
+        # 记录日志
+        action = '删除了{}条订单数据'.format(len(delete_id))
+        add_log(request, action, '成功')
         # 刷新月度考核结果
         CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=year_set)
         # 返回成功
@@ -855,6 +931,9 @@ def delete_internal_control_indicators(request):
         delete_id = request.POST.get('delete_id')
         # 从数据库中删除
         data = InternalControlIndicators.objects.get(id=delete_id)
+        # 记录日志用时间、订单号
+        order_date = data.order_date
+        order_number = data.order_number
         if data.actual_delivery:
             # 记录年份，方便更新月度数据
             year_set.add(data.actual_delivery.year)
@@ -862,6 +941,9 @@ def delete_internal_control_indicators(request):
         data.delete()
         # 写入数据删除成功提示
         messages.success(request, '数据删除成功')
+        # 记录日志
+        action = '删除了{}订单号为{}的订单数据'.format(order_date.strftime('%Y年%m月%d日'), order_number)
+        add_log(request, action, '成功')
         # 刷新月度考核结果
         CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=year_set)
         # 重载页面
@@ -948,6 +1030,10 @@ def change_internal_control_indicators(request):
     # 返回数据修改成功提示
     messages.success(request, '数据修改成功')
 
+    # 记录日志
+    action = '修改了{}订单号为{}的订单数据'.format(change_order_date.strftime('%Y年%m月%d日'), change_order_number)
+    add_log(request, action, '成功')
+
     # 刷新月度考核结果
     if change_actual_delivery:
         CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=[change_actual_delivery.year])
@@ -962,9 +1048,13 @@ def change_internal_control_indicators(request):
 def upload_monthly_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_monthly_performance(file_data)
-    if result == 0:
+    if result.isdigit():
         # 写入导入成功提示
         messages.success(request, '导入成功')
+
+        # 记录日志
+        action = '上传导入了{}条月度营业数据'.format(result)
+        add_log(request, action, '成功')
 
         # 刷新季度数据
         CalculateQuarterlySalesData.calculate_quarterly_sales_data()
@@ -976,6 +1066,9 @@ def upload_monthly_performance(request):
     else:
         # 写入相应的错误提示
         messages.error(request, result)
+        # 记录日志
+        action = '试图上传导入月度营业数据，错误：{}'.format(result)
+        add_log(request, action, '失败')
         # 重定向数据展示页面
         return redirect('show_monthly_sales_data')
 
@@ -986,9 +1079,13 @@ def upload_monthly_performance(request):
 def upload_internal_control_indicators_performance(request):
     file_data = request.FILES.get('upload_file')
     result = UploadTable.upload_internal_control_indicators_performance(file_data)
-    if result == 0:
+    if result.isdigit():
         # 写入导入成功提示
         messages.success(request, '导入成功')
+
+        # 记录日志
+        action = '上传导入了{}条订单数据'.format(result)
+        add_log(request, action, '成功')
 
         CalcuteMonthlyPerformance.monthly_get_and_refresh()
 
@@ -997,6 +1094,9 @@ def upload_internal_control_indicators_performance(request):
     else:
         # 写入相应的错误提示
         messages.error(request, result)
+        # 记录日志
+        action = '试图上传导入月度营业数据，错误：{}'.format(result)
+        add_log(request, action, '失败')
         # 重定向数据展示页面
         return redirect('show_internal_control_indicators')
 
@@ -1010,11 +1110,17 @@ def upload_user(request):
     if result == 0:
         # 写入导入成功提示
         messages.success(request, '导入成功')
+        # 记录日志
+        action = '上传导入了{}条账号数据'.format(result)
+        add_log(request, action, '成功')
         # 重定向账号展示页面
         return redirect('user_management')
     else:
         # 写入相应的错误提示
         messages.error(request, result)
+        # 记录日志
+        action = '试图上传导入账号数据，错误：{}'.format(result)
+        add_log(request, action, '失败')
         # 重定向账号展示页面
         return redirect('user_management')
 
@@ -1052,6 +1158,10 @@ def add_constant_data(request):
     # 写入成功提示
     messages.success(request, '数据添加成功')
 
+    # 记录日志
+    action = '增加了一条常量数据'
+    add_log(request, action, '成功')
+
     # 重定向展示页面
     return redirect('show_constant_data')
 
@@ -1068,6 +1178,9 @@ def delete_constant_data(request):
             ConstantData.objects.get(id=id).delete()
         # 写入删除成功提示
         messages.success(request, '选中数据删除成功')
+        # 记录日志
+        action = '多选删除了{}条常量数据'.format(len(delete_id))
+        add_log(request, action, '成功')
         # 返回成功
         return HttpResponse('success')
     else:
@@ -1076,6 +1189,9 @@ def delete_constant_data(request):
         ConstantData.objects.get(id=delete_id).delete()
         # 写入删除成功提示
         messages.success(request, '数据删除成功')
+        # 记录日志
+        action = '删除了1条常量数据'
+        add_log(request, action, '成功')
         # 重载页面
         return redirect('show_constant_data')
 
@@ -1107,6 +1223,10 @@ def change_constant_data(request):
 
     # 写入成功提示
     messages.success(request, '数据修改成功')
+
+    # 记录日志
+    action = '修改了{}常量数据'.format(change_date.strftime('%Y年%m月%d日'))
+    add_log(request, action, '成功')
 
     # 重定向展示页面
     return redirect('show_constant_data')
@@ -1623,6 +1743,9 @@ def change_month_formula(request):
     MonthlyFormula.objects.filter(target_item='内控综合成本').update(formula=overall_cost)
     MonthlyFormula.objects.filter(target_item='现场管理符合率').update(formula=field_management)
     messages.success(request, '公式更改成功')
+    # 记录日志
+    action = '修改了月度绩效考核结果公式'
+    add_log(request, action, '成功')
     # 修改月度考核结果
     CalcuteMonthlyPerformance.monthly_get_and_refresh()
     return redirect('month_result_formula')
@@ -1650,6 +1773,9 @@ def change_quarter_formula(request):
     QuarterlyFormula.objects.filter(target_item='库存率').update(formula=inventory_rate)
     QuarterlyFormula.objects.filter(target_item='利润率').update(formula=profit_rate)
     messages.success(request, '公式更改成功')
+    # 记录日志
+    action = '修改了季度绩效考核结果公式'
+    add_log(request, action, '成功')
     # 刷新当年季度考核结果
     CalculateQuarterlyPerformance.quarterly_get_and_refresh()
     return redirect('quarter_result_formula')
@@ -1669,3 +1795,21 @@ def download_internal_control_modal(request):
     response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     response['Content-Disposition'] = "attachment;filename*=UTF-8''{}".format(escape_uri_path("内控指标汇总-模板.xls"))
     return response
+
+
+# 展示用户操作日志方法
+def show_user_logs(request):
+    if request.method == 'GET':
+        # 第一次访问此页面，取出所有数据
+        logs = Logs.objects.all()
+    else:
+        # 获取输入的搜索内容
+        user_name_number = request.POST.get('user_name_number')
+        # 从数据库中取出用户姓名或工号包含搜索内容的日志项
+        logs = Logs.objects.filter(Q(user_name__contains=user_name_number) | Q(job_number__contains=user_name_number))
+    # 打包数据
+    context = {
+        'logs': logs.order_by('-log_time'),
+    }
+    # 返回前端页面
+    return render(request, '系统安全备份-用户操作日志.html', context=context)

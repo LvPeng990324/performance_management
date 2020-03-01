@@ -108,6 +108,9 @@ urlpatterns = [
     # 下载内控指标汇总模板
     path('download_internal_control_modal/', views.download_internal_control_modal, name='download_internal_control_modal'),
 
+    # 展示用户操作日志方法
+    path('show_user_logs/', views.show_user_logs, name='show_user_logs'),
+
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
 

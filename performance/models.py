@@ -177,3 +177,19 @@ class QuarterlyFormula(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+# 日志表
+class Logs(models.Model):
+    log_time = models.DateTimeField(auto_now_add=True, verbose_name='日志时间')
+    user_name = models.CharField(max_length=100, verbose_name='用户姓名')
+    job_number = models.CharField(max_length=100, verbose_name='工号')
+    action = models.CharField(max_length=254, verbose_name='动作描述')
+    result = models.CharField(max_length=20, verbose_name='操作结果')
+
+    class Meta:
+        verbose_name_plural = '日志表'
+        verbose_name = '日志表'
+
+    def __str__(self):
+        return '{} {}'.format(str(self.user_name), str(self.action))

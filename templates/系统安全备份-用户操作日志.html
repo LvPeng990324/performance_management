@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}系统操控日志{% endblock %}
+{% block system_security_backup_active %}active open{% endblock %}
+{% block show_user_logs_actice %}active{% endblock %}
 
 {% block css_content %}
 {% endblock %}
@@ -40,23 +42,21 @@
                     </div>
                     <div class="card-toolbar clearfix">
                         <form class="pull-right search-bar" method="post"
-                              action="{% url 'display_internal_control_indicators' %}" role="form">
+                              action="{% url 'show_user_logs' %}" role="form">
                             {% csrf_token %}
                             <div class="input-group-btn">
                                 <div class="input-group">
-                                    <input hidden name="action" value="操作账号搜索">
-                                    <input type="text" class="form-control" name="order_number" aria-label="..."
-                                           placeholder="操作账号搜索...">
+                                    <input type="text" class="form-control" name="user_name_number" aria-label="..."
+                                           placeholder="姓名或工号搜索...">
                                     <div class="input-group-btn">
                                         <button type="submit" class="btn btn-default">搜索</button>
                                     </div>
                                 </div>
-
                             </div>
                         </form>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-dark" data-toggle="modal"
-                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i>
+                                    data-target="#export"><i class="mdi mdi-file-excel"></i>
                                 导出用户操作日志
                             </button>
                         </div>
@@ -106,34 +106,25 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>
-                                        <label class="lyear-checkbox checkbox-primary">
-                                            <input type="checkbox" id="check-all"><span></span>
-                                        </label>
-                                    </th>
                                     <th nowrap="nowrap" class="text-center">时间</th>
                                     <th nowrap="nowrap" class="text-center">操作账号</th>
                                     <th nowrap="nowrap" class="text-center">账号工号</th>
                                     <th nowrap="nowrap" class="text-center">操作内容</th>
-                                    <th nowrap="nowrap" class="text-center">参数</th>
                                     <th nowrap="nowrap" class="text-center">操作结果</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% for log in logs %}
                                 <tr>
-                                    <td>
-                                        <label class="lyear-checkbox checkbox-primary">
-                                            <input type="checkbox" name="ids[]" value="1"><span></span>
-                                        </label>
-                                    </td>
-                                    <th nowrap="nowrap" class="text-center">2020.2.29</th>
-                                    <td nowrap="nowrap">CQY</td>
-                                    <td nowrap="nowrap">17481104</td>
-                                    <td nowrap="nowrap">导入表信息</td>
-                                    <td nowrap="nowrap">1.xsl</td>
-                                    <td nowrap="nowrap">success</td>
+                                    <th nowrap="nowrap" class="text-center">{{ log.log_time }}</th>
+                                    <td nowrap="nowrap">{{ log.user_name }}</td>
+                                    <td nowrap="nowrap">{{ log.job_number }}</td>
+                                    <td nowrap="nowrap">{{ log.action }}</td>
+                                    <td nowrap="nowrap">{{ log.result }}</td>
                                 </tr>
+                                {% endfor %}
+
                                 </tbody>
                             </table>
                         </div>

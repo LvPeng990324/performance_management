@@ -106,10 +106,10 @@
                             </ul>
                         </li>
                         {% endif %}
-                      <li class="nav-item nav-item-has-subnav">
+                      <li class="nav-item nav-item-has-subnav {% block system_security_backup_active %}{% endblock %}">
                             <a href="javascript:void(0)"><i class="mdi mdi-shield"></i> 系统安全备份</a>
                             <ul class="nav nav-subnav">
-                                <li> <a href="#!">用户操作日志</a> </li>
+                                <li class="{% block show_user_logs_actice %}{% endblock %}"> <a href="{% url 'show_user_logs' %}">用户操作日志</a> </li>
                                 <li> <a href="#!">数据备份还原</a> </li>
                             </ul>
                         </li>

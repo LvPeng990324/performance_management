@@ -117,7 +117,7 @@ def upload_monthly_performance_excel(file_data):
             )
     except:
         return '写入数据库失败'
-    return 0
+    return str(len(table_list))
 
 
 # 月度营业数据csv表
@@ -208,7 +208,7 @@ def upload_internal_control_indicators_performance_excel(file_data):
         )
     # except:
     #     return '写入数据库失败'
-    return 0
+    return str(len(table_list))
 
 
 # 内控指标汇总csv表
@@ -248,7 +248,7 @@ def upload_constant_data_excel(file_data):
             )
     except:
         return '写入数据库失败'
-    return 0
+    return str(len(table_list))
 
 
 # 常量数据csv表
@@ -295,7 +295,7 @@ def upload_user_excel(file_data):
             user.save()
     except:
         return '写入数据库失败'
-    return 0
+    return str(len(table_list))
 
 
 # 账号信息csv表
