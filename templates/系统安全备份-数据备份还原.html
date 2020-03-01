@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}系统操控日志{% endblock %}
+{% block system_security_backup_active %}active open{% endblock %}
+{% block show_database_backup_actice %}active{% endblock %}
 
 {% block css_content %}
 {% endblock %}
@@ -10,7 +12,7 @@
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'export_monthly_sales_data' %}" method="post">
+                <form action="" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -22,7 +24,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-danger">下载</button>
+                        <button type="submit" class="btn btn-danger">备份</button>
                     </div>
                 </form>
             </div>
@@ -56,7 +58,7 @@
                         </form>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-dark" data-toggle="modal"
-                                    data-target="#export"></i><i class="mdi mdi-file-excel"></i>
+                                    data-target="#export"><i class="mdi mdi-file-excel"></i>
                                 备份数据
                             </button>
                         </div>

@@ -1813,3 +1813,8 @@ def show_user_logs(request):
     }
     # 返回前端页面
     return render(request, '系统安全备份-用户操作日志.html', context=context)
+
+
+# 展示数据库备份方法
+def show_database_backup(request):
+    return render(request, '系统安全备份-数据备份还原.html')
