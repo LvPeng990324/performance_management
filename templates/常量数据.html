@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load queryset_data %}
 {% block title %}业务数据管理-常量数据{% endblock %}
 
 {% block modal_content %}
@@ -135,6 +136,16 @@
                                    name="target_medical_expenses_rate_m">
                         </div>
                         <div class="form-group">
+                            <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
+                            <input type="text" class="form-control" id="target_medical_expenses_rate_m"
+                                   name="target_medical_expenses_rate_m">
+                        </div>
+                        <div class="form-group">
+                            <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
+                            <input type="text" class="form-control" id="target_medical_expenses_rate_m"
+                                   name="target_medical_expenses_rate_m">
+                        </div>
+                        <div class="form-group">
                             <label for="target_comprehensive_cost_rate_m" class="control-label">目标综合成本百分比：</label>
                             <input type="text" class="form-control" id="target_comprehensive_cost_rate_m"
                                    name="target_comprehensive_cost_rate_m">
@@ -204,6 +215,8 @@
                                     </th>
                                     <th nowrap="nowrap" class="text-center">序号</th>
                                     <th nowrap="nowrap" class="text-center">启用日</th>
+                                    <th nowrap="nowrap" class="text-center">年度目标营业额</th>
+                                    <th nowrap="nowrap" class="text-center">年度目标奖金额</th>
                                     <th nowrap="nowrap" class="text-center">目标医药费百分比</th>
                                     <th nowrap="nowrap" class="text-center">目标综合成本百分比</th>
                                     <th nowrap="nowrap" class="text-center">目标管理符合数值</th>
@@ -222,9 +235,13 @@
                                         <th nowrap="nowrap" class="text-center">{{ forloop.counter }}</th>
                                         <td nowrap="nowrap" class="text-center">{{ data.date|date:"Y-m-d" }}</td>
                                         <td nowrap="nowrap"
-                                            class="text-right">{{ data.target_medical_expenses_rate }}</td>
+                                            class="text-right">{{ data.annual_target_turnover }}</td>
                                         <td nowrap="nowrap"
-                                            class="text-right">{{ data.target_comprehensive_cost_rate }}</td>
+                                            class="text-right">{{ data.annual_target_award }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_medical_expenses_rate|percentage }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.target_comprehensive_cost_rate|percentage }}</td>
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.target_management_compliance_value }}</td>
                                         <td nowrap="nowrap" class="text-center">

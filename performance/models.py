@@ -144,6 +144,8 @@ class ConstantData(models.Model):
     target_medical_expenses_rate = models.FloatField(verbose_name='目标医药费百分比')
     target_comprehensive_cost_rate = models.FloatField(verbose_name='目标综合成本百分比')
     target_management_compliance_value = models.IntegerField(verbose_name='目标管理符合数值')
+    annual_target_turnover = models.FloatField(verbose_name='年度目标营业额')
+    annual_target_award = models.FloatField(verbose_name='年度目标奖金额')
 
     class Meta:
         verbose_name_plural = '常量数据'
