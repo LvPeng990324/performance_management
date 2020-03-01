@@ -129,3 +129,6 @@ STATICFILES_DIRS = (
 
 # 定义未登录要重定向的登录链接
 LOGIN_URL = '/user_login/'
+
+# 定义备份目录
+BACKUP_DIR = os.path.join(BASE_DIR, 'backups')
