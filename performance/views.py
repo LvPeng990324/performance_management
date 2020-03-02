@@ -27,6 +27,7 @@ from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
+from .utils import DatabaseBackup
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 
@@ -1817,4 +1818,37 @@ def show_user_logs(request):
 
 # 展示数据库备份方法
 def show_database_backup(request):
-    return render(request, '系统安全备份-数据备份还原.html')
+    # 获取当前备份
+    backups = DatabaseBackup.get_backups()
+    # 打包数据
+    context = {
+        'backups': backups,
+    }
+    # 引导前端页面
+    return render(request, '系统安全备份-数据备份还原.html', context=context)
+
+
+# 备份数据库方法
+def backup_database(request):
+    # 调用备份方法
+    res = DatabaseBackup.backup_database()
+    # 根据返回值判断备份是否成功
+    if res is True:
+        # 写入成功提示
+        messages.success(request, '备份成功')
+        # 记录日志
+        action = '进行了一次数据库备份'
+        add_log(request, action, '成功')
+    else:
+        # 写入失败提示
+        messages.error(request, '出现错误，请刷新重试')
+        # 记录日志
+        action = '尝试进行一次数据库备份'
+        add_log(request, action, '失败')
+    # 重定向到展示数据库备份页面
+    return redirect('show_database_backup')
+
+
+# 恢复数据库方法
+def load_database(request):
+    pass

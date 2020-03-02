@@ -12,7 +12,7 @@
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="" method="post">
+                <form action="{% url 'backup_database' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -108,32 +108,14 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>
-                                        <label class="lyear-checkbox checkbox-primary">
-                                            <input type="checkbox" id="check-all"><span></span>
-                                        </label>
-                                    </th>
-                                    <th nowrap="nowrap" class="text-center">备份时间</th>
-                                    <th nowrap="nowrap" class="text-center">备份路径</th>
-                                    <th nowrap="nowrap" class="text-center">操作账号</th>
-                                    <th nowrap="nowrap" class="text-center">账号工号</th>
                                     <th nowrap="nowrap" class="text-center">备份文件名</th>
                                     <th nowrap="nowrap" class="text-center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>
-                                            <label class="lyear-checkbox checkbox-primary">
-                                                <input type="checkbox" name="id"
-                                                       value="1"><span></span>
-                                            </label>
-                                        </td>
-                                    <th nowrap="nowrap" class="text-center">2020.2.29</th>
-                                    <th nowrap="nowrap" class="text-center">C:\User\随便的一个地址</th>
-                                    <td nowrap="nowrap">CQY</td>
-                                    <td nowrap="nowrap">17481104</td>
-                                    <td nowrap="nowrap">1.xsl</td>
+                                    {% for backup in backups %}
+                                    <td nowrap="nowrap">{{ backup }}</td>
                                     <td nowrap="nowrap">
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-default" href="#!" title="还原文件" data-toggle="modal"
@@ -142,6 +124,7 @@
                                                data-target="#del"><i class="mdi mdi-folder-download"></i></a>
                                         </div>
                                     </td>
+                                    {% endfor %}
                                 </tr>
                                 </tbody>
                             </table>
@@ -160,4 +143,18 @@
             src="{% static 'js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'js/bootstrap-datepicker/bootstrap-datepicker3.min.css' %}" type="text/css">
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}
