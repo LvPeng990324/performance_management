@@ -3,6 +3,9 @@
 {% load queryset_data %}
 {% block title %}数据统计查看-季度绩效奖金{% endblock %}
 
+{% block show_data_active %}active open{% endblock %}
+{% block show_quarterly_award_active %}active{% endblock %}
+
 {% block css_content %}
     <link href="{% static 'css/echarts.css' %}" rel="stylesheet">
 {% endblock %}
@@ -32,7 +35,6 @@
     </div>
 {% endblock %}
 
-{% block show_data_active %}active open{% endblock %}
 
 {% block main_content %}
     <div class="container-fluid">
@@ -49,7 +51,6 @@
                                         class="mdi mdi-chart-line"></i></a>
                             </div>
                         </div>
-                        {#                        <a href="{% url 'refresh_quarterly_result' %}?select_year={{ current_year }}">刷新数据</a>#}
 
 
                     </div>
@@ -63,7 +64,7 @@
                                 <ul class="dropdown-menu">
                                     {% for year in year_list %}
                                         <li class="{% ifequal current_year year.year %}active{% endifequal %}"><a
-                                                href="{% url 'show_quarterly_result' %}?select_year={{ year.year }}">{{ year.year }}</a>
+                                                href="{% url 'show_quarterly_award' %}?select_year={{ year.year }}">{{ year.year }}</a>
                                         </li>
                                     {% endfor %}
 
@@ -87,17 +88,21 @@
                                     <th nowrap="nowrap" class="text-right">回款率所得奖金额</th>
                                     <th nowrap="nowrap" class="text-right">库存率所得奖金额</th>
                                     <th nowrap="nowrap" class="text-right">利润率所得奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">小计</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% for data in quarterly_award_result %}
                                     <tr>
-                                        <th nowrap="nowrap" class="text-center">1</th>
-                                        <td nowrap="nowrap">2</td>
-                                        <td nowrap="nowrap">3</td>
-                                        <td nowrap="nowrap">4</td>
-                                        <td nowrap="nowrap">5</td>
-                                        <td nowrap="nowrap">6</td>
+                                        <th nowrap="nowrap" class="text-center">{{ data.quarter }}</th>
+                                        <td nowrap="nowrap">{{ data.turnover_award }}</td>
+                                        <td nowrap="nowrap">{{ data.operating_rate_award|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.repaid_rate_award|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.inventory_rate_award|percentage }}</td>
+                                        <td nowrap="nowrap">{{ data.profit_rate_award|percentage }}</td>
+                                        <td nowrap="nowrap">9</td>
                                     </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>

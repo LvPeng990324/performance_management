@@ -97,8 +97,8 @@
                                             href="{% url 'month_result_formula' %}">月度绩效考核结果</a></li>
                                     <li class="{% block quarter_formula_active %}{% endblock %}"><a
                                             href="{% url 'quarter_result_formula' %}">季度绩效考核结果</a></li>
-                                    <li class="#!"><a
-                                            href="#!">季度绩效奖金</a></li>
+                                    <li class="{% block quarter_award_active %}{% endblock %}"><a
+                                            href="{% url 'quarter_award_formula' %}">季度绩效奖金</a></li>
                                 </ul>
                             </li>
                         {% endif %}

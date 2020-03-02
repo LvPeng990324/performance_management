@@ -17,6 +17,8 @@ from .models import MonthlyPerformance
 from .models import QuarterlyPerformance
 from .models import MonthlyFormula
 from .models import QuarterlyFormula
+from .models import QuarterlyAwardFormula
+from .models import QuarterlyAward
 from .models import User
 from .models import Logs
 from django.contrib.auth.models import Group
@@ -27,6 +29,7 @@ from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
 from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
+from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
@@ -1061,6 +1064,8 @@ def upload_monthly_performance(request):
         CalculateQuarterlySalesData.calculate_quarterly_sales_data()
         # 刷新当年季度考核结果
         CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+        # 刷新当年季度奖金额
+        CalculateQuarterlyAward.quarterly_get_and_refresh()
 
         # 重定向数据展示页面
         return redirect('show_monthly_sales_data')
@@ -1411,10 +1416,10 @@ def show_quarterly_award(request):
         # 记录当前年份
         current_year = year_list.first()['year']
     # 选出当前年份的所有数据，按照月份正序排序
-    quarterly_result = QuarterlyPerformance.objects.filter(year=current_year).order_by('quarter')
+    quarterly_award_result = QuarterlyAward.objects.filter(year=current_year).order_by('quarter')
     # 打包数据
     context = {
-        'quarterly_result': quarterly_result,
+        'quarterly_award_result': quarterly_award_result,
         'year_list': year_list,
         'current_year': int(current_year),  # 为了前端等值判断
     }
@@ -1765,6 +1770,38 @@ def quarter_result_formula(request):
     return render(request, '报表公式修改-季度绩效考核结果.html', context=context)
 
 
+# 展示公式修改页-季度奖金额
+@login_required
+@permission_required('performance.manage_formula', raise_exception=True)
+def quarter_award_formula(request):
+    # 第一次进入系统时，获取不到公式，则默认为原始公式
+    try:
+        turnover = QuarterlyAwardFormula.objects.filter(target_item='营业额').first().formula
+        operating_rate = QuarterlyAwardFormula.objects.filter(target_item='营业费率').first().formula
+        repaid_rate = QuarterlyAwardFormula.objects.filter(target_item='回款率').first().formula
+        inventory_rate = QuarterlyAwardFormula.objects.filter(target_item='库存率').first().formula
+        profit_rate = QuarterlyAwardFormula.objects.filter(target_item='利润率').first().formula
+    except:
+        QuarterlyAwardFormula.objects.create(target_item='营业额', formula='C*(B/A)*0.2/A*0.25*C')
+        QuarterlyAwardFormula.objects.create(target_item='营业费率', formula='C*(B/A)*0.3/(1-E)*(1-D)')
+        QuarterlyAwardFormula.objects.create(target_item='回款率', formula='C*(B/A)*0.2*F')
+        QuarterlyAwardFormula.objects.create(target_item='库存率', formula='C*(B/A)*0.1/(1-H)*(1-G)')
+        QuarterlyAwardFormula.objects.create(target_item='利润率', formula='C*(B/A)*0.2/K*I')
+        turnover = QuarterlyAwardFormula.objects.filter(target_item='营业额').first().formula
+        operating_rate = QuarterlyAwardFormula.objects.filter(target_item='营业费率').first().formula
+        repaid_rate = QuarterlyAwardFormula.objects.filter(target_item='回款率').first().formula
+        inventory_rate = QuarterlyAwardFormula.objects.filter(target_item='库存率').first().formula
+        profit_rate = QuarterlyAwardFormula.objects.filter(target_item='利润率').first().formula
+    context = {
+        'turnover': turnover,
+        'operating_rate': operating_rate,
+        'repaid_rate': repaid_rate,
+        'inventory_rate': inventory_rate,
+        'profit_rate': profit_rate,
+    }
+    return render(request, '报表公式修改-奖金表.html', context=context)
+
+
 # 修改月度绩效考核结果公式方法
 @login_required
 @permission_required('performance.manage_formula', raise_exception=True)
@@ -1823,6 +1860,36 @@ def change_quarter_formula(request):
     # 刷新当年季度考核结果
     CalculateQuarterlyPerformance.quarterly_get_and_refresh()
     return redirect('quarter_result_formula')
+
+
+# 修改季度奖金额方法
+@login_required
+@permission_required('performance.manage_formula', raise_exception=True)
+def change_quarter_award_formula(request):
+    # 获取输入的每个公式
+    turnover = request.POST.get('turnover')
+    operating_rate = request.POST.get('operating_rate')
+    repaid_rate = request.POST.get('repaid_rate')
+    inventory_rate = request.POST.get('inventory_rate')
+    profit_rate = request.POST.get('profit_rate')
+    # 验证公式合法性
+    for data in [turnover, operating_rate, repaid_rate, inventory_rate, profit_rate]:
+        if cleaned_formula(data) is False:
+            messages.error(request, '公式中存在非法字符，请重试')
+            return redirect('quarter_award_formula')
+    # 合法数据
+    QuarterlyAwardFormula.objects.filter(target_item='营业额').update(formula=turnover)
+    QuarterlyAwardFormula.objects.filter(target_item='营业费率').update(formula=operating_rate)
+    QuarterlyAwardFormula.objects.filter(target_item='回款率').update(formula=repaid_rate)
+    QuarterlyAwardFormula.objects.filter(target_item='库存率').update(formula=inventory_rate)
+    QuarterlyAwardFormula.objects.filter(target_item='利润率').update(formula=profit_rate)
+    messages.success(request, '公式更改成功')
+    # 记录日志
+    action = '修改了季度奖金额结果公式'
+    add_log(request, action, '成功')
+    # 刷新当年季度考核结果
+    CalculateQuarterlyAward.quarterly_get_and_refresh()
+    return redirect('quarter_award_formula')
 
 
 def download_monthly_sales_modal(request):

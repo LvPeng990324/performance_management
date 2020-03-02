@@ -99,11 +99,15 @@ urlpatterns = [
     path('month_result_formula/', views.month_result_formula, name='month_result_formula'),
     # 展示公式修改页-季度绩效考核
     path('quarter_result_formula/', views.quarter_result_formula, name='quarter_result_formula'),
+    # 展示公式修改页-季度奖金额
+    path('quarter_award_formula/', views.quarter_award_formula, name='quarter_award_formula'),
 
     # 修改月度公式
     path('change_month_formula/', views.change_month_formula, name='change_month_formula'),
     # 修改季度公式
     path('change_quarter_formula/', views.change_quarter_formula, name='change_quarter_formula'),
+    # 修改季度奖金额公式
+    path('change_quarter_award_formula/', views.change_quarter_award_formula, name='change_quarter_award_formula'),
 
     # 下载月度营业数据表格模板
     path('download_monthly_sales_modal/', views.download_monthly_sales_modal, name='download_monthly_sales_modal'),

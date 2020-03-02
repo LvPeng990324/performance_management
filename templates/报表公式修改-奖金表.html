@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block change_formula_active %}active open{% endblock %}
-{% block quarter_formula_active %}active{% endblock %}
+{% block quarter_award_active %}active{% endblock %}
 
 {% block main_content %}
     <div class="container-fluid">
@@ -75,12 +75,12 @@
                     <div class="card-header"><h4><b>指标生成规则</b></h4></div>
                     <div class="card-body">
                         <div class="form-horizontal">
-                            <form action="{% url 'change_quarter_formula' %}" method="post">
+                            <form action="{% url 'change_quarter_award_formula' %}" method="post">
                                 {% csrf_token %}
                                 <div class="table-hover">
                                     <table class="table">
                                         <div class="form-group">
-                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">营业额所得奖金额</label></nobr>
+                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">营业奖金额</label></nobr>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="turnover"
                                                        name="turnover"
@@ -88,14 +88,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">营业费率所得奖金额</label></nobr>
+                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">营业费率奖金额</label></nobr>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="operating_rate"
                                                        name="operating_rate" value="{{ operating_rate }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">回款率所得奖金额</label></nobr>
+                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">回款率奖金额</label></nobr>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="repaid_rate"
                                                        name="repaid_rate"
@@ -103,14 +103,14 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">库存率所得奖金额</label></nobr>
+                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">库存率奖金额</label></nobr>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="inventory_rate"
                                                        name="inventory_rate" value="{{ inventory_rate }}"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">利润率所得奖金额</label></nobr>
+                                            <nobr><label class="col-md-3 control-label" for="example-hf-email">利润率奖金额</label></nobr>
                                             <div class="col-md-7">
                                                 <input type="text" class="form-control" id="profit_rate"
                                                        name="profit_rate" value="{{ profit_rate }}"/>
