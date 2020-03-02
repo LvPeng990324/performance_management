@@ -143,11 +143,11 @@ class QuarterlyAward(models.Model):
     year = models.IntegerField(verbose_name='年份')
     quarter = models.IntegerField(verbose_name='季度')
     turnover_award = models.FloatField(verbose_name='营业额所得奖金额')
-    operating_rate_award = models.FloatField(verbose_name='营业费率所得奖金额', null=True)
+    operating_rate_award = models.FloatField(verbose_name='营业费率所得奖金额')
     repaid_rate_award = models.FloatField(verbose_name='回款率所得奖金额')
-    inventory_rate_award = models.FloatField(verbose_name='库存率所得奖金额', null=True)
-    profit_rate_award = models.FloatField(verbose_name='利润率所得奖金额', null=True)
-    total = models.FloatField(verbose_name='合计', null=True)
+    inventory_rate_award = models.FloatField(verbose_name='库存率所得奖金额')
+    profit_rate_award = models.FloatField(verbose_name='利润率所得奖金额')
+    total = models.FloatField(verbose_name='合计')
 
     class Meta:
         verbose_name_plural = '季度绩效奖金额'
@@ -195,6 +195,19 @@ class QuarterlyFormula(models.Model):
     class Meta:
         verbose_name_plural = '季度绩效考核公式表'
         verbose_name = '季度绩效考核公式表'
+
+    def __str__(self):
+        return str(self.id)
+
+
+# 季度奖金公式表
+class QuarterlyAwardFormula(models.Model):
+    target_item = models.CharField(max_length=100, verbose_name='指标')
+    formula = models.CharField(max_length=100, verbose_name='公式')
+
+    class Meta:
+        verbose_name_plural = '季度奖金公式表'
+        verbose_name = '季度奖金公式表'
 
     def __str__(self):
         return str(self.id)
