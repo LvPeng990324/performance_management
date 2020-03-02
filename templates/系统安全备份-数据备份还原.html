@@ -30,6 +30,71 @@
             </div>
         </div>
     </div>
+    <!--恢复数据库(单条)-->
+    <div class="modal fade" id="recover" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'delete_internal_control_indicators' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">恢复数据库</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认将数据库恢复为该备份文件?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_id" name="delete_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--下载到本地按钮(单条)-->
+    <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'delete_internal_control_indicators' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">下载备份数据库</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认下载备份数据库到本地?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_id" name="delete_id">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">下载</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--删除按钮(选中)-->
+    <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">删除选中备份数据库Jason文件</h4>
+                </div>
+                <div class="modal-body">
+                    确认删除该备份数据库?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block main_content %}
@@ -58,52 +123,13 @@
                         </form>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-dark" data-toggle="modal"
-                                    data-target="#export"><i class="mdi mdi-file-excel"></i>
+                                    data-target="#export"><i class="mdi mdi-vector-combine"></i>
                                 备份数据
                             </button>
                         </div>
                     </div>
                     <div class="card-body">
-                        <!--手风琴效果-->
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="panel">
-                                <div class="panel-heading" role="tab" id="headingThree">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse"
-                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
-                                           aria-controls="collapseThree">
-                                            数据备份时间筛选
-                                        </a>
-                                    </h4>
-                                </div>
 
-                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingThree">
-                                    <div class="panel-body">
-                                        <form method="post" action="{% url 'display_internal_control_indicators' %}"
-                                              role="form">
-                                            {% csrf_token %}
-                                            <input hidden name="action" value="数据备份时间筛选">
-                                            <div class="input-daterange input-group">
-                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange1" name="start_date"
-                                                       placeholder="备份时间起点" required>
-                                                <span class="input-group-addon"><i
-                                                        class="mdi mdi-chevron-right"></i></span>
-                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange2" name="end_date"
-                                                       placeholder="备份时间终点" required>
-                                                <span class="input-group-btn" id="basic-addon3">
-                                                <button class="btn btn-default" type="submit">筛选订单</button>
-                                                </span>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <!--手风琴效果 End-->
                         <div id="table_display" class="table-responsive text-right">
                             <table class="table table-hover">
                                 <thead>
@@ -115,13 +141,15 @@
                                 <tbody>
                                 <tr>
                                     {% for backup in backups %}
-                                    <td nowrap="nowrap">{{ backup }}</td>
-                                    <td nowrap="nowrap">
+                                    <td nowrap="nowrap" class="text-center">{{ backup }}</td>
+                                    <td nowrap="nowrap" class="text-center">
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-default" href="#!" title="还原文件" data-toggle="modal"
-                                               data-target="#modify"><i class="mdi mdi-redo"></i></a>
+                                               data-target="#recover"><i class="mdi mdi-redo"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal"
+                                               data-target="#del"><i class="mdi mdi-window-close"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="备份文件" data-toggle="modal"
-                                               data-target="#del"><i class="mdi mdi-folder-download"></i></a>
+                                               data-target="#download"><i class="mdi mdi-folder-download"></i></a>
                                         </div>
                                     </td>
                                     {% endfor %}
