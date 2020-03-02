@@ -1147,12 +1147,16 @@ def add_constant_data(request):
     target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate'))
     target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate'))
     target_management_compliance_value = int(request.POST.get('target_management_compliance_value'))
+    annual_target_turnover = float(request.POST.get('annual_target_turnover'))
+    annual_target_award = float(request.POST.get('annual_target_award'))
 
     # 写入数据库
     ConstantData.objects.create(
         target_medical_expenses_rate=target_medical_expenses_rate,
         target_comprehensive_cost_rate=target_comprehensive_cost_rate,
         target_management_compliance_value=target_management_compliance_value,
+        annual_target_turnover=annual_target_turnover,
+        annual_target_award=annual_target_award,
     )
 
     # 写入成功提示
@@ -1206,7 +1210,8 @@ def change_constant_data(request):
     change_target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate_m'))
     change_target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate_m'))
     change_target_management_compliance_value = int(request.POST.get('target_management_compliance_value_m'))
-
+    change_annual_target_turnover = float(request.POST.get('annual_target_turnover_m'))
+    change_annual_target_award = float(request.POST.get('annual_target_award_m'))
     date_list = change_date.split('-')
     change_date = date(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]))
 
@@ -1217,7 +1222,8 @@ def change_constant_data(request):
     data.target_medical_expenses_rate = change_target_medical_expenses_rate
     data.target_comprehensive_cost_rate = change_target_comprehensive_cost_rate
     data.target_management_compliance_value = change_target_management_compliance_value
-
+    data.annual_target_turnover = change_annual_target_turnover
+    data.annual_target_award = change_annual_target_award
     # 保存更改
     data.save()
 
@@ -1225,7 +1231,7 @@ def change_constant_data(request):
     messages.success(request, '数据修改成功')
 
     # 记录日志
-    action = '修改了{}常量数据'.format(change_date.strftime('%Y年%m月%d日'))
+    action = '修改了{}常量数据'.format(change_date.strftime('%Y{y}%m{m}%d{d}').format(y='年',m='月',d='日'))
     add_log(request, action, '成功')
 
     # 重定向展示页面
@@ -1376,6 +1382,43 @@ def refresh_quarterly_result(request):
     else:
         messages.info(request, result)
     return redirect('/show_quarterly_result?select_year=%s' % current_year)
+
+
+# 展示季度绩效奖金
+def show_quarterly_award(request):
+    # 打包年份数据，去重并逆序排序
+    year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        # 引导前端页面
+        return render(request, '数据统计-奖金表.html', context=context)
+    # 如果是第一次访问，选取最新一年数据进行展示
+    # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
+    # 尝试获取年份
+    select_year = request.GET.get('select_year')
+    # 判断有无选取年份
+    if select_year:
+        # 有筛选年份
+        # 记录当前年份
+        current_year = select_year
+    else:
+        # 没有筛选年份
+        # 记录当前年份
+        current_year = year_list.first()['year']
+    # 选出当前年份的所有数据，按照月份正序排序
+    quarterly_result = QuarterlyPerformance.objects.filter(year=current_year).order_by('quarter')
+    # 打包数据
+    context = {
+        'quarterly_result': quarterly_result,
+        'year_list': year_list,
+        'current_year': int(current_year),  # 为了前端等值判断
+    }
+    # 引导前端页面
+    return render(request,'数据统计-奖金表.html', context=context)
 
 
 # 仅展示月度营业数据方法

@@ -63,8 +63,10 @@
                                         <li class="{% block show_quarterly_result_active %}{% endblock %}"><a
                                                 href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a></li>
                                     {% endif %}
-                                    <li class="#!"><a
-                                            href="#!">季度绩效奖金</a></li>
+                                    {% if 'performance.view_quarterly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
+                                        <li class="{% block show_quarterly_award_active %}{% endblock %}"><a
+                                                href="{% url 'show_quarterly_award' %}">季度绩效奖金</a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                         {% endif %}

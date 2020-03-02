@@ -88,6 +88,16 @@
 
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="id_annual_target_turnover" class="control-label">年度目标营业额：</label>
+                            <input type="text" class="form-control" id="id_annual_target_turnover"
+                                   name="annual_target_turnover" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_annual_target_award" class="control-label">年度目标奖金额：</label>
+                            <input type="text" class="form-control" id="id_annual_target_award"
+                                   name="annual_target_award" required>
+                        </div>
+                        <div class="form-group">
                             <label for="id_target_medical_expenses_rate" class="control-label">目标医药费百分比：</label>
                             <input type="text" class="form-control" id="id_target_medical_expenses_rate"
                                    name="target_medical_expenses_rate" required>
@@ -131,14 +141,12 @@
                                    data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
                         </div>
                         <div class="form-group">
-                            <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
-                            <input type="text" class="form-control" id="target_medical_expenses_rate_m"
-                                   name="target_medical_expenses_rate_m">
+                            <label for="annual_target_turnover_m" class="control-label">年度目标营业额：</label>
+                            <input type="text" class="form-control" id="annual_target_turnover_m" name="annual_target_turnover_m">
                         </div>
                         <div class="form-group">
-                            <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
-                            <input type="text" class="form-control" id="target_medical_expenses_rate_m"
-                                   name="target_medical_expenses_rate_m">
+                            <label for="annual_target_award_m" class="control-label">年度目标奖金额：</label>
+                            <input type="text" class="form-control" id="annual_target_award_m" name="annual_target_award_m">
                         </div>
                         <div class="form-group">
                             <label for="target_medical_expenses_rate_m" class="control-label">目标医药费百分比：</label>
@@ -248,8 +256,8 @@
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
-                                                   onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}',
-                                                           '{{ data.target_medical_expenses_rate }}','{{ data.target_comprehensive_cost_rate }}' , '{{ data.target_management_compliance_value }}',)"><i
+                                                   onclick="give_change_modal('{{ data.id }}', '{{ data.date|date:"Y-m-d" }}', '{{ data.target_medical_expenses_rate }}','{{ data.target_comprehensive_cost_rate }}' ,
+                                                           '{{ data.target_management_compliance_value }}',{{ data.annual_target_turnover }},{{ data.annual_target_award }})"><i
                                                         class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                    data-toggle="modal" data-target="#del"
@@ -284,12 +292,16 @@
                                    change_date,
                                    change_target_medical_expenses_rate,
                                    change_target_medical_expenses_rate_m,
-                                   change_target_management_compliance_value_m) {
+                                   change_target_management_compliance_value_m,
+                                   annual_target_turnover_m,
+                                   annual_target_award_m,) {
             $('#id_change_id').val(change_id);
             $('#date_m').val(change_date);
             $('#target_medical_expenses_rate_m').val(change_target_medical_expenses_rate);
             $('#target_comprehensive_cost_rate_m').val(change_target_medical_expenses_rate_m);
             $('#target_management_compliance_value_m').val(change_target_management_compliance_value_m);
+            $('#annual_target_turnover_m').val(annual_target_turnover_m);
+            $('#annual_target_award_m').val(annual_target_award_m);
         }
     </script>
     <!-- 提交选中删除 -->

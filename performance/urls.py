@@ -69,11 +69,13 @@ urlpatterns = [
     # 展示管理层月度绩效考核结果方法
     path('show_monthly_result/', views.show_monthly_result, name='show_monthly_result'),
     # 刷新管理层月度绩效考核结果（更新数据库）方法
-    path('refresh_monthly_result/', views.refresh_monthly_result, name='refresh_monthly_result'),
+    # path('refresh_monthly_result/', views.refresh_monthly_result, name='refresh_monthly_result'),
     # 展示管理层季度绩效考核结果方法
     path('show_quarterly_result/', views.show_quarterly_result, name='show_quarterly_result'),
     # 刷新管理层季度绩效考核结果（更新数据库）方法
-    path('refresh_quarterly_result/', views.refresh_quarterly_result, name='refresh_quarterly_result'),
+    # path('refresh_quarterly_result/', views.refresh_quarterly_result, name='refresh_quarterly_result'),
+    # 展示季度绩效奖金额方法
+    path('show_quarterly_award/', views.show_quarterly_award, name='show_quarterly_award'),
 
     # 仅展示月度营业数据方法
     path('display_monthly_sales_data/', views.display_monthly_sales_data, name='display_monthly_sales_data'),
@@ -115,6 +117,9 @@ urlpatterns = [
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
+    # 微信登陆测试
+    # path('wx_login_test/', views.wx_login_test, name='wx_login_test'),
+
 
 
 ]
