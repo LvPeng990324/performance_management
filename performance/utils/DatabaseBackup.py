@@ -50,3 +50,21 @@ def backup_database():
     else:
         return False
 
+
+# 恢复数据库
+def load_database(file_name):
+    # 传入一个文件名，将加载此文件内容到数据库
+    # 返回值为Boolean标记是否成功
+    # 获取备份文件路径
+    file_path = os.path.join(settings.BACKUP_DIR, file_name)
+    # 生成恢复命令
+    command = 'python manage.py loaddata {}'.format(file_path)
+    # 执行命令，获取返回值
+    res = os.system(command)
+    # 判断返回值
+    # 无错误是0，其他值是出错
+    if res == 0:
+        return True
+    else:
+        return False
+

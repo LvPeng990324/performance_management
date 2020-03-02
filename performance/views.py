@@ -1851,4 +1851,32 @@ def backup_database(request):
 
 # 恢复数据库方法
 def load_database(request):
-    pass
+    # 获取要恢复的文件名
+    file_name = request.POST.get('file_name')
+    # 检查后缀是不是json
+    # 不是的话返回仅支持json文件
+    if file_name.split('.')[-1] != 'json':
+        # 写入错误提示
+        messages.error(request, '仅支持json文件')
+        # 记录日志
+        action = '尝试使用非json文件恢复数据库'
+        add_log(request, action, '失败')
+        # 重定向展示数据库备份页面
+        return redirect('show_database_backup')
+    # 调用恢复方法
+    res = DatabaseBackup.load_database(file_name)
+    # 根据返回值判断备份是否成功
+    if res is True:
+        # 写入成功提示
+        messages.success(request, '恢复成功')
+        # 记录日志
+        action = '将系统数据库通过{}文件进行恢复'.format(file_name)
+        add_log(request, action, '成功')
+    else:
+        # 写入失败提示
+        messages.error(request, '出现错误，请刷新重试')
+        # 记录日志
+        action = '尝试使用{}文件进行一次数据库恢复'.format(file_name)
+        add_log(request, action, '失败')
+    # 重定向到展示数据库备份页面
+    return redirect('show_database_backup')

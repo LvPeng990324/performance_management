@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block modal_content %}
-    <!--导出excel-->
+    <!-- 备份当前数据库 -->
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -30,11 +30,11 @@
             </div>
         </div>
     </div>
-    <!--恢复数据库(单条)-->
+    <!-- 恢复数据库 -->
     <div class="modal fade" id="recover" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'delete_internal_control_indicators' %}" method="post">
+                <form action="{% url 'load_database' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -45,7 +45,7 @@
                         确认将数据库恢复为该备份文件?
                     </div>
                     <div class="modal-footer">
-                        <input hidden id="id_delete_id" name="delete_id">
+                        <input hidden id="id_load_file" name="file_name">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-primary">确定</button>
                     </div>
@@ -53,11 +53,11 @@
             </div>
         </div>
     </div>
-    <!--下载到本地按钮(单条)-->
+    <!-- 下载到本地按钮 -->
     <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'delete_internal_control_indicators' %}" method="post">
+                <form action="" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -68,7 +68,7 @@
                         确认下载备份数据库到本地?
                     </div>
                     <div class="modal-footer">
-                        <input hidden id="id_delete_id" name="delete_id">
+                        <input hidden id="id_download_file" name="file_name">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-primary">下载</button>
                     </div>
@@ -76,22 +76,25 @@
             </div>
         </div>
     </div>
-    <!--删除按钮(选中)-->
+    <!-- 删除备份文件 -->
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="delsModalLabel">删除选中备份数据库Jason文件</h4>
-                </div>
-                <div class="modal-body">
-                    确认删除该备份数据库?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
-                </div>
+                <form action="" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">删除选中备份数据库Json文件</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除该备份数据库?
+                    </div>
+                    <div class="modal-footer">
+                        <input id="id_delete_file" name="file_name">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">确定</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -145,11 +148,11 @@
                                     <td nowrap="nowrap" class="text-center">
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-default" href="#!" title="还原文件" data-toggle="modal"
-                                               data-target="#recover"><i class="mdi mdi-redo"></i></a>
+                                               data-target="#recover" onclick="give_load_modal('{{ backup }}')"><i class="mdi mdi-redo"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal"
-                                               data-target="#del"><i class="mdi mdi-window-close"></i></a>
+                                               data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i class="mdi mdi-window-close"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="备份文件" data-toggle="modal"
-                                               data-target="#download"><i class="mdi mdi-folder-download"></i></a>
+                                               data-target="#download" onclick="give_download_modal('{{ backupx }}')"><i class="mdi mdi-folder-download"></i></a>
                                         </div>
                                     </td>
                                     {% endfor %}
@@ -185,4 +188,22 @@
             {% endif %}
         {% endfor %}
     {% endif %}
+    <!-- 给确认恢复数据库模态框传值 -->
+    <script type="text/javascript">
+        function give_load_modal(file_name) {
+            $('#id_load_file').val(file_name);
+        }
+    </script>
+    <!-- 给确认删除备份文件模态框传值 -->
+    <script type="text/javascript">
+        function give_delete_modal(file_name) {
+            $('#id_delete_file').val(file_name);
+        }
+    </script>
+    <!-- 给下载备份文件模态框传值 -->
+    <script type="text/javascript">
+        function give_download_modal(file_name) {
+            $('#id_download_file').val(file_name);
+        }
+    </script>
 {% endblock %}
