@@ -138,6 +138,25 @@ class QuarterlyPerformance(models.Model):
         return str(self.id)
 
 
+# 季度绩效奖金额
+class QuarterlyAward(models.Model):
+    year = models.IntegerField(verbose_name='年份')
+    quarter = models.IntegerField(verbose_name='季度')
+    turnover_award = models.FloatField(verbose_name='营业额所得奖金额')
+    operating_rate_award = models.FloatField(verbose_name='营业费率所得奖金额', null=True)
+    repaid_rate_award = models.FloatField(verbose_name='回款率所得奖金额')
+    inventory_rate_award = models.FloatField(verbose_name='库存率所得奖金额', null=True)
+    profit_rate_award = models.FloatField(verbose_name='利润率所得奖金额', null=True)
+    total = models.FloatField(verbose_name='合计', null=True)
+
+    class Meta:
+        verbose_name_plural = '季度绩效奖金额'
+        verbose_name = '季度绩效奖金额'
+
+    def __str__(self):
+        return str(self.id)
+
+
 # 常量数据
 class ConstantData(models.Model):
     date = models.DateField(verbose_name='日期', auto_now_add=True)
