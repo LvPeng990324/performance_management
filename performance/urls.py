@@ -113,7 +113,11 @@ urlpatterns = [
     # 展示用户操作日志方法
     path('show_user_logs/', views.show_user_logs, name='show_user_logs'),
     # 展示数据库备份方法
-    path('show_database_backup', views.show_database_backup, name='show_database_backup'),
+    path('show_database_backup/', views.show_database_backup, name='show_database_backup'),
+    # 备份数据库方法
+    path('backup_database/', views.backup_database, name='backup_database'),
+    # 恢复数据库方法
+    path('load_database/', views.load_database, name='load_database'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
