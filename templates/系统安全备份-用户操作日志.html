@@ -85,13 +85,17 @@
                                             {% csrf_token %}
                                             <input hidden name="current_action" value="操作时间筛选">
                                             <div class="input-daterange input-group">
-                                                <input class="form-control js-datetimepicker" type="text" name="start_time"
-                                                       placeholder="请选择开始时间" data-side-by-side="true" data-locale="zh-cn"
+                                                <input class="form-control js-datetimepicker" type="text"
+                                                       name="start_time"
+                                                       placeholder="请选择开始时间" data-side-by-side="true"
+                                                       data-locale="zh-cn"
                                                        data-format="YYYY-MM-DD-HH-mm" required>
                                                 <span class="input-group-addon"><i
                                                         class="mdi mdi-chevron-right"></i></span>
-                                                <input class="form-control js-datetimepicker" type="text" name="end_time"
-                                                       placeholder="请选择结束时间" data-side-by-side="true" data-locale="zh-cn"
+                                                <input class="form-control js-datetimepicker" type="text"
+                                                       name="end_time"
+                                                       placeholder="请选择结束时间" data-side-by-side="true"
+                                                       data-locale="zh-cn"
                                                        data-format="YYYY-MM-DD-HH-mm" required>
                                                 <span class="input-group-btn" id="basic-addon3">
                                                 <button class="btn btn-default" type="submit">筛选日志</button>
@@ -118,13 +122,13 @@
                                 </thead>
                                 <tbody>
                                 {% for log in logs %}
-                                <tr>
-                                    <th nowrap="nowrap" class="text-center">{{ log.log_time }}</th>
-                                    <td nowrap="nowrap" class="text-center">{{ log.user_name }}</td>
-                                    <td nowrap="nowrap" class="text-center">{{ log.job_number }}</td>
-                                    <td nowrap="nowrap" class="text-center">{{ log.action }}</td>
-                                    <td nowrap="nowrap" class="text-center">{{ log.result }}</td>
-                                </tr>
+                                    <tr>
+                                        <th nowrap="nowrap" class="text-center">{{ log.log_time }}</th>
+                                        <td nowrap="nowrap" class="text-center">{{ log.user_name }}</td>
+                                        <td nowrap="nowrap" class="text-center">{{ log.job_number }}</td>
+                                        <td nowrap="nowrap" class="text-center">{{ log.action }}</td>
+                                        <td nowrap="nowrap" class="text-center">{{ log.result }}</td>
+                                    </tr>
                                 {% endfor %}
 
                                 </tbody>
@@ -142,4 +146,6 @@
     <script src="{% static 'js/bootstrap-datetimepicker/moment.min.js' %}"></script>
     <script src="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'js/bootstrap-datetimepicker/locale/zh-cn.js' %}"></script>
+    <!--时间选择插件-->
+    <link rel="stylesheet" href="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' %}">
 {% endblock %}
