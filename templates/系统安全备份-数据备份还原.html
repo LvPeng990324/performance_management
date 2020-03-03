@@ -53,29 +53,6 @@
             </div>
         </div>
     </div>
-    <!-- 下载到本地按钮 -->
-    <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="delModalLabel">下载备份数据库</h4>
-                    </div>
-                    <div class="modal-body">
-                        确认下载备份数据库到本地?
-                    </div>
-                    <div class="modal-footer">
-                        <input hidden id="id_download_file" name="file_name">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary">下载</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <!-- 删除备份文件 -->
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
@@ -152,8 +129,6 @@
                                                data-target="#recover" onclick="give_load_modal('{{ backup }}')"><i class="mdi mdi-redo"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal"
                                                data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i class="mdi mdi-window-close"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="备份文件" data-toggle="modal"
-                                               data-target="#download" onclick="give_download_modal('{{ backupx }}')"><i class="mdi mdi-folder-download"></i></a>
                                         </div>
                                     </td>
                                     {% endfor %}
@@ -199,12 +174,6 @@
     <script type="text/javascript">
         function give_delete_modal(file_name) {
             $('#id_delete_file').val(file_name);
-        }
-    </script>
-    <!-- 给下载备份文件模态框传值 -->
-    <script type="text/javascript">
-        function give_download_modal(file_name) {
-            $('#id_download_file').val(file_name);
         }
     </script>
 {% endblock %}
