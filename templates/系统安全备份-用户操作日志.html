@@ -118,10 +118,10 @@
                                 {% for log in logs %}
                                 <tr>
                                     <th nowrap="nowrap" class="text-center">{{ log.log_time }}</th>
-                                    <td nowrap="nowrap">{{ log.user_name }}</td>
-                                    <td nowrap="nowrap">{{ log.job_number }}</td>
-                                    <td nowrap="nowrap">{{ log.action }}</td>
-                                    <td nowrap="nowrap">{{ log.result }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ log.user_name }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ log.job_number }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ log.action }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ log.result }}</td>
                                 </tr>
                                 {% endfor %}
 
