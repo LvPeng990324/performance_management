@@ -5,6 +5,8 @@
 {% block show_user_logs_actice %}active{% endblock %}
 
 {% block css_content %}
+    <link href="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' %}">
+    <link href="{% static 'css/style.min.css' %}">
 {% endblock %}
 
 {% block modal_content %}
@@ -46,6 +48,7 @@
                             {% csrf_token %}
                             <div class="input-group-btn">
                                 <div class="input-group">
+                                    <input hidden name="current_action" value="姓名或工号搜索">
                                     <input type="text" class="form-control" name="user_name_number" aria-label="..."
                                            placeholder="姓名或工号搜索...">
                                     <div class="input-group-btn">
@@ -78,21 +81,20 @@
                                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="headingThree">
                                     <div class="panel-body">
-                                        <form method="post" action="{% url 'display_internal_control_indicators' %}"
-                                              role="form">
+                                        <form method="post" action="{% url 'show_user_logs' %}" role="form">
                                             {% csrf_token %}
-                                            <input hidden name="action" value="操作日志筛选">
+                                            <input hidden name="current_action" value="操作时间筛选">
                                             <div class="input-daterange input-group">
-                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange1" name="start_date"
-                                                       placeholder="操作时间起点" required>
+                                                <input class="form-control js-datetimepicker" type="text" name="start_time"
+                                                       placeholder="请选择开始时间" data-side-by-side="true" data-locale="zh-cn"
+                                                       data-format="YYYY-MM-DD-HH-mm" required>
                                                 <span class="input-group-addon"><i
                                                         class="mdi mdi-chevron-right"></i></span>
-                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
-                                                       type="text" id="example-daterange2" name="end_date"
-                                                       placeholder="操作时间终点" required>
+                                                <input class="form-control js-datetimepicker" type="text" name="end_time"
+                                                       placeholder="请选择结束时间" data-side-by-side="true" data-locale="zh-cn"
+                                                       data-format="YYYY-MM-DD-HH-mm" required>
                                                 <span class="input-group-btn" id="basic-addon3">
-                                                <button class="btn btn-default" type="submit">筛选订单</button>
+                                                <button class="btn btn-default" type="submit">筛选日志</button>
                                                 </span>
                                             </div>
                                         </form>
@@ -136,10 +138,8 @@
 {% endblock %}
 
 {% block js_content %}
-<!--日期选择插件-->
-    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'js/bootstrap-datepicker/bootstrap-datepicker3.min.css' %}" type="text/css">
-    <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css">
+    <!--时间选择插件-->
+    <script src="{% static 'js/bootstrap-datetimepicker/moment.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datetimepicker/locale/zh-cn.js' %}"></script>
 {% endblock %}

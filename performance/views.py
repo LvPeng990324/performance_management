@@ -1237,7 +1237,7 @@ def change_constant_data(request):
     messages.success(request, '数据修改成功')
 
     # 记录日志
-    action = '修改了{}常量数据'.format(change_date.strftime('%Y{y}%m{m}%d{d}').format(y='年',m='月',d='日'))
+    action = '修改了{}常量数据'.format(change_date.strftime('%Y{y}%m{m}%d{d}').format(y='年', m='月', d='日'))
     add_log(request, action, '成功')
 
     # 重定向展示页面
@@ -1424,7 +1424,7 @@ def show_quarterly_award(request):
         'current_year': int(current_year),  # 为了前端等值判断
     }
     # 引导前端页面
-    return render(request,'数据统计-奖金表.html', context=context)
+    return render(request, '数据统计-奖金表.html', context=context)
 
 
 # 仅展示月度营业数据方法
@@ -1574,7 +1574,7 @@ def display_internal_control_indicators(request):
                         continue
                 else:
                     percentage = (current_time - temp.order_date).days / (
-                                temp.scheduled_delivery - temp.order_date).days
+                            temp.scheduled_delivery - temp.order_date).days
                 # 当前时间大于计划时间的排除
                 # 时间进度百分比未超过0.7的排除
                 if current_time > temp.scheduled_delivery or percentage <= 0.7:
@@ -1914,11 +1914,32 @@ def show_user_logs(request):
         # 第一次访问此页面，取出所有数据
         logs = Logs.objects.all()
     else:
-        # 获取输入的搜索内容
-        user_name_number = request.POST.get('user_name_number')
-        # 从数据库中取出用户姓名或工号包含搜索内容的日志项
-        logs = Logs.objects.filter(Q(user_name__contains=user_name_number) | Q(job_number__contains=user_name_number))
-    # 打包数据
+        # 获取当前动作
+        current_action = request.POST.get('current_action')
+        # 判断动作
+        if current_action == '姓名或工号搜索':
+            # 获取输入的搜索内容
+            user_name_number = request.POST.get('user_name_number')
+            # 从数据库中取出用户姓名或工号包含搜索内容的日志项
+            logs = Logs.objects.filter(
+                Q(user_name__contains=user_name_number) | Q(job_number__contains=user_name_number))
+        elif current_action == '操作时间筛选':
+            # 从前端获取起止时间
+            start_time = str(request.POST.get('start_time')).split('-')
+            end_time = str(request.POST.get('end_time')).split('-')
+
+            # 转换日期对象
+            start_time = datetime(year=int(start_time[0]), month=int(start_time[1]), day=int(start_time[2]),
+                                  hour=int(start_time[3]), minute=int(start_time[4]))
+            end_time = datetime(year=int(end_time[0]), month=int(end_time[1]), day=int(end_time[2]),
+                                hour=int(end_time[3]), minute=int(end_time[4]))
+            # 筛选此时间段内的订单数据
+            logs = Logs.objects.filter(log_time__gte=start_time,
+                                       log_time__lte=end_time)
+        else:
+            # 未知动作，重定向本页面
+            return redirect('show_user_logs')
+    # 打包数据，日志按照时间倒序排序
     context = {
         'logs': logs.order_by('-log_time'),
     }
