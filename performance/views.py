@@ -1411,6 +1411,14 @@ def show_quarterly_award(request):
         }
         # 引导前端页面
         return render(request, '数据统计-奖金表.html', context=context)
+    # 删除无数据的前三年
+    try:
+        year_list = list(year_list)
+        year_list.pop()
+        year_list.pop()
+        year_list.pop()
+    except:
+        year_list = []
     # 如果是第一次访问，选取最新一年数据进行展示
     # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
     # 尝试获取年份
@@ -1423,23 +1431,23 @@ def show_quarterly_award(request):
     else:
         # 没有筛选年份
         # 记录当前年份
-        current_year = year_list.first()['year']
+        current_year = year_list[0]['year']
     # 选出当前年份的所有数据，按照月份正序排序
     quarterly_award_result = QuarterlyAward.objects.filter(year=current_year).order_by('quarter')
     # 计算每项指标合计
     try:
         total_turnover_award = round(quarterly_award_result.aggregate(
-            total_turnover_award=Sum('turnover_award'))['total_turnover_award'],2)
+            total_turnover_award=Sum('turnover_award'))['total_turnover_award'], 2)
         total_operating_rate_award = round(quarterly_award_result.aggregate(
-            total_operating_rate_award=Sum('operating_rate_award'))['total_operating_rate_award'],2)
+            total_operating_rate_award=Sum('operating_rate_award'))['total_operating_rate_award'], 2)
         total_repaid_rate_award = round(quarterly_award_result.aggregate(
-            total_repaid_rate_award=Sum('repaid_rate_award'))['total_repaid_rate_award'],2)
+            total_repaid_rate_award=Sum('repaid_rate_award'))['total_repaid_rate_award'], 2)
         total_inventory_rate_award = round(quarterly_award_result.aggregate(
-            total_inventory_rate_award=Sum('inventory_rate_award'))['total_inventory_rate_award'],2)
+            total_inventory_rate_award=Sum('inventory_rate_award'))['total_inventory_rate_award'], 2)
         total_profit_rate_award = round(quarterly_award_result.aggregate(
-            total_profit_rate_award=Sum('profit_rate_award'))['total_profit_rate_award'],2)
+            total_profit_rate_award=Sum('profit_rate_award'))['total_profit_rate_award'], 2)
         total_total = round(quarterly_award_result.aggregate(
-            total_total=Sum('total'))['total_total'],2)
+            total_total=Sum('total'))['total_total'], 2)
     except:
         total_turnover_award = 0
         total_operating_rate_award = 0
