@@ -1414,9 +1414,8 @@ def show_quarterly_award(request):
     # 删除无数据的前三年
     try:
         year_list = list(year_list)
-        year_list.pop()
-        year_list.pop()
-        year_list.pop()
+        for i in range(3):
+            year_list.pop()
     except:
         year_list = []
     # 如果是第一次访问，选取最新一年数据进行展示
