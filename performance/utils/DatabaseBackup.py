@@ -68,3 +68,17 @@ def load_database(file_name):
     else:
         return False
 
+
+# 删除数据库备份文件
+def delete_backup(file_name):
+    # 传入一个文件名，将删除此文件
+    # 返回值为Boolean标记是否成功
+    # 获取要删除的文件路径
+    file_path = os.path.join(settings.BACKUP_DIR, file_name)
+    # 删除这个文件
+    try:
+        os.remove(file_path)
+    except FileNotFoundError:
+        return False
+    return True
+

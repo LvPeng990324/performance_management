@@ -122,6 +122,8 @@ urlpatterns = [
     path('backup_database/', views.backup_database, name='backup_database'),
     # 恢复数据库方法
     path('load_database/', views.load_database, name='load_database'),
+    # 删除数据库备份文件方法
+    path('delete_backup/', views.delete_backup, name='delete_backup'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),

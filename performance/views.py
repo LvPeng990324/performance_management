@@ -2011,3 +2011,26 @@ def load_database(request):
         add_log(request, action, '失败')
     # 重定向到展示数据库备份页面
     return redirect('show_database_backup')
+
+
+# 删除数据库备份文件方法
+def delete_backup(request):
+    # 获取要删除的文件名
+    file_name = request.POST.get('file_name')
+    # 调用删除备份文件方法
+    res = DatabaseBackup.delete_backup(file_name)
+    # 根据返回值判断备份是否成功
+    if res is True:
+        # 写入成功提示
+        messages.success(request, '删除成功')
+        # 记录日志
+        action = '删除{}备份文件'.format(file_name)
+        add_log(request, action, '成功')
+    else:
+        # 写入失败提示
+        messages.error(request, '出现错误，请刷新重试')
+        # 记录日志
+        action = '尝试删除{}备份文件'.format(file_name)
+        add_log(request, action, '失败')
+    # 重定向到展示数据库备份页面
+    return redirect('show_database_backup')

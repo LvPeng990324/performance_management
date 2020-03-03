@@ -80,7 +80,8 @@
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="" method="post">
+                <form action="{% url 'delete_backup' %}" method="post">
+                    {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
@@ -90,7 +91,7 @@
                         确认删除该备份数据库?
                     </div>
                     <div class="modal-footer">
-                        <input id="id_delete_file" name="file_name">
+                        <input hidden id="id_delete_file" name="file_name">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-danger">确定</button>
                     </div>
