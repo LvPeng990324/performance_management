@@ -143,7 +143,8 @@ def get_k(need_year, need_quarter, history_time):
     return k
 
 
-def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.values_list('year', flat=True).distinct()):
+def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.order_by('year').values_list('year', flat=True).distinct()):
+    # 每次都需从小到大刷新所有年份
     print(year_list)
     for year in year_list:
         print(year)
@@ -166,16 +167,16 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.values_list
                 H = get_h(year, quarter, history_year)
                 I = get_i(year, quarter)
                 K = get_k(year, quarter, history_year)
-                print('A=', A)
-                print('B=', B)
-                print('C=', C)
-                print('D=', D)
-                print('E=', E)
-                print('F=', F)
-                print('G=', G)
-                print('H=', H)
-                print('I=', I)
-                print('K=', K)
+                # print('A=', A)
+                # print('B=', B)
+                # print('C=', C)
+                # print('D=', D)
+                # print('E=', E)
+                # print('F=', F)
+                # print('G=', G)
+                # print('H=', H)
+                # print('I=', I)
+                # print('K=', K)
             except:
                 obj = QuarterlyAward.objects.filter(year=year, quarter=quarter)
                 if obj:
@@ -185,26 +186,27 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.values_list
             try:
                 # 从数据库公式表中取到公式并计算
                 turnover_award = round(eval(QuarterlyAwardFormula.objects.filter(
-                    target_item='营业额').first().formula), 3)
+                    target_item='营业额').first().formula), 2)
                 operating_rate_award = round(eval(QuarterlyAwardFormula.objects.filter(
-                    target_item='营业费率').first().formula), 3)
+                    target_item='营业费率').first().formula), 2)
                 repaid_rate_award = round(eval(QuarterlyAwardFormula.objects.filter(
-                    target_item='回款率').first().formula), 3)
+                    target_item='回款率').first().formula), 2)
                 inventory_rate_award = round(eval(QuarterlyAwardFormula.objects.filter(
-                    target_item='库存率').first().formula), 3)
+                    target_item='库存率').first().formula), 2)
                 profit_rate_award = round(eval(QuarterlyAwardFormula.objects.filter(
-                    target_item='利润率').first().formula), 3)
-                # print(turnover, operating_rate, repaid_rate, inventory_rate, profit_rate)
+                    target_item='利润率').first().formula), 2)
+                total = round(turnover_award + turnover_award + repaid_rate_award + inventory_rate_award + profit_rate_award,2)
+                print(turnover_award, operating_rate_award, repaid_rate_award, inventory_rate_award, profit_rate_award)
 
                 new_data = {
                     'year': year,
                     'quarter': quarter,
                     'turnover_award': turnover_award,
-                    'operating_rate_award': operating_rate_award,
+                    'operating_rate_award': turnover_award,
                     'repaid_rate_award': repaid_rate_award,
                     'inventory_rate_award': inventory_rate_award,
                     'profit_rate_award': profit_rate_award,
-                    'total':1
+                    'total': total
                 }
 
                 obj = QuarterlyAward.objects.filter(year=year, quarter=quarter)
@@ -239,7 +241,6 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.values_list
 
 if __name__ == '__main__':
     quarterly_get_and_refresh()
-
 
 # 公式写死
 # turnover = round(C * (B / A) * 0.2 / A * 0.25 * C, 2)  # 营业额

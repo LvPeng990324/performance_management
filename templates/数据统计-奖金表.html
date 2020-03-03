@@ -83,26 +83,39 @@
                                 <thead>
                                 <tr>
                                     <th nowrap="nowrap" class="text-center">季度</th>
-                                    <th nowrap="nowrap" class="text-right">营业额所得奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">营业费率所得奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">回款率所得奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">库存率所得奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">利润率所得奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">小计</th>
+                                    <th nowrap="nowrap" class="text-right">营业奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">营业费率奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">回款率奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">库存率奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">利润率奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">合计</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for data in quarterly_award_result %}
+                                {% if quarterly_award_result %}
+                                    {% for data in quarterly_award_result %}
+                                        <tr>
+                                            <th nowrap="nowrap" class="text-center">{{ data.quarter }}</th>
+                                            <td nowrap="nowrap">{{ data.turnover_award }}</td>
+                                            <td nowrap="nowrap">{{ data.operating_rate_award }}</td>
+                                            <td nowrap="nowrap">{{ data.repaid_rate_award }}</td>
+                                            <td nowrap="nowrap">{{ data.inventory_rate_award }}</td>
+                                            <td nowrap="nowrap">{{ data.profit_rate_award }}</td>
+                                            <td nowrap="nowrap">{{ data.total }}</td>
+                                        </tr>
+                                    {% endfor %}
                                     <tr>
-                                        <th nowrap="nowrap" class="text-center">{{ data.quarter }}</th>
-                                        <td nowrap="nowrap">{{ data.turnover_award }}</td>
-                                        <td nowrap="nowrap">{{ data.operating_rate_award|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.repaid_rate_award|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.inventory_rate_award|percentage }}</td>
-                                        <td nowrap="nowrap">{{ data.profit_rate_award|percentage }}</td>
-                                        <td nowrap="nowrap">9</td>
+                                        <th nowrap="nowrap" class="text-center">合计</th>
+                                        <td nowrap="nowrap">{{ total_turnover_award }}</td>
+                                        <td nowrap="nowrap">{{ total_operating_rate_award }}</td>
+                                        <td nowrap="nowrap">{{ total_repaid_rate_award }}</td>
+                                        <td nowrap="nowrap">{{ total_inventory_rate_award }}</td>
+                                        <td nowrap="nowrap">{{ total_profit_rate_award }}</td>
+                                        <td nowrap="nowrap">{{ total_total }}</td>
                                     </tr>
-                                {% endfor %}
+                                {% else %}
+                                    <h4 nowrap="nowrap">未获取到该年对应的历史数据，故暂无数据！</h4>
+                                {% endif %}
                                 </tbody>
                             </table>
                         </div>

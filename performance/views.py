@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.db.models import F
 from django.db.models import Q
+from django.db.models import Sum
 from django.http import JsonResponse, FileResponse
 from django.contrib import messages
 from datetime import datetime
@@ -577,6 +578,8 @@ def add_monthly_sales_data(request):
     CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
     # 刷新当年季度考核结果
     CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=[year])
+    # 刷新所有季度奖金额
+    CalculateQuarterlyAward.quarterly_get_and_refresh()
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -609,6 +612,8 @@ def delete_monthly_sales_data(request):
         CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 刷新当年季度考核结果
         CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=year_set)
+        # 刷新所有季度奖金额
+        CalculateQuarterlyAward.quarterly_get_and_refresh()
 
         # 返回成功
         return HttpResponse('success')
@@ -632,6 +637,8 @@ def delete_monthly_sales_data(request):
         CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=year_set)
         # 刷新当年季度考核结果
         CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=year_set)
+        # 刷新所有季度奖金额
+        CalculateQuarterlyAward.quarterly_get_and_refresh()
 
         # 重载页面
         return redirect('show_monthly_sales_data')
@@ -676,6 +683,8 @@ def change_monthly_sales_data(request):
     CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[change_year_month[0]])
     # 刷新季度考核结果
     CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=[change_year_month[0]])
+    # 刷新所有季度奖金额
+    CalculateQuarterlyAward.quarterly_get_and_refresh()
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -1136,7 +1145,7 @@ def upload_user(request):
 @permission_required('performance.manage_constant_data', raise_exception=True)
 def show_constant_data(request):
     # 从数据库中取出所有数据
-    constant_data = ConstantData.objects.all()
+    constant_data = ConstantData.objects.order_by('-date').all()
     # 打包数据
     context = {
         'constant_data': constant_data,
@@ -1417,11 +1426,38 @@ def show_quarterly_award(request):
         current_year = year_list.first()['year']
     # 选出当前年份的所有数据，按照月份正序排序
     quarterly_award_result = QuarterlyAward.objects.filter(year=current_year).order_by('quarter')
+    # 计算每项指标合计
+    try:
+        total_turnover_award = round(quarterly_award_result.aggregate(
+            total_turnover_award=Sum('turnover_award'))['total_turnover_award'],2)
+        total_operating_rate_award = round(quarterly_award_result.aggregate(
+            total_operating_rate_award=Sum('operating_rate_award'))['total_operating_rate_award'],2)
+        total_repaid_rate_award = round(quarterly_award_result.aggregate(
+            total_repaid_rate_award=Sum('repaid_rate_award'))['total_repaid_rate_award'],2)
+        total_inventory_rate_award = round(quarterly_award_result.aggregate(
+            total_inventory_rate_award=Sum('inventory_rate_award'))['total_inventory_rate_award'],2)
+        total_profit_rate_award = round(quarterly_award_result.aggregate(
+            total_profit_rate_award=Sum('profit_rate_award'))['total_profit_rate_award'],2)
+        total_total = round(quarterly_award_result.aggregate(
+            total_total=Sum('total'))['total_total'],2)
+    except:
+        total_turnover_award = 0
+        total_operating_rate_award = 0
+        total_repaid_rate_award = 0
+        total_inventory_rate_award = 0
+        total_profit_rate_award = 0
+        total_total = 0
     # 打包数据
     context = {
         'quarterly_award_result': quarterly_award_result,
         'year_list': year_list,
         'current_year': int(current_year),  # 为了前端等值判断
+        'total_turnover_award': total_turnover_award,
+        'total_operating_rate_award': total_operating_rate_award,
+        'total_repaid_rate_award': total_repaid_rate_award,
+        'total_inventory_rate_award': total_inventory_rate_award,
+        'total_profit_rate_award': total_profit_rate_award,
+        'total_total': total_total,
     }
     # 引导前端页面
     return render(request, '数据统计-奖金表.html', context=context)
