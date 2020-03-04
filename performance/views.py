@@ -2136,6 +2136,9 @@ def change_system_login(request):
         system_config.login_ways = ways
         system_config.save()
 
+    # 记录日志
+    action = '将系统登录方式修改为允许{}方式'.format(ways)
+    add_log(request, action, '成功')
     # 写入成功提示
     messages.success(request, '修改成功')
     # 重定向账户管理页面
