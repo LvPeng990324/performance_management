@@ -79,7 +79,25 @@ def test_page(request):
 # 登陆方法
 def user_login(request):
     if request.method == 'GET':
-        return render(request, '登录.html')
+        # 打包已开启的登录方式
+        ways = SystemConfig.objects.first()
+        # 如果没取到，创建三个
+        if not ways:
+            SystemConfig.objects.create(
+                login_ways='工号登录 短信验证 微信扫码'
+            )
+            # 重载登录界面
+            return redirect('user_login')
+        else:
+            ways = ways.login_ways
+        login_ways = []
+        for way in ways.split(' '):
+            login_ways.append(way)
+        # 打包信息
+        context = {
+            'login_ways': login_ways,
+        }
+        return render(request, '登录.html', context=context)
     else:
         # 从前端获取用户名密码
         username = request.POST.get('username').strip()

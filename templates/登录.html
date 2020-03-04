@@ -63,16 +63,21 @@
                 <h3> 利润绩效管理系统</h3>
             </div>
             <ul class="nav nav-tabs page-tabs">
+                {% if '工号登录' in login_ways %}
                 <li class="active">
                     <a data-toggle="tab" href="#logo1">工号登录</a>
                 </li>
+                {% endif %}
+                {% if '短信验证' in login_ways %}
                 <li class="nav-item">
                     <a data-toggle="tab" href="#logo2">短信验证</a>
                 </li>
+                {% endif %}
+                {% if '微信扫码' in login_ways %}
                 <li class="nav-item">
                     <a data-toggle="tab" href="#logo3">微信扫码</a>
                 </li>
-
+                {% endif %}
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade active in" id="logo1">
