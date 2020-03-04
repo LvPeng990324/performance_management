@@ -23,6 +23,7 @@ from .models import QuarterlyAward
 from .models import User
 from .models import Logs
 from .models import Announcement
+from .models import SystemConfig
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from .forms import cleaned_formula
@@ -114,24 +115,31 @@ def user_management(request):
     if request.method == 'GET':
         # 获取所有用户信息
         users = User.objects.all()
-        # 打包信息
-        context = {
-            'users': users,
-        }
-        # 引导前端页面
-        return render(request, '账号权限管理-账号管理.html', context=context)
+        department = ''
     else:
         # 获取要筛选的部门名
         department = request.POST.get('department')
         # 筛选名称包含该字段的部门下所有员工
         users = User.objects.filter(extension__department__contains=department)
-        # 打包信息
-        context = {
-            'users': users,
-            'department': department,
-        }
-        # 引导前端页面
-        return render(request, '账号权限管理-账号管理.html', context=context)
+    # 打包已选登录方法
+    ways = SystemConfig.objects.first()
+    # 如果没取到就设为空字符串
+    if not ways:
+        ways = ''
+    else:
+        ways = ways.login_ways
+    # 将登录方法打包进列表
+    login_ways = []
+    for way in ways.split(' '):
+        login_ways.append(way)
+    # 打包信息
+    context = {
+        'users': users,
+        'department': department,
+        'login_ways': login_ways,
+    }
+    # 引导前端页面
+    return render(request, '账号权限管理-账号管理.html', context=context)
 
 
 # 新增账号方法
@@ -2081,3 +2089,37 @@ def delete_backup(request):
         add_log(request, action, '失败')
     # 重定向到展示数据库备份页面
     return redirect('show_database_backup')
+
+
+# 修改系统登录方式方法
+def change_system_login(request):
+    # 获取用户选中的登录方式
+    login_ways = request.POST.getlist('login_way', [])
+    # 如果啥都没选，返回错误信息
+    if not login_ways:
+        # 写入不能一个都不选提示
+        messages.error(request, '不可以一个都不选')
+        # 重定向账户管理页面
+        return redirect('user_management')
+    # 遍历用户选择方法
+    ways = ''
+    for way in login_ways:
+        ways += '{} '.format(way)
+    ways = ways.strip()
+    # 取出系统配置表中第一项
+    system_config = SystemConfig.objects.first()
+    # 如果啥都没取到，新建一个
+    # 取到了就更新
+    if not system_config:
+        SystemConfig.objects.create(
+            login_ways=ways,
+        )
+    else:
+        system_config.login_ways = ways
+        system_config.save()
+
+    # 写入成功提示
+    messages.success(request, '修改成功')
+    # 重定向账户管理页面
+    return redirect('user_management')
+

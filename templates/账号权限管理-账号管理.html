@@ -186,7 +186,8 @@
     <div class="modal fade" id="logoin" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="#！" method="post">
+                <form action="{% url 'change_system_login' %}" method="post">
+                    {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
@@ -204,31 +205,34 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>普通登录(工号+密码)</td>
+                                        <td>工号登录</td>
                                         <td>
                                             <label class="lyear-switch switch switch-secondary">
                                                 <input type="checkbox" id="view_monthly_sales_data"
-                                                       value="view_monthly_sales_data" name="permissions">
+                                                       value="工号登录" name="login_way"
+                                                       {% if '工号登录' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>短信验证登录(手机号+短信验证)</td>
+                                        <td>短信验证</td>
                                         <td>
                                             <label class="lyear-switch switch switch-secondary">
                                                 <input type="checkbox" id="view_quarterly_sales_data"
-                                                       value="view_quarterly_sales_data" name="permissions">
+                                                       value="短信验证" name="login_way"
+                                                 {% if '短信验证' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>微信扫码(微信绑定+APP扫一扫)</td>
+                                        <td>微信扫码</td>
                                         <td>
                                             <label class="lyear-switch switch switch-secondary">
                                                 <input type="checkbox" id="view_internal_control_indicators"
-                                                       value="view_internal_control_indicators" name="permissions">
+                                                       value="微信扫码" name="login_way"
+                                                 {% if '微信扫码' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>

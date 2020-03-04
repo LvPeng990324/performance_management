@@ -124,6 +124,8 @@ urlpatterns = [
     path('load_database/', views.load_database, name='load_database'),
     # 删除数据库备份文件方法
     path('delete_backup/', views.delete_backup, name='delete_backup'),
+    # 修改系统登录方式方法
+    path('change_system_login/', views.change_system_login, name='change_system_login'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
