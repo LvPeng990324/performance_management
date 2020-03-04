@@ -4,6 +4,7 @@ from .models import MonthlySalesData
 from .models import QuarterlyPerformance
 from .models import InternalControlIndicators
 from .models import QuarterlySalesData
+from .models import Announcement
 
 
 @admin.register(MonthlyPerformance)
@@ -29,6 +30,11 @@ class InternalControlIndicatorsInformation(admin.ModelAdmin):
 @admin.register(QuarterlySalesData)
 class QuarterlySalesDataInformation(admin.ModelAdmin):
     pass
+
+
+@admin.register(Announcement)
+class AnnouncementInformation(admin.ModelAdmin):
+    list_display = ('time', 'title', 'content', 'who')
 
 
 
