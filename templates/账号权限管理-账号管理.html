@@ -182,6 +182,70 @@
             </div>
         </div>
     </div>
+    <!--登录方式-->
+    <div class="modal fade" id="logoin" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="#！" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="logoin">设定系统登录方式</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>登录方式</th>
+                                        <th>开关</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>普通登录(工号+密码)</td>
+                                        <td>
+                                            <label class="lyear-switch switch switch-secondary">
+                                                <input type="checkbox" id="view_monthly_sales_data"
+                                                       value="view_monthly_sales_data" name="permissions">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>短信验证登录(手机号+短信验证)</td>
+                                        <td>
+                                            <label class="lyear-switch switch switch-secondary">
+                                                <input type="checkbox" id="view_quarterly_sales_data"
+                                                       value="view_quarterly_sales_data" name="permissions">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>微信扫码(微信绑定+APP扫一扫)</td>
+                                        <td>
+                                            <label class="lyear-switch switch switch-secondary">
+                                                <input type="checkbox" id="view_internal_control_indicators"
+                                                       value="view_internal_control_indicators" name="permissions">
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block main_content %}
@@ -205,15 +269,19 @@
                                                    name="department"
                                                    value="{{ department }}">
                                             <span class="input-group-btn" id="basic-addon3">
-                                <button class="btn btn-default" type="submit">筛选部门</button>
-                            </span>
+                                                <button class="btn btn-default" type="submit">筛选部门</button>
+                                            </span>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </from>
                         <div class="toolbar-btn-action">
-                           <button type="button" class="btn btn-dark m-r-5" data-toggle="modal"
+                            <button type="button" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#logoin"><i class="mdi mdi-account-card-details"></i>
+                                账号登录方式
+                            </button>
+                            <button type="button" class="btn btn-dark m-r-5" data-toggle="modal"
                                     data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增
                             </button>
                             <button type="button" class="btn btn-dark m-r-5" data-toggle="modal"
