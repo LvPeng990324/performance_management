@@ -242,3 +242,12 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# 系统配置表
+class SystemConfig(models.Model):
+    login_ways = models.CharField(max_length=200, verbose_name='系统登录方式')
+
+    class Meta:
+        verbose_name_plural = '系统配置表'
+        verbose_name = '系统配置表'
