@@ -64,19 +64,19 @@
             </div>
             <ul class="nav nav-tabs page-tabs">
                 {% if '工号登录' in login_ways %}
-                <li class="active">
-                    <a data-toggle="tab" href="#logo1">工号登录</a>
-                </li>
+                    <li class="active">
+                        <a data-toggle="tab" href="#logo1">工号登录</a>
+                    </li>
                 {% endif %}
                 {% if '短信验证' in login_ways %}
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#logo2">短信验证</a>
-                </li>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#logo2">短信验证</a>
+                    </li>
                 {% endif %}
                 {% if '微信扫码' in login_ways %}
-                <li class="nav-item">
-                    <a data-toggle="tab" href="#logo3">微信扫码</a>
-                </li>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#logo3">微信扫码</a>
+                    </li>
                 {% endif %}
             </ul>
             <div class="tab-content">
@@ -130,7 +130,7 @@
                 </div>
                 <div class="tab-pane fade" id="logo3">
                     <div class="login-center">
-                    <img src="{% static 'images/logo3.jpg' %}" title="微信扫码" alt="微信扫码" width="300" height="300">
+                        <img src="{% static 'images/logo3.jpg' %}" title="微信扫码" alt="微信扫码" width="300" height="300">
                     </div>
                     <h5 class=" text-center">
                         打开 <a>微信APP</a>
@@ -147,26 +147,28 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/bootstrap-notify.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/lightyear.js' %}"></script>
-<!-- 消息提示框 -->
-{% if messages %}
-    {% for message in messages %}
-        {% if message.tags == 'success' %}
-            <script type="text/javascript">
-                lightyear.notify('{{ message }}', 'success', 3000);
-            </script>
-        {% elif message.tags == 'error' %}
-            <script type="text/javascript">
-                lightyear.notify('{{ message }}', 'danger', 3000);
-            </script>
-        {% endif %}
-    {% endfor %}
-{% endif %}
 
+{% block js_content %}
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-notify.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/lightyear.js' %}"></script>
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
 </body>
 </html>
