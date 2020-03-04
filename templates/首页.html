@@ -85,68 +85,50 @@
                     <div class="card-body">
                         <!--手风琴效果-->
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                            <div class="panel">
-                                <div class="panel-heading" role="tab" id="headingOne">
-                                    <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                           href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            3.4日进行了系统综合测试和最终微调
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                                     aria-labelledby="headingOne">
-                                    <div class="panel-body">
-                                        <blockquote class="blockquote">
-                                            <p>为了适配项目需求以及满足客户期待，项目组进行了系统综合测试和最终微调，进行了系统的最终演示测试以及黑盒稳定性测试，以及修正了一些的bug。</p>
-                                            <footer>项目开发小组</footer>
-
-                                        </blockquote>
+                            {% for announcement in announcements %}
+                            {% if forloop.counter == 1 %}
+                                <div class="panel">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                               href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                {{ announcement.time }}-{{ announcement.title }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                         aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <blockquote class="blockquote">
+                                                <p>{{ announcement.content }}</p>
+                                                <footer>{{ announcement.who }}</footer>
+                                            </blockquote>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="panel">
-                                <div class="panel-heading" role="tab" id="headingTwo">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse"
-                                           data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
-                                           aria-controls="collapseTwo">
-                                            3.1日进行了系统维护和数据测试
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingTwo">
-                                    <div class="panel-body">
-                                        <blockquote class="blockquote">
-                                            <p>为了适配项目需求以及满足客户期待，项目组进行了系统维护和数据测试，测试了一系列数据集，以及系统安全控制等
-                                                功能，以及修正了一些的bug。</p>
-                                            <footer>项目开发小组</footer>
-                                        </blockquote>
+                            {% else %}
+                                <div class="panel">
+                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                               aria-controls="collapseTwo">
+                                                {{ announcement.time }}-{{ announcement.title }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                         aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            <blockquote class="blockquote">
+                                                <p>{{ announcement.content }}</p>
+                                                <footer>{{ announcement.who }}</footer>
+                                            </blockquote>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="panel">
-                                <div class="panel-heading" role="tab" id="headingThree">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse"
-                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
-                                           aria-controls="collapseThree">
-                                            2.28日进行了系统调整和一系列的更新
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingThree">
-                                    <div class="panel-body">
-                                        <blockquote class="blockquote">
-                                            <p>为了适配项目需求以及满足客户期待，项目组更新了前端页面，进行了一系列的系统调整，新增加了系统日志回滚，数据库备份等
-                                                安全维护功能，以及修正了一些的bug。</p>
-                                            <footer>项目开发小组</footer>
-                                        </blockquote>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         <!--手风琴效果 End-->
 

@@ -22,6 +22,7 @@ from .models import QuarterlyAwardFormula
 from .models import QuarterlyAward
 from .models import User
 from .models import Logs
+from .models import Announcement
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from .forms import cleaned_formula
@@ -55,12 +56,15 @@ def index(request):
     month_to_finish_order = InternalControlIndicators.objects.filter(scheduled_delivery__year=today.year,
                                                                      scheduled_delivery__month=today.month,
                                                                      finished_number=None)
+    # 获取公告信息，根据时间逆序排序
+    announcements = Announcement.objects.all().order_by('-time')
 
     # 打包数据
     context = {
         'month_order_count': month_order_count,
         'user_group': user_group,
         'month_to_finish_order': month_to_finish_order,
+        'announcements': announcements,
     }
 
     return render(request, '首页.html', context=context)
