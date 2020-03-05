@@ -14,7 +14,7 @@
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'export_monthly_sales_data' %}" method="post">
+                <form action="{% url 'export_user_logs' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span

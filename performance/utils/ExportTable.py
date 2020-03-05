@@ -4,12 +4,13 @@ import xlwt
 from io import BytesIO
 from datetime import date
 from django.http import HttpResponse
+from django.utils.encoding import escape_uri_path
 from performance.models import MonthlySalesData
 from performance.models import QuarterlySalesData
 from performance.models import InternalControlIndicators
 from performance.models import MonthlyPerformance
 from performance.models import QuarterlyPerformance
-from django.utils.encoding import escape_uri_path
+from performance.models import Logs
 
 
 # 写入excel并生成下载回应方法
@@ -192,3 +193,28 @@ def export_quarterly_performance():
         temp_list = []
     # 返回下载回应
     return excel_response(data_list, sheet_name='季度绩效考核结果')
+
+
+# 导出用户操作日志
+def export_user_logs():
+    # 从数据库中取出所有数据
+    data = Logs.objects.all().order_by('-log_time')
+    # 将数据存入列表
+    data_list = []  # 用于存储所有数据
+    temp_list = []  # 用于临时存储一行，最后存入data_list
+    # 建立表头
+    temp_list = ['日志时间', '用户姓名', '工号', '动作描述', '操作结果']
+    data_list.append(temp_list)
+    temp_list = []
+    # 遍历数据库内容并存入data_list
+    for line in data:
+        temp_list.append(line.log_time)
+        temp_list.append(line.user_name)
+        temp_list.append(line.job_number)
+        temp_list.append(line.action)
+        temp_list.append(line.result)
+        # 存入data_list并清空temp_list
+        data_list.append(temp_list)
+        temp_list = []
+    # 返回下载回应
+    return excel_response(data_list, sheet_name='用户操作日志')

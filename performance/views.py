@@ -1779,6 +1779,11 @@ def export_quarterly_performance(request):
     return ExportTable.export_quarterly_performance()
 
 
+# 导出用户操作日志
+def export_user_logs(request):
+    return ExportTable.export_user_logs()
+
+
 # 展示公式修改页-月度绩效考核
 @login_required
 @permission_required('performance.manage_formula', raise_exception=True)
