@@ -38,7 +38,7 @@
                         <li class="nav-item {% block index_active %}{% endblock %}"><a href="{% url 'index' %}"><i
                                 class="mdi mdi-home"></i> 首页</a></li>
 
-                        {% if 'performance.view_monthly_sales_data' in request.user.get_all_permissions or 'performance.view_quarterly_sales_data' in request.user.get_all_permissions or 'performance.view_internal_control_indicators' in request.user.get_all_permissions or 'performance.view_monthly_performance' in request.user.get_all_permissions or 'performance.view_quarterly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
+                        {% if 'performance.view_monthly_sales_data' in request.user.get_all_permissions or 'performance.view_quarterly_sales_data' in request.user.get_all_permissions or 'performance.view_internal_control_indicators' in request.user.get_all_permissions or 'performance.view_monthly_performance' in request.user.get_all_permissions or 'performance.view_quarterly_performance' in request.user.get_all_permissions or 'view_quarterly_award' in request.user.get_all_permissions or request.user.is_superuser %}
                             <li class="nav-item nav-item-has-subnav {% block show_data_active %}{% endblock %}">
                                 <a href="javascript:void(0)"><i class="mdi mdi-tab"></i> 数据统计查看</a>
                                 <ul class="nav nav-subnav">
@@ -63,7 +63,7 @@
                                         <li class="{% block show_quarterly_result_active %}{% endblock %}"><a
                                                 href="{% url 'show_quarterly_result' %}">季度绩效考核结果</a></li>
                                     {% endif %}
-                                    {% if 'performance.view_quarterly_performance' in request.user.get_all_permissions or request.user.is_superuser %}
+                                    {% if 'performance.view_quarterly_award' in request.user.get_all_permissions or request.user.is_superuser %}
                                         <li class="{% block show_quarterly_award_active %}{% endblock %}"><a
                                                 href="{% url 'show_quarterly_award' %}">季度绩效奖金</a></li>
                                     {% endif %}
@@ -118,16 +118,22 @@
                                 </ul>
                             </li>
                         {% endif %}
-                        <li class="nav-item nav-item-has-subnav
-                                {% block system_security_backup_active %}{% endblock %}">
-                            <a href="javascript:void(0)"><i class="mdi mdi-shield"></i> 系统安全备份</a>
-                            <ul class="nav nav-subnav">
-                                <li class="{% block show_user_logs_actice %}{% endblock %}"><a
-                                        href="{% url 'show_user_logs' %}">用户操作日志</a></li>
-                                <li class="{% block show_database_backup_actice %}{% endblock %}"><a
-                                        href="{% url 'show_database_backup' %}">数据备份还原</a></li>
-                            </ul>
-                        </li>
+                        {% if 'performance.user_logs' in request.user.get_all_permissions or 'performance.manage_backups' in request.user.get_all_permissions or request.user.is_superuser %}
+                            <li class="nav-item nav-item-has-subnav
+                                    {% block system_security_backup_active %}{% endblock %}">
+                                <a href="javascript:void(0)"><i class="mdi mdi-shield"></i> 系统安全备份</a>
+                                <ul class="nav nav-subnav">
+                                    {% if 'performance.user_logs' in request.user.get_all_permissions or request.user.is_superuser %}
+                                        <li class="{% block show_user_logs_actice %}{% endblock %}"><a
+                                                href="{% url 'show_user_logs' %}">用户操作日志</a></li>
+                                    {% endif %}
+                                    {% if 'performance.manage_backups' in request.user.get_all_permissions or request.user.is_superuser %}
+                                        <li class="{% block show_database_backup_actice %}{% endblock %}"><a
+                                                href="{% url 'show_database_backup' %}">数据备份还原</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
 

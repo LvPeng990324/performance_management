@@ -15,10 +15,13 @@ class Permission(models.Model):
             ('manage_internal_control_indicators', '管理内控指标汇总'),
             ('view_monthly_performance', '查看月度绩效考核结果'),
             ('view_quarterly_performance', '查看季度绩效考核结果'),
+            ('view_quarterly_award', '查看季度绩效奖金'),
             ('manage_constant_data', '管理常量数据'),
             ('manage_formula', '管理报表公式'),
             ('manage_user', '管理用户'),
             ('manage_permission', '管理授权'),
+            ('user_logs', '查看用户操作日志'),
+            ('manage_backups', '管理系统数据库备份'),
         )
 
 

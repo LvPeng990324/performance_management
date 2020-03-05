@@ -1430,6 +1430,8 @@ def refresh_quarterly_result(request):
 
 
 # 展示季度绩效奖金
+@login_required
+@permission_required('performance.view_quarterly_award', raise_exception=True)
 def show_quarterly_award(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
@@ -1780,6 +1782,8 @@ def export_quarterly_performance(request):
 
 
 # 导出用户操作日志
+@login_required
+@permission_required('performance.user_logs', raise_exception=True)
 def export_user_logs(request):
     return ExportTable.export_user_logs()
 
@@ -1987,6 +1991,8 @@ def download_internal_control_modal(request):
 
 
 # 展示用户操作日志方法
+@login_required
+@permission_required('performance.user_logs', raise_exception=True)
 def show_user_logs(request):
     if request.method == 'GET':
         # 第一次访问此页面，取出所有数据
@@ -2026,6 +2032,8 @@ def show_user_logs(request):
 
 
 # 展示数据库备份方法
+@login_required
+@permission_required('performance.manage_backups', raise_exception=True)
 def show_database_backup(request):
     # 获取当前备份
     backups = DatabaseBackup.get_backups()
@@ -2038,6 +2046,8 @@ def show_database_backup(request):
 
 
 # 备份数据库方法
+@login_required
+@permission_required('performance.manage_backups', raise_exception=True)
 def backup_database(request):
     # 调用备份方法
     res = DatabaseBackup.backup_database()
@@ -2059,6 +2069,8 @@ def backup_database(request):
 
 
 # 恢复数据库方法
+@login_required
+@permission_required('performance.manage_backups', raise_exception=True)
 def load_database(request):
     # 获取要恢复的文件名
     file_name = request.POST.get('file_name')
@@ -2092,6 +2104,8 @@ def load_database(request):
 
 
 # 删除数据库备份文件方法
+@login_required
+@permission_required('performance.manage_backups', raise_exception=True)
 def delete_backup(request):
     # 获取要删除的文件名
     file_name = request.POST.get('file_name')
@@ -2115,6 +2129,8 @@ def delete_backup(request):
 
 
 # 修改系统登录方式方法
+@login_required
+@permission_required('performance.manage_user', raise_exception=True)
 def change_system_login(request):
     # 获取用户选中的登录方式
     login_ways = request.POST.getlist('login_way', [])
