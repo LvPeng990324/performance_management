@@ -31,7 +31,7 @@
                                     <div>
                                         <select class="form-control" id="selected1" name="users" size="6" multiple>
                                             {% for out_group_user in out_group_users %}
-                                                <option value="{{ out_group_user.id }}">{{ out_group_user.extension.job_number }}-{{ out_group_user.last_name }}</option>
+                                                <option value="{{ out_group_user.id }}">{{ out_group_user.extension.department }}-{{ out_group_user.extension.job_number }}-{{ out_group_user.last_name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -54,7 +54,7 @@
                                     <div>
                                         <select class="form-control" id="selected2" name="selected" size="8" multiple>
                                             {% for in_group_user in in_group_users %}
-                                                <option value="{{ in_group_user.id }}">{{ in_group_user.extension.job_number }}-{{ in_group_user.last_name }}</option>
+                                                <option value="{{ in_group_user.extension.department }}-{{ in_group_user.id }}">{{ in_group_user.extension.department }}-{{ in_group_user.extension.job_number }}-{{ in_group_user.last_name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
