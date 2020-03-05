@@ -22,12 +22,16 @@
                                     <h4>可选账号</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="请输入姓名...">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button"><i class="mdi mdi-magnify"></i></button>
-                                        </span>
-                                    </div>
+                                    <form action="{% url 'group_to_user' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            <input hidden name="group_id" value="{{ group_id }}">
+                                            <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="根据部门/工号/姓名筛选...">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><i class="mdi mdi-magnify"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
                                     <div>
                                         <select class="form-control" id="selected1" name="users" size="6" multiple>
                                             {% for out_group_user in out_group_users %}

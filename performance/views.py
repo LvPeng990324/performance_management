@@ -487,6 +487,36 @@ def change_group(request):
 @login_required
 @permission_required('performance.manage_permission', raise_exception=True)
 def group_to_user(request):
+    # 如果是POST，则为筛选
+    if request.method == 'POST':
+        # 获取筛选条件
+        search = request.POST.get('search')
+        # 获取角色(组)的id
+        group_id = request.POST.get('group_id')
+        group = Group.objects.get(id=group_id)
+        # 获取这个角色下的账号
+        in_group_users = group.user_set.all()
+        # 获取所有用户
+        users = User.objects.all()
+        # 筛选出未在此角色(组)的用户列表
+        out_group_user = users
+        for user in in_group_users:
+            out_group_user = out_group_user.exclude(id=user.id)
+        # 筛选未在此角色(组)的用户中符合筛选要求的用户列表
+        out_group_user = out_group_user.filter(
+            Q(extension__department__contains=search) |
+            Q(extension__job_number__contains=search) |
+            Q(last_name__contains=search)
+        )
+        # 打包数据
+        context = {
+            'group_id': group_id,
+            'in_group_users': in_group_users,
+            'out_group_users': out_group_user,
+            'search': search,
+        }
+        # 引导前端页面
+        return render(request, '账号权限管理-权限管理-赋予用户角色.html', context=context)
     # 判断有无ajax变量值，有的话就是提交数据，没有就是访问页面
     if not request.GET.get('ajax'):
         # 获取角色(组)的id
