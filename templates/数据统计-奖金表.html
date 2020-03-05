@@ -83,11 +83,11 @@
                                 <thead>
                                 <tr>
                                     <th nowrap="nowrap" class="text-center">季度</th>
-                                    <th nowrap="nowrap" class="text-right">营业奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">营业费率奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">回款率奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">库存率奖金额</th>
-                                    <th nowrap="nowrap" class="text-right">利润率奖金额</th>
+                                    <th nowrap="nowrap" class="text-right">营业奖金</th>
+                                    <th nowrap="nowrap" class="text-right">营业费率奖金</th>
+                                    <th nowrap="nowrap" class="text-right">回款率奖金</th>
+                                    <th nowrap="nowrap" class="text-right">库存率奖金</th>
+                                    <th nowrap="nowrap" class="text-right">利润率奖金</th>
                                     <th nowrap="nowrap" class="text-right">合计</th>
                                 </tr>
                                 </thead>
@@ -119,8 +119,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        {% if quarterly_result %}
-                            <div id="chart_display" class="chart_bar hidden"></div>
+                        {% if quarterly_award_result %}
+                            <div id="chart_bar_display" class="chart_bar hidden"></div>
+                            <div id="chart_quarter_pie_display" class="chart_pie hidden"></div>
                         {% endif %}
                     </div>
                 </div>
@@ -133,10 +134,9 @@
     <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript">
-        var myChart = $("#chart_display")[0];
+        var myChart = $("#chart_bar_display")[0];
         myChart.style.width = $("#table_display").width() + 'px';
         chartObj = echarts.init(myChart);
-        {#var myChart = echarts.init(document.getElementById('chart_display'));#}
         option = {
             title: {
                 text: '{{ current_year }}年度各季度绩效考核结果',
@@ -156,22 +156,17 @@
             },
             dataset: {
                 source: [
-                    ['季度', {% for data in quarterly_result %}'第{{ data.quarter }}季度', {% endfor %}],
-                    ['营业费率', {% for data in quarterly_result %}{{ data.operating_rate }}, {% endfor %}],
-                    ['回款率', {% for data in quarterly_result %}{{ data.repaid_rate }}, {% endfor %}],
-                    ['库存率', {% for data in quarterly_result %}{{ data.inventory_rate }}, {% endfor %}],
-                    ['利润率', {% for data in quarterly_result %}{{ data.profit_rate }}, {% endfor %}],
+                    ['季度', {% for data in quarterly_award_result %}'第{{ data.quarter }}季度', {% endfor %}],
+                    ['营业费率', {% for data in quarterly_award_result %}{{ data.operating_rate_award }}, {% endfor %}],
+                    ['回款率', {% for data in quarterly_award_result %}{{ data.repaid_rate_award }}, {% endfor %}],
+                    ['库存率', {% for data in quarterly_award_result %}{{ data.inventory_rate_award }}, {% endfor %}],
+                    ['利润率', {% for data in quarterly_award_result %}{{ data.profit_rate_award }}, {% endfor %}],
                 ]
             },
             xAxis: {
                 type: 'category',
             },
             yAxis: {
-                axisLabel: {
-                    formatter: function (value) {
-                        return (value * 100) + '%';
-                    },
-                }
             },
             series: [
                 {type: 'bar'},
@@ -183,13 +178,52 @@
         chartObj.setOption(option);
     </script>
     <script type="text/javascript">
+        var chartObj = echarts.init(document.getElementById('chart_quarter_pie_display'));
+        var option = {
+            title: {
+                text: '季度奖金合计',
+                left: 'center',
+                textStyle: {
+                    fontSize: 22,
+                },
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            series: [
+                {
+                    name: '季度奖金合计',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {% for data in quarterly_award_result %}
+                            {value: {{ data.total|safe }}, name: '第{{ data.quarter|safe }}季度'},
+                        {% endfor %}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        chartObj.setOption(option);
+    </script>
+    <script type="text/javascript">
         $('#show_charts').click(function () {
-            $('#chart_display').removeClass('hidden');
+            $('#chart_bar_display').removeClass('hidden');
+            $('#chart_quarter_pie_display').removeClass('hidden');
             $('#table_display').addClass('hidden');
         });
         $('#show_table').click(function () {
             $('#table_display').removeClass('hidden');
-            $('#chart_display').addClass('hidden');
+            $('#chart_bar_display').addClass('hidden');
+            $('#chart_quarter_pie_display').addClass('hidden');
         })
     </script>
 
