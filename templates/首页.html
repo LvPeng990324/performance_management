@@ -137,6 +137,7 @@
             </div>
 
         </div>
+        {% if 'performance.view_internal_control_indicators' in request.user.get_all_permissions or request.user.is_superuser %}
         <div class="row">
 
             <div class="col-lg-12">
@@ -205,8 +206,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        {% endif %}
 
     </div>
 
