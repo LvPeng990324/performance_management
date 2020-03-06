@@ -7,6 +7,7 @@
 {% block css_content %}
     <link href="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' %}">
     <link href="{% static 'css/style.min.css' %}">
+    <link href="{% static 'css/echarts.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block modal_content %}
@@ -29,6 +30,21 @@
                         <button type="submit" class="btn btn-danger">下载</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <!--展示可视化图表-->
+    <div class="modal fade" id="charts" tabindex="-1" role="dialog" aria-labelledby="chartsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">展示可视化图表</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="pie_chart" class="chart_pie"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -61,6 +77,12 @@
                             <button type="button" class="btn btn-dark" data-toggle="modal"
                                     data-target="#export"><i class="mdi mdi-file-excel"></i>
                                 导出用户操作日志
+                            </button>
+                        </div>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#charts"><i class="mdi mdi-file-excel"></i>
+                                查看统计图表
                             </button>
                         </div>
                     </div>
@@ -148,4 +170,59 @@
     <script src="{% static 'js/bootstrap-datetimepicker/locale/zh-cn.js' %}"></script>
     <!--时间选择插件-->
     <link rel="stylesheet" href="{% static 'js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' %}">
+    <!--echarts-->
+    <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
+    <!-- 饼图可视化图表 -->
+    <script type="text/javascript">
+        var chartObj = echarts.init(document.getElementById('pie_chart'));
+        option = {
+            title: {
+                text: '系统出错率',
+                left: 'center',
+                textStyle: {
+                    fontSize: 22,
+                },
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 10,
+                data: ['成功', '失败']
+            },
+            series: [
+                {
+                    name: '系统出错率',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: {{ success_log_num }}, name: '成功'},
+                        {value: {{ fail_log_num }}, name: '失败'},
+                    ]
+                }
+            ]
+        };
+        chartObj.setOption(option);
+    </script>
 {% endblock %}
