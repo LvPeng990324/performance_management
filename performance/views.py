@@ -162,7 +162,7 @@ def user_management(request):
 
 # 新增账号方法
 @login_required
-@permission_required('performance.performance.manage_user', raise_exception=True)
+@permission_required('performance.manage_user', raise_exception=True)
 def add_user(request):
     # 从前端获取填写用户信息
     job_number = str(request.POST.get('job_number')).strip()
