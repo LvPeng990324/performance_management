@@ -26,7 +26,7 @@ from .models import Announcement
 from .models import SystemConfig
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
-from .forms import cleaned_formula
+from .forms import cleaned_formula, check_data_format
 from .utils import UploadTable
 from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
@@ -629,10 +629,15 @@ def add_monthly_sales_data(request):
     year_month = str(request.POST.get('date')).split('-')
     year = year_month[0]
     month = year_month[1]
-    turnover = request.POST.get('turnover')
-    operating_expenses = request.POST.get('operating_expenses')
-    amount_repaid = request.POST.get('amount_repaid')
-    inventory = request.POST.get('inventory')
+    turnover = check_data_format(request.POST.get('turnover'), 'float')
+    operating_expenses = check_data_format(request.POST.get('operating_expenses'), 'float')
+    amount_repaid = check_data_format(request.POST.get('amount_repaid'), 'float')
+    inventory = check_data_format(request.POST.get('inventory'), 'int')
+    # 验证数据合法性
+    for data in [turnover, operating_expenses, amount_repaid, inventory]:
+        if data is False:
+            messages.error(request, '输入存在格式问题，请检查输入')
+            return redirect('show_monthly_sales_data')
     # 利润额根据 营业额 - 营业费用 得出
     profit = float(turnover) - float(operating_expenses)
 
@@ -730,10 +735,15 @@ def change_monthly_sales_data(request):
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
     change_year_month = str(request.POST.get('change_date')).split('-')
-    change_turnover = request.POST.get('change_turnover')
-    change_operating_expenses = request.POST.get('change_operating_expenses')
-    change_amount_repaid = request.POST.get('change_amount_repaid')
-    change_inventory = request.POST.get('change_inventory')
+    change_turnover = check_data_format(request.POST.get('change_turnover'), 'float')
+    change_operating_expenses = check_data_format(request.POST.get('change_operating_expenses'), 'float')
+    change_amount_repaid = check_data_format(request.POST.get('change_amount_repaid'), 'float')
+    change_inventory = check_data_format(request.POST.get('change_inventory'), 'int')
+    # 验证数据合法性
+    for data in [change_turnover, change_operating_expenses, change_amount_repaid, change_inventory]:
+        if data is False:
+            messages.error(request, '输入存在格式问题，请检查输入')
+            return redirect('show_monthly_sales_data')
     # 利润额根据 营业额 - 营业费用 得出
     change_profit = float(change_turnover) - float(change_operating_expenses)
 
@@ -940,10 +950,15 @@ def show_internal_control_indicators(request):
 def add_internal_control_indicators(request):
     # 从前端获取数据
     order_date = request.POST.get('order_date')  # 订单时间
-    order_number = request.POST.get('order_number')  # 订单号
-    order_money = float(request.POST.get('order_money'))  # 订单额
+    order_number = check_data_format(request.POST.get('order_number'), 'str')  # 订单号
+    order_money = check_data_format(request.POST.get('order_money'), 'float')  # 订单额
     scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
-    target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
+    target_well_done_rate = check_data_format(request.POST.get('target_well_done_rate'), 'float')  # 目标成品率
+    # 验证数据合法性
+    for data in [order_number, order_money, target_well_done_rate]:
+        if data is False:
+            messages.error(request, '输入存在格式问题，请检查输入')
+            return redirect('show_internal_control_indicators')
 
     # 转换日期对象
     order_date_list = order_date.split('-')
@@ -1049,15 +1064,21 @@ def change_internal_control_indicators(request):
     change_id = request.POST.get('change_id')
     # 从前端获取修改后的数据
     change_order_date = request.POST.get('order_date')  # 订单时间
-    change_order_number = request.POST.get('order_number')  # 订单号
-    change_order_money = float(request.POST.get('order_money'))  # 订单额
+    change_order_number = check_data_format(request.POST.get('order_number'), 'str')  # 订单号
+    change_order_money = check_data_format(request.POST.get('order_money'), 'float')  # 订单额
     change_scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
     change_target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
     change_actual_delivery = request.POST.get('actual_delivery')  # 实际交期
-    change_actual_well_done_rate = request.POST.get('actual_well_done_rate')  # 实际成品率
-    change_actual_medical_expenses = request.POST.get('actual_medical_expenses')  # 实际医药费
-    change_actual_cost = request.POST.get('actual_cost')  # 实际成本
-    change_actual_management_compliance = request.POST.get('actual_management_compliance')  # 实际管理符合数
+    change_actual_well_done_rate = check_data_format(request.POST.get('actual_well_done_rate'), 'float')  # 实际成品率
+    change_actual_medical_expenses = check_data_format(request.POST.get('actual_medical_expenses'), 'float')  # 实际医药费
+    change_actual_cost = check_data_format(request.POST.get('actual_cost'), 'float')  # 实际成本
+    change_actual_management_compliance = check_data_format(request.POST.get('actual_management_compliance'), 'int')  # 实际管理符合数
+    # 验证数据合法性
+    for data in [change_order_number, change_order_money, change_actual_well_done_rate, change_actual_medical_expenses,
+                 change_actual_cost, change_actual_management_compliance]:
+        if data is False:
+            messages.error(request, '输入存在格式问题，请检查输入')
+            return redirect('show_internal_control_indicators')
     # 从常量数据表中取出相应的常量数据
     # 规则为，日期在这条数据之前的最新一条常量数据
     # 获取符合条件的一批常量
@@ -1237,11 +1258,17 @@ def show_constant_data(request):
 @permission_required('performance.manage_constant_data', raise_exception=True)
 def add_constant_data(request):
     # 从前端获取数据
-    target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate'))
-    target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate'))
-    target_management_compliance_value = int(request.POST.get('target_management_compliance_value'))
-    annual_target_turnover = float(request.POST.get('annual_target_turnover'))
-    annual_target_award = float(request.POST.get('annual_target_award'))
+    target_medical_expenses_rate = check_data_format(request.POST.get('target_medical_expenses_rate'), 'percentage')
+    target_comprehensive_cost_rate = check_data_format(request.POST.get('target_comprehensive_cost_rate'), 'percentage')
+    target_management_compliance_value = check_data_format(request.POST.get('target_management_compliance_value'), 'int')
+    annual_target_turnover = check_data_format(request.POST.get('annual_target_turnover'), 'float')
+    annual_target_award = check_data_format(request.POST.get('annual_target_award'), 'float')
+    # 验证数据合法性
+    for data in [target_medical_expenses_rate, target_comprehensive_cost_rate, target_management_compliance_value,
+                 annual_target_turnover, annual_target_award]:
+        if data is False:
+            messages.error(request, '输入存在格式问题，请检查输入')
+            return redirect('show_constant_data')
 
     # 写入数据库
     ConstantData.objects.create(
@@ -1300,11 +1327,18 @@ def change_constant_data(request):
     # 从前端获取数据
     change_id = request.POST.get('change_id')
     change_date = request.POST.get('date_m')
-    change_target_medical_expenses_rate = float(request.POST.get('target_medical_expenses_rate_m'))
-    change_target_comprehensive_cost_rate = float(request.POST.get('target_comprehensive_cost_rate_m'))
-    change_target_management_compliance_value = int(request.POST.get('target_management_compliance_value_m'))
-    change_annual_target_turnover = float(request.POST.get('annual_target_turnover_m'))
-    change_annual_target_award = float(request.POST.get('annual_target_award_m'))
+    change_target_medical_expenses_rate = check_data_format(request.POST.get('target_medical_expenses_rate_m'), 'percentage')
+    change_target_comprehensive_cost_rate = check_data_format(request.POST.get('target_comprehensive_cost_rate_m'), 'percentage')
+    change_target_management_compliance_value = check_data_format(request.POST.get('target_management_compliance_value_m'), 'int')
+    change_annual_target_turnover = check_data_format(request.POST.get('annual_target_turnover_m'), 'float')
+    change_annual_target_award = check_data_format(request.POST.get('annual_target_award_m'), 'float')
+    # 验证数据合法性
+    for data in [change_target_medical_expenses_rate, change_target_comprehensive_cost_rate,
+                 change_target_management_compliance_value,change_annual_target_turnover, change_annual_target_award]:
+        if data is False:
+            messages.error(request, '输入存在格式问题，请检查输入')
+            return redirect('show_constant_data')
+    # 转换日期对象
     date_list = change_date.split('-')
     change_date = date(year=int(date_list[0]), month=int(date_list[1]), day=int(date_list[2]))
 
