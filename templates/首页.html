@@ -23,7 +23,7 @@
                     <div class="card-body clearfix">
                         <div class="pull-right">
                             <p class="h6 text m-t-0 text-right"><b>本月新增订单数</b></p>
-                            <p class="h3 text m-b-0 text-right">{{ month_order_count }}</p>
+                            <p class="h4 text m-b-0 text-right">{{ month_order_count }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi mdi-content-paste mdi-dark fa-1-5x"></i></span></div>
@@ -36,7 +36,7 @@
                     <div class="card-body clearfix">
                         <div class="pull-right">
                             <p class="h6 text m-t-0 text-right"><b>您的工号</b></p>
-                            <p class="h3 text m-b-0 text-right">{{ request.user.extension.job_number }}</p>
+                            <p class="h4 text m-b-0 text-right">{{ request.user.extension.job_number }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi mdi-square-inc mdi-dark fa-1-5x"></i></span></div>
@@ -49,7 +49,7 @@
                     <div class="card-body clearfix">
                         <div class="pull-right">
                             <p class="h6 text m-t-0 text-right"><b>您的部门</b></p>
-                            <p class="h3 text m-b-0 text-right">{{ request.user.extension.department }}</p>
+                            <p class="h4 text m-b-0 text-right">{{ request.user.extension.department }}</p>
                         </div>
                         <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                 class="mdi  mdi-crown mdi-dark fa-1-5x"></i></span></div>
@@ -63,7 +63,7 @@
                         <div class="pull-right">
                             <p class="h6 text m-t-0 text-right"><b>您的角色</b></p>
                             {% for group in user_group %}
-                                <p class="h3 text m-b-0 text-right">{{ group }}</p>
+                                <p class="h4 text m-b-0 text-right">{{ group }}</p>
                             {% endfor %}
 
                         </div>
