@@ -6,6 +6,8 @@ urlpatterns = [
 
     # 登陆方法
     path('user_login/', views.user_login, name='user_login'),
+    # 手机登录方法
+    path('phone_login/', views.phone_login, name='phone_login'),
     # 登出方法
     path('user_logout/', views.user_logout, name='user_logout'),
     # 展示账号管理页面方法

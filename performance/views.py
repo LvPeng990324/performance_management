@@ -115,6 +115,24 @@ def user_login(request):
             return redirect('user_login')
 
 
+# 手机验证码登录方法
+# 注意！！此方法尚未完善，需要接入第三方短信提供商
+# 现在此方法仅仅处于测试阶段，勿用于生产环境！
+def phone_login(request):
+    # 从前端获取手机号
+    phone = request.POST.get('phone')
+    # 取出此手机号的用户
+    user = User.objects.get(extension__telephone=phone)
+    if user:
+        # 登录成功，记录登录信息，重定向首页
+        login(request, user)
+        return redirect('index')
+    else:
+        # 登录失败，写入用户名密码错误信息并重载页面
+        messages.error(request, '手机号无记录')
+        return redirect('user_login')
+
+
 # 登出方法
 @login_required
 def user_logout(request):
