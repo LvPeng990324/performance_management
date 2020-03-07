@@ -2109,11 +2109,20 @@ def show_user_logs(request):
     # 当前展示日志的成功与失败数
     success_log_num = logs.filter(result='成功').count()
     fail_log_num = logs.filter(result='失败').count()
+    # 当前日志中用户及对应日志数量
+    # 获取所有记录日志的用户姓名
+    user_names = set(Logs.objects.values_list('user_name', flat=True))
+    # 取出每个人对应的日志数量
+    name_num = {}
+    for name in user_names:
+        name_num[name] = Logs.objects.filter(user_name=name).count()
     # 打包数据，日志按照时间倒序排序
     context = {
         'logs': logs.order_by('-log_time'),
         'success_log_num': success_log_num,
         'fail_log_num': fail_log_num,
+        'user_names': list(name_num.keys()),
+        'name_num': name_num,
     }
     # 返回前端页面
     return render(request, '系统安全备份-用户操作日志.html', context=context)
