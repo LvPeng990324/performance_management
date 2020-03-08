@@ -111,13 +111,13 @@
                                     <div class="panel-heading" role="tab" id="headingTwo">
                                         <h4 class="panel-title">
                                             <a class="collapsed" role="button" data-toggle="collapse"
-                                               data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                               data-parent="#accordion" href="#collapse{{ forloop.counter }}" aria-expanded="false"
                                                aria-controls="collapseTwo">
                                                 {{ announcement.time }}-{{ announcement.title }}
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                    <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse" role="tabpanel"
                                          aria-labelledby="headingTwo">
                                         <div class="panel-body">
                                             <blockquote class="blockquote">
