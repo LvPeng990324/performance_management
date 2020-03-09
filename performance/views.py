@@ -966,6 +966,10 @@ def add_internal_control_indicators(request):
     order_date = date(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]))
     scheduled_delivery = date(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                               day=int(scheduled_delivery_list[2]))
+    # 如果计划交期在订单时间之前，返回计划交期不能在订单时间之前错误
+    if scheduled_delivery < order_date:
+        messages.error(request, '计划交期不能在订单时间之前')
+        return redirect('show_internal_control_indicators')
 
     # 从常量数据表中取出相应的常量数据
     # 规则为，日期在这条数据之前的最新一条常量数据
@@ -1116,6 +1120,10 @@ def change_internal_control_indicators(request):
                                      day=int(scheduled_delivery_list[2]))
     change_actual_delivery = date(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
                                   day=int(actual_delivery_list[2]))
+    # 如果计划交期在订单时间之前，返回计划交期不能在订单时间之前错误
+    if change_scheduled_delivery < change_order_date:
+        messages.error(request, '计划交期不能在订单时间之前')
+        return redirect('show_internal_control_indicators')
 
     # 从数据库中取出该数据
     data = InternalControlIndicators.objects.get(id=change_id)
