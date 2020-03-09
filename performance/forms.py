@@ -35,7 +35,7 @@ def check_data_format(data, data_format):
         except:
             return False
     elif data_format == 'str':
-        pass
+        return data
     elif data_format == 'percentage':
         # 检查最后是不是百分号
         # 是的话就去掉百分号并转浮点数后除以100返回
