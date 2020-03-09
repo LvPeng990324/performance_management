@@ -8,6 +8,66 @@
 {% endblock %}
 
 {% block modal_content %}
+    <!--设定定时备份-->
+    <div class="modal fade" id="settimer" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="logoin">设定系统定时备份</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="id_target_well_done_rate" class="control-label">设定备份周期：</label>
+                            <select class="form-control" id="time"
+                                    name="settime" required>
+                                <option value="7">7天</option>
+                                <option value="15">15天</option>
+                                <option value="30">30天</option>
+                                <option value="60">60天</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_order_number" class="control-label">发送邮箱：</label>
+                            <input type="text" class="form-control" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--导入本地备份-->
+    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delModalLabel">导入本地备份数据</h4>
+                    </div>
+                    <div class="modal-body">
+                        支持jason文件
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="upload_file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">导入</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- 备份当前数据库 -->
     <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
@@ -76,6 +136,30 @@
             </div>
         </div>
     </div>
+    <!-- 下载备份文件 -->
+    <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">下载选中备份数据库Json文件</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认下载该备份数据库(jason文件)?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_file" name="file_name">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block main_content %}
@@ -107,6 +191,14 @@
                                     data-target="#export"><i class="mdi mdi-vector-combine"></i>
                                 备份数据
                             </button>
+                            <button type="button" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#export"><i class="mdi mdi-arrange-send-backward "></i>
+                                上传本地备份
+                            </button>
+                            <button type="button" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#settimer"><i class="mdi mdi-timer "></i>
+                                设置定期备份
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -122,15 +214,22 @@
                                 <tbody>
                                 <tr>
                                     {% for backup in backups %}
-                                    <td nowrap="nowrap" class="text-center">{{ backup }}</td>
-                                    <td nowrap="nowrap" class="text-center">
-                                        <div class="btn-group">
-                                            <a class="btn btn-xs btn-default" href="#!" title="还原文件" data-toggle="modal"
-                                               data-target="#recover" onclick="give_load_modal('{{ backup }}')"><i class="mdi mdi-redo"></i></a>
-                                            <a class="btn btn-xs btn-default" href="#!" title="删除" data-toggle="modal"
-                                               data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i class="mdi mdi-window-close"></i></a>
-                                        </div>
-                                    </td>
+                                        <td nowrap="nowrap" class="text-center">{{ backup }}</td>
+                                        <td nowrap="nowrap" class="text-center">
+                                            <div class="btn-group">
+                                                <a class="btn btn-xs btn-default" href="#!" title="还原文件"
+                                                   data-toggle="modal"
+                                                   data-target="#recover" onclick="give_load_modal('{{ backup }}')"><i
+                                                        class="mdi mdi-redo"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="下载"
+                                                   data-toggle="modal"
+                                                   data-target="#download" onclick=""><i class="mdi mdi-arrow-down"></i></a>
+                                                <a class="btn btn-xs btn-default" href="#!" title="删除"
+                                                   data-toggle="modal"
+                                                   data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i
+                                                        class="mdi mdi-window-close"></i></a>
+                                            </div>
+                                        </td>
                                     {% endfor %}
                                 </tr>
                                 </tbody>
@@ -144,7 +243,7 @@
 {% endblock %}
 
 {% block js_content %}
-<!--日期选择插件-->
+    <!--日期选择插件-->
     <script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
