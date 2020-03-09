@@ -8,6 +8,31 @@
 {% endblock %}
 
 {% block modal_content %}
+    <!--编辑备注-->
+    <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modifyLabel">操作人备注备注</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="id_change_date" class="control-label">操作人备注：</label>
+                            <input type="text" class="form-control" id="ps" name="ps" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!--设定定时备份-->
     <div class="modal fade" id="settimer" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
         <div class="modal-dialog" role="document">
@@ -69,7 +94,7 @@
         </div>
     </div>
     <!-- 备份当前数据库 -->
-    <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+    <div class="modal fade" id="copy" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form action="{% url 'backup_database' %}" method="post">
@@ -188,7 +213,7 @@
                         </form>
                         <div class="toolbar-btn-action">
                             <button type="button" class="btn btn-dark" data-toggle="modal"
-                                    data-target="#export"><i class="mdi mdi-vector-combine"></i>
+                                    data-target="#copy"><i class="mdi mdi-vector-combine"></i>
                                 备份数据
                             </button>
                             <button type="button" class="btn btn-dark" data-toggle="modal"
@@ -208,6 +233,7 @@
                                 <thead>
                                 <tr>
                                     <th nowrap="nowrap" class="text-center">备份文件名</th>
+                                    <th nowrap="nowrap" class="text-center">操作人备注</th>
                                     <th nowrap="nowrap" class="text-center">操作</th>
                                 </tr>
                                 </thead>
@@ -216,7 +242,14 @@
                                     {% for backup in backups %}
                                         <td nowrap="nowrap" class="text-center">{{ backup }}</td>
                                         <td nowrap="nowrap" class="text-center">
+                                           备注
+                                        </td>
+                                        <td nowrap="nowrap" class="text-center">
                                             <div class="btn-group">
+                                                <a class="btn btn-xs btn-default" href="#!" title="编辑备注"
+                                                   data-toggle="modal" data-target="#modify"
+                                                   onclick=""><i
+                                                        class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="还原文件"
                                                    data-toggle="modal"
                                                    data-target="#recover" onclick="give_load_modal('{{ backup }}')"><i
