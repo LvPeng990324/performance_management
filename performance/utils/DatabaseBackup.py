@@ -3,6 +3,8 @@
 import os
 from datetime import datetime
 from performance_management import settings
+from django.http import FileResponse
+from django.utils.http import urlquote
 
 
 # 读取备份文件方法
@@ -84,3 +86,19 @@ def delete_backup(file_name):
         return False
     return True
 
+
+# 下载数据库备份文件
+def download_backup(file_name):
+    # 传入一个文件名，将下载此文件
+    # 返回值为带有文件的response或False
+    # 获取要下载的文件路径
+    file_path = os.path.join(settings.BACKUP_DIR, file_name)
+    try:
+        # 读取文件并写入response
+        file = open(file_path, 'rb')
+        response = FileResponse(file)
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = "attachment;filename*=UTF-8''{}".format(urlquote(file_name))
+        return response
+    except:
+        return False
