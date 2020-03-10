@@ -2252,6 +2252,25 @@ def download_backup(request):
         return res
 
 
+# 上传备份文件
+def upload_backup(request):
+    # 获取上传文件
+    file = request.FILES.get('upload_file')
+    # 调用上传备份方法
+    res = DatabaseBackup.upload_backup(request, file)
+    # 根据返回值判断上传是否成功
+    if res is True:
+        # 写入上传成功提示
+        messages.success(request, '上传成功')
+        # 记录日志
+        action = '上传{}备份文件'.format(file.name)
+        add_log(request, action, '成功')
+    else:
+        pass
+    # 重载页面
+    return redirect('show_database_backup')
+
+
 
 # 修改系统登录方式方法
 @login_required

@@ -130,6 +130,8 @@ urlpatterns = [
     path('delete_backup/', views.delete_backup, name='delete_backup'),
     # 下载数据库备份方法
     path('download_backup/', views.download_backup, name='download_backup'),
+    # 上传备份文件
+    path('upload_backup/', views.upload_backup, name='upload_backup'),
 
     # 修改系统登录方式方法
     path('change_system_login/', views.change_system_login, name='change_system_login'),
