@@ -6,6 +6,7 @@ from performance_management import settings
 from django.http import FileResponse
 from django.utils.http import urlquote
 from django.contrib import messages
+from .SendEmail import send_backup
 
 
 # 读取备份文件方法
@@ -128,3 +129,35 @@ def upload_backup(request, file):
     except:
         messages.error(request, '保存失败，检查文件名是否有特殊字符并重试')
         return False
+
+
+# 自动备份数据库调用方法
+def auto_backup():
+    # 不需要参数
+    # 被计划服务调用，用于定期备份并发送邮件
+    # 先进行备份
+    # 获取当前时间
+    current_time = datetime.now()
+    # 生成文件名
+    remark = '系统自动备份'
+    file_name = '{}年{}月{}日{}时{}分_{}.json'.format(
+        current_time.year,
+        current_time.month,
+        current_time.day,
+        current_time.hour,
+        current_time.minute,
+        remark,
+    )
+    # 获取存储路径
+    file_path = os.path.join(settings.BACKUP_DIR, file_name)
+    # 生成备份命令
+    command = 'python manage.py dumpdata --format=json > {}'.format(file_path)
+    # 执行命令，获取返回值
+    res = os.system(command)
+    # 判断是否备份成功
+    # 成功就发送邮件
+    # 失败就pass
+    if res == 0:
+        send_backup(file_path)
+    else:
+        pass
