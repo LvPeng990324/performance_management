@@ -251,6 +251,7 @@ class Announcement(models.Model):
 class SystemConfig(models.Model):
     login_ways = models.CharField(max_length=200, verbose_name='系统登录方式')
     backup_to_email = models.EmailField(verbose_name='数据库备份文件目标邮箱')
+    days_to_auto_backup = models.IntegerField(verbose_name='自动备份天数间隔')
     month_result_item_A = models.CharField(max_length=200, default='当月订单按时完成数', verbose_name='当月订单按时完成数')
     month_result_item_B = models.CharField(max_length=200, default='当月订单计划完成数', verbose_name='当月订单计划完成数')
     month_result_item_C = models.CharField(max_length=200, default='当月实际产品率累加', verbose_name='当月实际产品率累加')
