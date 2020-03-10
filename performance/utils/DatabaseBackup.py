@@ -5,6 +5,7 @@ from datetime import datetime
 from performance_management import settings
 from django.http import FileResponse
 from django.utils.http import urlquote
+from django.contrib import messages
 
 
 # 读取备份文件方法
@@ -101,4 +102,29 @@ def download_backup(file_name):
         response['Content-Disposition'] = "attachment;filename*=UTF-8''{}".format(urlquote(file_name))
         return response
     except:
+        return False
+
+
+# 上传数据库备份文件
+def upload_backup(request, file):
+    # 传入request和一个json文件对象，将把它存入备份文件目录下
+    # 返回值为Boolean类型，标记是否成功
+    # 判断是否为json文件
+    if file.name.split('.')[-1] != 'json':
+        # 写入只支持json文件错误提示
+        messages.error(request, '仅支持json文件')
+        return False
+    # 将文件保存到服务器
+    try:
+        # 获取备份文件目录
+        file_path = os.path.join(settings.BACKUP_DIR, file.name)
+        # 打开文件进行写操作
+        destination = open(file_path, 'wb+')
+        # 分块写入文件
+        for chunk in file.chunks():
+            destination.write(chunk)
+        destination.close()
+        return True
+    except:
+        messages.error(request, '保存失败，检查文件名是否有特殊字符并重试')
         return False
