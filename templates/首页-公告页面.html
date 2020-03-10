@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load queryset_data %}
+{% block title %}公告页面{% endblock %}
+
+{% block index_active %}active open{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <b>公告</b>
+                </div>
+                <div class="card-body">
+                    <!--手风琴效果-->
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        {% for announcement in announcements %}
+                            {% if forloop.counter == 1 %}
+                                <div class="panel">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                               href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                {{ announcement.time }}-{{ announcement.title }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                         aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <blockquote class="blockquote">
+                                                <p>{{ announcement.content }}</p>
+                                                <footer>{{ announcement.who }}</footer>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="panel">
+                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion" href="#collapse{{ forloop.counter }}"
+                                               aria-expanded="false"
+                                               aria-controls="collapseTwo">
+                                                {{ announcement.time }}-{{ announcement.title }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse"
+                                         role="tabpanel"
+                                         aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            <blockquote class="blockquote">
+                                                <p>{{ announcement.content }}</p>
+                                                <footer>{{ announcement.who }}</footer>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <!--手风琴效果 End-->
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
