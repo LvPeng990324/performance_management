@@ -132,3 +132,11 @@ LOGIN_URL = '/user_login/'
 
 # 定义备份目录
 BACKUP_DIR = os.path.join(BASE_DIR, 'backups')
+
+# 发送邮件配置信息
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = 'lvpeng990324@163.com'  # 填写你的邮件地址
+EMAIL_HOST_PASSWORD = 'lp990324'  # 密码
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
