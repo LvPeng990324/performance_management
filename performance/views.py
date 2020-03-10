@@ -2235,6 +2235,24 @@ def delete_backup(request):
     return redirect('show_database_backup')
 
 
+# 下载数据库备份方法
+def download_backup(request):
+    # 获取要下载的文件名
+    file_name = request.POST.get('file_name')
+    # 调用下载备份方法
+    res = DatabaseBackup.download_backup(file_name)
+    # 根据返回值判断备份是否成功
+    if res is False:
+        # 写入失败提示
+        messages.error(request, '发生错误，请重试')
+        # 重载页面
+        return redirect('show_database_backup')
+    else:
+        # 返回res
+        return res
+
+
+
 # 修改系统登录方式方法
 @login_required
 @permission_required('performance.manage_user', raise_exception=True)

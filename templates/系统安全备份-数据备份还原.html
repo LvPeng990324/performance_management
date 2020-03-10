@@ -55,7 +55,7 @@
                         <h4 class="modal-title" id="delModalLabel">导入本地备份数据</h4>
                     </div>
                     <div class="modal-body">
-                        支持jason文件
+                        支持json文件
                         <div class="form-group">
                             <input class="form-control" type="file" name="upload_file">
                         </div>
@@ -144,7 +144,7 @@
     <div class="modal fade" id="download" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="" method="post">
+                <form action="{% url 'download_backup' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -155,7 +155,7 @@
                         确认下载该备份数据库(json文件)?
                     </div>
                     <div class="modal-footer">
-                        <input hidden id="id_delete_file" name="file_name">
+                        <input hidden id="id_download_file" name="file_name">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-primary">确定</button>
                     </div>
@@ -227,7 +227,7 @@
                                                         class="mdi mdi-redo"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="下载"
                                                    data-toggle="modal"
-                                                   data-target="#download" onclick=""><i class="mdi mdi-arrow-down"></i></a>
+                                                   data-target="#download" onclick="give_download_modal('{{ backup }}')"><i class="mdi mdi-arrow-down"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                    data-toggle="modal"
                                                    data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i
@@ -277,6 +277,12 @@
     <script type="text/javascript">
         function give_delete_modal(file_name) {
             $('#id_delete_file').val(file_name);
+        }
+    </script>
+    <!-- 给下载备份文件模态框传值 -->
+    <script type="text/javascript">
+        function give_download_modal(file_name) {
+            $('#id_download_file').val(file_name);
         }
     </script>
 {% endblock %}
