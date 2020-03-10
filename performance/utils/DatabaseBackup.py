@@ -21,21 +21,23 @@ def get_backups():
 
 
 # 备份数据库
-def backup_database():
-    # 不需要参数，调用后即会在backups目录下备份当前数据库
+def backup_database(remark):
+    # 传入一个参数，字符串类型，代表当前备份备注
+    # 调用后即会在backups目录下备份当前数据库
     # 备份文件为json文件
     # 命名规则为当前时间.json
-    # 例：2020年03月02日13时04分.json
+    # 例：2020年03月02日13时04分_{备注}.json
 
     # 获取当前时间
     current_time = datetime.now()
     # 生成文件名
-    file_name = '{}年{}月{}日{}时{}分.json'.format(
+    file_name = '{}年{}月{}日{}时{}分_{}.json'.format(
         current_time.year,
         current_time.month,
         current_time.day,
         current_time.hour,
         current_time.minute,
+        remark,
     )
     # 获取存储路径
     file_path = os.path.join(settings.BACKUP_DIR, file_name)

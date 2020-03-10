@@ -2154,14 +2154,16 @@ def show_database_backup(request):
 @login_required
 @permission_required('performance.manage_backups', raise_exception=True)
 def backup_database(request):
+    # 获取备份备注
+    remark = request.POST.get('remark')
     # 调用备份方法
-    res = DatabaseBackup.backup_database()
+    res = DatabaseBackup.backup_database(remark)
     # 根据返回值判断备份是否成功
     if res is True:
         # 写入成功提示
         messages.success(request, '备份成功')
         # 记录日志
-        action = '进行了一次数据库备份'
+        action = '进行了一次数据库备份，备注为:{}'.format(remark)
         add_log(request, action, '成功')
     else:
         # 写入失败提示
