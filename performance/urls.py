@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    # 首页公告
+    path('notice', views.notice, name='notice'),
 
     # 登陆方法
     path('user_login/', views.user_login, name='user_login'),
@@ -137,7 +139,7 @@ urlpatterns = [
     path('change_system_login/', views.change_system_login, name='change_system_login'),
 
     # 测试页面
-    path('test_page/', views.test_page, name='test_page'),
+    # path('test_page/', views.test_page, name='test_page'),
     # 微信登陆测试
     # path('wx_login_test/', views.wx_login_test, name='wx_login_test'),
 

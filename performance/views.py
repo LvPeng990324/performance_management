@@ -57,8 +57,8 @@ def index(request):
     month_to_finish_order = InternalControlIndicators.objects.filter(scheduled_delivery__year=today.year,
                                                                      scheduled_delivery__month=today.month,
                                                                      finished_number=None)
-    # 获取公告信息，根据时间逆序排序
-    announcements = Announcement.objects.all().order_by('-time')
+    # 获取前N条公告信息，根据时间逆序排序
+    announcements = Announcement.objects.all().order_by('-time')[:2]
 
     # 打包数据
     context = {
@@ -71,9 +71,18 @@ def index(request):
     return render(request, '首页.html', context=context)
 
 
-# 测试页面方法
-def test_page(request):
-    return render(request, '首页-公告页面.html')
+# 公告页面方法
+def notice(request):
+    # 分页获取公告信息，根据时间逆序排序
+    counts = Announcement.objects.all().order_by('-time').count()
+    page_info = PageInfo(request.GET.get('page'), counts, 20, '/notice?')
+    announcements = Announcement.objects.all().order_by('-time')[page_info.start():page_info.end()]
+    # 打包数据
+    context = {
+        'announcements': announcements,
+        'page_info':page_info,
+    }
+    return render(request, '首页-公告页面.html', context=context)
 
 
 # 登陆方法
@@ -1076,7 +1085,8 @@ def change_internal_control_indicators(request):
     change_actual_well_done_rate = check_data_format(request.POST.get('actual_well_done_rate'), 'float')  # 实际成品率
     change_actual_medical_expenses = check_data_format(request.POST.get('actual_medical_expenses'), 'float')  # 实际医药费
     change_actual_cost = check_data_format(request.POST.get('actual_cost'), 'float')  # 实际成本
-    change_actual_management_compliance = check_data_format(request.POST.get('actual_management_compliance'), 'int')  # 实际管理符合数
+    change_actual_management_compliance = check_data_format(request.POST.get('actual_management_compliance'),
+                                                            'int')  # 实际管理符合数
     # 验证数据合法性
     for data in [change_order_number, change_order_money, change_actual_well_done_rate, change_actual_medical_expenses,
                  change_actual_cost, change_actual_management_compliance]:
@@ -1268,7 +1278,8 @@ def add_constant_data(request):
     # 从前端获取数据
     target_medical_expenses_rate = check_data_format(request.POST.get('target_medical_expenses_rate'), 'percentage')
     target_comprehensive_cost_rate = check_data_format(request.POST.get('target_comprehensive_cost_rate'), 'percentage')
-    target_management_compliance_value = check_data_format(request.POST.get('target_management_compliance_value'), 'int')
+    target_management_compliance_value = check_data_format(request.POST.get('target_management_compliance_value'),
+                                                           'int')
     annual_target_turnover = check_data_format(request.POST.get('annual_target_turnover'), 'float')
     annual_target_award = check_data_format(request.POST.get('annual_target_award'), 'float')
     # 验证数据合法性
@@ -1335,14 +1346,17 @@ def change_constant_data(request):
     # 从前端获取数据
     change_id = request.POST.get('change_id')
     change_date = request.POST.get('date_m')
-    change_target_medical_expenses_rate = check_data_format(request.POST.get('target_medical_expenses_rate_m'), 'percentage')
-    change_target_comprehensive_cost_rate = check_data_format(request.POST.get('target_comprehensive_cost_rate_m'), 'percentage')
-    change_target_management_compliance_value = check_data_format(request.POST.get('target_management_compliance_value_m'), 'int')
+    change_target_medical_expenses_rate = check_data_format(request.POST.get('target_medical_expenses_rate_m'),
+                                                            'percentage')
+    change_target_comprehensive_cost_rate = check_data_format(request.POST.get('target_comprehensive_cost_rate_m'),
+                                                              'percentage')
+    change_target_management_compliance_value = check_data_format(
+        request.POST.get('target_management_compliance_value_m'), 'int')
     change_annual_target_turnover = check_data_format(request.POST.get('annual_target_turnover_m'), 'float')
     change_annual_target_award = check_data_format(request.POST.get('annual_target_award_m'), 'float')
     # 验证数据合法性
     for data in [change_target_medical_expenses_rate, change_target_comprehensive_cost_rate,
-                 change_target_management_compliance_value,change_annual_target_turnover, change_annual_target_award]:
+                 change_target_management_compliance_value, change_annual_target_turnover, change_annual_target_award]:
         if data is False:
             messages.error(request, '输入存在格式问题，请检查输入')
             return redirect('show_constant_data')
@@ -2271,7 +2285,6 @@ def upload_backup(request):
     return redirect('show_database_backup')
 
 
-
 # 修改系统登录方式方法
 @login_required
 @permission_required('performance.manage_user', raise_exception=True)
@@ -2308,4 +2321,3 @@ def change_system_login(request):
     messages.success(request, '修改成功')
     # 重定向账户管理页面
     return redirect('user_management')
-
