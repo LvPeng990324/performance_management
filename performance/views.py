@@ -80,7 +80,7 @@ def notice(request):
     # 打包数据
     context = {
         'announcements': announcements,
-        'page_info':page_info,
+        'page_info': page_info,
     }
     return render(request, '首页-公告页面.html', context=context)
 
@@ -1914,12 +1914,30 @@ def month_result_formula(request):
         medical_expenses = MonthlyFormula.objects.filter(target_item='医药费').first().formula
         month_dig_cost = MonthlyFormula.objects.filter(target_item='当月挖掘成本').first().formula
         field_management_well_rate = MonthlyFormula.objects.filter(target_item='现场管理符合率').first().formula
+    month_result_item_A = SystemConfig.objects.first().month_result_item_A
+    month_result_item_B = SystemConfig.objects.first().month_result_item_B
+    month_result_item_C = SystemConfig.objects.first().month_result_item_C
+    month_result_item_D = SystemConfig.objects.first().month_result_item_D
+    month_result_item_E = SystemConfig.objects.first().month_result_item_E
+    month_result_item_F = SystemConfig.objects.first().month_result_item_F
+    month_result_item_G = SystemConfig.objects.first().month_result_item_G
+    month_result_item_H = SystemConfig.objects.first().month_result_item_H
+    month_result_item_I = SystemConfig.objects.first().month_result_item_I
     context = {
         'delivery_rate': delivery_rate,
         'well_done_rate': well_done_rate,
         'medical_expenses': medical_expenses,
         'month_dig_cost': month_dig_cost,
         'field_management_well_rate': field_management_well_rate,
+        'month_result_item_A': month_result_item_A,
+        'month_result_item_B': month_result_item_B,
+        'month_result_item_C': month_result_item_C,
+        'month_result_item_D': month_result_item_D,
+        'month_result_item_E': month_result_item_E,
+        'month_result_item_F': month_result_item_F,
+        'month_result_item_G': month_result_item_G,
+        'month_result_item_H': month_result_item_H,
+        'month_result_item_I': month_result_item_I,
     }
     return render(request, '报表公式修改-管理层月度绩效考核结果.html', context=context)
 
@@ -2076,6 +2094,48 @@ def change_quarter_award_formula(request):
     # 刷新当年季度考核结果
     CalculateQuarterlyAward.quarterly_get_and_refresh()
     return redirect('quarter_award_formula')
+
+
+# 修改月度结果数据项
+@login_required
+@permission_required('performance.manage_formula', raise_exception=True)
+def change_month_result_item(request):
+    key = request.GET.get('key')
+    value = request.GET.get('value')
+    if key == 'A':
+        SystemConfig.objects.update(month_result_item_A=value)
+    elif key == 'B':
+        SystemConfig.objects.update(month_result_item_B=value)
+    elif key == 'C':
+        SystemConfig.objects.update(month_result_item_C=value)
+    elif key == 'D':
+        SystemConfig.objects.update(month_result_item_D=value)
+    elif key == 'E':
+        SystemConfig.objects.update(month_result_item_E=value)
+    elif key == 'F':
+        SystemConfig.objects.update(month_result_item_F=value)
+    elif key == 'G':
+        SystemConfig.objects.update(month_result_item_G=value)
+    elif key == 'H':
+        SystemConfig.objects.update(month_result_item_H=value)
+    elif key == 'I':
+        SystemConfig.objects.update(month_result_item_I=value)
+    print(key, value)
+    return HttpResponse('success')
+
+
+# 修改季度结果数据项
+@login_required
+@permission_required('performance.manage_formula', raise_exception=True)
+def change_quarter_result_item(request):
+    return 'success'
+
+
+# 修改季度奖金数据项
+@login_required
+@permission_required('performance.manage_formula', raise_exception=True)
+def change_quarter_award_item(request):
+    return 'success'
 
 
 def download_monthly_sales_modal(request):

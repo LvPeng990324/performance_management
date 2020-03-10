@@ -115,6 +115,13 @@ urlpatterns = [
     # 修改季度奖金额公式
     path('change_quarter_award_formula/', views.change_quarter_award_formula, name='change_quarter_award_formula'),
 
+    # 修改月度结果数据项
+    path('change_month_result_item/', views.change_month_result_item, name='change_month_result_item'),
+    # 修改季度结果数据项
+    path('change_quarter_result_item/', views.change_quarter_result_item, name='change_quarter_result_item'),
+    # 修改季度考核奖金额数据项
+    path('change_quarter_award_item/', views.change_quarter_award_item, name='change_quarter_award_item'),
+
     # 下载月度营业数据表格模板
     path('download_monthly_sales_modal/', views.download_monthly_sales_modal, name='download_monthly_sales_modal'),
     # 下载内控指标汇总模板
