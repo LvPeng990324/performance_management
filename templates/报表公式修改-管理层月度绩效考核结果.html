@@ -20,7 +20,8 @@
                                     </tr>
                                     <tr>
                                         <td>A</td>
-                                        <td>当月订单按时完成数</td>
+                                        <td>当月订单按时完成数
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>B</td>
@@ -57,7 +58,8 @@
                                 </table>
                             </div>
                         </div>
-                        <h5 style="font-size: 110%"><b>提示：</b>公式中仅可输入<b>数字</b>、<b>小数点</b>、<b>大写字母</b>、<b>计算符号</b>和<b>西文括号</b></h5>
+                        <h5 style="font-size: 110%"><b>提示：</b>公式中仅可输入<b>数字</b>、<b>小数点</b>、<b>大写字母</b>、<b>计算符号</b>和<b>西文括号</b>
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -133,6 +135,31 @@
 {% endblock %}
 
 {% block js_content %}
+    <script type="text/javascript">
+        $(function () {
+//定义方法
+            $('table td').click(function () {
+                //定义点击事件
+                if (!$(this).is('.input')) {
+                    //如果当前是.input类
+                    $(this).addClass('input').html('<input type="text" value="' + $(this).text() + '" />').find('input').focus().blur(function () {
+                        //当前添加类获得元素新插入一个input通过遍历获得input定义伪类，当失去焦点以后在定义一个方法
+                        $(this).parent().removeClass('input').html($(this).val() || 0);
+                        //当前查找每个元素，删除掉input类获得input所有元素的值并且和0
+                    });
+                }
+            }).hover(function () {
+                //定义伪类
+                $(this).addClass('hover');
+                //当前添加伪类
+            }, function () {
+                //定义方法
+                $(this).removeClass('hover');
+                //当鼠标移开后删除伪类
+            });
+
+        });
+    </script>
     <!-- 消息提示框 -->
     {% if messages %}
         {% for message in messages %}
