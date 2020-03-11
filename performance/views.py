@@ -1964,12 +1964,22 @@ def quarter_result_formula(request):
         repaid_rate = QuarterlyFormula.objects.filter(target_item='回款率').first().formula
         inventory_rate = QuarterlyFormula.objects.filter(target_item='库存率').first().formula
         profit_rate = QuarterlyFormula.objects.filter(target_item='利润率').first().formula
+    quarter_result_item_A = SystemConfig.objects.first().quarter_result_item_A
+    quarter_result_item_B = SystemConfig.objects.first().quarter_result_item_B
+    quarter_result_item_C = SystemConfig.objects.first().quarter_result_item_C
+    quarter_result_item_D = SystemConfig.objects.first().quarter_result_item_D
+    quarter_result_item_E = SystemConfig.objects.first().quarter_result_item_E
     context = {
         'turnover': turnover,
         'operating_rate': operating_rate,
         'repaid_rate': repaid_rate,
         'inventory_rate': inventory_rate,
         'profit_rate': profit_rate,
+        'quarter_result_item_A': quarter_result_item_A,
+        'quarter_result_item_B': quarter_result_item_B,
+        'quarter_result_item_C': quarter_result_item_C,
+        'quarter_result_item_D': quarter_result_item_D,
+        'quarter_result_item_E': quarter_result_item_E,
     }
     return render(request, '报表公式修改-季度绩效考核结果.html', context=context)
 
@@ -1996,12 +2006,32 @@ def quarter_award_formula(request):
         repaid_rate = QuarterlyAwardFormula.objects.filter(target_item='回款率').first().formula
         inventory_rate = QuarterlyAwardFormula.objects.filter(target_item='库存率').first().formula
         profit_rate = QuarterlyAwardFormula.objects.filter(target_item='利润率').first().formula
+    quarter_award_item_A = SystemConfig.objects.first().quarter_award_item_A
+    quarter_award_item_B = SystemConfig.objects.first().quarter_award_item_B
+    quarter_award_item_C = SystemConfig.objects.first().quarter_award_item_C
+    quarter_award_item_D = SystemConfig.objects.first().quarter_award_item_D
+    quarter_award_item_E = SystemConfig.objects.first().quarter_award_item_E
+    quarter_award_item_F = SystemConfig.objects.first().quarter_award_item_F
+    quarter_award_item_G = SystemConfig.objects.first().quarter_award_item_G
+    quarter_award_item_H = SystemConfig.objects.first().quarter_award_item_H
+    quarter_award_item_I = SystemConfig.objects.first().quarter_award_item_I
+    quarter_award_item_K = SystemConfig.objects.first().quarter_award_item_K
     context = {
         'turnover': turnover,
         'operating_rate': operating_rate,
         'repaid_rate': repaid_rate,
         'inventory_rate': inventory_rate,
         'profit_rate': profit_rate,
+        'quarter_award_item_A': quarter_award_item_A,
+        'quarter_award_item_B': quarter_award_item_B,
+        'quarter_award_item_C': quarter_award_item_C,
+        'quarter_award_item_D': quarter_award_item_D,
+        'quarter_award_item_E': quarter_award_item_E,
+        'quarter_award_item_F': quarter_award_item_F,
+        'quarter_award_item_G': quarter_award_item_G,
+        'quarter_award_item_H': quarter_award_item_H,
+        'quarter_award_item_I': quarter_award_item_I,
+        'quarter_award_item_K': quarter_award_item_K,
     }
     return render(request, '报表公式修改-奖金表.html', context=context)
 
@@ -2128,14 +2158,50 @@ def change_month_result_item(request):
 @login_required
 @permission_required('performance.manage_formula', raise_exception=True)
 def change_quarter_result_item(request):
-    return 'success'
+    key = request.GET.get('key')
+    value = request.GET.get('value')
+    if key == 'A':
+        SystemConfig.objects.update(quarter_result_item_A=value)
+    elif key == 'B':
+        SystemConfig.objects.update(quarter_result_item_B=value)
+    elif key == 'C':
+        SystemConfig.objects.update(quarter_result_item_C=value)
+    elif key == 'D':
+        SystemConfig.objects.update(quarter_result_item_D=value)
+    elif key == 'E':
+        SystemConfig.objects.update(quarter_result_item_E=value)
+    print(key, value)
+    return HttpResponse('success')
 
 
 # 修改季度奖金数据项
 @login_required
 @permission_required('performance.manage_formula', raise_exception=True)
 def change_quarter_award_item(request):
-    return 'success'
+    key = request.GET.get('key')
+    value = request.GET.get('value')
+    if key == 'A':
+        SystemConfig.objects.update(quarter_award_item_A=value)
+    elif key == 'B':
+        SystemConfig.objects.update(quarter_award_item_B=value)
+    elif key == 'C':
+        SystemConfig.objects.update(quarter_award_item_C=value)
+    elif key == 'D':
+        SystemConfig.objects.update(quarter_award_item_D=value)
+    elif key == 'E':
+        SystemConfig.objects.update(quarter_award_item_E=value)
+    elif key == 'F':
+        SystemConfig.objects.update(quarter_award_item_F=value)
+    elif key == 'G':
+        SystemConfig.objects.update(quarter_award_item_G=value)
+    elif key == 'H':
+        SystemConfig.objects.update(quarter_award_item_H=value)
+    elif key == 'I':
+        SystemConfig.objects.update(quarter_award_item_I=value)
+    elif key == 'K':
+        SystemConfig.objects.update(quarter_award_item_K=value)
+    print(key, value)
+    return HttpResponse('success')
 
 
 def download_monthly_sales_modal(request):

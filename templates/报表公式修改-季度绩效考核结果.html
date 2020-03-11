@@ -22,24 +22,24 @@
                                         <th class="text-center">说明</th>
                                     </tr>
                                     <tr>
-                                        <td>A</td>
-                                        <td>季度营业额</td>
+                                        <th class="text-center">A</th>
+                                        <td>{{ quarter_result_item_A }}</td>
                                     </tr>
                                     <tr>
-                                        <td>B</td>
-                                        <td>季度营业费用</td>
+                                        <th class="text-center">B</th>
+                                        <td>{{ quarter_result_item_B }}</td>
                                     </tr>
                                     <tr>
-                                        <td>C</td>
-                                        <td>季度回款额</td>
+                                        <th class="text-center">C</th>
+                                        <td>{{ quarter_result_item_C }}</td>
                                     </tr>
                                     <tr>
-                                        <td>D</td>
-                                        <td>季度库存量</td>
+                                        <th class="text-center">D</th>
+                                        <td>{{ quarter_result_item_D }}</td>
                                     </tr>
                                     <tr>
-                                        <td>E</td>
-                                        <td>季度利润额</td>
+                                        <th class="text-center">E</th>
+                                        <td>{{ quarter_result_item_E }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -119,6 +119,37 @@
 {% endblock %}
 
 {% block js_content %}
+    <script type="text/javascript">
+        $(function () {
+            $('table td').click(function () {
+                //定义点击事件
+                if (!$(this).is('.input')) {
+                    //如果当前是.input类
+                    $(this).addClass('input').html('<input type="text" value="' + $(this).text() + '" />').find('input').focus().blur(function () {
+                        var key = $(this).parent().siblings("th:eq(0)").text();
+                        console.log(key);
+                        var value = $(this).val();
+                        console.log(value);
+                        //当前添加类获得元素新插入一个input通过遍历获得input定义伪类，当失去焦点以后在定义一个方法
+                        $(this).parent().removeClass('input').html($(this).val() || 0);
+                        //当前查找每个元素，删除掉input类获得input所有元素的值并且和0
+                        $.ajax({
+                            type: "get",
+                            url: "{% url 'change_quarter_result_item' %}",
+                            traditional: true,
+                            data: {
+                                'key': key,
+                                'value': value,
+                            },
+                            success: function () {
+                                console.log('ok');
+                            }
+                        });
+                    });
+                }
+            })
+        });
+    </script>
     <!-- 消息提示框 -->
     {% if messages %}
         {% for message in messages %}
