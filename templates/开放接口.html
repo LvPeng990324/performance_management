@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}系统开放接口{% endblock %}
+{% block system_security_backup_active %}active open{% endblock %}
+
+
+{% block css_content %}
+{% endblock %}
+
+{% block modal_content %}
+    <!--修改按钮-->
+    <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="#！" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modifyLabel">修改接口信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input hidden id="id_change_id" name="change_id">
+                        <div class="form-group">
+                            <label for="api_name" class="control-label">接口名称：</label>
+                            <input type="text" class="form-control" id="api_name_m" name="api_name_m" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="api_address" class="control-label">接口映射：</label>
+                            <input type="text" class="form-control" id="api_address_m" name="api_address_m" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="api_password" class="control-label">接口密码：</label>
+                            <input type="text" class="form-control" id="api_password_m" name="api_password_m" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="api_brief" class="control-label">接口简介：</label>
+                            <input type="text" class="form-control" id="api_brief_m" name="api_brief_m" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock_n" class="control-label">是否启用：</label>
+                            <label class="lyear-switch switch-primary">
+                                <input type="checkbox" checked="">
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--新增按钮-->
+    <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="#！" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addLabel">新增系统接口</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="api_name" class="control-label">接口名称：</label>
+                            <input type="text" class="form-control" id="api_name_n" name="api_name_n" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="api_password" class="control-label">接口密码：</label>
+                            <input type="text" class="form-control" id="api_password_n" name="api_password_n" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="api_brief" class="control-label">接口简介：</label>
+                            <input type="text" class="form-control" id="api_brief_n" name="api_brief_n" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock_n" class="control-label">是否启用：</label>
+                            <label class="lyear-switch switch-primary">
+                                <input type="checkbox" checked="">
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 删除备份文件 -->
+    <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'delete_backup' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="delsModalLabel">删除选中接口</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除该接口?
+                    </div>
+                    <div class="modal-footer">
+                        <input hidden id="id_delete_file" name="file_name">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-danger">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><b>系统开放接口</b></h4>
+                    </div>
+                    <div class="card-toolbar clearfix">
+                        <form class="pull-right search-bar" method="post"
+                              action="#！" role="form">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        接口状态 <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
+                                            <a href="#!">启用</a>
+                                        </li>
+                                        <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
+                                            <a href="#!">禁用</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <input hidden name="action" value="接口名称搜索">
+                                <input type="text" class="form-control" name="api_name_search" aria-label="..."
+                                       placeholder="请输入接口名称...">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">搜索</button>
+                                </div>
+
+                            </div>
+                        </form>
+                        <div class="toolbar-btn-action">
+                            <button type="button" class="btn btn-dark m-r-5" data-toggle="modal"
+                                    data-target="#add" data-whatever="@mdo"><i class="mdi mdi-plus"></i> 新增接口
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                          <!--手风琴效果-->
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse"
+                                           data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                           aria-controls="collapseThree">
+                                            接口修改时间筛选
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                        <form method="post" action="#！" role="form">
+                                            {% csrf_token %}
+                                            <input hidden name="action" value=" 接口修改时间筛选">
+                                            <div class="input-daterange input-group">
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange1" name="start_date"
+                                                       placeholder="接口调整时间起点" required>
+                                                <span class="input-group-addon"><i
+                                                        class="mdi mdi-chevron-right"></i></span>
+                                                <input class="form-control js-datepicker" data-date-format="yyyy-mm-dd"
+                                                       type="text" id="example-daterange2" name="end_date"
+                                                       placeholder="接口调整时间终点" required>
+                                                <span class="input-group-btn" id="basic-addon3">
+                                                <button class="btn btn-default" type="submit">筛选接口</button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--手风琴效果 End-->
+                        <div id="table_display" class="table-responsive text-right">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th nowrap="nowrap" class="text-center">接口名称</th>
+                                    <th nowrap="nowrap" class="text-center">映射链接</th>
+                                    <th nowrap="nowrap" class="text-center">接口密码</th>
+                                    <th nowrap="nowrap" class="text-center">接口简介</th>
+                                    <th nowrap="nowrap" class="text-center">创建时间</th>
+                                    <th nowrap="nowrap" class="text-center">修改时间</th>
+                                    <th nowrap="nowrap" class="text-center">是否启用</th>
+                                    <th nowrap="nowrap" class="text-center">调用次数</th>
+                                    <th nowrap="nowrap" class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td nowrap="nowrap" class="text-center"><p>百度</p></td>
+                                    <td nowrap="nowrap" class="text-center"><a>www.baidu.com</a></td>
+                                    <td nowrap="nowrap" class="text-center">baidu</td>
+                                    <td nowrap="nowrap" class="text-center">百度搜索</td>
+                                    <td nowrap="nowrap" class="text-center">2020-1-1 23:59:59</td>
+                                    <td nowrap="nowrap" class="text-center">2020-3-11 23:59:59</td>
+                                    <td nowrap="nowrap" class="text-center">
+                                        <a class="btn btn-xs btn-default btn-primary" title="启用">
+                                            <i class="mdi mdi-check"></i></a></td>
+                                    <td nowrap="nowrap" class="text-center">1次</td>
+
+
+                                    <td nowrap="nowrap" class="text-center">
+                                        <div class="btn-group">
+                                            <a class="btn btn-xs btn-default" href="#!" title="修改接口"
+                                               data-toggle="modal"
+                                               data-target="#modify" onclick="#!"><i
+                                                    class="mdi mdi-pencil"></i></a>
+                                            <a class="btn btn-xs btn-default" href="#!" title="删除"
+                                               data-toggle="modal"
+                                               data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i
+                                                    class="mdi mdi-window-close"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <td nowrap="nowrap" class="text-center"><p>百度</p></td>
+                                <td nowrap="nowrap" class="text-center"><a>www.baidu.com</a></td>
+                                <td nowrap="nowrap" class="text-center">baidu</td>
+                                <td nowrap="nowrap" class="text-center">百度搜索</td>
+                                <td nowrap="nowrap" class="text-center">2020-1-1 23:59:59</td>
+                                <td nowrap="nowrap" class="text-center">2020-3-11 23:59:59</td>
+                                <td nowrap="nowrap" class="text-center">
+                                    <a class="btn btn-xs btn-default btn-danger" title="禁用">
+                                        <i class="mdi mdi-cancel"></i></a>
+                                </td>
+                                <td nowrap="nowrap" class="text-center">1次</td>
+
+
+                                <td nowrap="nowrap" class="text-center">
+                                    <div class="btn-group">
+                                        <a class="btn btn-xs btn-default" href="#!" title="修改接口"
+                                           data-toggle="modal"
+                                           data-target="#modify" onclick="#!"><i
+                                                class="mdi mdi-pencil"></i></a>
+                                        <a class="btn btn-xs btn-default" href="#!" title="删除"
+                                           data-toggle="modal"
+                                           data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i
+                                                class="mdi mdi-window-close"></i></a>
+                                    </div>
+                                </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_content %}
+    <!--日期选择插件-->
+    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/bootstrap-datepicker/bootstrap-datepicker3.min.css' %}" type="text/css">
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <!-- 给确认恢复数据库模态框传值 -->
+    <script type="text/javascript">
+        function give_load_modal(file_name) {
+            $('#id_load_file').val(file_name);
+        }
+    </script>
+    <!-- 给确认删除备份文件模态框传值 -->
+    <script type="text/javascript">
+        function give_delete_modal(file_name) {
+            $('#id_delete_file').val(file_name);
+        }
+    </script>
+    <!-- 给下载备份文件模态框传值 -->
+    <script type="text/javascript">
+        function give_download_modal(file_name) {
+            $('#id_download_file').val(file_name);
+        }
+    </script>
+{% endblock %}
