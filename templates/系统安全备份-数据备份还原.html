@@ -12,7 +12,7 @@
     <div class="modal fade" id="settimer" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="" method="post">
+                <form action="{% url 'change_days_to_auto_backup' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -21,23 +21,25 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="id_target_well_done_rate" class="control-label">设定备份周期：</label>
-                            <select class="form-control" id="time"
-                                    name="settime" required>
-                                <option value="7">7天</option>
-                                <option value="15">15天</option>
-                                <option value="30">30天</option>
-                                <option value="60">60天</option>
+                            <label for="id_time" class="control-label">设定备份周期：</label>
+                            <select class="form-control" id="id_time"
+                                    name="days" required>
+                                <option {% if days == 0 %}selected{% endif %} value="0">关闭自动备份</option>
+                                <option {% if days == 1 %}selected{% endif %} value="1">每天</option>
+                                <option {% if days == 7 %}selected{% endif %} value="7">7天</option>
+                                <option {% if days == 15 %}selected{% endif %} value="15">15天</option>
+                                <option {% if days == 30 %}selected{% endif %} value="30">30天</option>
+                                <option {% if days == 60 %}selected{% endif %} value="60">60天</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="id_order_number" class="control-label">发送邮箱：</label>
-                            <input type="text" class="form-control" id="email" name="email" required>
+                            <label for="id_email" class="control-label">发送邮箱：</label>
+                            <input type="email" class="form-control" id="id_email" name="email" value="{{ email }}" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary">确认</button>
+                        <button type="submit" class="btn btn-primary">确认并立即进行一次备份</button>
                     </div>
                 </form>
             </div>

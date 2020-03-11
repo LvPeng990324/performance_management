@@ -2216,9 +2216,14 @@ def show_user_logs(request):
 def show_database_backup(request):
     # 获取当前备份
     backups = DatabaseBackup.get_backups()
+    # 获取定期备份信息
+    days = SystemConfig.objects.first().days_to_auto_backup
+    email = SystemConfig.objects.first().backup_to_email
     # 打包数据
     context = {
         'backups': backups,
+        'days': days,
+        'email': email,
     }
     # 引导前端页面
     return render(request, '系统安全备份-数据备份还原.html', context=context)
@@ -2343,6 +2348,40 @@ def upload_backup(request):
         pass
     # 重载页面
     return redirect('show_database_backup')
+
+
+# 修改自动备份间隔和接收邮箱方法
+def change_days_to_auto_backup(request):
+    # 从前端获取时间间隔和邮箱
+    days = request.POST.get('days')
+    email = request.POST.get('email')
+    try:
+        # 更新数据库
+        data = SystemConfig.objects.first()
+        data.days_to_auto_backup = days
+        data.backup_to_email = email
+        data.save()
+        # 记录日志
+        action = '更改系统自动备份周期为{}天，备份邮箱为{}'.format(days, email)
+        add_log(request, action, '成功')
+        # 进行一次备份
+        DatabaseBackup.auto_backup()
+        # 写入成功提示
+        messages.success(request, '修改成功')
+    except:
+        # 记录日志
+        action = '更改系统自动备份周期为{}天，备份邮箱为{}'.format(days, email)
+        add_log(request, action, '成功')
+        # 写入失败提示
+        messages.error(request, '出现错误，请重试')
+    # 重载页面
+    return redirect('show_database_backup')
+
+
+# 测试自动备份方法
+def test_auto_backup(request):
+    DatabaseBackup.auto_backup()
+    return HttpResponse('success')
 
 
 # 修改系统登录方式方法
