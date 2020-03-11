@@ -36,7 +36,9 @@ from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
-
+# 测试页面方法
+def test_page(request):
+    return render(request, '开放接口.html')
 
 # 展示首页
 @login_required
