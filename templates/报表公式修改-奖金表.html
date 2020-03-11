@@ -22,44 +22,44 @@
                                         <th class="text-center">说明</th>
                                     </tr>
                                     <tr>
-                                        <td>A</td>
-                                        <td>年度目标营业额</td>
+                                        <th class="text-center">A</th>
+                                        <td>{{ quarter_award_item_A }}</td>
                                     </tr>
                                     <tr>
-                                        <td>B</td>
-                                        <td>季度目标奖金额</td>
+                                        <th class="text-center">B</th>
+                                        <td>{{ quarter_award_item_B }}</td>
                                     </tr>
                                     <tr>
-                                        <td>C</td>
-                                        <td>季度实际营业额</td>
+                                        <th class="text-center">C</th>
+                                        <td>{{ quarter_award_item_C }}</td>
                                     </tr>
                                     <tr>
-                                        <td>D</td>
-                                        <td>季度实际营业费率</td>
+                                        <th class="text-center">D</th>
+                                        <td>{{ quarter_award_item_D }}</td>
                                     </tr>
                                     <tr>
-                                        <td>E</td>
-                                        <td>前三年营业费率参考值</td>
+                                        <th class="text-center">E</th>
+                                        <td>{{ quarter_award_item_E }}</td>
                                     </tr>
                                     <tr>
-                                        <td>F</td>
-                                        <td>季度实际回款率</td>
+                                        <th class="text-center">F</th>
+                                        <td>{{ quarter_award_item_F }}</td>
                                     </tr>
                                     <tr>
-                                        <td>G</td>
-                                        <td>季度实际库存率</td>
+                                        <th class="text-center">G</th>
+                                        <td>{{ quarter_award_item_G }}</td>
                                     </tr>
                                     <tr>
-                                        <td>H</td>
-                                        <td>前三年库存率率参考值</td>
+                                        <th class="text-center">H</th>
+                                        <td>{{ quarter_award_item_H }}</td>
                                     </tr>
                                     <tr>
-                                        <td>I</td>
-                                        <td>季度实际利润率</td>
+                                        <th class="text-center">I</th>
+                                        <td>{{ quarter_award_item_I }}</td>
                                     </tr>
                                     <tr>
-                                        <td>K</td>
-                                        <td>前三年利润率参考值</td>
+                                        <th class="text-center">K</th>
+                                        <td>{{ quarter_award_item_K }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -139,6 +139,37 @@
 {% endblock %}
 
 {% block js_content %}
+    <script type="text/javascript">
+        $(function () {
+            $('table td').click(function () {
+                //定义点击事件
+                if (!$(this).is('.input')) {
+                    //如果当前是.input类
+                    $(this).addClass('input').html('<input type="text" value="' + $(this).text() + '" />').find('input').focus().blur(function () {
+                        var key = $(this).parent().siblings("th:eq(0)").text();
+                        console.log(key);
+                        var value = $(this).val();
+                        console.log(value);
+                        //当前添加类获得元素新插入一个input通过遍历获得input定义伪类，当失去焦点以后在定义一个方法
+                        $(this).parent().removeClass('input').html($(this).val() || 0);
+                        //当前查找每个元素，删除掉input类获得input所有元素的值并且和0
+                        $.ajax({
+                            type: "get",
+                            url: "{% url 'change_quarter_award_item' %}",
+                            traditional: true,
+                            data: {
+                                'key': key,
+                                'value': value,
+                            },
+                            success: function () {
+                                console.log('ok');
+                            }
+                        });
+                    });
+                }
+            })
+        });
+    </script>
     <!-- 消息提示框 -->
     {% if messages %}
         {% for message in messages %}
