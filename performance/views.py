@@ -2353,7 +2353,7 @@ def upload_backup(request):
 # 修改自动备份间隔和接收邮箱方法
 def change_days_to_auto_backup(request):
     # 从前端获取时间间隔和邮箱
-    days = request.POST.get('days')
+    days = check_data_format(request.POST.get('days'), 'int')
     email = request.POST.get('email')
     try:
         # 更新数据库
@@ -2362,16 +2362,24 @@ def change_days_to_auto_backup(request):
         data.backup_to_email = email
         data.save()
         # 记录日志
-        action = '更改系统自动备份周期为{}天，备份邮箱为{}'.format(days, email)
+        if days <= 0:
+            action = '关闭系统自动备份'
+        else:
+            action = '更改系统自动备份周期为{}天，备份邮箱为{}'.format(days, email)
         add_log(request, action, '成功')
         # 进行一次备份
         DatabaseBackup.auto_backup()
+        # 更新任务
+        DatabaseBackup.set_auto_backup()
         # 写入成功提示
         messages.success(request, '修改成功')
     except:
         # 记录日志
-        action = '更改系统自动备份周期为{}天，备份邮箱为{}'.format(days, email)
-        add_log(request, action, '成功')
+        if days <= 0:
+            action = '尝试关闭系统自动备份'
+        else:
+            action = '尝试更改系统自动备份周期为{}天，备份邮箱为{}'.format(days, email)
+        add_log(request, action, '失败')
         # 写入失败提示
         messages.error(request, '出现错误，请重试')
     # 重载页面
