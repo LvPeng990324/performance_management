@@ -7,6 +7,8 @@ from django.http import FileResponse
 from django.utils.http import urlquote
 from django.contrib import messages
 from .SendEmail import send_backup
+from apscheduler.schedulers.background import BackgroundScheduler
+from ..models import SystemConfig
 
 
 # 读取备份文件方法
@@ -161,3 +163,21 @@ def auto_backup():
         send_backup(file_path)
     else:
         pass
+
+
+# 更新自动备份方法
+def set_auto_backup():
+    # 不需要参数
+    # 从数据库中读取天数间隔
+    days = SystemConfig.objects.first().days_to_auto_backup
+    job = BackgroundScheduler()
+    # 清空当前的任务
+    if job.get_jobs():
+        job.remove_all_jobs()
+    # 如果天数间隔小于等于0，则不创建新任务，直接退出
+    if days <= 0:
+        return
+    # 创建任务
+    job.add_job(auto_backup, 'interval', days=days, id='auto_backup')
+    # 开启当前任务
+    job.start()
