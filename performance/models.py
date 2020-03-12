@@ -280,3 +280,18 @@ class SystemConfig(models.Model):
     class Meta:
         verbose_name_plural = '系统配置表'
         verbose_name = '系统配置表'
+
+
+# 接口表
+class OpenApi(models.Model):
+    name = models.CharField(max_length=200, verbose_name='接口名称')
+    password = models.CharField(max_length=200, verbose_name='接口密码')
+    introduction = models.CharField(max_length=200, verbose_name='接口简介')
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    change_time = models.DateTimeField(auto_now=True, verbose_name='修改时间')
+    is_enabled = models.BooleanField(verbose_name='是否启用')
+    called_times = models.BooleanField(verbose_name='调用次数')
+
+    class Meta:
+        verbose_name_plural = '接口表'
+        verbose_name = '接口表'
