@@ -140,3 +140,8 @@ EMAIL_HOST_USER = 'lvpeng990324@163.com'  # 填写你的邮件地址
 EMAIL_HOST_PASSWORD = 'lp990324'  # 密码
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+
+# 服务域名
+# 部署本系统的网址，用于开放接口拼接链接使用
+# 就是本系统首页的网址，最后不要加/
+SITE_URL = 'demo.lvpeng990324.cn'
