@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}系统开放接口{% endblock %}
 {% block system_security_backup_active %}active open{% endblock %}
+{% block show_open_api_actice %}active{% endblock %}
 
 
 {% block css_content %}
@@ -568,21 +569,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                {% for data in datas %}
                                 <tr>
-                                    <td nowrap="nowrap" class="text-center"><p>百度</p></td>
+                                    <td nowrap="nowrap" class="text-center"><p>{{ data.name }}</p></td>
                                     <td nowrap="nowrap" class="text-center">
-                                        <a><span id="copyText">baidu.com</span></a>
+                                        <a><span id="copyText">{{ site_url }}/{{ data.name }}</span></a>
                                         <span onclick="copy();" title="复制">
                                             <i class="mdi mdi-content-copy"></i></span></td>
-                                    <td nowrap="nowrap" class="text-center">baidu</td>
-                                    <td nowrap="nowrap" class="text-center">百度搜索</td>
-                                    <td nowrap="nowrap" class="text-center">2020-1-1 23:59:59</td>
-                                    <td nowrap="nowrap" class="text-center">2020-3-11 23:59:59</td>
+                                    <td nowrap="nowrap" class="text-center">{{ data.password }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ data.introduction }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ data.create_time }}</td>
+                                    <td nowrap="nowrap" class="text-center">{{ data.change_time }}</td>
+                                    {% if data.is_enabled %}
                                     <td nowrap="nowrap" class="text-center">
                                         <a class="btn btn-xs btn-default btn-primary" title="启用">
                                             <i class="mdi mdi-check"></i></a></td>
-                                    <td nowrap="nowrap" class="text-center">1次</td>
+                                    {% else %}
+                                    <td nowrap="nowrap" class="text-center">
+                                        <a class="btn btn-xs btn-default btn-danger" title="禁用">
+                                            <i class="mdi mdi-cancel"></i></a>
+                                    </td>
+                                    {% endif %}
+                                    <td nowrap="nowrap" class="text-center">{{ data.called_times }}次</td>
 
 
                                     <td nowrap="nowrap" class="text-center">
@@ -598,36 +606,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <td nowrap="nowrap" class="text-center"><p>百度</p></td>
-                                <td nowrap="nowrap" class="text-center">
-                                    <a><span id="copyText">baidu.com</span></a>
-                                    <span onclick="copy();" title="复制"><i class="mdi mdi-content-copy"></i></span>
-
-                                </td>
-                                <td nowrap="nowrap" class="text-center">baidu</td>
-                                <td nowrap="nowrap" class="text-center">百度搜索</td>
-                                <td nowrap="nowrap" class="text-center">2020-1-1 23:59:59</td>
-                                <td nowrap="nowrap" class="text-center">2020-3-11 23:59:59</td>
-                                <td nowrap="nowrap" class="text-center">
-                                    <a class="btn btn-xs btn-default btn-danger" title="禁用">
-                                        <i class="mdi mdi-cancel"></i></a>
-                                </td>
-                                <td nowrap="nowrap" class="text-center">1次</td>
-
-                                <td nowrap="nowrap" class="text-center">
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" href="#!" title="修改接口"
-                                           data-toggle="modal"
-                                           data-target="#modify" onclick="#!"><i
-                                                class="mdi mdi-pencil"></i></a>
-                                        <a class="btn btn-xs btn-default" href="#!" title="删除"
-                                           data-toggle="modal"
-                                           data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i
-                                                class="mdi mdi-window-close"></i></a>
-                                    </div>
-                                </td>
-                                </tr>
-
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>

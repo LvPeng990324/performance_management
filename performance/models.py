@@ -291,6 +291,7 @@ class OpenApi(models.Model):
     change_time = models.DateTimeField(auto_now=True, verbose_name='修改时间')
     is_enabled = models.BooleanField(verbose_name='是否启用')
     called_times = models.IntegerField(verbose_name='调用次数')
+    opened_data = models.TextField(verbose_name='开放的数据项')
 
     class Meta:
         verbose_name_plural = '接口表'

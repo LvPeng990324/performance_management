@@ -24,6 +24,7 @@ from .models import User
 from .models import Logs
 from .models import Announcement
 from .models import SystemConfig
+from .models import OpenApi
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
 from .forms import cleaned_formula, check_data_format
@@ -36,6 +37,9 @@ from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
+from django.conf import settings
+
+
 # 测试页面方法
 def test_page(request):
     return render(request, '开放接口.html')
@@ -2454,12 +2458,6 @@ def change_days_to_auto_backup(request):
     return redirect('show_database_backup')
 
 
-# 测试自动备份方法
-def test_auto_backup(request):
-    DatabaseBackup.auto_backup()
-    return HttpResponse('success')
-
-
 # 修改系统登录方式方法
 @login_required
 @permission_required('performance.manage_user', raise_exception=True)
@@ -2496,3 +2494,30 @@ def change_system_login(request):
     messages.success(request, '修改成功')
     # 重定向账户管理页面
     return redirect('user_management')
+
+
+# 展示系统开放接口方法
+def show_open_api(request):
+    # 从数据库中取出所有接口信息
+    datas = OpenApi.objects.all()
+    # 打包信息
+    context = {
+        'datas': datas,
+        'site_url': settings.SITE_URL,
+    }
+    return render(request, '开放接口.html', context=context)
+
+
+# 增加接口方法
+def add_api(request):
+    pass
+
+
+# 删除接口方法
+def delete_api(request):
+    pass
+
+
+# 修改接口方法
+def change_api(request):
+    pass

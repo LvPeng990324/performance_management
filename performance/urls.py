@@ -143,11 +143,12 @@ urlpatterns = [
     path('upload_backup/', views.upload_backup, name='upload_backup'),
     # 修改自动备份间隔和接收邮箱方法
     path('change_days_to_auto_backup/', views.change_days_to_auto_backup, name='change_days_to_auto_backup'),
-    # 测试自动备份方法
-    path('test_auto_backup/', views.test_auto_backup, name='test_auto_backup'),
 
     # 修改系统登录方式方法
     path('change_system_login/', views.change_system_login, name='change_system_login'),
+
+    # 展示系统开放接口方法
+    path('show_open_api/', views.show_open_api, name='show_open_api'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
