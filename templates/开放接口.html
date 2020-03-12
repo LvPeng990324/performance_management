@@ -34,6 +34,181 @@
                             <input type="text" class="form-control" id="api_password_m" name="api_password_m" required>
                         </div>
                         <div class="form-group">
+                            <div class="card">
+                                <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                                    <li class="active"><a href="#home" id="home-tab" role="tab"
+                                                          data-toggle="tab">月度营业数据</a>
+                                    </li>
+                                    <li><a href="#profile1" role="tab" id="profile-tab" data-toggle="tab">季度营业数据</a>
+                                    </li>
+                                    <li><a href="#profile2" role="tab" id="profile-tab" data-toggle="tab">内控指标汇总</a>
+                                    </li>
+                                    <li><a href="#profile3" role="tab" id="profile-tab" data-toggle="tab">月度绩效考核结果</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown"
+                                           aria-controls="myTabDrop1-contents" aria-expanded="false">更多 <span
+                                                class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="myTabDrop1-contents">
+                                            <li><a href="#dropdown1" id="dropdown1-tab" data-toggle="tab">季度绩效考核结果</a>
+                                            </li>
+                                            <li><a href="#dropdown2" id="dropdown2-tab" data-toggle="tab">季度绩效奖金</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade active in" id="home">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile1">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile2">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>订单时间</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>订单号</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>订单额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>计划交期</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标成品率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标医药费</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标综合成本</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标管理符合数</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际交期</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>完成数</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>未完成数</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际成品率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际医药费</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际成本</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际管理符合数</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile3">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>交付率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>成品率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>医药费</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>当月挖掘成本</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>现场管理符合率</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="dropdown1">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="dropdown2">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>合计</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="api_brief" class="control-label">接口简介：</label>
                             <input type="text" class="form-control" id="api_brief_m" name="api_brief_m" required>
                         </div>
@@ -73,6 +248,181 @@
                         <div class="form-group">
                             <label for="api_password" class="control-label">接口密码：</label>
                             <input type="text" class="form-control" id="api_password_n" name="api_password_n" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="card">
+                                <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                                    <li class="active"><a href="#home" id="home-tab" role="tab"
+                                                          data-toggle="tab">月度营业数据</a>
+                                    </li>
+                                    <li><a href="#profile1" role="tab" id="profile-tab" data-toggle="tab">季度营业数据</a>
+                                    </li>
+                                    <li><a href="#profile2" role="tab" id="profile-tab" data-toggle="tab">内控指标汇总</a>
+                                    </li>
+                                    <li><a href="#profile3" role="tab" id="profile-tab" data-toggle="tab">月度绩效考核结果</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown"
+                                           aria-controls="myTabDrop1-contents" aria-expanded="false">更多 <span
+                                                class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="myTabDrop1-contents">
+                                            <li><a href="#dropdown1" id="dropdown1-tab" data-toggle="tab">季度绩效考核结果</a>
+                                            </li>
+                                            <li><a href="#dropdown2" id="dropdown2-tab" data-toggle="tab">季度绩效奖金</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade active in" id="home">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile1">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile2">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>订单时间</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>订单号</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>订单额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>计划交期</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标成品率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标医药费</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标综合成本</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>目标管理符合数</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际交期</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>完成数</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>未完成数</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际成品率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际医药费</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际成本</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>实际管理符合数</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile3">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>交付率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>成品率</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>医药费</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>当月挖掘成本</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>现场管理符合率</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="dropdown1">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="dropdown2">
+                                        <div class="example-box">
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业额奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>营业费用奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>回款额奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>库存量奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>利润额奖金</span>
+                                            </label>
+                                            <label class="lyear-checkbox checkbox-inline checkbox-primary">
+                                                <input type="checkbox"><span>合计</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="api_brief" class="control-label">接口简介：</label>
@@ -163,7 +513,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                          <!--手风琴效果-->
+                        <!--手风琴效果-->
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <div class="panel">
                                 <div class="panel-heading" role="tab" id="headingThree">
@@ -283,6 +633,8 @@
 {% endblock %}
 
 {% block js_content %}
+    <!--点击映射复制映射链接-->
+
     <!--日期选择插件-->
     <script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
     <script type="text/javascript"
@@ -321,4 +673,5 @@
             $('#id_download_file').val(file_name);
         }
     </script>
+
 {% endblock %}
