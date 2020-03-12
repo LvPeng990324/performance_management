@@ -571,7 +571,10 @@
 
                                 <tr>
                                     <td nowrap="nowrap" class="text-center"><p>百度</p></td>
-                                    <td nowrap="nowrap" class="text-center"><a>www.baidu.com</a></td>
+                                    <td nowrap="nowrap" class="text-center">
+                                        <a><span id="copyText">baidu.com</span></a>
+                                        <span onclick="copy();" title="复制">
+                                            <i class="mdi mdi-content-copy"></i></span></td>
                                     <td nowrap="nowrap" class="text-center">baidu</td>
                                     <td nowrap="nowrap" class="text-center">百度搜索</td>
                                     <td nowrap="nowrap" class="text-center">2020-1-1 23:59:59</td>
@@ -596,7 +599,11 @@
                                     </td>
                                 </tr>
                                 <td nowrap="nowrap" class="text-center"><p>百度</p></td>
-                                <td nowrap="nowrap" class="text-center"><a>www.baidu.com</a></td>
+                                <td nowrap="nowrap" class="text-center">
+                                    <a><span id="copyText">baidu.com</span></a>
+                                    <span onclick="copy();" title="复制"><i class="mdi mdi-content-copy"></i></span>
+
+                                </td>
                                 <td nowrap="nowrap" class="text-center">baidu</td>
                                 <td nowrap="nowrap" class="text-center">百度搜索</td>
                                 <td nowrap="nowrap" class="text-center">2020-1-1 23:59:59</td>
@@ -606,7 +613,6 @@
                                         <i class="mdi mdi-cancel"></i></a>
                                 </td>
                                 <td nowrap="nowrap" class="text-center">1次</td>
-
 
                                 <td nowrap="nowrap" class="text-center">
                                     <div class="btn-group">
@@ -634,7 +640,22 @@
 
 {% block js_content %}
     <!--点击映射复制映射链接-->
+    <script type="text/javascript">
 
+        function copy() {
+        var text =document.getElementById("copyText").innerText;
+        var input = document.createElement('input');
+        input.setAttribute('id', 'copyInput');
+        input.setAttribute('value', text);
+        document.getElementsByTagName('body')[0].appendChild(input);
+        document.getElementById('copyInput').select();
+        if (document.execCommand('copy')) {
+            lightyear.notify('复制成功', 'success', 3000);
+        }
+        document.getElementById('copyInput').remove();
+    }
+
+    </script>
     <!--日期选择插件-->
     <script type="text/javascript" src="{% static 'js/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
     <script type="text/javascript"
