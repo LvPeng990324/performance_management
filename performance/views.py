@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
@@ -2625,5 +2625,57 @@ def change_api(request):
 
 
 # 从开放接口提供数据方法
-def get_api_data(request):
-    pass
+def get_api_data(request, api_name):
+    # 从前端获取密码
+    password = request.GET.get('password')
+    # 从数据库中查询此name的接口
+    api = get_object_or_404(OpenApi, name=api_name)
+    # 验证密码
+    if api.password != password:
+        return HttpResponse('403错误，密码错误无权限')
+    #将数据表名字及相应数据项建立一个字典映射关系
+    name_data_dict = {
+        'monthly_sales_data':[],
+        'quarterly_sales_data':[],
+        'internal_control_indicators':[],
+        'monthly_performance':[],
+        'quarterly_performance':[],
+        'quarterly_award':[],
+    }
+    for temp in api.opened_data.split(' '):
+        temp_name, temp_data = temp.split('.')
+        name_data_dict[temp_name].append(temp_data)
+    # 取出相应数据
+    api_data = {}  # 存放最终的数据
+    # 月度营业数据
+    if name_data_dict['monthly_sales_data']:
+        api_data['monthly_sales_data'] = {}
+        for data_name in name_data_dict['monthly_sales_data']:
+            api_data['monthly_sales_data'][data_name] = list(MonthlySalesData.objects.values_list(data_name, flat=True))
+    # 季度营业数据
+    if name_data_dict['quarterly_sales_data']:
+        api_data['quarterly_sales_data'] = {}
+        for data_name in name_data_dict['quarterly_sales_data']:
+            api_data['quarterly_sales_data'][data_name] = list(QuarterlySalesData.objects.values_list(data_name, flat=True))
+    # 内控指标汇总
+    if name_data_dict['internal_control_indicators']:
+        api_data['internal_control_indicators'] = {}
+        for data_name in name_data_dict['internal_control_indicators']:
+            api_data['internal_control_indicators'][data_name] = list(InternalControlIndicators.objects.values_list(data_name, flat=True))
+    # 月度绩效考核结果
+    if name_data_dict['monthly_performance']:
+        api_data['monthly_performance'] = {}
+        for data_name in name_data_dict['monthly_performance']:
+            api_data['monthly_performance'][data_name] = list(MonthlyPerformance.objects.values_list(data_name, flat=True))
+    # 季度绩效考核结果
+    if name_data_dict['quarterly_performance']:
+        api_data['quarterly_performance'] = {}
+        for data_name in name_data_dict['quarterly_performance']:
+            api_data['quarterly_performance'][data_name] = list(QuarterlyPerformance.objects.values_list(data_name, flat=True))
+    # 季度绩效奖金
+    if name_data_dict['quarterly_award']:
+        api_data['quarterly_award'] = {}
+        for data_name in name_data_dict['quarterly_award']:
+            api_data['quarterly_award'][data_name] = list(QuarterlyAward.objects.values_list(data_name, flat=True))
+    
+    return JsonResponse(api_data)

@@ -157,7 +157,7 @@ urlpatterns = [
     path('change_api/', views.change_api, name='change_api'),
 
     # 从开放接口提供数据方法
-    path('get_api_data/', views.get_api_data, name='get_api_data'),
+    path('get_api_data/<api_name>', views.get_api_data, name='get_api_data'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
