@@ -22,6 +22,7 @@ class Permission(models.Model):
             ('manage_permission', '管理授权'),
             ('user_logs', '查看用户操作日志'),
             ('manage_backups', '管理系统数据库备份'),
+            ('manage_open_api', '管理开放接口'),
         )
 
 
