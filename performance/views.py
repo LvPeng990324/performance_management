@@ -2497,6 +2497,8 @@ def change_system_login(request):
 
 
 # 展示系统开放接口方法
+@login_required
+@permission_required('performance.manage_open_api', raise_exception=True)
 def show_open_api(request):
     # 从数据库中取出所有接口信息
     datas = OpenApi.objects.all()
@@ -2509,6 +2511,8 @@ def show_open_api(request):
 
 
 # 增加接口方法
+@login_required
+@permission_required('performance.manage_open_api', raise_exception=True)
 def add_api(request):
     # 从前端获取新增接口信息
     name = request.POST.get('name')
@@ -2561,6 +2565,8 @@ def add_api(request):
 
 
 # 删除接口方法
+@login_required
+@permission_required('performance.manage_open_api', raise_exception=True)
 def delete_api(request):
     # 从前端获取要删除的id
     delete_id = check_data_format(request.POST.get('delete_id'), 'int')
@@ -2580,6 +2586,8 @@ def delete_api(request):
 
 
 # 修改接口方法
+@login_required
+@permission_required('performance.manage_open_api', raise_exception=True)
 def change_api(request):
     # 从前端获取修改信息
     change_id = request.POST.get('change_id')

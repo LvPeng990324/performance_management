@@ -118,7 +118,7 @@
                                 </ul>
                             </li>
                         {% endif %}
-                        {% if 'performance.user_logs' in request.user.get_all_permissions or 'performance.manage_backups' in request.user.get_all_permissions or request.user.is_superuser %}
+                        {% if 'performance.user_logs' in request.user.get_all_permissions or 'performance.manage_backups' in request.user.get_all_permissions or 'performance.manage_open_api' in request.user.get_all_permissions or request.user.is_superuser %}
                             <li class="nav-item nav-item-has-subnav
                                     {% block system_security_backup_active %}{% endblock %}">
                                 <a href="javascript:void(0)"><i class="mdi mdi-shield"></i> 系统安全备份</a>
@@ -131,8 +131,10 @@
                                         <li class="{% block show_database_backup_actice %}{% endblock %}"><a
                                                 href="{% url 'show_database_backup' %}">数据备份还原</a></li>
                                     {% endif %}
+                                    {% if 'performance.manage_open_api' in request.user.get_all_permissions or request.user.is_superuser %}
                                     <li class="{% block show_open_api_actice %}{% endblock %}"><a
                                             href="{% url 'show_open_api' %}">系统开放接口</a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                         {% endif %}
