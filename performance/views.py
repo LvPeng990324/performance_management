@@ -2510,14 +2510,97 @@ def show_open_api(request):
 
 # 增加接口方法
 def add_api(request):
-    pass
+    # 从前端获取新增接口信息
+    name = request.POST.get('name')
+    password = request.POST.get('password')
+    introduction = request.POST.get('introduction')
+    is_enabled = request.POST.get('is_enabled')
+    opened_data = ''
+
+    # 检查此名字的接口是否已存在
+    # 如果已存在返回此名字接口已存在错误
+    if OpenApi.objects.filter(name=name).exists():
+        messages.error(request, '此名字接口已存在')
+        return redirect('show_open_api')
+    # 转换is_enabled
+    if is_enabled is None:
+        is_enabled = False
+    else:
+        is_enabled = True
+
+    try:
+        # 存入数据库
+        OpenApi.objects.create(
+            name=name,
+            password=password,
+            introduction=introduction,
+            opened_data=opened_data,
+            is_enabled=is_enabled,
+            change_time=datetime.now(),
+        )
+    except:
+        # 写入失败提示
+        messages.error(request, '保存出错，请重试')
+        # 记录日志
+        action = '尝试增加名为{}的开放接口'.format(name)
+        add_log(request, action, '失败')
+        # 重载页面
+        return redirect('show_open_api')
+    # 写入成功提示
+    messages.success(request, '增加成功')
+    # 记录日志
+    action = '增加了名为{}的开放接口'.format(name)
+    add_log(request, action, '成功')
+    # 重载页面
+    return redirect('show_open_api')
 
 
 # 删除接口方法
 def delete_api(request):
-    pass
+    # 从前端获取要删除的id
+    delete_id = check_data_format(request.POST.get('delete_id'), 'int')
+    # 取出要删除的接口
+    data = OpenApi.objects.get(id=delete_id)
+    # 记录日志要用的名字
+    name = data.name
+    # 删除接口
+    data.delete()
+    # 写入成功提示
+    messages.success(request, '成功删除{}接口'.format(name))
+    # 记录日志
+    action = '删除了名为{}的开放接口'.format(name)
+    add_log(request, action, '成功')
+    # 重载页面
+    return redirect('show_open_api')
 
 
 # 修改接口方法
 def change_api(request):
+    # 从前端获取修改信息
+    change_id = request.POST.get('change_id')
+    name = request.POST.get('name')
+    password = request.POST.get('password')
+    introduction = request.POST.get('introduction')
+    is_enabled = request.POST.get('is_enabled')
+    opened_data = ''
+    # 取出要修改的接口
+    data = OpenApi.objects.get(id=change_id)
+    # 更新数据
+    data.name = name
+    data.password = password
+    data.introduction = introduction
+    data.is_enabled = is_enabled
+    data.opened_data = opened_data
+    data.save()
+    # 写入成功提示
+    messages.success(request, '修改成功')
+    # 记录日志
+    action = '修改了名为{}的接口信息'.format(name)
+    add_log(request, action, '成功')
+    # 重载页面
+    return redirect('show_open_api')
+
+
+# 从开放接口提供数据方法
+def get_api_data(request):
     pass

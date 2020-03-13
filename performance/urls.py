@@ -149,6 +149,15 @@ urlpatterns = [
 
     # 展示系统开放接口方法
     path('show_open_api/', views.show_open_api, name='show_open_api'),
+    # 增加接口方法
+    path('add_api/', views.add_api, name='add_api'),
+    # 删除接口方法
+    path('delete_api/', views.delete_api, name='delete_api'),
+    # 修改接口方法
+    path('change_api/', views.change_api, name='change_api'),
+
+    # 从开放接口提供数据方法
+    path('get_api_data/', views.get_api_data, name='get_api_data'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),

@@ -13,7 +13,7 @@
     <div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="modifyLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="#！" method="post">
+                <form action="{% url 'change_api' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -21,18 +21,13 @@
                         <h4 class="modal-title" id="modifyLabel">修改接口信息</h4>
                     </div>
                     <div class="modal-body">
-                        <input hidden id="id_change_id" name="change_id">
                         <div class="form-group">
-                            <label for="api_name" class="control-label">接口名称：</label>
-                            <input type="text" class="form-control" id="api_name_m" name="api_name_m" required>
+                            <label for="id_name" class="control-label">接口名称：</label>
+                            <input type="text" class="form-control" id="id_name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="api_address" class="control-label">接口映射：</label>
-                            <input type="text" class="form-control" id="api_address_m" name="api_address_m" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="api_password" class="control-label">接口密码：</label>
-                            <input type="text" class="form-control" id="api_password_m" name="api_password_m" required>
+                            <label for="id_password" class="control-label">接口密码：</label>
+                            <input type="text" class="form-control" id="id_password" name="password" required>
                         </div>
                         <div class="form-group">
                             <div class="card">
@@ -210,18 +205,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="api_brief" class="control-label">接口简介：</label>
-                            <input type="text" class="form-control" id="api_brief_m" name="api_brief_m" required>
+                            <label for="id_introduction" class="control-label">接口简介：</label>
+                            <input type="text" class="form-control" id="id_introduction" name="introduction" required>
                         </div>
                         <div class="form-group">
                             <label for="stock_n" class="control-label">是否启用：</label>
                             <label class="lyear-switch switch-primary">
-                                <input type="checkbox" checked="">
+                                <input type="checkbox" name="is_enabled" value="True" checked="">
                                 <span></span>
                             </label>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input hidden id="id_change_id" name="change_id">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="submit" class="btn btn-primary">确定</button>
                     </div>
@@ -233,7 +229,7 @@
     <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="#！" method="post">
+                <form action="{% url 'add_api' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -243,12 +239,12 @@
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="api_name" class="control-label">接口名称：</label>
-                            <input type="text" class="form-control" id="api_name_n" name="api_name_n" required>
+                            <label for="id_name" class="control-label">接口名称：</label>
+                            <input type="text" class="form-control" id="id_name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="api_password" class="control-label">接口密码：</label>
-                            <input type="text" class="form-control" id="api_password_n" name="api_password_n" required>
+                            <label for="id_password" class="control-label">接口密码：</label>
+                            <input type="text" class="form-control" id="id_password" name="password" required>
                         </div>
                         <div class="form-group">
                             <div class="card">
@@ -427,12 +423,12 @@
                         </div>
                         <div class="form-group">
                             <label for="api_brief" class="control-label">接口简介：</label>
-                            <input type="text" class="form-control" id="api_brief_n" name="api_brief_n" required>
+                            <input type="text" class="form-control" id="api_brief" name="introduction" required>
                         </div>
                         <div class="form-group">
                             <label for="stock_n" class="control-label">是否启用：</label>
                             <label class="lyear-switch switch-primary">
-                                <input type="checkbox" checked="">
+                                <input type="checkbox" name="is_enabled" value="True" checked="">
                                 <span></span>
                             </label>
                         </div>
@@ -445,11 +441,11 @@
             </div>
         </div>
     </div>
-    <!-- 删除备份文件 -->
+    <!-- 删除接口模态框 -->
     <div class="modal fade" id="del" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{% url 'delete_backup' %}" method="post">
+                <form action="{% url 'delete_api' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -460,7 +456,7 @@
                         确认删除该接口?
                     </div>
                     <div class="modal-footer">
-                        <input hidden id="id_delete_file" name="file_name">
+                        <input hidden id="id_delete" name="delete_id">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-danger">确定</button>
                     </div>
@@ -597,11 +593,11 @@
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-default" href="#!" title="修改接口"
                                                data-toggle="modal"
-                                               data-target="#modify" onclick="#!"><i
+                                               data-target="#modify" onclick="give_change_modal('{{ data.id }}')"><i
                                                     class="mdi mdi-pencil"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                data-toggle="modal"
-                                               data-target="#del" onclick="give_delete_modal('{{ backup }}')"><i
+                                               data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i
                                                     class="mdi mdi-window-close"></i></a>
                                         </div>
                                     </td>
@@ -655,16 +651,16 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    <!-- 给确认恢复数据库模态框传值 -->
+    <!-- 给修改模态框传值 -->
     <script type="text/javascript">
-        function give_load_modal(file_name) {
-            $('#id_load_file').val(file_name);
+        function give_change_modal(change_id) {
+            $('#id_change_id').val(change_id);
         }
     </script>
-    <!-- 给确认删除备份文件模态框传值 -->
+    <!-- 给确认删除模态框传值 -->
     <script type="text/javascript">
-        function give_delete_modal(file_name) {
-            $('#id_delete_file').val(file_name);
+        function give_delete_modal(delete_id) {
+            $('#id_delete').val(delete_id);
         }
     </script>
     <!-- 给下载备份文件模态框传值 -->
