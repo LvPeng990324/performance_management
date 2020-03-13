@@ -2630,6 +2630,9 @@ def get_api_data(request, api_name):
     password = request.GET.get('password')
     # 从数据库中查询此name的接口
     api = get_object_or_404(OpenApi, name=api_name)
+    # 验证此接口是否启用
+    if not api.is_enabled:
+        return HttpResponse('403错误，此接口已禁用')
     # 验证密码
     if api.password != password:
         return HttpResponse('403错误，密码错误无权限')
@@ -2677,5 +2680,9 @@ def get_api_data(request, api_name):
         api_data['quarterly_award'] = {}
         for data_name in name_data_dict['quarterly_award']:
             api_data['quarterly_award'][data_name] = list(QuarterlyAward.objects.values_list(data_name, flat=True))
+    
+    # 接口调用次数加一
+    api.called_times += 1
+    api.save()
     
     return JsonResponse(api_data)
