@@ -16,6 +16,18 @@ def group_permissions(group):
     return str(data)
 
 
+# 空格分割字符串转列表字符串
+@register.filter
+def to_list(data):
+    # 如果是空的，返回空字符串
+    if not data:
+        return ''
+    # 按照空格分割
+    data = data.split(' ')
+    # 返回字符串结果
+    return str(data)
+
+
 # 将显示为None的数据改为空字符串
 @register.filter
 def clear_none(data):
