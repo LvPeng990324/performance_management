@@ -3,6 +3,7 @@
 {% block title %}系统开放接口{% endblock %}
 {% block system_security_backup_active %}active open{% endblock %}
 {% block show_open_api_actice %}active{% endblock %}
+{% load queryset_data %}
 
 
 {% block css_content %}
@@ -717,7 +718,8 @@
                                             <a class="btn btn-xs btn-default" href="#!" title="修改接口"
                                                data-toggle="modal"
                                                data-target="#modify" onclick="give_change_modal('{{ data.id }}',
-                                               '{{ data.name }}', '{{ data.password }}', '{{ data.introduction }}', '{{ data.is_enabled }}')"><i
+                                               '{{ data.name }}', '{{ data.password }}', '{{ data.introduction }}', 
+                                               '{{ data.is_enabled }}', {{ data.opened_data|to_list }})"><i
                                                     class="mdi mdi-pencil"></i></a>
                                             <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                data-toggle="modal"
@@ -781,7 +783,8 @@
                                    change_name,
                                    change_password,
                                    change_introduction,
-                                   change_is_enabled) {
+                                   change_is_enabled,
+                                   opened_data) {
             $('#id_change_id').val(change_id);
             $('#id_change_name').val(change_name);
             $('#id_change_password').val(change_password);
@@ -792,6 +795,17 @@
             }
             else{
                 $('#id_change_is_enabled').prop("checked", true);
+            }
+            // 将现有的开关处于关闭状态
+            var checkbox = document.getElementsByName('opened_data');
+            for (var i = 0; i < checkbox.length; i++){
+                checkbox[i].checked = false;
+            }
+            // 遍历取到的数据列表
+            // 通过id来选取相应的开关组件，并将它们设置为打开状态
+            for (var i = 0; i < opened_data.length; i++){
+                var checkbox = document.getElementById(opened_data[i]);
+                checkbox.checked = true;
             }
         }
     </script>
