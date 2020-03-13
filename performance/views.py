@@ -2515,7 +2515,7 @@ def add_api(request):
     password = request.POST.get('password')
     introduction = request.POST.get('introduction')
     is_enabled = request.POST.get('is_enabled')
-    opened_data = ''
+    opened_data_list = request.POST.getlist('opened_data', [])
 
     # 检查此名字的接口是否已存在
     # 如果已存在返回此名字接口已存在错误
@@ -2527,6 +2527,11 @@ def add_api(request):
         is_enabled = False
     else:
         is_enabled = True
+    # 转换opened_data_list
+    opened_data = ''
+    for data in opened_data_list:
+        opened_data += '{} '.format(data)
+    opened_data = opened_data.strip()
 
     try:
         # 存入数据库
@@ -2582,7 +2587,17 @@ def change_api(request):
     password = request.POST.get('password')
     introduction = request.POST.get('introduction')
     is_enabled = request.POST.get('is_enabled')
+    opened_data_list = request.POST.getlist('opened_data', [])
+    # 转换is_enabled
+    if is_enabled is None:
+        is_enabled = False
+    else:
+        is_enabled = True
+    # 转换opened_data_list
     opened_data = ''
+    for data in opened_data_list:
+        opened_data += '{} '.format(data)
+    opened_data = opened_data.strip()
     # 取出要修改的接口
     data = OpenApi.objects.get(id=change_id)
     # 更新数据
