@@ -47,7 +47,7 @@ def excel_response(data_list, sheet_name):
     workbook.save(sio)
     sio.seek(0)
     response = HttpResponse(sio.getvalue(), content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = "attachment; filename*=UTF-8''{}".format(escape_uri_path(sheet_name))
+    response['Content-Disposition'] = "attachment;filename*=UTF-8''{}".format(escape_uri_path(sheet_name))
     response.write(sio.getvalue())
     return response
 
