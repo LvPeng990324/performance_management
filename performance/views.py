@@ -2500,12 +2500,24 @@ def change_system_login(request):
 @login_required
 @permission_required('performance.manage_open_api', raise_exception=True)
 def show_open_api(request):
-    # 从数据库中取出所有接口信息
-    datas = OpenApi.objects.all()
+    if request.method == 'GET':
+        # 从数据库中取出所有接口信息
+        datas = OpenApi.objects.all()
+        api_search = ''
+    else:
+        # POST为根据名称或简介筛选接口
+        # 从前端获取筛选字段
+        api_search = request.POST.get('api_search')
+        # 筛选接口信息
+        datas = OpenApi.objects.filter(
+            Q(name__contains=api_search) |
+            Q(introduction__contains=api_search)
+        )
     # 打包信息
     context = {
         'datas': datas,
         'site_url': settings.SITE_URL,
+        'api_search': api_search,
     }
     return render(request, '开放接口.html', context=context)
 
