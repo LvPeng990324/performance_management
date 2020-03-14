@@ -150,17 +150,18 @@ def export_monthly_performance():
     data_list = []  # 用于存储所有数据
     temp_list = []  # 用于临时存储一行，最后存入data_list
     # 建立表头
-    temp_list = ['日期', '交付率', '成品率', '医药费', '内控综合成本', '现场管理']
+    temp_list = ['年份', '月份', '交付率', '成品率', '医药费', '当月挖掘成本', '现场管理符合率']
     data_list.append(temp_list)
     temp_list = []
     # 遍历数据库内容并存入data_list
     for line in data:
-        temp_list.append(line.date)
+        temp_list.append(line.year)
+        temp_list.append(line.month)
         temp_list.append(line.delivery_rate)
         temp_list.append(line.well_done_rate)
         temp_list.append(line.medical_expenses)
-        temp_list.append(line.overall_cost)
-        temp_list.append(line.field_management)
+        temp_list.append(line.month_dig_cost)
+        temp_list.append(line.field_management_well_rate)
         # 存入data_list并清空temp_list
         data_list.append(temp_list)
         temp_list = []
