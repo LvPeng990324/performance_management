@@ -35,6 +35,7 @@ from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
 from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
+from .utils import GetVerificationCode
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 from django.conf import settings
@@ -146,6 +147,20 @@ def phone_login(request):
         # 登录失败，写入用户名密码错误信息并重载页面
         messages.error(request, '手机号无记录')
         return redirect('user_login')
+
+
+# 邮箱验证码登录方法
+def email_login(request):
+    # GET为请求验证码，POST为验证码登录
+    if request.method == 'GET':
+        # 获取当前填的email
+        email = request.GET.get('email')
+        # 随机生成六位验证码
+        verification_code = GetVerificationCode.get_verification_code()
+        # 记录邮箱和验证码到session
+        
+    else:
+        pass
 
 
 # 登出方法

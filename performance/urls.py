@@ -10,6 +10,8 @@ urlpatterns = [
     path('user_login/', views.user_login, name='user_login'),
     # 手机登录方法
     path('phone_login/', views.phone_login, name='phone_login'),
+    # 邮箱验证码登录方法
+    path('email_login/', views.email_login, name='email_login'),
     # 登出方法
     path('user_logout/', views.user_logout, name='user_logout'),
     # 展示账号管理页面方法
@@ -99,7 +101,7 @@ urlpatterns = [
     # 导出季度绩效考核结果
     path('export_quarterly_performance/', views.export_quarterly_performance, name='export_quarterly_performance'),
     # 导出季度绩效奖金
-    path('export_quarterly_award', views.export_quarterly_award, name='export_quarterly_award'),
+    path('export_quarterly_award/', views.export_quarterly_award, name='export_quarterly_award'),
     # 导出用户操作日志
     path('export_user_logs/', views.export_user_logs, name='export_user_logs'),
 
@@ -159,7 +161,7 @@ urlpatterns = [
     path('change_api/', views.change_api, name='change_api'),
 
     # 从开放接口提供数据方法
-    path('get_api_data/<api_name>', views.get_api_data, name='get_api_data'),
+    path('get_api_data/<api_name>/', views.get_api_data, name='get_api_data'),
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
