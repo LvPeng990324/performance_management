@@ -202,7 +202,7 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.order_by('y
                     'year': year,
                     'quarter': quarter,
                     'turnover_award': turnover_award,
-                    'operating_rate_award': turnover_award,
+                    'operating_rate_award': operating_rate_award,
                     'repaid_rate_award': repaid_rate_award,
                     'inventory_rate_award': inventory_rate_award,
                     'profit_rate_award': profit_rate_award,
