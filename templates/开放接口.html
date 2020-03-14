@@ -653,24 +653,10 @@
                               action="#！" role="form">
                             {% csrf_token %}
                             <div class="input-group">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                        接口状态 <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li class="{% ifequal current_status '所有状态' %}active{% endifequal %}">
-                                            <a href="#!">启用</a>
-                                        </li>
-                                        <li class="{% ifequal current_status '按时完成' %}active{% endifequal %}">
-                                            <a href="#!">禁用</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <input hidden name="action" value="接口名称搜索">
-                                <input type="text" class="form-control" name="api_name_search" aria-label="..."
-                                       placeholder="请输入接口名称...">
+                                
+                                <input hidden name="action" value="接口搜索">
+                                <input type="text" class="form-control" name="api_search" aria-label="..."
+                                       placeholder="名称/简介筛选..." value="{{ api_search }}">
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn btn-default">搜索</button>
                                 </div>
