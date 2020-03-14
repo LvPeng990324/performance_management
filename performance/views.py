@@ -202,6 +202,7 @@ def add_user(request):
     name = str(request.POST.get('name')).strip()
     department = str(request.POST.get('department')).strip()
     telephone = str(request.POST.get('telephone')).strip()
+    email = str(request.POST.get('email')).strip()
     password = str(request.POST.get('password')).strip()
 
     # 保存用户
@@ -210,6 +211,7 @@ def add_user(request):
             username=job_number,
             password=password,
             last_name=name,
+            email=email,
         )
         user.extension.job_number = job_number
         user.extension.department = department
@@ -290,6 +292,7 @@ def change_user(request):
     name = request.POST.get('name')
     department = request.POST.get('department')
     telephone = request.POST.get('telephone')
+    email = request.POST.get('email')
     # 取出此账户并更新信息
     user = User.objects.get(id=change_id)
     user.extension.job_number = job_number
@@ -297,6 +300,7 @@ def change_user(request):
     user.last_name = name
     user.extension.department = department
     user.extension.telephone = telephone
+    user.email = email
     user.save()
     # 写入成功提示
     messages.success(request, '用户信息修改成功')
@@ -383,14 +387,16 @@ def user_change_information(request):
         # 引导前端
         return render(request, '账号-用户修改个人信息.html', context=context)
     else:
-        # 目前只能改手机号
-        # 从前端获取输入的手机号
+        # 目前只能改手机号和邮箱
+        # 从前端获取输入的手机号和邮箱
         telephone = request.POST.get('telephone').strip()
+        email = request.POST.get('email').strip()
         try:
             # 获取当前用户
             user = request.user
             # 更新信息
             user.extension.telephone = telephone
+            user.email = email
             user.save()
         except:
             # 打包错误信息

@@ -283,11 +283,13 @@ def upload_user_excel(file_data):
             job_number = str(temp_data[1]).split('.')[0]
             name = temp_data[2].strip()
             telephone = str(temp_data[3]).split('.')[0]
-            password = temp_data[4].strip()
+            email = str(temp_data[4]).strip()
+            password = temp_data[5].strip()
             user = User.objects.create_user(
                 username=job_number,
                 password=password,
                 last_name=name,
+                email=email,
             )
             user.extension.job_number = job_number
             user.extension.department = department

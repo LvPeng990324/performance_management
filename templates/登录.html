@@ -73,9 +73,14 @@
                         <a data-toggle="tab" href="#logo2">短信验证</a>
                     </li>
                 {% endif %}
+                {% if '邮箱验证' in login_ways %}
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#logo3">邮箱验证</a>
+                    </li>
+                {% endif %}
                 {% if '微信扫码' in login_ways %}
                     <li class="nav-item">
-                        <a data-toggle="tab" href="#logo3">微信扫码</a>
+                        <a data-toggle="tab" href="#logo4">微信扫码</a>
                     </li>
                 {% endif %}
             </ul>
@@ -129,6 +134,31 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="logo3">
+                    <form action="{% url 'phone_login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group has-feedback feedback-left">
+                            <input type="text" placeholder="请输入您的email" class="form-control" name="email"
+                                   id="username"/>
+                            <span class="mdi mdi-cellphone form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <div class="form-group has-feedback feedback-left input-group">
+                            <input type="password" placeholder="请输入邮箱验证码" class="form-control" id="password"
+                                   name="password"/>
+                            <span class="input-group-btn"><button class="btn btn-link"
+                                                                  type="button">获取邮箱验证码</button></span>
+                            <span class="mdi mdi-facebook-messenger form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                        <div class="form-group has-feedback feedback-left row">
+
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-block btn-primary" type="submit"
+                                    onclick="location.href='首页demo.html'">立即登录
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="logo4">
                     <div class="login-center">
                         <img src="{% static 'images/logo3.jpg' %}" title="微信扫码" alt="微信扫码" width="300" height="300">
                     </div>

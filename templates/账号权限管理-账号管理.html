@@ -88,22 +88,26 @@
                     <div class="modal-body">
                         <input hidden id="id_change_id" name="change_id">
                         <div class="form-group">
-                            <label for="id_job_number" class="control-label">工号：</label>
+                            <label for="id_change_job_number" class="control-label">工号：</label>
                             <input type="text" class="form-control" id="id_change_job_number" name="job_number"
                                    required>
                         </div>
                         <div class="form-group">
-                            <label for="id_name" class="control-label">姓名：</label>
+                            <label for="id_change_name" class="control-label">姓名：</label>
                             <input type="text" class="form-control" id="id_change_name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="turnover_n" class="control-label">所在部门：</label>
+                            <label for="id_change_department" class="control-label">所在部门：</label>
                             <input type="text" class="form-control" id="id_change_department" name="department"
                                    required>
                         </div>
                         <div class="form-group">
-                            <label for="expenses_n" class="control-label">手机：</label>
+                            <label for="id_change_telephone" class="control-label">手机：</label>
                             <input type="text" class="form-control" id="id_change_telephone" name="telephone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_email" class="control-label">邮箱：</label>
+                            <input type="email" class="form-control" id="id_change_email" name="email" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -170,6 +174,10 @@
                             <input type="text" class="form-control" id="telephone_n" name="telephone" required>
                         </div>
                         <div class="form-group">
+                            <label for="email_n" class="control-label">邮箱：</label>
+                            <input type="email" class="form-control" id="email_n" name="email" required>
+                        </div>
+                        <div class="form-group">
                             <label for="password_n" class="control-label">登录密码：</label>
                             <input type="text" class="form-control" id="password_n" name="password" required>
                         </div>
@@ -222,6 +230,17 @@
                                                 <input type="checkbox" id="view_quarterly_sales_data"
                                                        value="短信验证" name="login_way"
                                                  {% if '短信验证' in login_ways %}checked{% endif %}>
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>邮箱验证</td>
+                                        <td>
+                                            <label class="lyear-switch switch switch-secondary">
+                                                <input type="checkbox" id="view_quarterly_sales_data"
+                                                       value="邮箱验证" name="login_way"
+                                                 {% if '邮箱验证' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>
@@ -344,7 +363,8 @@
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
-                                                   onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', '{{ user.extension.department }}', '{{ user.extension.telephone }}')"><i
+                                                   onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', 
+                                                   '{{ user.extension.department }}', '{{ user.extension.telephone }}', '{{ user.email }}')"><i
                                                         class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="修改密码"
                                                    data-toggle="modal" data-target="#password"
@@ -412,12 +432,14 @@
                                    change_job_number,
                                    change_name,
                                    change_department,
-                                   change_telephone,) {
+                                   change_telephone,
+                                   change_email) {
             $('#id_change_id').val(change_id);
             $('#id_change_job_number').val(change_job_number);
             $('#id_change_name').val(change_name);
             $('#id_change_department').val(change_department);
             $('#id_change_telephone').val(change_telephone);
+            $('#id_change_email').val(change_email);
         }
     </script>
     <!-- 消息提示框 -->
