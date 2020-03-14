@@ -715,9 +715,9 @@
                                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="headingThree">
                                     <div class="panel-body">
-                                        <form method="post" action="#！" role="form">
+                                        <form method="post" action="{% url 'show_open_api' %}" role="form">
                                             {% csrf_token %}
-                                            <input hidden name="current_action" value="接口修改时间筛选">
+                                            <input hidden name="action" value="接口修改时间筛选">
                                             <div class="input-daterange input-group">
                                                 <input class="form-control js-datetimepicker" type="text"
                                                        name="start_time"

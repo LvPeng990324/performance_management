@@ -2505,14 +2505,33 @@ def show_open_api(request):
         datas = OpenApi.objects.all()
         api_search = ''
     else:
-        # POST为根据名称或简介筛选接口
-        # 从前端获取筛选字段
-        api_search = request.POST.get('api_search')
-        # 筛选接口信息
-        datas = OpenApi.objects.filter(
-            Q(name__contains=api_search) |
-            Q(introduction__contains=api_search)
-        )
+        api_search = ''
+        # 从前端获取action
+        action = request.POST.get('action')
+        # 判断action
+        if action == '接口搜索':
+            # 从前端获取筛选字段
+            api_search = request.POST.get('api_search')
+            # 筛选接口信息
+            datas = OpenApi.objects.filter(
+                Q(name__contains=api_search) |
+                Q(introduction__contains=api_search)
+            )
+        elif action == '接口修改时间筛选':
+            # 获取起止时间
+            start_time = str(request.POST.get('start_time')).split('-')
+            end_time = str(request.POST.get('end_time')).split('-')
+            # 转换日期对象
+            start_time = datetime(year=int(start_time[0]), month=int(start_time[1]), day=int(start_time[2]),
+                                  hour=int(start_time[3]), minute=int(start_time[4]))
+            end_time = datetime(year=int(end_time[0]), month=int(end_time[1]), day=int(end_time[2]),
+                                hour=int(end_time[3]), minute=int(end_time[4]))
+            # 筛选在起止时间内的接口信息
+            datas = OpenApi.objects.filter(change_time__gte=start_time,
+                                           change_time__lte=end_time)
+        else:
+            # 重定向展示系统开放接口页面
+            return redirect('show_open_api')
     # 打包信息
     context = {
         'datas': datas,
