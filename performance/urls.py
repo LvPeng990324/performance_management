@@ -98,6 +98,8 @@ urlpatterns = [
     path('export_monthly_performance/', views.export_monthly_performance, name='export_monthly_performance'),
     # 导出季度绩效考核结果
     path('export_quarterly_performance/', views.export_quarterly_performance, name='export_quarterly_performance'),
+    # 导出季度绩效奖金
+    path('export_quarterly_award', views.export_quarterly_award, name='export_quarterly_award'),
     # 导出用户操作日志
     path('export_user_logs/', views.export_user_logs, name='export_user_logs'),
 

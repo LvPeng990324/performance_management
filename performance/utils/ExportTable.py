@@ -10,6 +10,7 @@ from performance.models import QuarterlySalesData
 from performance.models import InternalControlIndicators
 from performance.models import MonthlyPerformance
 from performance.models import QuarterlyPerformance
+from performance.models import QuarterlyAward
 from performance.models import Logs
 
 
@@ -194,6 +195,36 @@ def export_quarterly_performance():
         temp_list = []
     # 返回下载回应
     return excel_response(data_list, sheet_name='季度绩效考核结果')
+
+
+# 导出季度绩效奖金
+# 导出季度绩效考核结果
+def export_quarterly_award():
+    # 从数据库中取出所有数据
+    data = QuarterlyAward.objects.all()
+    # 将数据存入列表
+    data_list = []  # 用于存储所有数据
+    temp_list = []  # 用于临时存储一行，最后存入data_list
+    # 建立表头
+    temp_list = ['年份', '季度', '营业额所得奖金额', '营业费率所得奖金额', 
+                 '回款率所得奖金额', '库存率所得奖金额', '利润率所得奖金额', '合计']
+    data_list.append(temp_list)
+    temp_list = []
+    # 遍历数据库内容并存入data_list
+    for line in data:
+        temp_list.append(line.year)
+        temp_list.append(line.quarter)
+        temp_list.append(line.turnover_award)
+        temp_list.append(line.operating_rate_award)
+        temp_list.append(line.repaid_rate_award)
+        temp_list.append(line.inventory_rate_award)
+        temp_list.append(line.profit_rate_award)
+        temp_list.append(line.total)
+        # 存入data_list并清空temp_list
+        data_list.append(temp_list)
+        temp_list = []
+    # 返回下载回应
+    return excel_response(data_list, sheet_name='季度绩效奖金')
 
 
 # 导出用户操作日志

@@ -1891,6 +1891,13 @@ def export_quarterly_performance(request):
     return ExportTable.export_quarterly_performance()
 
 
+# 导出季度绩效奖金
+@login_required
+@permission_required('performance.view_quarterly_award', raise_exception=True)
+def export_quarterly_award(request):
+    return ExportTable.export_quarterly_award()
+
+
 # 导出用户操作日志
 @login_required
 @permission_required('performance.user_logs', raise_exception=True)
