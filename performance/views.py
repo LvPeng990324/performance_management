@@ -66,7 +66,7 @@ def index(request):
                                                                      scheduled_delivery__month=today.month,
                                                                      finished_number=None)
     # 获取前N条公告信息，根据时间逆序排序
-    announcements = Announcement.objects.all().order_by('-time')[:2]
+    announcements = Announcement.objects.all().order_by('-time')[:3]
 
     # 打包数据
     context = {
@@ -1599,14 +1599,6 @@ def refresh_quarterly_result(request):
 def show_quarterly_award(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
-    # 如果没有年份数据，直接返回空数据
-    if not year_list:
-        # 打包空数据
-        context = {
-            'current_year': '无数据',
-        }
-        # 引导前端页面
-        return render(request, '数据统计-奖金表.html', context=context)
     # 删除无数据的前三年
     try:
         year_list = list(year_list)
@@ -1614,6 +1606,15 @@ def show_quarterly_award(request):
             year_list.pop()
     except:
         year_list = []
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        messages.info(request, '暂无数据！')
+        # 引导前端页面
+        return render(request, '数据统计-奖金表.html', context=context)
     # 如果是第一次访问，选取最新一年数据进行展示
     # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
     # 尝试获取年份
@@ -2217,7 +2218,6 @@ def change_month_result_item(request):
         SystemConfig.objects.update(month_result_item_H=value)
     elif key == 'I':
         SystemConfig.objects.update(month_result_item_I=value)
-    print(key, value)
     return HttpResponse('success')
 
 
@@ -2237,7 +2237,6 @@ def change_quarter_result_item(request):
         SystemConfig.objects.update(quarter_result_item_D=value)
     elif key == 'E':
         SystemConfig.objects.update(quarter_result_item_E=value)
-    print(key, value)
     return HttpResponse('success')
 
 
@@ -2267,7 +2266,6 @@ def change_quarter_award_item(request):
         SystemConfig.objects.update(quarter_award_item_I=value)
     elif key == 'K':
         SystemConfig.objects.update(quarter_award_item_K=value)
-    print(key, value)
     return HttpResponse('success')
 
 
@@ -2320,6 +2318,10 @@ def show_user_logs(request):
         else:
             # 未知动作，重定向本页面
             return redirect('show_user_logs')
+    # 分页展示，根据时间逆序排序
+    counts = logs.count()
+    page_info = PageInfo(request.GET.get('page'), counts, 20, '/show_user_logs?')
+    page_logs = logs.order_by('-log_time')[page_info.start():page_info.end()]
     # 打包数据可视化用数据
     # 当前展示日志的成功与失败数
     success_log_num = logs.filter(result='成功').count()
@@ -2333,11 +2335,12 @@ def show_user_logs(request):
         name_num[name] = Logs.objects.filter(user_name=name).count()
     # 打包数据，日志按照时间倒序排序
     context = {
-        'logs': logs.order_by('-log_time'),
+        'logs': page_logs,
         'success_log_num': success_log_num,
         'fail_log_num': fail_log_num,
         'user_names': list(name_num.keys()),
         'name_num': name_num,
+        'page_info': page_info,
     }
     # 返回前端页面
     return render(request, '系统安全备份-用户操作日志.html', context=context)
