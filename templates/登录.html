@@ -225,8 +225,6 @@
         function send_email() {
             var email_input = document.getElementById("email");
             var login_email = email_input.value;
-            console.log(email_input);
-
             $.ajax({
                 type: "get",
                 url: "{% url 'email_login' %}",
