@@ -113,8 +113,6 @@
                                         <td nowrap="nowrap">{{ total_profit_rate_award }}</td>
                                         <td nowrap="nowrap">{{ total_total }}</td>
                                     </tr>
-                                {% else %}
-                                    <h4 nowrap="nowrap">未获取到该年对应的历史数据，故暂无数据！</h4>
                                 {% endif %}
                                 </tbody>
                             </table>
@@ -146,6 +144,24 @@
 {% endblock %}
 
 {% block js_content %}
+    <!-- 消息提示框 -->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'success', 3000);
+                </script>
+            {% elif message.tags == 'error' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'danger', 3000);
+                </script>
+            {% elif message.tags == 'info' %}
+                <script type="text/javascript">
+                    lightyear.notify('{{ message }}', 'info', 3000);
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <script type="text/javascript" src="{% static 'js/echarts.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript">
@@ -282,23 +298,4 @@
             $('#chart_item_pie_display').addClass('hidden');
         })
     </script>
-
-    <!-- 消息提示框 -->
-    {% if messages %}
-        {% for message in messages %}
-            {% if message.tags == 'success' %}
-                <script type="text/javascript">
-                    lightyear.notify('{{ message }}', 'success', 3000);
-                </script>
-            {% elif message.tags == 'error' %}
-                <script type="text/javascript">
-                    lightyear.notify('{{ message }}', 'danger', 3000);
-                </script>
-            {% elif message.tags == 'info' %}
-                <script type="text/javascript">
-                    lightyear.notify('{{ message }}', 'info', 3000);
-                </script>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
 {% endblock %}

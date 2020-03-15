@@ -1566,14 +1566,6 @@ def refresh_quarterly_result(request):
 def show_quarterly_award(request):
     # 打包年份数据，去重并逆序排序
     year_list = QuarterlySalesData.objects.values('year').distinct().order_by('-year')
-    # 如果没有年份数据，直接返回空数据
-    if not year_list:
-        # 打包空数据
-        context = {
-            'current_year': '无数据',
-        }
-        # 引导前端页面
-        return render(request, '数据统计-奖金表.html', context=context)
     # 删除无数据的前三年
     try:
         year_list = list(year_list)
@@ -1581,6 +1573,15 @@ def show_quarterly_award(request):
             year_list.pop()
     except:
         year_list = []
+    # 如果没有年份数据，直接返回空数据
+    if not year_list:
+        # 打包空数据
+        context = {
+            'current_year': '无数据',
+        }
+        messages.info(request, '暂无数据！')
+        # 引导前端页面
+        return render(request, '数据统计-奖金表.html', context=context)
     # 如果是第一次访问，选取最新一年数据进行展示
     # 如果能获取年份，为用户选取年份筛选，取得这一年数据进行展示
     # 尝试获取年份
@@ -2184,7 +2185,6 @@ def change_month_result_item(request):
         SystemConfig.objects.update(month_result_item_H=value)
     elif key == 'I':
         SystemConfig.objects.update(month_result_item_I=value)
-    print(key, value)
     return HttpResponse('success')
 
 
@@ -2204,7 +2204,6 @@ def change_quarter_result_item(request):
         SystemConfig.objects.update(quarter_result_item_D=value)
     elif key == 'E':
         SystemConfig.objects.update(quarter_result_item_E=value)
-    print(key, value)
     return HttpResponse('success')
 
 
@@ -2234,7 +2233,6 @@ def change_quarter_award_item(request):
         SystemConfig.objects.update(quarter_award_item_I=value)
     elif key == 'K':
         SystemConfig.objects.update(quarter_award_item_K=value)
-    print(key, value)
     return HttpResponse('success')
 
 
