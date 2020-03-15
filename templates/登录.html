@@ -134,18 +134,19 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="logo3">
-                    <form action="{% url 'phone_login' %}" method="post">
+                    <form action="{% url 'email_login' %}" method="post">
                         {% csrf_token %}
                         <div class="form-group has-feedback feedback-left">
                             <input type="text" placeholder="请输入您的email" class="form-control" name="email"
-                                   id="username"/>
+                                   id="email"/>
                             <span class="mdi mdi-cellphone form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left input-group">
-                            <input type="password" placeholder="请输入邮箱验证码" class="form-control" id="password"
-                                   name="password"/>
-                            <span class="input-group-btn"><button class="btn btn-link"
-                                                                  type="button">获取邮箱验证码</button></span>
+                            <input type="text" placeholder="请输入邮箱验证码" class="form-control"
+                                   id="verification_code" name="verification_code"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-link" type="button" onclick="send_email()">获取邮箱验证码</button>
+                            </span>
                             <span class="mdi mdi-facebook-messenger form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left row">
@@ -218,6 +219,26 @@
             }
         },1000)
     })
+    </script>
+    <!-- 发送邮箱验证码 -->
+    <script type="text/javascript">
+        function send_email() {
+            var email_input = document.getElementById("email");
+            var login_email = email_input.value;
+            console.log(email_input);
+
+            $.ajax({
+                type: "get",
+                url: "{% url 'email_login' %}",
+                traditional: true,
+                data: {'email': login_email},
+                success: function (arg) {
+                    if (arg === 'success') {
+                        lightyear.notify('验证码发送成功', 'success', 3000);
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
