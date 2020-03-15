@@ -170,11 +170,6 @@ def email_login(request):
         email = request.POST.get('email')
         verification_code = request.POST.get('verification_code')
 
-        print(email)
-        print(verification_code)
-        print(request.session.get('login_email'))
-        print(request.session.get('verification_code'))
-
         # 从数据库查询该邮箱账户
         user = User.objects.filter(email=email)
         # 判断用户是否存在
