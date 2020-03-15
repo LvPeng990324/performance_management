@@ -35,7 +35,7 @@ from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
 from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
-# from .utils import GetVerificationCode
+from .utils import GetVerificationCode
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 from django.conf import settings
