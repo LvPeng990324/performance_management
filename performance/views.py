@@ -35,7 +35,7 @@ from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
 from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
-from .utils import GetVerificationCode
+# from .utils import GetVerificationCode
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 from django.conf import settings
@@ -65,7 +65,7 @@ def index(request):
                                                                      scheduled_delivery__month=today.month,
                                                                      finished_number=None)
     # 获取前N条公告信息，根据时间逆序排序
-    announcements = Announcement.objects.all().order_by('-time')[:2]
+    announcements = Announcement.objects.all().order_by('-time')[:3]
 
     # 打包数据
     context = {
