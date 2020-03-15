@@ -314,7 +314,6 @@
                     case_id.push(a[i].value)
                 }
             }
-            console.log(case_id);
             $.ajax({
                 type: "get",
                 url: "{% url 'delete_constant_data' %}",
