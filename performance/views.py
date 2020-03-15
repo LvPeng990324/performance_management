@@ -35,7 +35,7 @@ from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
 from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
-from .utils import GetVerificationCode
+# from .utils import GetVerificationCode
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 from django.conf import settings
@@ -2285,6 +2285,10 @@ def show_user_logs(request):
         else:
             # 未知动作，重定向本页面
             return redirect('show_user_logs')
+    # 分页展示，根据时间逆序排序
+    counts = logs.count()
+    page_info = PageInfo(request.GET.get('page'), counts, 20, '/show_user_logs?')
+    page_logs = logs.order_by('-log_time')[page_info.start():page_info.end()]
     # 打包数据可视化用数据
     # 当前展示日志的成功与失败数
     success_log_num = logs.filter(result='成功').count()
@@ -2298,11 +2302,12 @@ def show_user_logs(request):
         name_num[name] = Logs.objects.filter(user_name=name).count()
     # 打包数据，日志按照时间倒序排序
     context = {
-        'logs': logs.order_by('-log_time'),
+        'logs': page_logs,
         'success_log_num': success_log_num,
         'fail_log_num': fail_log_num,
         'user_names': list(name_num.keys()),
         'name_num': name_num,
+        'page_info': page_info,
     }
     # 返回前端页面
     return render(request, '系统安全备份-用户操作日志.html', context=context)
