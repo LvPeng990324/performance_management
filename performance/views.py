@@ -47,6 +47,7 @@ from django.views.decorators.csrf import csrf_exempt
 def test_page(request):
     return render(request, '开放接口.html')
 
+
 # 展示首页
 @login_required
 def index(request):
@@ -176,7 +177,8 @@ def email_login(request):
         # 判断用户是否存在
         if user:
             # 比对邮箱和验证码
-            if verification_code != request.session.get('verification_code') or email != request.session.get('login_email'):
+            if verification_code != request.session.get('verification_code') or email != request.session.get(
+                    'login_email'):
                 # 返回验证码有误信息
                 messages.error(request, '验证码有误')
                 # 重载页面
@@ -2730,22 +2732,31 @@ def get_api_data(request, api_name):
     api = get_object_or_404(OpenApi, name=api_name)
     # 验证此接口是否启用
     if not api.is_enabled:
-        return HttpResponse('403错误，此接口已禁用')
+        context = {
+            'error_message': '403错误，此接口已禁用',
+        }
+        return render(request, '403.html', context=context)
     # 验证请求方式
     if request.method not in api.request_method.split('+'):
         # 返回不被允许的请求方式
-        return HttpResponse('不被允许的请求方式')
+        context = {
+            'error_message': '不被允许的请求方式',
+        }
+        return render(request, '403.html', context=context)
     # 验证密码
     if api.password != password:
-        return HttpResponse('403错误，密码错误无权限')
-    #将数据表名字及相应数据项建立一个字典映射关系
+        context = {
+            'error_message': '403错误，密码错误无权限',
+        }
+        return render(request, '403.html', context=context)
+    # 将数据表名字及相应数据项建立一个字典映射关系
     name_data_dict = {
-        'monthly_sales_data':[],
-        'quarterly_sales_data':[],
-        'internal_control_indicators':[],
-        'monthly_performance':[],
-        'quarterly_performance':[],
-        'quarterly_award':[],
+        'monthly_sales_data': [],
+        'quarterly_sales_data': [],
+        'internal_control_indicators': [],
+        'monthly_performance': [],
+        'quarterly_performance': [],
+        'quarterly_award': [],
     }
     for temp in api.opened_data.split(' '):
         temp_name, temp_data = temp.split('.')
@@ -2761,30 +2772,34 @@ def get_api_data(request, api_name):
     if name_data_dict['quarterly_sales_data']:
         api_data['quarterly_sales_data'] = {}
         for data_name in name_data_dict['quarterly_sales_data']:
-            api_data['quarterly_sales_data'][data_name] = list(QuarterlySalesData.objects.values_list(data_name, flat=True))
+            api_data['quarterly_sales_data'][data_name] = list(
+                QuarterlySalesData.objects.values_list(data_name, flat=True))
     # 内控指标汇总
     if name_data_dict['internal_control_indicators']:
         api_data['internal_control_indicators'] = {}
         for data_name in name_data_dict['internal_control_indicators']:
-            api_data['internal_control_indicators'][data_name] = list(InternalControlIndicators.objects.values_list(data_name, flat=True))
+            api_data['internal_control_indicators'][data_name] = list(
+                InternalControlIndicators.objects.values_list(data_name, flat=True))
     # 月度绩效考核结果
     if name_data_dict['monthly_performance']:
         api_data['monthly_performance'] = {}
         for data_name in name_data_dict['monthly_performance']:
-            api_data['monthly_performance'][data_name] = list(MonthlyPerformance.objects.values_list(data_name, flat=True))
+            api_data['monthly_performance'][data_name] = list(
+                MonthlyPerformance.objects.values_list(data_name, flat=True))
     # 季度绩效考核结果
     if name_data_dict['quarterly_performance']:
         api_data['quarterly_performance'] = {}
         for data_name in name_data_dict['quarterly_performance']:
-            api_data['quarterly_performance'][data_name] = list(QuarterlyPerformance.objects.values_list(data_name, flat=True))
+            api_data['quarterly_performance'][data_name] = list(
+                QuarterlyPerformance.objects.values_list(data_name, flat=True))
     # 季度绩效奖金
     if name_data_dict['quarterly_award']:
         api_data['quarterly_award'] = {}
         for data_name in name_data_dict['quarterly_award']:
             api_data['quarterly_award'][data_name] = list(QuarterlyAward.objects.values_list(data_name, flat=True))
-    
+
     # 接口调用次数加一
     api.called_times += 1
     api.save()
-    
+
     return JsonResponse(api_data)
