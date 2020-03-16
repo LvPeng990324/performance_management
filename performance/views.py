@@ -944,7 +944,7 @@ def show_internal_control_indicators(request):
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         elif current_status == '还未开始':
             current_time = date.today()
-            data = InternalControlIndicators.objects.filter(order_date__gte=current_time, finished_number=None)
+            data = InternalControlIndicators.objects.filter(order_date__gt=current_time, finished_number=None)
             # 写入数据
             all_count = data.count()
             page_info = PageInfo(request.GET.get('page'), all_count, 15,
@@ -1842,7 +1842,7 @@ def display_internal_control_indicators(request):
             internal_control_indicators = data.order_by('-order_date')[page_info.start():page_info.end()]
         elif current_status == '还未开始':
             current_time = date.today()
-            data = InternalControlIndicators.objects.filter(order_date__gte=current_time, finished_number=None)
+            data = InternalControlIndicators.objects.filter(order_date__gt=current_time, finished_number=None)
             # 写入数据
             all_count = data.count()
             page_info = PageInfo(request.GET.get('page'), all_count, 15,
