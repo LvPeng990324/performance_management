@@ -146,68 +146,92 @@ def upload_internal_control_indicators_performance_excel(file_data):
     table_list = get_excel_list(file_data)
 
 
-    # try:
-    for temp_data in table_list:
+    try:
+        for temp_data in table_list:
 
-        # 整理列表数据
-        order_date = temp_data[0]
-        order_number = temp_data[1]
-        order_money = temp_data[2]
-        scheduled_delivery = temp_data[3]
-        target_well_done_rate = temp_data[4]
-        actual_delivery = temp_data[5]
-        actual_well_done_rate = temp_data[6]
-        actual_medical_expenses = temp_data[7]
-        actual_cost = temp_data[8]
-        actual_management_compliance = temp_data[9]
+            # 整理列表数据
+            order_date = temp_data[0]
+            order_number = temp_data[1]
+            order_money = temp_data[2]
+            scheduled_delivery = temp_data[3]
+            target_well_done_rate = temp_data[4]
+            actual_delivery = temp_data[5]
+            actual_well_done_rate = temp_data[6]
+            actual_medical_expenses = temp_data[7]
+            actual_cost = temp_data[8]
+            actual_management_compliance = temp_data[9]
 
-        # 从常量数据表中取出相应的常量数据
-        # 规则为，日期在这条数据之前的最新一条常量数据
-        # 获取符合条件的一批常量
-        constant_data = ConstantData.objects.filter(date__lte=order_date).last()
-        # 如果没获取到符合条件的常量，写入错误信息
-        if not constant_data:
-            return '未找到符合条件的常量数据，请检查订单时间或者联系管理员录入常量数据'
-        # 获取常量数据
-        target_medical_expenses_rate = constant_data.target_medical_expenses_rate  # 目标医药费百分比
-        target_comprehensive_cost_rate = constant_data.target_comprehensive_cost_rate  # 目标综合成本百分比
-        target_management_compliance_value = constant_data.target_management_compliance_value  # 目标管理符合数值
-        # 计算数据项
-        target_medical_expenses = float(order_money) * target_medical_expenses_rate  # 目标医药费
-        target_comprehensive_cost = float(order_money) * target_comprehensive_cost_rate  # 目标综合成本
-        target_management_compliance = float(order_money) * target_management_compliance_value  # 目标管理符合数
-        # 比对实际交期于计划交期，生成完成数于未完成数
-        # 实际交期在计划交期之前，完成数 = 1，未完成数 = 0
-        # 实际交期在计划交期之后，完成数 = 0，未完成数 = 1
-        if actual_delivery <= scheduled_delivery:
-            # 按时完成
-            finished_number = 1
-            unfinished_number = 0
-        else:
-            # 未按时完成
-            finished_number = 0
-            unfinished_number = 1
+            # 从常量数据表中取出相应的常量数据
+            # 规则为，日期在这条数据之前的最新一条常量数据
+            # 获取符合条件的一批常量
+            constant_data = ConstantData.objects.filter(date__lte=order_date).last()
+            # 如果没获取到符合条件的常量，写入错误信息
+            if not constant_data:
+                return '未找到符合条件的常量数据，请检查订单时间或者联系管理员录入常量数据'
+            # 获取常量数据
+            target_medical_expenses_rate = constant_data.target_medical_expenses_rate  # 目标医药费百分比
+            target_comprehensive_cost_rate = constant_data.target_comprehensive_cost_rate  # 目标综合成本百分比
+            target_management_compliance_value = constant_data.target_management_compliance_value  # 目标管理符合数值
+            # 计算数据项
+            target_medical_expenses = float(order_money) * target_medical_expenses_rate  # 目标医药费
+            target_comprehensive_cost = float(order_money) * target_comprehensive_cost_rate  # 目标综合成本
+            target_management_compliance = float(order_money) * target_management_compliance_value  # 目标管理符合数
+            # 比对实际交期于计划交期，生成完成数于未完成数
+            # 实际交期在计划交期之前，完成数 = 1，未完成数 = 0
+            # 实际交期在计划交期之后，完成数 = 0，未完成数 = 1
+            if actual_delivery <= scheduled_delivery:
+                # 按时完成
+                finished_number = 1
+                unfinished_number = 0
+            else:
+                # 未按时完成
+                finished_number = 0
+                unfinished_number = 1
 
-        # 将数据写入数据库
-        InternalControlIndicators.objects.create(
-            order_date=order_date,
-            order_number=order_number,
-            order_money=order_money,
-            scheduled_delivery=scheduled_delivery,
-            target_well_done_rate=target_well_done_rate,
-            target_medical_expenses=target_medical_expenses,
-            target_comprehensive_cost=target_comprehensive_cost,
-            target_management_compliance=target_management_compliance,
-            actual_delivery=actual_delivery,
-            finished_number=finished_number,
-            unfinished_number=unfinished_number,
-            actual_well_done_rate=actual_well_done_rate,
-            actual_medical_expenses=actual_medical_expenses,
-            actual_cost=actual_cost,
-            actual_management_compliance=actual_management_compliance,
-        )
-    # except:
-    #     return '写入数据库失败'
+            # 判断此订单是否已存在
+            # 存在就更新现有数据，不存在就pass，然后新建数据
+            old_data = InternalControlIndicators.objects.filter(order_number=order_number)
+            if old_data.exists():
+                # 更新现有数据
+                old_data = old_data[0]
+                old_data.order_data = order_date
+                # old_data.order_number = order_number
+                old_data.order_money = order_money
+                old_data.scheduled_delivery = scheduled_delivery
+                old_data.target_well_done_rate = target_well_done_rate
+                old_data.target_medical_expenses = target_medical_expenses
+                old_data.target_comprehensive_cost = target_comprehensive_cost
+                old_data.target_management_compliance = target_management_compliance
+                old_data.actual_delivery = actual_delivery
+                old_data.finished_number = finished_number
+                old_data.unfinished_number = unfinished_number
+                old_data.actual_well_done_rate = actual_well_done_rate
+                old_data.actual_medical_expenses = actual_medical_expenses
+                old_data.actual_cost = actual_cost
+                old_data.actual_management_compliance = actual_management_compliance
+                old_data.save()
+            else:
+                # 将数据写入数据库
+                InternalControlIndicators.objects.create(
+                    order_date=order_date,
+                    order_number=order_number,
+                    order_money=order_money,
+                    scheduled_delivery=scheduled_delivery,
+                    target_well_done_rate=target_well_done_rate,
+                    target_medical_expenses=target_medical_expenses,
+                    target_comprehensive_cost=target_comprehensive_cost,
+                    target_management_compliance=target_management_compliance,
+                    actual_delivery=actual_delivery,
+                    finished_number=finished_number,
+                    unfinished_number=unfinished_number,
+                    actual_well_done_rate=actual_well_done_rate,
+                    actual_medical_expenses=actual_medical_expenses,
+                    actual_cost=actual_cost,
+                    actual_management_compliance=actual_management_compliance,
+                )
+
+    except:
+        return '写入数据库失败'
     return str(len(table_list))
 
 
