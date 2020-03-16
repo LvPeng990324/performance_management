@@ -4,7 +4,6 @@
 # 回款率：C*(B/A)%*20%/100%*F
 # 库存率：C*(B/A)%*10%/(1-H)*(1-G)
 # 利润率：C*(B/A)%*20%/K*Y
-
 # A：年度目标营业额（提前给定，录入）
 # B：年度目标奖金额（提前给定，录入）
 # C：季度实际营业额（表里取、数据模拟）
@@ -20,7 +19,7 @@ import django
 
 os.environ.setdefault('DJANGO_SETTING_MODULE', 'performance_management.settings')
 django.setup()
-
+import datetime
 from django.db.models import Count, Sum, Avg
 from performance.models import ConstantData
 from performance.models import QuarterlySalesData
@@ -31,14 +30,38 @@ from performance.models import QuarterlyAward
 
 
 # 获取A值方法
-def get_a():
-    a = ConstantData.objects.last().annual_target_turnover
+def get_a(need_year, need_quarter):
+    need_month = 0
+    if need_quarter == 1:
+        need_month = 1
+    elif need_quarter == 2:
+        need_month = 4
+    elif need_quarter == 3:
+        need_month = 7
+    elif need_quarter == 4:
+        need_month = 10
+    need_date = datetime.date(year=need_year, month=need_month, day=1)
+    a = ConstantData.objects.filter(
+        date__lte=need_date
+    ).order_by('-date').first().annual_target_turnover
     return a
 
 
 # 获取B值方法
-def get_b():
-    b = ConstantData.objects.last().annual_target_award
+def get_b(need_year, need_quarter):
+    need_month = 0
+    if need_quarter == 1:
+        need_month = 1
+    elif need_quarter == 2:
+        need_month = 4
+    elif need_quarter == 3:
+        need_month = 7
+    elif need_quarter == 4:
+        need_month = 10
+    need_date = datetime.date(year=need_year, month=need_month, day=1)
+    b = ConstantData.objects.filter(
+        date__lte=need_date
+    ).order_by('-date').first().annual_target_award
     return b
 
 
@@ -145,9 +168,9 @@ def get_k(need_year, need_quarter, history_time):
 
 def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.order_by('year').values_list('year', flat=True).distinct()):
     # 每次都需从小到大刷新所有年份
-    print(year_list)
+    # print(year_list)
     for year in year_list:
-        print(year)
+        # print(year)
         success_message = ''
         error_message = ''
         history_year = 3  # 历史年限
@@ -157,8 +180,8 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.order_by('y
         for quarter in range(1, 5):
             try:
                 # 尝试获取数据项
-                A = get_a()
-                B = get_b()
+                A = get_a(year, quarter)
+                B = get_b(year, quarter)
                 C = get_c(year, quarter)
                 D = get_d(year, quarter)
                 E = get_e(year, quarter, history_year)

@@ -96,22 +96,22 @@
                                     {% for data in quarterly_award_result %}
                                         <tr>
                                             <th nowrap="nowrap" class="text-center">{{ data.quarter }}</th>
-                                            <td nowrap="nowrap">{{ data.turnover_award }}</td>
-                                            <td nowrap="nowrap">{{ data.operating_rate_award }}</td>
-                                            <td nowrap="nowrap">{{ data.repaid_rate_award }}</td>
-                                            <td nowrap="nowrap">{{ data.inventory_rate_award }}</td>
-                                            <td nowrap="nowrap">{{ data.profit_rate_award }}</td>
-                                            <td nowrap="nowrap">{{ data.total }}</td>
+                                            <td nowrap="nowrap">{{ data.turnover_award|floatformat:"2" }}</td>
+                                            <td nowrap="nowrap">{{ data.operating_rate_award|floatformat:"2" }}</td>
+                                            <td nowrap="nowrap">{{ data.repaid_rate_award|floatformat:"2" }}</td>
+                                            <td nowrap="nowrap">{{ data.inventory_rate_award|floatformat:"2" }}</td>
+                                            <td nowrap="nowrap">{{ data.profit_rate_award|floatformat:"2" }}</td>
+                                            <td nowrap="nowrap">{{ data.total|floatformat:"2" }}</td>
                                         </tr>
                                     {% endfor %}
                                     <tr>
                                         <th nowrap="nowrap" class="text-center">合计</th>
-                                        <td nowrap="nowrap">{{ total_turnover_award }}</td>
-                                        <td nowrap="nowrap">{{ total_operating_rate_award }}</td>
-                                        <td nowrap="nowrap">{{ total_repaid_rate_award }}</td>
-                                        <td nowrap="nowrap">{{ total_inventory_rate_award }}</td>
-                                        <td nowrap="nowrap">{{ total_profit_rate_award }}</td>
-                                        <td nowrap="nowrap">{{ total_total }}</td>
+                                        <td nowrap="nowrap">{{ total_turnover_award|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ total_operating_rate_award|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ total_repaid_rate_award|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ total_inventory_rate_award|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ total_profit_rate_award|floatformat:"2" }}</td>
+                                        <td nowrap="nowrap">{{ total_total|floatformat:"2" }}</td>
                                     </tr>
                                 {% endif %}
                                 </tbody>
