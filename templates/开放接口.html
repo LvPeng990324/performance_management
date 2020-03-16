@@ -23,11 +23,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="id_name" class="control-label">接口名称：</label>
+                            <label for="id_change_name" class="control-label">接口名称：</label>
                             <input type="text" class="form-control" id="id_change_name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="id_password" class="control-label">接口密码：</label>
+                            <label for="id_change_password" class="control-label">接口密码：</label>
                             <input type="text" class="form-control" id="id_change_password" name="password" required>
                         </div>
                         <div class="form-group">
@@ -351,12 +351,20 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="id_introduction" class="control-label">接口简介：</label>
+                            <label for="id_change_request_method" class="control-label">请求方式：</label>
+                            <select class="form-control" id="id_change_request_method" name="request_method" required>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="POST+GET">POST+GET</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_change_introduction" class="control-label">接口简介：</label>
                             <input type="text" class="form-control" id="id_change_introduction" name="introduction"
                                    required>
                         </div>
                         <div class="form-group">
-                            <label for="stock_n" class="control-label">是否启用：</label>
+                            <label for="id_change_is_enabled" class="control-label">是否启用：</label>
                             <label class="lyear-switch switch-primary">
                                 <input type="checkbox" id="id_change_is_enabled" name="is_enabled" value="True"
                                        checked="">
@@ -625,6 +633,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="id_request_method" class="control-label">请求方式：</label>
+                            <select class="form-control" id="id_request_method" name="request_method" required>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="POST+GET">POST+GET</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="api_brief" class="control-label">接口简介：</label>
                             <input type="text" class="form-control" id="api_brief" name="introduction" required>
                         </div>
@@ -749,6 +765,7 @@
                                     <th nowrap="nowrap" class="text-center">接口名称</th>
                                     <th nowrap="nowrap" class="text-center">映射链接</th>
                                     <th nowrap="nowrap" class="text-center">接口密码</th>
+                                    <th nowrap="nowrap" class="text-center">请求方式</th>
                                     <th nowrap="nowrap" class="text-center">接口简介</th>
                                     <th nowrap="nowrap" class="text-center">创建时间</th>
                                     <th nowrap="nowrap" class="text-center">最近修改或调用时间</th>
@@ -767,6 +784,7 @@
                                             <span onclick="copy('copyText_{{ forloop.counter }}');" title="复制">
                                             <i class="mdi mdi-content-copy"></i></span></td>
                                         <td nowrap="nowrap" class="text-center">{{ data.password }}</td>
+                                        <td nowrap="nowrap" class="text-center">{{ data.request_method }}</td>
                                         <td nowrap="nowrap" class="text-center">{{ data.introduction }}</td>
                                         <td nowrap="nowrap" class="text-center">{{ data.create_time }}</td>
                                         <td nowrap="nowrap" class="text-center">{{ data.change_time }}</td>
@@ -788,9 +806,9 @@
                                                 <a class="btn btn-xs btn-default" href="#!" title="修改接口"
                                                    data-toggle="modal"
                                                    data-target="#modify" onclick="give_change_modal('{{ data.id }}',
-                                                        '{{ data.name }}', '{{ data.password }}', '{{ data.introduction }}',
-                                                        '{{ data.is_enabled }}', {{ data.opened_data|to_list }})"><i
-                                                        class="mdi mdi-pencil"></i></a>
+                                                        '{{ data.name }}', '{{ data.password }}', '{{ data.request_method }}', 
+                                                        '{{ data.introduction }}', '{{ data.is_enabled }}', {{ data.opened_data|to_list }})">
+                                                        <i class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                    data-toggle="modal"
                                                    data-target="#del" onclick="give_delete_modal('{{ data.id }}')"><i
@@ -857,12 +875,14 @@
         function give_change_modal(change_id,
                                    change_name,
                                    change_password,
+                                   change_request_method,
                                    change_introduction,
                                    change_is_enabled,
                                    opened_data) {
             $('#id_change_id').val(change_id);
             $('#id_change_name').val(change_name);
             $('#id_change_password').val(change_password);
+            $('#id_change_request_method').val(change_request_method);
             $('#id_change_introduction').val(change_introduction);
             $('#id_change_is_enabled').val(change_is_enabled);
             if (change_is_enabled == 'False') {

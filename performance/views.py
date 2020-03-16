@@ -2608,6 +2608,7 @@ def add_api(request):
     # 从前端获取新增接口信息
     name = request.POST.get('name')
     password = request.POST.get('password')
+    request_method = request.POST.get('request_method')
     introduction = request.POST.get('introduction')
     is_enabled = request.POST.get('is_enabled')
     opened_data_list = request.POST.getlist('opened_data', [])
@@ -2633,6 +2634,7 @@ def add_api(request):
         OpenApi.objects.create(
             name=name,
             password=password,
+            request_method=request_method,
             introduction=introduction,
             opened_data=opened_data,
             is_enabled=is_enabled,
@@ -2684,6 +2686,7 @@ def change_api(request):
     change_id = request.POST.get('change_id')
     name = request.POST.get('name')
     password = request.POST.get('password')
+    request_method = request.POST.get('request_method')
     introduction = request.POST.get('introduction')
     is_enabled = request.POST.get('is_enabled')
     opened_data_list = request.POST.getlist('opened_data', [])
@@ -2702,6 +2705,7 @@ def change_api(request):
     # 更新数据
     data.name = name
     data.password = password
+    data.request_method = request_method
     data.introduction = introduction
     data.is_enabled = is_enabled
     data.opened_data = opened_data
@@ -2720,11 +2724,17 @@ def change_api(request):
 def get_api_data(request, api_name):
     # 从前端获取密码
     password = request.GET.get('password')
+    if not password:
+        password = request.POST.get('password')
     # 从数据库中查询此name的接口
     api = get_object_or_404(OpenApi, name=api_name)
     # 验证此接口是否启用
     if not api.is_enabled:
         return HttpResponse('403错误，此接口已禁用')
+    # 验证请求方式
+    if request.method not in api.request_method.split('+'):
+        # 返回不被允许的请求方式
+        return HttpResponse('不被允许的请求方式')
     # 验证密码
     if api.password != password:
         return HttpResponse('403错误，密码错误无权限')
