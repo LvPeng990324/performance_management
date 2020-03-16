@@ -582,7 +582,11 @@
             $('#id_change_target_medical_expenses').val(change_target_medical_expenses);
             $('#id_change_target_comprehensive_cost').val(change_target_comprehensive_cost);
             $('#id_change_target_management_compliance').val(change_target_management_compliance);
+            if(change_actual_medical_expenses === 'None')
+                change_actual_medical_expenses='';
             $('#id_change_actual_medical_expenses').val(change_actual_medical_expenses);
+            if(change_actual_cost === 'None')
+                change_actual_cost='';
             $('#id_change_actual_cost').val(change_actual_cost);
             $('#id_change_actual_management_compliance').val(change_actual_management_compliance);
         }
