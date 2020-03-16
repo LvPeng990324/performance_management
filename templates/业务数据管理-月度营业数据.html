@@ -25,7 +25,7 @@
                             <a href="{% url 'download_monthly_sales_modal' %}">下载模板</a>
                         </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-danger">导入</button>
+                        <button id="uploading" type="submit" class="btn btn-danger">导入</button>
                     </div>
                 </form>
             </div>
@@ -330,6 +330,12 @@
                 }
             });
         }
+    </script>
+    <script type="text/javascript">
+        $('#uploading').click(function f() {
+                lightyear.loading('show');
+            }
+        )
     </script>
     <!-- 消息提示框 -->
     {% if messages %}

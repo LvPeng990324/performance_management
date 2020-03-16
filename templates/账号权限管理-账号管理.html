@@ -24,7 +24,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-danger">导入</button>
+                        <button id="uploading" type="submit" class="btn btn-danger">导入</button>
                     </div>
                 </form>
             </div>
@@ -441,6 +441,12 @@
             $('#id_change_telephone').val(change_telephone);
             $('#id_change_email').val(change_email);
         }
+    </script>
+    <script type="text/javascript">
+        $('#uploading').click(function f() {
+                lightyear.loading('show');
+            }
+        )
     </script>
     <!-- 消息提示框 -->
     {% if messages %}

@@ -112,7 +112,7 @@
 
                                         <div class="form-group col-md-12">
                                             <div style="text-align: center;">
-                                                <button type="submit" class="btn btn-primary ajax-post"
+                                                <button id="myloading" type="submit" class="btn btn-primary ajax-post"
                                                         target-form="add-form">保 存
                                                 </button>
                                                 <button type="button" class="btn btn-default"
@@ -165,6 +165,12 @@
             })
 
         });
+    </script>
+    <script type="text/javascript">
+        $('#myloading').click(function f() {
+                lightyear.loading('show');
+            }
+        )
     </script>
     <!-- 消息提示框 -->
     {% if messages %}
