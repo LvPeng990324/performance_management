@@ -190,6 +190,36 @@ def upload_internal_control_indicators_performance_excel(file_data):
             target_medical_expenses = float(order_money) * target_medical_expenses_rate  # 目标医药费
             target_comprehensive_cost = float(order_money) * target_comprehensive_cost_rate  # 目标综合成本
             target_management_compliance = float(order_money) * target_management_compliance_value  # 目标管理符合数
+            # 判断是否为未完成订单
+            # 判断有没有实际交期
+            if not actual_delivery:
+                # 判断此订单是否已存在
+                old_data = InternalControlIndicators.objects.filter(order_number=order_number)
+                if old_data.exists():
+                    # 更新现有数据
+                    old_data = old_data[0]
+                    old_data.order_data = order_date
+                    # old_data.order_number = order_number
+                    old_data.order_money = order_money
+                    old_data.scheduled_delivery = scheduled_delivery
+                    old_data.target_well_done_rate = target_well_done_rate
+                    old_data.target_medical_expenses = target_medical_expenses
+                    old_data.target_comprehensive_cost = target_comprehensive_cost
+                    old_data.target_management_compliance = target_management_compliance
+                    old_data.save()
+                else:
+                    # 新增数据
+                    InternalControlIndicators.objects.create(
+                        order_date=order_date,
+                        order_number=order_number,
+                        order_money=order_money,
+                        scheduled_delivery=scheduled_delivery,
+                        target_well_done_rate=target_well_done_rate,
+                        target_medical_expenses=target_medical_expenses,
+                        target_comprehensive_cost=target_comprehensive_cost,
+                        target_management_compliance=target_management_compliance,
+                    )
+                continue
             # 比对实际交期于计划交期，生成完成数于未完成数
             # 实际交期在计划交期之前，完成数 = 1，未完成数 = 0
             # 实际交期在计划交期之后，完成数 = 0，未完成数 = 1
