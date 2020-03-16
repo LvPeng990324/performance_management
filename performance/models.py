@@ -287,6 +287,7 @@ class SystemConfig(models.Model):
 class OpenApi(models.Model):
     name = models.CharField(max_length=200, verbose_name='接口名称')
     password = models.CharField(max_length=200, verbose_name='接口密码')
+    request_method = models.CharField(max_length=20, verbose_name='请求方式')
     introduction = models.CharField(max_length=200, verbose_name='接口简介')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     change_time = models.DateTimeField(auto_now=True, verbose_name='修改时间')
