@@ -64,7 +64,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-danger">导入</button>
+                        <button id="backuploading2" type="submit" class="btn btn-danger">导入</button>
                     </div>
                 </form>
             </div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-danger">备份</button>
+                        <button id="backuploading1" type="submit" class="btn btn-danger">备份</button>
                     </div>
                 </form>
             </div>
@@ -113,7 +113,7 @@
                     <div class="modal-footer">
                         <input hidden id="id_load_file" name="file_name">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary">确定</button>
+                        <button id="restoreloading" type="submit" class="btn btn-primary">确定</button>
                     </div>
                 </form>
             </div>
@@ -286,5 +286,23 @@
         function give_download_modal(file_name) {
             $('#id_download_file').val(file_name);
         }
+    </script>
+    <script type="text/javascript">
+        $('#backuploading1').click(function f() {
+                lightyear.loading('show');
+            }
+        )
+    </script>
+    <script type="text/javascript">
+        $('#backuploading2').click(function f() {
+                lightyear.loading('show');
+            }
+        )
+    </script>
+    <script type="text/javascript">
+        $('#restoreloading').click(function f() {
+                lightyear.loading('show');
+            }
+        )
     </script>
 {% endblock %}
