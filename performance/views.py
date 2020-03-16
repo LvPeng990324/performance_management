@@ -40,6 +40,7 @@ from .utils import SendEmail
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 
 # 测试页面方法
@@ -2715,6 +2716,7 @@ def change_api(request):
 
 
 # 从开放接口提供数据方法
+@csrf_exempt
 def get_api_data(request, api_name):
     # 从前端获取密码
     password = request.GET.get('password')
