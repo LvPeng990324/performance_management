@@ -219,7 +219,7 @@ def upload_internal_control_indicators_performance_excel(file_data):
                         target_comprehensive_cost=target_comprehensive_cost,
                         target_management_compliance=target_management_compliance,
                     )
-                return str(len(table_list))
+                continue
             # 比对实际交期于计划交期，生成完成数于未完成数
             # 实际交期在计划交期之前，完成数 = 1，未完成数 = 0
             # 实际交期在计划交期之后，完成数 = 0，未完成数 = 1
