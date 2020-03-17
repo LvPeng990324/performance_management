@@ -179,7 +179,8 @@
                         </div>
                         <div class="form-group">
                             <label for="password_n" class="control-label">登录密码：</label>
-                            <input type="text" class="form-control" id="password_n" name="password" required>
+                            <input type="text" class="form-control" id="password_n" name="password" required
+                                   pattern="^[a-zA-Z]\w{5,21}$">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -229,7 +230,7 @@
                                             <label class="lyear-switch switch switch-secondary">
                                                 <input type="checkbox" id="view_quarterly_sales_data"
                                                        value="短信验证" name="login_way"
-                                                 {% if '短信验证' in login_ways %}checked{% endif %}>
+                                                       {% if '短信验证' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>
@@ -240,7 +241,7 @@
                                             <label class="lyear-switch switch switch-secondary">
                                                 <input type="checkbox" id="view_quarterly_sales_data"
                                                        value="邮箱验证" name="login_way"
-                                                 {% if '邮箱验证' in login_ways %}checked{% endif %}>
+                                                       {% if '邮箱验证' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>
@@ -251,7 +252,7 @@
                                             <label class="lyear-switch switch switch-secondary">
                                                 <input type="checkbox" id="view_internal_control_indicators"
                                                        value="微信扫码" name="login_way"
-                                                 {% if '微信扫码' in login_ways %}checked{% endif %}>
+                                                       {% if '微信扫码' in login_ways %}checked{% endif %}>
                                                 <span></span>
                                             </label>
                                         </td>
@@ -363,8 +364,8 @@
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
-                                                   onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}', 
-                                                   '{{ user.extension.department }}', '{{ user.extension.telephone }}', '{{ user.email }}')"><i
+                                                   onclick="give_change_modal('{{ user.id }}', '{{ user.extension.job_number }}', '{{ user.last_name }}',
+                                                           '{{ user.extension.department }}', '{{ user.extension.telephone }}', '{{ user.email }}')"><i
                                                         class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="修改密码"
                                                    data-toggle="modal" data-target="#password"
@@ -390,6 +391,21 @@
 {% endblock %}
 
 {% block js_content %}
+    <!-- 密码强度验证 -->
+    <script>
+        var password_n = document.getElementById("password_n");
+        password_n.onblur = function () {
+            if (password_n.value) {
+                password_n.setCustomValidity("");//现将有输入时的提示设置为空
+            } else if (password_n.validity.valueMissing) {
+                password_n.setCustomValidity("用户密码不能为空");
+            }
+            ;
+            if (password_n.validity.patternMismatch) {
+                password_n.setCustomValidity("用户密码只能是以字母开头，长度在6~20之间，只能包含字母、数字和下划线");
+            }
+        };
+    </script>
     <!-- 给确认删除模态框传值 -->
     <script type="text/javascript">
         function give_delete_modal(delete_id) {
