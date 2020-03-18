@@ -630,21 +630,33 @@ def group_to_user(request):
         # 获取选择的账号id列表
         user_id_list = request.GET.getlist('selected', [])
 
-        # 将这个组的用户清空
+        # 获取这个组当前已有用户列表
         in_group_users = group.user_set.all()
+        # 将选择的账户id转为用户对象
+        selected_users = User.objects.filter(id__in=user_id_list)
+        # 记录删除的和新增的用户
+        add_users = []
+        del_users = []
+        # 统计删除的用户
         for user in in_group_users:
+            if user not in selected_users:
+                del_users.append(user)
+        # 统计新增的用户
+        for user in selected_users:
+            if user not in in_group_users:
+                add_users.append(user)
+
+        # 将删除的用户从组中移除
+        for user in del_users:
             user.groups.remove(group)
 
-        # 将这些用户加入到这个组中去
-        # 选出这些用户
-        users = User.objects.filter(id__in=user_id_list)
-        # 将这些用户加入到这个组里
-        for user in users:
+        # 将新增用户增加到组中
+        for user in add_users:
             user.groups.add(group)
         # 写入成功提示
         messages.success(request, '赋予角色成功')
         # 记录日志
-        action = '将{}角色赋予给{}个账号'.format(group.name, len(user_id_list))
+        action = '将{}角色新增{}个账号，移除{}个账号'.format(group.name, len(add_users), len(del_users))
         add_log(request, action, '成功')
 
         return HttpResponse('success')
