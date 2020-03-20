@@ -141,6 +141,14 @@ EMAIL_HOST_PASSWORD = 'lp990324'  # 密码
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
+# 发送短信配置信息
+# 接口链接
+SMSAPI = "http://api.smsbao.com/"
+# 短信平台账号
+SMSUSER = 'lvpeng990324'
+# 短信平台密码
+SMSPASSWORD = 'lp990324'
+
 # 服务域名
 # 部署本系统的网址，用于开放接口拼接链接使用
 # 就是本系统首页的网址，最后不要加/
