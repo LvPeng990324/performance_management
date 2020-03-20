@@ -80,7 +80,7 @@
                 {% endif %}
                 {% if '微信扫码' in login_ways %}
                     <li class="nav-item">
-                        <a data-toggle="tab" href="#logo4">微信扫码</a>
+                        <a href="{{ wechat_url }}">微信扫码</a>
                     </li>
                 {% endif %}
             </ul>
@@ -160,17 +160,17 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="logo4">
-                    <div class="login-center">
-                        <img src="{% static 'images/logo3.jpg' %}" title="微信扫码" alt="微信扫码" width="300" height="300">
-                    </div>
-                    <h5 class=" text-center">
-                        打开 <a>微信APP</a>
-                    </h5>
-                    <h4 class="small text-center">
-                        在「微信」页面右上角打开扫一扫
-                    </h4>
-                </div>
+{#                <div class="tab-pane fade" id="logo4">#}
+{#                    <div class="login-center">#}
+{#                        <img src="{% static 'images/welogin.jfif' %}" title="微信扫码" alt="微信扫码" width="300" height="300">#}
+{#                    </div>#}
+{#                    <h5 class=" text-center">#}
+{#                        <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxfe899b3596d5c097&redirect_uri=http://demo.lvpeng990324.cn&response_type=code&scope=snsapi_login">点击此处</a>#}
+{#                    进行微信登录</h5>#}
+{#                    <h4 class="small text-center">#}
+{#                        在「微信」页面右上角打开扫一扫#}
+{#                    </h4>#}
+{#                </div>#}
             </div>
             <hr>
             <footer class="col-sm-12 text-center">

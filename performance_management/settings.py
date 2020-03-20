@@ -80,12 +80,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'performance_test',  # 数据库名字(需要先创建)
         'USER': 'root',  # 登录用户名
-        'PASSWORD': 'lp990324',  # 密码	 
-        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost	
-        'PORT': '5432',  # 端口	
-    }	
+        'PASSWORD': 'lp990324',  # 密码
+        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost
+        'PORT': '5432',  # 端口
+    }
 }
-
 
 
 # Password validation
@@ -148,6 +147,14 @@ SMSAPI = "http://api.smsbao.com/"
 SMSUSER = 'lvpeng990324'
 # 短信平台密码
 SMSPASSWORD = 'lp990324'
+
+# 微信登录配置信息
+# 微信开发平台下网站应用的appid
+APPID = "wxfe899b3596d5c097"
+# 微信开发平台下网站应用的appsecret
+APPSECRET = '8720a9324fbe5c5d8a0b1b3730b310a1'
+# 微信开发平台下网站应用的回调域
+REDIRECT_URL = 'http://debug.lvpeng990324.cn'
 
 # 服务域名
 # 部署本系统的网址，用于开放接口拼接链接使用

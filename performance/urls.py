@@ -12,6 +12,10 @@ urlpatterns = [
     path('phone_login/', views.phone_login, name='phone_login'),
     # 邮箱验证码登录方法
     path('email_login/', views.email_login, name='email_login'),
+    # 绑定微信
+    path('bind_wechat', views.bind_wechat, name='bind_wechat'),
+    # 微信登录验证
+    path('wechat_login', views.wechat_login, name='wechat_login'),
     # 登出方法
     path('user_logout/', views.user_logout, name='user_logout'),
     # 展示账号管理页面方法
@@ -165,9 +169,5 @@ urlpatterns = [
 
     # 测试页面
     path('test_page/', views.test_page, name='test_page'),
-    # 微信登陆测试
-    # path('wx_login_test/', views.wx_login_test, name='wx_login_test'),
-
-
 
 ]

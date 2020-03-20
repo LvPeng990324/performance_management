@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -46,7 +47,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # 测试页面方法
 def test_page(request):
-    return render(request, '开放接口.html')
+    return render(request, 'wxtest.html')
 
 
 # 展示首页
@@ -113,9 +114,16 @@ def user_login(request):
         login_ways = []
         for way in ways.split(' '):
             login_ways.append(way)
+        # 获取微信登录相关参数
+        appid = settings.APPID
+        redirect_url = settings.REDIRECT_URL
+        # 微信登录链接
+        wechat_url = 'https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s/wechat_login&response_type=code&scope=snsapi_login' % (
+        appid, redirect_url)
         # 打包信息
         context = {
             'login_ways': login_ways,
+            'wechat_url': wechat_url,
         }
         return render(request, '登录.html', context=context)
     else:
@@ -456,9 +464,15 @@ def user_change_information(request):
     if request.method == 'GET':
         # 取出当前用户
         user = request.user
+        # 获取微信登录相关参数
+        appid=settings.APPID
+        redirect_url=settings.REDIRECT_URL
+        # 微信登录链接
+        wechat_url = 'https://open.weixin.qq.com/connect/qrconnect?appid=%s&redirect_uri=%s/bind_wechat&response_type=code&scope=snsapi_login'%(appid,redirect_url)
         # 打包信息
         context = {
             'user': user,
+            'wechat_url': wechat_url,
         }
         # 引导前端
         return render(request, '账号-用户修改个人信息.html', context=context)
@@ -2845,3 +2859,46 @@ def get_api_data(request, api_name):
     api.save()
 
     return JsonResponse(api_data)
+
+
+# 绑定微信
+def bind_wechat(request):
+    code = request.GET.get('code')
+    appid=settings.APPID
+    appsecret=settings.APPSECRET
+    next_url='https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appid,appsecret,code)
+    print(next_url)
+    context = requests.get(next_url).json()
+    unionID = context['unionid']
+    # 取出当前用户
+    user = request.user
+    user.extension.unionID = unionID
+    user.save()
+    # 写入成功提示
+    messages.success(request, '微信账号已绑定')
+    # 记录日志
+    action = '绑定了微信账号'
+    add_log(request, action, '成功')
+    return redirect('user_change_information')
+
+
+# 微信登录
+def wechat_login(request):
+    code = request.GET.get('code')
+    appid=settings.APPID
+    appsecret=settings.APPSECRET
+    next_url='https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appid,appsecret,code)
+    context = requests.get(next_url).json()
+    unionID = context['unionid']
+    # 从数据库查询该手机号账户
+    user = User.objects.filter(extension__unionID=unionID)
+    # 判断用户是否存在
+    if user:
+        # 登录成功，记录登录信息，重定向首页
+        login(request, user[0])
+        return redirect('index')
+    else:
+        # 返回用户不存在错误
+        messages.error(request, '登录失败，请先绑定微信账号！')
+        # 重载页面
+        return redirect('user_login')
