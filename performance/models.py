@@ -32,6 +32,7 @@ class UserExtension(models.Model):
     job_number = models.CharField(max_length=100, verbose_name='工号')
     telephone = models.CharField(max_length=100, verbose_name='电话号码')
     department = models.CharField(max_length=100, verbose_name='部门')
+    unionID = models.CharField(max_length=100, default='', null=True, verbose_name='微信Id')
 
 
 # 接收到save信号，将扩展表与原表绑定
