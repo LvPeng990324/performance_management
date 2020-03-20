@@ -90,12 +90,12 @@
                         {% csrf_token %}
                         <div class="form-group has-feedback feedback-left">
                             <input type="text" placeholder="请输入您的工号" class="form-control" name="username"
-                                   id="username"/>
+                                   id="username" required/>
                             <span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left">
                             <input type="password" placeholder="请输入您的账号密码" class="form-control" id="password"
-                                   name="password"/>
+                                   name="password" required/>
                             <span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left row">
@@ -113,14 +113,15 @@
                         {% csrf_token %}
                         <div class="form-group has-feedback feedback-left">
                             <input type="text" placeholder="请输入您的手机号" class="form-control" name="phone"
-                                   id="username"/>
+                                   id="phone"/>
                             <span class="mdi mdi-cellphone form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left input-group">
-                            <input type="password" placeholder="请输入短信验证码" class="form-control" id="password"
-                                   name="password"/>
-                            <span class="input-group-btn"><button class="btn btn-link"
-                                                                  type="button">获取短信验证码</button></span>
+                            <input type="text" placeholder="请输入短信验证码" class="form-control" id="verification_code"
+                                   name="verification_code" required/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-link" type="button" onclick="send_phone()">获取短信验证码</button>
+                            </span>
                             <span class="mdi mdi-facebook-messenger form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left row">
@@ -138,12 +139,12 @@
                         {% csrf_token %}
                         <div class="form-group has-feedback feedback-left">
                             <input type="text" placeholder="请输入您的email" class="form-control" name="email"
-                                   id="email"/>
+                                   id="email" required/>
                             <span class="mdi mdi-cellphone form-control-feedback" aria-hidden="true"></span>
                         </div>
                         <div class="form-group has-feedback feedback-left input-group">
                             <input type="text" placeholder="请输入邮箱验证码" class="form-control"
-                                   id="verification_code" name="verification_code"/>
+                                   id="verification_code" name="verification_code" required/>
                             <span class="input-group-btn">
                                 <button class="btn btn-link" type="button" onclick="send_email()">获取邮箱验证码</button>
                             </span>
@@ -233,6 +234,27 @@
                 success: function (arg) {
                     if (arg === 'success') {
                         lightyear.notify('验证码发送成功', 'success', 3000);
+                    }
+                }
+            });
+        }
+    </script>
+    <!-- 发送短信验证码 -->
+    <script type="text/javascript">
+        function send_phone() {
+            var phone_input = document.getElementById("phone");
+            var login_phone = phone_input.value;
+            $.ajax({
+                type: "get",
+                url: "{% url 'phone_login' %}",
+                traditional: true,
+                data: {'phone': login_phone},
+                success: function (arg) {
+                    if (arg === 'success') {
+                        lightyear.notify('验证码发送成功', 'success', 3000);
+                    }
+                    else {
+                        lightyear.notify(arg, 'danger', 3000);
                     }
                 }
             });

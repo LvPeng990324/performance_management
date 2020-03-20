@@ -37,6 +37,7 @@ from .utils import CalculateQuarterlyAward
 from .utils import DatabaseBackup
 from .utils import GetVerificationCode
 from .utils import SendEmail
+from .utils import SendMessage
 from .utils.Paginator import PageInfo
 from .utils.UserLog import add_log
 from django.conf import settings
@@ -138,18 +139,47 @@ def user_login(request):
 # 注意！！此方法尚未完善，需要接入第三方短信提供商
 # 现在此方法仅仅处于测试阶段，勿用于生产环境！
 def phone_login(request):
-    # 从前端获取手机号
-    phone = request.POST.get('phone')
-    # 取出此手机号的用户
-    user = User.objects.get(extension__telephone=phone)
-    if user:
-        # 登录成功，记录登录信息，重定向首页
-        login(request, user)
-        return redirect('index')
+    # GET为请求验证码，POST为验证码登录
+    if request.method == 'GET':
+        # 获取当前填的email
+        phone = request.GET.get('phone')
+        # 随机生成六位验证码
+        verification_code = GetVerificationCode.get_verification_code()
+        # 记录邮箱和验证码到session
+        request.session['login_phone'] = phone
+        request.session['verification_code'] = verification_code
+        # 发送短信
+        res = SendMessage.send_verification_code(phone, verification_code)
+        # 返回信息
+        if res == '短信发送成功':
+            return HttpResponse('success')
+        else:
+            return HttpResponse(res)
     else:
-        # 登录失败，写入用户名密码错误信息并重载页面
-        messages.error(request, '手机号无记录')
-        return redirect('user_login')
+        # 获取填写的手机号及验证码
+        phone = request.POST.get('phone')
+        verification_code = request.POST.get('verification_code')
+
+        # 从数据库查询该手机号账户
+        user = User.objects.filter(extension__telephone=phone)
+        # 判断用户是否存在
+        if user:
+            # 比对手机号和验证码
+            if verification_code != request.session.get('verification_code') or phone != request.session.get(
+                    'login_phone'):
+                # 返回验证码有误信息
+                messages.error(request, '验证码有误')
+                # 重载页面
+                return redirect('user_login')
+            else:
+                # 登录成功，记录登录信息，重定向首页
+                login(request, user[0])
+                return redirect('index')
+        else:
+            # 返回用户不存在错误
+            messages.error(request, '该手机号未注册')
+            # 重载页面
+            return redirect('user_login')
 
 
 # 邮箱验证码登录方法
