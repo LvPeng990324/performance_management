@@ -2867,7 +2867,6 @@ def bind_wechat(request):
     appid=settings.APPID
     appsecret=settings.APPSECRET
     next_url='https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appid,appsecret,code)
-    print(next_url)
     context = requests.get(next_url).json()
     unionID = context['unionid']
     # 取出当前用户
@@ -2878,6 +2877,20 @@ def bind_wechat(request):
     messages.success(request, '微信账号已绑定')
     # 记录日志
     action = '绑定了微信账号'
+    add_log(request, action, '成功')
+    return redirect('user_change_information')
+
+
+# 解绑微信
+def unbind_wechat(request):
+    # 取出当前用户
+    user = request.user
+    user.extension.unionID = ''
+    user.save()
+    # 写入成功提示
+    messages.success(request, '微信账号已解绑')
+    # 记录日志
+    action = '解绑了微信账号'
     add_log(request, action, '成功')
     return redirect('user_change_information')
 

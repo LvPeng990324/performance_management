@@ -14,6 +14,8 @@ urlpatterns = [
     path('email_login/', views.email_login, name='email_login'),
     # 绑定微信
     path('bind_wechat', views.bind_wechat, name='bind_wechat'),
+    # 解绑微信
+    path('unbind_wechat', views.unbind_wechat, name='unbind_wechat'),
     # 微信登录验证
     path('wechat_login', views.wechat_login, name='wechat_login'),
     # 登出方法

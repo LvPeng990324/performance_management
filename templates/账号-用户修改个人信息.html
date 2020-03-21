@@ -51,8 +51,13 @@
                             <input type="email" class="form-control" name="email" id="email" value="{{ user.email }}">
                         </div>
                         <button type="submit" class="btn btn-primary">保存</button>
-                        <button id="bind_wechat" class="btn btn-primary"><a
+                        {% if user.extension.unionID %}
+                            <button type="button" id="bind_wechat" class="btn btn-primary"><a
+                                href="{% url 'unbind_wechat' %}" style="color: white;">解绑微信</a></button>
+                        {% else %}
+                            <button type="button" id="bind_wechat" class="btn btn-primary"><a
                                 href="{{ wechat_url }}" style="color: white;">绑定微信</a></button>
+                        {% endif %}
                     </form>
 
                 </div>
