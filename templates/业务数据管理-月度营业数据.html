@@ -46,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" onclick="dels()">确定</button>
+                    <button id="deleting" type="button" class="btn btn-danger" onclick="dels()">确定</button>
                 </div>
             </div>
         </div>
@@ -333,6 +333,10 @@
     </script>
     <script type="text/javascript">
         $('#uploading').click(function f() {
+                lightyear.loading('show');
+            }
+        )
+        $('#deleting').click(function f() {
                 lightyear.loading('show');
             }
         )
