@@ -144,13 +144,15 @@ def user_login(request):
 
 
 # 手机验证码登录方法
-# 注意！！此方法尚未完善，需要接入第三方短信提供商
-# 现在此方法仅仅处于测试阶段，勿用于生产环境！
 def phone_login(request):
     # GET为请求验证码，POST为验证码登录
     if request.method == 'GET':
-        # 获取当前填的email
+        # 获取当前填的手机号
         phone = request.GET.get('phone')
+        # 查询当前手机号是否未注册
+        if not User.objects.filter(extension__telephone=phone).exists():
+            # 返回手机号未注册错误
+            return HttpResponse('该手机号未注册')
         # 随机生成六位验证码
         verification_code = GetVerificationCode.get_verification_code()
         # 记录邮箱和验证码到session
@@ -196,6 +198,10 @@ def email_login(request):
     if request.method == 'GET':
         # 获取当前填的email
         email = request.GET.get('email')
+        # 查询当前email是否未注册
+        if not User.objects.filter(email=email).exists():
+            # 返回邮箱未注册错误
+            return HttpResponse('该邮箱未注册')
         # 随机生成六位验证码
         verification_code = GetVerificationCode.get_verification_code()
         # 记录邮箱和验证码到session

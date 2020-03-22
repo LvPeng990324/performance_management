@@ -235,6 +235,9 @@
                     if (arg === 'success') {
                         lightyear.notify('验证码发送成功', 'success', 3000);
                     }
+                    else {
+                        lightyear.notify(arg, 'danger', 3000);
+                    }
                 }
             });
         }

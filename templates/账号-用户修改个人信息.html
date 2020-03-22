@@ -1,6 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}个人信息{% endblock %}
 
+{% block modal_content %}
+    <!--确认解绑微信-->
+    <div class="modal fade" id="dels" tabindex="-1" role="dialog" aria-labelledby="delsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <form action="{% url 'unbind_wechat' %}" method="get">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delsModalLabel">解除当前微信绑定</h4>
+                </div>
+                <div class="modal-body">
+                    确认解除当前微信绑定?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-danger">确定</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block main_content %}
 
     <div class="row">
@@ -52,8 +76,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary">保存</button>
                         {% if user.extension.unionID %}
-                            <button type="button" id="bind_wechat" class="btn btn-primary"><a
-                                href="{% url 'unbind_wechat' %}" style="color: white;">解绑微信</a></button>
+                            <button type="button" id="bind_wechat" class="btn btn-primary" data-toggle="modal" data-target="#dels">
+                                解绑微信
+                            </button>
                         {% else %}
                             <button type="button" id="bind_wechat" class="btn btn-primary"><a
                                 href="{{ wechat_url }}" style="color: white;">绑定微信</a></button>
