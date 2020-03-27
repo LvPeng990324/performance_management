@@ -219,7 +219,7 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.order_by('y
                 profit_rate_award = round(eval(QuarterlyAwardFormula.objects.filter(
                     target_item='利润率').first().formula), 2)
                 total = round(turnover_award + turnover_award + repaid_rate_award + inventory_rate_award + profit_rate_award,2)
-                print(turnover_award, operating_rate_award, repaid_rate_award, inventory_rate_award, profit_rate_award)
+                # print(turnover_award, operating_rate_award, repaid_rate_award, inventory_rate_award, profit_rate_award)
 
                 new_data = {
                     'year': year,
