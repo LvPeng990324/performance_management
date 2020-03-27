@@ -279,4 +279,4 @@
 - 将容器开启命令路径设为项目根目录，并设置执行`/bin/bash ./start_gunicorn.sh`，将每次启动容器的时候自动启动gunicorn服务并且重启nginx。
 
 ### 系统初始化
-> 系统自带一个初始化用的数据库备份文件，在系统根目录的backups目录下，文件名为**initialization.json**，部署好后，在系统根目录下执行`python manage.py loaddata ./backups/initialization.json`来加载初始化的数据，加载完成后将拥有一个工号为`admin` , 密码为`admin`的超级管理员账户。初始化完成后请即刻更改这个超级管理员的工号和密码，并在**数据备份还原**中删除**initialization.json**备份文件。
+> 系统自带一个初始化用的数据库备份文件，在系统根目录的backups目录下，文件名为**initialization.json**，部署好后，在系统根目录下执行`python manage.py loaddata ./backups/initialization.json`来加载初始化的数据，加载完成后将拥有一个工号为`admin` , 密码为`88888888a`的超级管理员账户。初始化完成后请即刻更改这个超级管理员的工号和密码，并在**数据备份还原**中删除**initialization.json**备份文件。
