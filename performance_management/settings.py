@@ -79,9 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'performance_management',  # 数据库名字(需要先创建)
-        'USER': 'root',  # 登录用户名
-        'PASSWORD': 'lp990324',  # 密码
-        'HOST': 'lvpeng990324.cn',  # 数据库IP地址,留空默认为localhost
+        'USER': '',  # 登录用户名
+        'PASSWORD': '',  # 密码
+        'HOST': '',  # 数据库IP地址,留空默认为localhost
         'PORT': '5432',  # 端口
     }
 }
@@ -135,8 +135,8 @@ BACKUP_DIR = os.path.join(BASE_DIR, 'backups')
 # 发送邮件配置信息
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_HOST_USER = 'lvpeng990324@163.com'  # 填写你的邮件地址
-EMAIL_HOST_PASSWORD = 'lp990324'  # 密码
+EMAIL_HOST_USER = ''  # 填写你的邮件地址
+EMAIL_HOST_PASSWORD = ''  # 密码
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
@@ -144,15 +144,15 @@ EMAIL_USE_TLS = True
 # 接口链接
 SMSAPI = "http://api.smsbao.com/"
 # 短信平台账号
-SMSUSER = 'lvpeng990324'
+SMSUSER = ''
 # 短信平台密码
-SMSPASSWORD = 'lp990324'
+SMSPASSWORD = ''
 
 # 微信登录配置信息
 # 微信开发平台下网站应用的appid
-APPID = "wxfe899b3596d5c097"
+APPID = ""
 # 微信开发平台下网站应用的appsecret
-APPSECRET = '8720a9324fbe5c5d8a0b1b3730b310a1'
+APPSECRET = ''
 # 微信开发平台下网站应用的回调域
 REDIRECT_URL = 'http://debug.lvpeng990324.cn'
 
