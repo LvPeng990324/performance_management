@@ -758,27 +758,33 @@ def add_monthly_sales_data(request):
     year_month = str(request.POST.get('date')).split('-')
     year = year_month[0]
     month = year_month[1]
-    turnover = check_data_format(request.POST.get('turnover'), 'float')
-    operating_expenses = check_data_format(request.POST.get('operating_expenses'), 'float')
-    amount_repaid = check_data_format(request.POST.get('amount_repaid'), 'float')
+    # turnover = check_data_format(request.POST.get('turnover'), 'float')
+    # operating_expenses = check_data_format(request.POST.get('operating_expenses'), 'float')
+    # amount_repaid = check_data_format(request.POST.get('amount_repaid'), 'float')
     inventory = check_data_format(request.POST.get('inventory'), 'int')
     # 验证数据合法性
-    for data in [turnover, operating_expenses, amount_repaid, inventory]:
+    # for data in [turnover, operating_expenses, amount_repaid, inventory]:
+    for data in [inventory]:
         if data is False:
             messages.error(request, '输入存在格式问题，请检查输入')
             return redirect('show_monthly_sales_data')
     # 利润额根据 营业额 - 营业费用 得出
-    profit = float(turnover) - float(operating_expenses)
+    # profit = float(turnover) - float(operating_expenses)
 
     # 写入数据库
     MonthlySalesData.objects.create(
         year=year,
         month=month,
-        turnover=turnover,
-        operating_expenses=operating_expenses,
-        amount_repaid=amount_repaid,
+        # turnover=turnover,
+        # operating_expenses=operating_expenses,
+        # amount_repaid=amount_repaid,
+        # inventory=inventory,
+        # profit=profit,
+        turnover=0,
+        operating_expenses=0,
+        amount_repaid=0,
         inventory=inventory,
-        profit=profit,
+        profit=0,
     )
 
     # 写入成功提示
