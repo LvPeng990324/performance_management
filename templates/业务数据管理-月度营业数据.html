@@ -93,18 +93,18 @@
                             <label for="date_n" class="control-label">日期：</label>
                             <input type="text" class="form-control" id="date_n" name="date" required>
                         </div>
-                        <div class="form-group">
-                            <label for="turnover_n" class="control-label">营业额(万元)：</label>
-                            <input type="text" class="form-control" id="turnover_n" name="turnover" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="expenses_n" class="control-label">营业费用(万元)：</label>
-                            <input type="text" class="form-control" id="expenses_n" name="operating_expenses" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="return_n" class="control-label">回款额(万元)：</label>
-                            <input type="text" class="form-control" id="return_n" name="amount_repaid" required>
-                        </div>
+{#                        <div class="form-group">#}
+{#                            <label for="turnover_n" class="control-label">营业额(万元)：</label>#}
+{#                            <input type="text" class="form-control" id="turnover_n" name="turnover" required>#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label for="expenses_n" class="control-label">营业费用(万元)：</label>#}
+{#                            <input type="text" class="form-control" id="expenses_n" name="operating_expenses" required>#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label for="return_n" class="control-label">回款额(万元)：</label>#}
+{#                            <input type="text" class="form-control" id="return_n" name="amount_repaid" required>#}
+{#                        </div>#}
                         <div class="form-group">
                             <label for="stock_n" class="control-label">库存量：</label>
                             <input type="number" class="form-control" id="stock_n" name="inventory" required>
@@ -251,7 +251,7 @@
                                             <th nowrap="nowrap" class="text-center">{{ data.year }}</th>
                                         {% endif %}
                                         <th nowrap="nowrap" class="text-center">{{ data.month }}</th>
-                                        <td nowrap="nowrap">{{ data.turnover }}</td>
+                                        <td nowrap="nowrap">{{ data.turnover|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.operating_expenses|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.amount_repaid|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.inventory }}</td>
@@ -335,7 +335,7 @@
         $('#uploading').click(function f() {
                 lightyear.loading('show');
             }
-        )
+        );
         $('#deleting').click(function f() {
                 lightyear.loading('show');
             }
