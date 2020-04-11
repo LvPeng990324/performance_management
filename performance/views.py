@@ -1367,7 +1367,7 @@ def upload_internal_control_indicators_performance(request):
         # 写入相应的错误提示
         messages.error(request, result)
         # 记录日志
-        action = '试图上传导入月度营业数据，错误：{}'.format(result)
+        action = '试图上传导入内控指标汇总数据，错误：{}'.format(result)
         add_log(request, action, '失败')
         # 重定向数据展示页面
         return redirect('show_internal_control_indicators')
