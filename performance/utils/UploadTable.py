@@ -168,12 +168,15 @@ def upload_internal_control_indicators_performance_excel(file_data):
             order_number = temp_data[1]
             order_money = temp_data[2]
             scheduled_delivery = temp_data[3]
-            target_well_done_rate = temp_data[4]
-            actual_delivery = temp_data[5]
-            actual_well_done_rate = temp_data[6]
-            actual_medical_expenses = temp_data[7]
-            actual_cost = temp_data[8]
-            actual_management_compliance = temp_data[9]
+            scheduled_give_money_day = temp_data[4]
+            target_well_done_rate = temp_data[5]
+            actual_delivery = temp_data[6]
+            actual_give_money_day = temp_data[7]
+            actual_well_done_rate = temp_data[8]
+            actual_medical_expenses = temp_data[9]
+            actual_cost = temp_data[10]
+            actual_management_compliance = temp_data[11]
+            operating_expenses = temp_data[12]
 
             # 从常量数据表中取出相应的常量数据
             # 规则为，日期在这条数据之前的最新一条常量数据
@@ -202,6 +205,7 @@ def upload_internal_control_indicators_performance_excel(file_data):
                     # old_data.order_number = order_number
                     old_data.order_money = order_money
                     old_data.scheduled_delivery = scheduled_delivery
+                    old_data.scheduled_give_money_day = scheduled_give_money_day
                     old_data.target_well_done_rate = target_well_done_rate
                     old_data.target_medical_expenses = target_medical_expenses
                     old_data.target_comprehensive_cost = target_comprehensive_cost
@@ -214,6 +218,7 @@ def upload_internal_control_indicators_performance_excel(file_data):
                         order_number=order_number,
                         order_money=order_money,
                         scheduled_delivery=scheduled_delivery,
+                        scheduled_give_money_day=scheduled_give_money_day,
                         target_well_done_rate=target_well_done_rate,
                         target_medical_expenses=target_medical_expenses,
                         target_comprehensive_cost=target_comprehensive_cost,
@@ -242,17 +247,20 @@ def upload_internal_control_indicators_performance_excel(file_data):
                 # old_data.order_number = order_number
                 old_data.order_money = order_money
                 old_data.scheduled_delivery = scheduled_delivery
+                old_data.scheduled_give_money_day = scheduled_give_money_day
                 old_data.target_well_done_rate = target_well_done_rate
                 old_data.target_medical_expenses = target_medical_expenses
                 old_data.target_comprehensive_cost = target_comprehensive_cost
                 old_data.target_management_compliance = target_management_compliance
                 old_data.actual_delivery = actual_delivery
+                old_data.actual_give_money_day = actual_give_money_day
                 old_data.finished_number = finished_number
                 old_data.unfinished_number = unfinished_number
                 old_data.actual_well_done_rate = actual_well_done_rate
                 old_data.actual_medical_expenses = actual_medical_expenses
                 old_data.actual_cost = actual_cost
                 old_data.actual_management_compliance = actual_management_compliance
+                old_data.operating_expenses = operating_expenses
                 old_data.save()
             else:
                 # 将数据写入数据库
@@ -261,17 +269,20 @@ def upload_internal_control_indicators_performance_excel(file_data):
                     order_number=order_number,
                     order_money=order_money,
                     scheduled_delivery=scheduled_delivery,
+                    scheduled_give_money_day=scheduled_give_money_day,
                     target_well_done_rate=target_well_done_rate,
                     target_medical_expenses=target_medical_expenses,
                     target_comprehensive_cost=target_comprehensive_cost,
                     target_management_compliance=target_management_compliance,
                     actual_delivery=actual_delivery,
+                    actual_give_money_day=actual_give_money_day,
                     finished_number=finished_number,
                     unfinished_number=unfinished_number,
                     actual_well_done_rate=actual_well_done_rate,
                     actual_medical_expenses=actual_medical_expenses,
                     actual_cost=actual_cost,
                     actual_management_compliance=actual_management_compliance,
+                    operating_expenses=operating_expenses,
                 )
 
     except:
