@@ -1082,6 +1082,7 @@ def add_internal_control_indicators(request):
     order_number = check_data_format(request.POST.get('order_number'), 'str')  # 订单号
     order_money = check_data_format(request.POST.get('order_money'), 'float')  # 订单额
     scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
+    scheduled_give_money_day = request.POST.get('scheduled_give_money_day')  # 计划回款时间
     target_well_done_rate = check_data_format(request.POST.get('target_well_done_rate'), 'float')  # 目标成品率
     # 验证数据合法性
     for data in [order_number, order_money, target_well_done_rate]:
@@ -1123,6 +1124,7 @@ def add_internal_control_indicators(request):
         order_number=order_number,
         order_money=order_money,
         scheduled_delivery=scheduled_delivery,
+        scheduled_give_money_day=scheduled_give_money_day,
         target_well_done_rate=target_well_done_rate,
         target_medical_expenses=target_medical_expenses,
         target_comprehensive_cost=target_comprehensive_cost,
