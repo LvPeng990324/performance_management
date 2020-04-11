@@ -1202,13 +1202,16 @@ def change_internal_control_indicators(request):
     change_order_number = check_data_format(request.POST.get('order_number'), 'str')  # 订单号
     change_order_money = check_data_format(request.POST.get('order_money'), 'float')  # 订单额
     change_scheduled_delivery = request.POST.get('scheduled_delivery')  # 计划交期
+    change_scheduled_give_money_day = request.POST.get('scheduled_give_money_day')  # 计划回款时间
     change_target_well_done_rate = request.POST.get('target_well_done_rate')  # 目标成品率
     change_actual_delivery = request.POST.get('actual_delivery')  # 实际交期
+    change_actual_give_money_day = request.POST.get('actual_give_money_day')  # 实际交期
     change_actual_well_done_rate = check_data_format(request.POST.get('actual_well_done_rate'), 'float')  # 实际成品率
     change_actual_medical_expenses = check_data_format(request.POST.get('actual_medical_expenses'), 'float')  # 实际医药费
     change_actual_cost = check_data_format(request.POST.get('actual_cost'), 'float')  # 实际成本
     change_actual_management_compliance = check_data_format(request.POST.get('actual_management_compliance'),
                                                             'int')  # 实际管理符合数
+    change_operating_expenses = check_data_format(request.POST.get('operating_expenses'), 'float')  # 营业费用
     # 验证数据合法性
     for data in [change_order_number, change_order_money, change_actual_well_done_rate, change_actual_medical_expenses,
                  change_actual_cost, change_actual_management_compliance]:
@@ -1246,14 +1249,20 @@ def change_internal_control_indicators(request):
     # 转换日期对象
     order_date_list = change_order_date.split('-')
     scheduled_delivery_list = change_scheduled_delivery.split('-')
+    scheduled_give_money_day_list = change_scheduled_give_money_day.split('-')
     actual_delivery_list = change_actual_delivery.split('-')
+    actual_give_money_day_list = change_actual_give_money_day.split('-')
     change_date = date(year=int(order_date_list[0]), month=int(order_date_list[1]), day=int(order_date_list[2]))
     change_scheduled_delivery = date(year=int(scheduled_delivery_list[0]), month=int(scheduled_delivery_list[1]),
                                      day=int(scheduled_delivery_list[2]))
+    change_scheduled_give_money_day = date(year=int(scheduled_give_money_day_list[0]), month=int(scheduled_give_money_day_list[1]),
+                                     day=int(scheduled_give_money_day_list[2]))
     change_actual_delivery = date(year=int(actual_delivery_list[0]), month=int(actual_delivery_list[1]),
                                   day=int(actual_delivery_list[2]))
+    change_actual_give_money_day = date(year=int(actual_give_money_day_list[0]), month=int(actual_give_money_day_list[1]),
+                                  day=int(actual_give_money_day_list[2]))
     # 如果计划交期在订单时间之前，返回计划交期不能在订单时间之前错误
-    if change_scheduled_delivery < change_order_date:
+    if change_scheduled_delivery < change_date:
         messages.error(request, '计划交期不能在订单时间之前')
         return redirect('show_internal_control_indicators')
 
@@ -1264,17 +1273,20 @@ def change_internal_control_indicators(request):
     data.order_number = change_order_number  # 订单号
     data.order_money = change_order_money  # 订单额
     data.scheduled_delivery = change_scheduled_delivery  # 计划交期
+    data.scheduled_give_money_day = change_scheduled_give_money_day  # 计划回款时间
     data.target_well_done_rate = change_target_well_done_rate  # 目标成品率
     data.target_medical_expenses = change_target_medical_expenses  # 目标医药费
     data.target_comprehensive_cost = change_target_comprehensive_cost  # 目标综合成本
     data.target_management_compliance = change_target_management_compliance  # 目标管理符合数
     data.actual_delivery = change_actual_delivery  # 实际交期
+    data.actual_give_money_day = change_actual_give_money_day  # 实际回款时间
     data.finished_number = change_finished_number  # 完成数
     data.unfinished_number = change_unfinished_number  # 未完成数
     data.actual_well_done_rate = change_actual_well_done_rate  # 实际成品率
     data.actual_medical_expenses = change_actual_medical_expenses  # 实际医药费
     data.actual_cost = change_actual_cost  # 实际成本
     data.actual_management_compliance = change_actual_management_compliance  # 实际管理符合数
+    data.operating_expenses = change_operating_expenses  # 营业费用
 
     # 保存更改
     data.save()
@@ -1283,7 +1295,7 @@ def change_internal_control_indicators(request):
     messages.success(request, '数据修改成功')
 
     # 记录日志
-    action = '修改了{}订单号为{}的订单数据'.format(change_order_date.strftime('%Y年%m月%d日'), change_order_number)
+    action = '修改了{}订单号为{}的订单数据'.format(change_date.strftime('%Y年%m月%d日'), change_order_number)
     add_log(request, action, '成功')
 
     # 刷新月度考核结果
