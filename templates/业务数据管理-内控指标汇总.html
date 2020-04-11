@@ -109,6 +109,11 @@
                                    name="scheduled_delivery" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
                         </div>
                         <div class="form-group">
+                            <label for="id_scheduled_give_money_day" class="control-label">计划回款时间：</label>
+                            <input class="form-control js-datepicker m-b-10" type="text" id="id_scheduled_give_money_day"
+                                   name="scheduled_give_money_day" data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
+                        </div>
+                        <div class="form-group">
                             <label for="id_target_well_done_rate" class="control-label">目标成品率：</label>
                             <input type="number" class="form-control" id="id_target_well_done_rate"
                                    name="target_well_done_rate" value="1" readonly required>
@@ -156,6 +161,12 @@
                                                    data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
                                         </div>
                                         <div class="form-group">
+                                            <label for="id_change_actual_give_money_day" class="control-label">实际回款时间：</label>
+                                            <input class="form-control js-datepicker m-b-10" type="text"
+                                                   id="id_change_actual_give_money_day" name="actual_give_money_day"
+                                                   data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="id_change_actual_well_done_rate"
                                                    class="control-label">实际成品率：</label>
                                             <select class="form-control" id="id_change_actual_well_done_rate"
@@ -181,6 +192,12 @@
                                             <input type="number" class="form-control"
                                                    id="id_change_actual_management_compliance"
                                                    name="actual_management_compliance" required>
+                                        </div>
+                                        <div class="form-group_n">
+                                            <label for="id_change_operating_expenses" class="control-label">营业费用：</label>
+                                            <input type="number" class="form-control"
+                                                   id="id_change_operating_expenses"
+                                                   name="operating_expenses" required>
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +239,13 @@
                                             <input class="form-control js-datepicker m-b-10" type="text"
                                                    id="id_change_scheduled_delivery" name="scheduled_delivery"
                                                    data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
-
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_change_scheduled_give_money_day"
+                                                   class="control-label">计划回款时间：</label>
+                                            <input class="form-control js-datepicker m-b-10" type="text"
+                                                   id="id_change_scheduled_give_money_day" name="scheduled_give_money_day"
+                                                   data-date-format="yyyy-mm-dd" placeholder="年/月/日" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="id_change_target_well_done_rate"
@@ -394,17 +417,20 @@
                                     <th nowrap="nowrap" class="text-center">订单号</th>
                                     <th nowrap="nowrap" class="text-center">订单额</th>
                                     <th nowrap="nowrap" class="text-center">计划交期</th>
+                                    <th nowrap="nowrap" class="text-center">计划回款时间</th>
                                     <th nowrap="nowrap" class="text-center">目标成品率</th>
                                     <th nowrap="nowrap" class="text-center">目标医药费(万元)</th>
                                     <th nowrap="nowrap" class="text-center">目标综合成本(万元)</th>
                                     <th nowrap="nowrap" class="text-center">目标管理符合数</th>
                                     <th nowrap="nowrap" class="text-center">实际交期</th>
+                                    <th nowrap="nowrap" class="text-center">实际回款时间</th>
                                     <th nowrap="nowrap" class="text-center">完成数</th>
                                     <th nowrap="nowrap" class="text-center">未完成数</th>
                                     <th nowrap="nowrap" class="text-center">实际成品率</th>
                                     <th nowrap="nowrap" class="text-center">实际医药费</th>
                                     <th nowrap="nowrap" class="text-center">实际成本</th>
                                     <th nowrap="nowrap" class="text-center">实际管理符合数</th>
+                                    <th nowrap="nowrap" class="text-center">营业费用</th>
                                     <th nowrap="nowrap" class="text-center">操作</th>
 
                                 </tr>
@@ -485,6 +511,7 @@
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.order_money|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
+                                        <td nowrap="nowrap">{{ data.scheduled_give_money_day|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.target_well_done_rate|percentage }}</td>
                                         <td nowrap="nowrap"
@@ -494,6 +521,7 @@
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.target_management_compliance }}</td>
                                         <td nowrap="nowrap">{{ data.actual_delivery|date:"Y年m月d日" }}</td>
+                                        <td nowrap="nowrap">{{ data.actual_give_money_day|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.finished_number|clear_none }}</td>
                                         <td nowrap="nowrap"
@@ -506,15 +534,17 @@
                                             class="text-right">{{ data.actual_cost|clear_none|floatformat:"2" }}</td>
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
+                                        <td nowrap="nowrap"
+                                            class="text-right">{{ data.operating_expenses|clear_none }}</td>
                                         <td nowrap="nowrap">
                                             <div class="btn-group-justified">
                                                 <a class="btn btn-xs btn-default" href="#!" title="编辑"
                                                    data-toggle="modal" data-target="#modify"
                                                    onclick="give_change_modal('{{ data.id }}', '{{ data.order_date|date:"Y-m-d" }}',
-                                                           '{{ data.order_number }}','{{ data.order_money }}' , '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}',
+                                                           '{{ data.order_number }}','{{ data.order_money }}' , '{{ data.scheduled_delivery|date:"Y-m-d" }}', '{{ data.scheduled_give_money_day|date:"Y-m-d" }}', '{{ data.actual_delivery|date:"Y-m-d" }}', '{{ data.actual_give_money_day|date:"Y-m-d" }}',
                                                            '{{ data.finished_number }}', '{{ data.unfinished_number }}', '{{ data.target_well_done_rate }}',
                                                            '{{ data.actual_well_done_rate }}', '{{ data.target_medical_expenses }}', '{{ data.target_comprehensive_cost }}',
-                                                           '{{ data.target_management_compliance }}', '{{ data.actual_medical_expenses }}', '{{ data.actual_cost }}', '{{ data.actual_management_compliance }}')">
+                                                           '{{ data.target_management_compliance }}', '{{ data.actual_medical_expenses }}', '{{ data.actual_cost }}', '{{ data.actual_management_compliance }}', '{{ data.operating_expenses }}')">
                                                     <i class="mdi mdi-pencil"></i></a>
                                                 <a class="btn btn-xs btn-default" href="#!" title="删除"
                                                    data-toggle="modal" data-target="#del"
@@ -556,7 +586,9 @@
                                    change_order_number,
                                    change_order_money,
                                    change_scheduled_delivery,
+                                   change_scheduled_give_money_day,
                                    change_actual_delivery,
+                                   change_actual_give_money_day,
                                    change_finished_number,
                                    change_unfinished_number,
                                    change_target_well_done_rate,
@@ -567,13 +599,16 @@
                                    change_actual_medical_expenses,
                                    change_actual_cost,
                                    change_actual_management_compliance,
+                                   change_operating_expenses,
         ) {
             $('#id_change_id').val(change_id);
             $('#id_change_order_date').val(change_order_date);
             $('#id_change_order_number').val(change_order_number);
             $('#id_change_order_money').val(change_order_money);
             $('#id_change_scheduled_delivery').val(change_scheduled_delivery);
+            $('#id_change_scheduled_give_money_day').val(change_scheduled_give_money_day);
             $('#id_change_actual_delivery').val(change_actual_delivery);
+            $('#id_change_actual_give_money_day').val(change_actual_give_money_day);
             $('#id_change_finished_number').val(change_finished_number);
             $('#id_change_unfinished_number').val(change_unfinished_number);
             $('#id_change_target_well_done_rate').val(change_target_well_done_rate);
@@ -589,6 +624,7 @@
                 change_actual_cost='';
             $('#id_change_actual_cost').val(change_actual_cost);
             $('#id_change_actual_management_compliance').val(change_actual_management_compliance);
+            $('#id_change_operating_expenses').val(change_operating_expenses);
         }
     </script>
     <!-- 提交选中删除 -->
