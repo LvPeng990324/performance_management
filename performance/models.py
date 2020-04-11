@@ -93,14 +93,14 @@ class InternalControlIndicators(models.Model):
     target_management_compliance = models.IntegerField(verbose_name='目标管理符合数')
     # 以下为二次录入数据项
     actual_delivery = models.DateField(verbose_name='实际交期', null=True)
-    actual_give_money_day = models.DateField(verbose_name='实际回款时间')
+    actual_give_money_day = models.DateField(verbose_name='实际回款时间', null=True)
     finished_number = models.IntegerField(verbose_name='完成数', null=True)
     unfinished_number = models.IntegerField(verbose_name='未完成数', null=True)
     actual_well_done_rate = models.FloatField(verbose_name='实际成品率', null=True)
     actual_medical_expenses = models.FloatField(verbose_name='实际医药费', null=True)
     actual_cost = models.FloatField(verbose_name='实际成本', null=True)
     actual_management_compliance = models.IntegerField(verbose_name='实际管理符合数', null=True)
-    operating_expenses = models.FloatField(verbose_name='营业费用')
+    operating_expenses = models.FloatField(verbose_name='营业费用', null=True)
 
     class Meta:
         verbose_name_plural = '内控指标汇总'
