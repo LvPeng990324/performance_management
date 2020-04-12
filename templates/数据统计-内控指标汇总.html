@@ -246,7 +246,7 @@
                                         <td nowrap="nowrap"
                                             class="text-right">{{ data.actual_management_compliance|clear_none }}</td>
                                         <td nowrap="nowrap"
-                                            class="text-right">{{ data.operating_expenses|clear_none }}</td>
+                                            class="text-right">{{ data.operating_expenses|clear_none|floatformat:"2" }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
