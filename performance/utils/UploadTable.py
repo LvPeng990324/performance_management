@@ -286,7 +286,7 @@ def upload_internal_control_indicators_performance_excel(file_data):
                 )
 
     except:
-        return '写入数据库失败'
+        return '写入数据库失败，请检查格式是否符合模版'
     return str(len(table_list))
 
 
