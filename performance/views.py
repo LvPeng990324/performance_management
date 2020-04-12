@@ -32,6 +32,7 @@ from .forms import cleaned_formula, check_data_format
 from .utils import UploadTable
 from .utils import ExportTable
 from .utils import CalcuteMonthlyPerformance
+from .utils import CalcuteMonthlySalesData
 from .utils import CalculateQuarterlyPerformance
 from .utils import CalculateQuarterlySalesData
 from .utils import CalculateQuarterlyAward
@@ -770,7 +771,12 @@ def add_monthly_sales_data(request):
             return redirect('show_monthly_sales_data')
     # 利润额根据 营业额 - 营业费用 得出
     # profit = float(turnover) - float(operating_expenses)
-
+    obj = MonthlySalesData.objects.filter(year=year,month=month)
+    if obj:
+        # 写入提示
+        messages.error(request, '该月数据已经存在')
+        # 重定向展示页面
+        return redirect('show_monthly_sales_data')
     # 写入数据库
     MonthlySalesData.objects.create(
         year=year,
@@ -1141,7 +1147,7 @@ def add_internal_control_indicators(request):
     messages.success(request, '数据增加成功')
 
     # 记录日志
-    action = '增加了{}订单号为{}的订单数据'.format(order_date.strftime('%Y年%m月%d日'), order_number)
+    action = '增加了{}订单号为{}的订单数据'.format(order_date.strftime('%Y{y}%m{m}%d{d}').format(y='年', m='月', d='日'), order_number)
     add_log(request, action, '成功')
 
     # 重定向展示页面
@@ -1170,6 +1176,8 @@ def delete_internal_control_indicators(request):
         # 记录日志
         action = '删除了{}条订单数据'.format(len(delete_id))
         add_log(request, action, '成功')
+        # 刷新月度营业数据
+        CalcuteMonthlySalesData.monthly_saledata_get_and_refresh(year_list=year_set)
         # 刷新月度考核结果
         CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=year_set)
         # 返回成功
@@ -1191,6 +1199,8 @@ def delete_internal_control_indicators(request):
         # 记录日志
         action = '删除了{}订单号为{}的订单数据'.format(order_date.strftime('%Y年%m月%d日'), order_number)
         add_log(request, action, '成功')
+        # 刷新月度营业数据
+        CalcuteMonthlySalesData.monthly_saledata_get_and_refresh(year_list=year_set)
         # 刷新月度考核结果
         CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=year_set)
         # 重载页面
@@ -1301,9 +1311,11 @@ def change_internal_control_indicators(request):
     messages.success(request, '数据修改成功')
 
     # 记录日志
-    action = '修改了{}订单号为{}的订单数据'.format(change_date.strftime('%Y年%m月%d日'), change_order_number)
+    action = '修改了{}订单号为{}的订单数据'.format(change_date.strftime('%Y{y}%m{m}%d{d}').format(y='年', m='月', d='日'), change_order_number)
     add_log(request, action, '成功')
 
+    # 刷新月度营业数据
+    CalcuteMonthlySalesData.monthly_saledata_get_and_refresh(year_list=[change_actual_delivery.year])
     # 刷新月度考核结果
     if change_actual_delivery:
         CalcuteMonthlyPerformance.monthly_get_and_refresh(year_list=[change_actual_delivery.year])
@@ -1359,6 +1371,8 @@ def upload_internal_control_indicators_performance(request):
         action = '上传导入了{}条订单数据'.format(result)
         add_log(request, action, '成功')
 
+        # 刷新月度营业数据
+        CalcuteMonthlySalesData.monthly_saledata_get_and_refresh()
         CalcuteMonthlyPerformance.monthly_get_and_refresh()
 
         # 重定向数据展示页面
