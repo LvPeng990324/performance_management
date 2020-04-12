@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 from django.db.models import Count, Sum, Avg
 from performance.models import InternalControlIndicators
 from performance.models import MonthlySalesData
+from django.db.models import F
 
 
 # 获取当月总营业额
@@ -36,16 +37,14 @@ def get_operating_expenses(need_year, need_month):
 
 # 获取当月总回款额
 def get_amount_repaid(need_year, need_month):
-    need_date = datetime.date(year=need_year, month=need_month, day=1)
     amount_repaid = InternalControlIndicators.objects.filter(
         actual_give_money_day__year=need_year,
         actual_give_money_day__month=need_month,
-        scheduled_give_money_day__gte=need_date,
+        scheduled_give_money_day__gte=F('actual_give_money_day'),
     ).aggregate(sum_order_money=Sum('order_money'))
     amount_repaid = amount_repaid['sum_order_money']
     if amount_repaid is None:
         amount_repaid = 0
-    # print(amount_repaid)
     return amount_repaid
 
 # 获取当月库存量
@@ -60,10 +59,8 @@ def get_inventory(need_year, need_month):
     return inventory
 
 def monthly_saledata_get_and_refresh(year_list=InternalControlIndicators.objects.values_list('actual_delivery__year', flat=True).distinct()):
-    # print(year_list)
+    print(year_list)
     for year in year_list:
-        success_message = ''
-        error_message = ''
         # 排除内控数据不完整的情况
         if year is None:
             continue
@@ -75,22 +72,17 @@ def monthly_saledata_get_and_refresh(year_list=InternalControlIndicators.objects
                 amount_repaid = get_amount_repaid(year, month)
                 inventory = get_inventory(year, month)
                 profit = turnover - operating_expenses
-                if turnover is None or operating_expenses is None or amount_repaid is None:
-                    obj = MonthlySalesData.objects.filter(year=year, month=month)
-                    if obj:
-                        MonthlySalesData.objects.filter(year=year, month=month).delete()
-                    error_message += '%s ' % month
+                if turnover == 0 and operating_expenses == 0 and amount_repaid == 0:
                     continue
                 # print('turnover=', turnover)
                 # print('operating_expenses=', operating_expenses)
                 # print('amount_repaid=', amount_repaid)
                 # print('inventory=', inventory)
                 # print('profit=', profit)
-            except AttributeError:
+            except:
                 obj = MonthlySalesData.objects.filter(year=year, month=month)
                 if obj:
                     MonthlySalesData.objects.filter(year=year, month=month).delete()
-                error_message += '%s ' % month
                 continue
             # 存入数据库
             try:
