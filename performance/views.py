@@ -798,12 +798,12 @@ def add_monthly_sales_data(request):
     # 记录日志
     action = '增加了{}年{}月的月度营业数据'.format(year, month)
     add_log(request, action, '成功')
-    # 刷新当年季度营业数据
-    CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
-    # 刷新当年季度考核结果
-    CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=[year])
-    # 刷新所有季度奖金额
-    CalculateQuarterlyAward.quarterly_get_and_refresh()
+    # # 刷新当年季度营业数据
+    # CalculateQuarterlySalesData.calculate_quarterly_sales_data(year=[year])
+    # # 刷新当年季度考核结果
+    # CalculateQuarterlyPerformance.quarterly_get_and_refresh(year_list=[year])
+    # # 刷新所有季度奖金额
+    # CalculateQuarterlyAward.quarterly_get_and_refresh()
 
     # 重定向展示页面
     return redirect('show_monthly_sales_data')
@@ -1338,12 +1338,12 @@ def upload_monthly_performance(request):
         action = '上传导入了{}条月度营业数据'.format(result)
         add_log(request, action, '成功')
 
-        # 刷新季度数据
-        CalculateQuarterlySalesData.calculate_quarterly_sales_data()
-        # 刷新当年季度考核结果
-        CalculateQuarterlyPerformance.quarterly_get_and_refresh()
-        # 刷新当年季度奖金额
-        CalculateQuarterlyAward.quarterly_get_and_refresh()
+        # # 刷新季度数据
+        # CalculateQuarterlySalesData.calculate_quarterly_sales_data()
+        # # 刷新当年季度考核结果
+        # CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+        # # 刷新当年季度奖金额
+        # CalculateQuarterlyAward.quarterly_get_and_refresh()
 
         # 重定向数据展示页面
         return redirect('show_monthly_sales_data')
@@ -1373,7 +1373,14 @@ def upload_internal_control_indicators_performance(request):
 
         # 刷新月度营业数据
         CalcuteMonthlySalesData.monthly_saledata_get_and_refresh()
+        # 刷新月度考核
         CalcuteMonthlyPerformance.monthly_get_and_refresh()
+        # 刷新当年季度营业数据
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data()
+        # 刷新当年季度考核结果
+        CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+        # 刷新所有季度奖金额
+        CalculateQuarterlyAward.quarterly_get_and_refresh()
 
         # 重定向数据展示页面
         return redirect('show_internal_control_indicators')

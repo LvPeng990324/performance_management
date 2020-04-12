@@ -236,10 +236,10 @@ def quarterly_get_and_refresh(year_list=QuarterlyPerformance.objects.order_by('y
                 if obj:
                     # 如果该月数据已存在，则更新
                     QuarterlyAward.objects.filter(year=year, quarter=quarter).update(**new_data)
-                    print("%s年%s季度 更新成功" % (year, quarter))
+                    # print("%s年%s季度 更新成功" % (year, quarter))
                 else:
                     QuarterlyAward.objects.create(**new_data)
-                    print("%s年%s季度 成功存入" % (year, quarter))
+                    # print("%s年%s季度 成功存入" % (year, quarter))
                 success_message += '%s ' % quarter
             # 公式出错
             except:

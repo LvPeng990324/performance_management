@@ -45,7 +45,7 @@ def get_e(need_year, need_quarter):
     return e
 
 
-def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.order_by('year').values_list('year', flat=True).distinct()):
+def quarterly_get_and_refresh(year_list=QuarterlySalesData.objects.order_by('year').values_list('year', flat=True).distinct()):
     # print(year_list)
     for year in year_list:
         # print(year)
@@ -104,7 +104,7 @@ def quarterly_get_and_refresh(year_list=MonthlySalesData.objects.order_by('year'
             # 公式出错
             except:
                 # 删除所有数据
-                QuarterlyPerformance.objects.all().delete()
+                QuarterlyPerformance.objects.filter(year=year, quarter=quarter).delete()
                 # error_message = '刷新失败！请检查公式！'
                 # return error_message
                 continue
