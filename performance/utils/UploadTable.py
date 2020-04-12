@@ -101,11 +101,12 @@ def upload_monthly_performance_excel(file_data):
             # 将列表数据分类
             year = temp_data[0]
             month = temp_data[1]
-            turnover = temp_data[2]
-            operating_expenses = temp_data[3]
-            amount_repaid = temp_data[4]
-            inventory = temp_data[5]
-            profit = float(temp_data[2]) - float(temp_data[3])
+            inventory = temp_data[2]
+            # turnover = temp_data[2]
+            # operating_expenses = temp_data[3]
+            # amount_repaid = temp_data[4]
+            # inventory = temp_data[5]
+            # profit = float(temp_data[2]) - float(temp_data[3])
             # 判断是否存在这个年月的数据
             # 存在的话就更新现有数据
             # 不存在就新增数据
@@ -113,21 +114,21 @@ def upload_monthly_performance_excel(file_data):
             if old_data.exists():
                 # 更新现有数据
                 old_data = old_data[0]
-                old_data.turnover=turnover
-                old_data.operating_expenses=operating_expenses
-                old_data.amount_repaid=amount_repaid
+                # old_data.turnover=turnover
+                # old_data.operating_expenses=operating_expenses
+                # old_data.amount_repaid=amount_repaid
                 old_data.inventory=inventory
-                old_data.profit=profit
+                # old_data.profit=profit
                 old_data.save()
             else:
                 MonthlySalesData.objects.create(
                 year=year,
                 month=month,
-                turnover=turnover,
-                operating_expenses=operating_expenses,
-                amount_repaid=amount_repaid,
+                turnover=0,
+                operating_expenses=0,
+                amount_repaid=0,
                 inventory=inventory,
-                profit=profit,
+                profit=0,
             )
     except:
         return '写入数据库失败'
