@@ -59,7 +59,7 @@ def get_inventory(need_year, need_month):
     return inventory
 
 def monthly_saledata_get_and_refresh(year_list=InternalControlIndicators.objects.values_list('actual_delivery__year', flat=True).distinct()):
-    print(year_list)
+    # print(year_list)
     for year in year_list:
         # 排除内控数据不完整的情况
         if year is None:
@@ -67,11 +67,11 @@ def monthly_saledata_get_and_refresh(year_list=InternalControlIndicators.objects
         for month in range(1, 13):
             try:
                 # 尝试获取数据项
-                turnover = get_turnover(year, month)
-                operating_expenses = get_operating_expenses(year, month)
-                amount_repaid = get_amount_repaid(year, month)
-                inventory = get_inventory(year, month)
-                profit = turnover - operating_expenses
+                turnover = round(get_turnover(year, month),2)
+                operating_expenses = round(get_operating_expenses(year, month),2)
+                amount_repaid = round(get_amount_repaid(year, month),2)
+                inventory = round(get_inventory(year, month),2)
+                profit = round(turnover - operating_expenses,2)
                 if turnover == 0 and operating_expenses == 0 and amount_repaid == 0:
                     continue
                 # print('turnover=', turnover)
