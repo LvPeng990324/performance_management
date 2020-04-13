@@ -48,7 +48,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 # 测试页面方法
 def test_page(request):
-    return render(request, 'wxtest.html')
+    # QuarterlySalesData.objects.filter().delete()
+    return HttpResponse('ok')
 
 
 # 展示首页
