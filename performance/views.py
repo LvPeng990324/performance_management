@@ -48,7 +48,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 # 测试页面方法
 def test_page(request):
-    # QuarterlySalesData.objects.filter().delete()
+    MonthlySalesData.objects.all().delete()
+    QuarterlySalesData.objects.all().delete()
+    MonthlyPerformance.objects.all().delete()
+    QuarterlyPerformance.objects.all().delete()
+    QuarterlyAward.objects.all().delete()
     return HttpResponse('ok')
 
 
@@ -1339,12 +1343,12 @@ def upload_monthly_performance(request):
         action = '上传导入了{}条月度营业数据'.format(result)
         add_log(request, action, '成功')
 
-        # # 刷新季度数据
-        # CalculateQuarterlySalesData.calculate_quarterly_sales_data()
-        # # 刷新当年季度考核结果
-        # CalculateQuarterlyPerformance.quarterly_get_and_refresh()
-        # # 刷新当年季度奖金额
-        # CalculateQuarterlyAward.quarterly_get_and_refresh()
+        # 刷新季度数据
+        CalculateQuarterlySalesData.calculate_quarterly_sales_data()
+        # 刷新当年季度考核结果
+        CalculateQuarterlyPerformance.quarterly_get_and_refresh()
+        # 刷新当年季度奖金额
+        CalculateQuarterlyAward.quarterly_get_and_refresh()
 
         # 重定向数据展示页面
         return redirect('show_monthly_sales_data')
