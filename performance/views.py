@@ -49,8 +49,9 @@ from django.views.decorators.csrf import csrf_exempt
 # 测试页面方法
 def test_page(request):
     MonthlySalesData.objects.all().delete()
-    QuarterlySalesData.objects.all().delete()
     MonthlyPerformance.objects.all().delete()
+    InternalControlIndicators.objects.all().delete()
+    QuarterlySalesData.objects.all().delete()
     QuarterlyPerformance.objects.all().delete()
     QuarterlyAward.objects.all().delete()
     return HttpResponse('ok')
