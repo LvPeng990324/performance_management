@@ -64,7 +64,6 @@ def monthly_saledata_get_and_refresh(year_list=InternalControlIndicators.objects
         # 排除内控数据不完整的情况
         if year is None:
             continue
-        MonthlySalesData.objects.filter(year=year).delete()
         for month in range(1, 13):
             try:
                 # 尝试获取数据项
@@ -93,7 +92,11 @@ def monthly_saledata_get_and_refresh(year_list=InternalControlIndicators.objects
                     'inventory': inventory,
                     'profit': profit,
                 }
-                MonthlySalesData.objects.create(**new_data)
+                obj = MonthlySalesData.objects.filter(year=year, month=month)
+                if obj:
+                    MonthlySalesData.objects.filter(year=year, month=month).update(**new_data)
+                else:
+                    MonthlySalesData.objects.create(**new_data)
                 # print("%s年%s月 成功存入" % (year, month))
             except:
                 continue
