@@ -220,7 +220,7 @@
                                         {% endif %}
                                         <td nowrap="nowrap">{{ data.order_date|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.order_number }}</td>
-                                        <td nowrap="nowrap" class="text-right">{{ data.order_money }}</td>
+                                        <td nowrap="nowrap" class="text-right">{{ data.order_money|floatformat:"2" }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_delivery|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap">{{ data.scheduled_give_money_day|date:"Y年m月d日" }}</td>
                                         <td nowrap="nowrap"
