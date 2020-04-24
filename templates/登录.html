@@ -60,7 +60,7 @@
     <div class="lyear-login">
         <div class="login-center">
             <div class="login-header text-center">
-                 <h3>润效企业管理咨询</h3>
+                <h3>润效企业管理咨询</h3>
             </div>
             <ul class="nav nav-tabs page-tabs">
                 {% if '工号登录' in login_ways %}
@@ -160,22 +160,23 @@
                         </div>
                     </form>
                 </div>
-{#                <div class="tab-pane fade" id="logo4">#}
-{#                    <div class="login-center">#}
-{#                        <img src="{% static 'images/welogin.jfif' %}" title="微信扫码" alt="微信扫码" width="300" height="300">#}
-{#                    </div>#}
-{#                    <h5 class=" text-center">#}
-{#                        <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxfe899b3596d5c097&redirect_uri=http://demo.lvpeng990324.cn&response_type=code&scope=snsapi_login">点击此处</a>#}
-{#                    进行微信登录</h5>#}
-{#                    <h4 class="small text-center">#}
-{#                        在「微信」页面右上角打开扫一扫#}
-{#                    </h4>#}
-{#                </div>#}
+                {#                <div class="tab-pane fade" id="logo4">#}
+                {#                    <div class="login-center">#}
+                {#                        <img src="{% static 'images/welogin.jfif' %}" title="微信扫码" alt="微信扫码" width="300" height="300">#}
+                {#                    </div>#}
+                {#                    <h5 class=" text-center">#}
+                {#                        <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxfe899b3596d5c097&redirect_uri=http://demo.lvpeng990324.cn&response_type=code&scope=snsapi_login">点击此处</a>#}
+                {#                    进行微信登录</h5>#}
+                {#                    <h4 class="small text-center">#}
+                {#                        在「微信」页面右上角打开扫一扫#}
+                {#                    </h4>#}
+                {#                </div>#}
             </div>
             <hr>
             <footer class="col-sm-12 text-center">
-                <p class="m-b-0">Copyright © 2020 <a href="https://www.cczu.edu.cn">常州大学</a>. All right reserved</p>
-            </footer>
+                <p class="copyright">Copyright &copy; 2020. <a target="_blank"
+                                                               href="https://www.runxiaokeji.com">润效科绩</a> All rights
+                    reserved. </p></footer>
         </div>
     </div>
 </div>
@@ -202,66 +203,66 @@
         {% endfor %}
     {% endif %}
 {% endblock %}
-    <!-- 获取验证码按钮倒计时 -->
-    <script>
-    $('.btn-link').on('click',function(){
+<!-- 获取验证码按钮倒计时 -->
+<script>
+    $('.btn-link').on('click', function () {
         var that = $(this);
         var timeo = 60;
-        var timeStop = setInterval(function(){
+        var timeStop = setInterval(function () {
             timeo--;
-            if (timeo>0) {
-                that.text('重新发送' + timeo +'s');
-                that.attr('disabled','disabled');//禁止点击
-            }else{
+            if (timeo > 0) {
+                that.text('重新发送' + timeo + 's');
+                that.attr('disabled', 'disabled');//禁止点击
+            } else {
                 timeo = 60;//当减到0时赋值为60
                 that.text('获取验证码');
                 clearInterval(timeStop);//清除定时器
                 that.removeAttr('disabled');//移除属性，可点击
             }
-        },1000)
+        }, 1000)
     })
-    </script>
-    <!-- 发送邮箱验证码 -->
-    <script type="text/javascript">
-        function send_email() {
-            var email_input = document.getElementById("email");
-            var login_email = email_input.value;
-            $.ajax({
-                type: "get",
-                url: "{% url 'email_login' %}",
-                traditional: true,
-                data: {'email': login_email},
-                success: function (arg) {
-                    if (arg === 'success') {
-                        lightyear.notify('验证码发送成功', 'success', 3000);
-                    }
-                    else {
-                        lightyear.notify(arg, 'danger', 3000);
-                    }
+</script>
+<!-- 发送邮箱验证码 -->
+<script type="text/javascript">
+    function send_email() {
+        var email_input = document.getElementById("email");
+        var login_email = email_input.value;
+        $.ajax({
+            type: "get",
+            url: "{% url 'email_login' %}",
+            traditional: true,
+            data: {'email': login_email},
+            success: function (arg) {
+                if (arg === 'success') {
+                    lightyear.notify('验证码发送成功', 'success', 3000);
                 }
-            });
-        }
-    </script>
-    <!-- 发送短信验证码 -->
-    <script type="text/javascript">
-        function send_phone() {
-            var phone_input = document.getElementById("phone");
-            var login_phone = phone_input.value;
-            $.ajax({
-                type: "get",
-                url: "{% url 'phone_login' %}",
-                traditional: true,
-                data: {'phone': login_phone},
-                success: function (arg) {
-                    if (arg === 'success') {
-                        lightyear.notify('验证码发送成功', 'success', 3000);
-                    }
-                    else {
-                        lightyear.notify(arg, 'danger', 3000);
-                    }
+                else {
+                    lightyear.notify(arg, 'danger', 3000);
                 }
-            });
-        }
-    </script>
+            }
+        });
+    }
+</script>
+<!-- 发送短信验证码 -->
+<script type="text/javascript">
+    function send_phone() {
+        var phone_input = document.getElementById("phone");
+        var login_phone = phone_input.value;
+        $.ajax({
+            type: "get",
+            url: "{% url 'phone_login' %}",
+            traditional: true,
+            data: {'phone': login_phone},
+            success: function (arg) {
+                if (arg === 'success') {
+                    lightyear.notify('验证码发送成功', 'success', 3000);
+                }
+                else {
+                    lightyear.notify(arg, 'danger', 3000);
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>
