@@ -91,6 +91,7 @@ class InternalControlIndicators(models.Model):
     target_medical_expenses = models.FloatField(verbose_name='目标医药费')
     target_comprehensive_cost = models.FloatField(verbose_name='目标综合成本')
     target_management_compliance = models.IntegerField(verbose_name='目标管理符合数')
+    
     # 以下为二次录入数据项
     actual_delivery = models.DateField(verbose_name='实际交期', null=True)
     actual_give_money_day = models.DateField(verbose_name='实际回款时间', null=True)
